@@ -1,0 +1,15 @@
+/node_modules/
+/coverage/
+/.git/
+/.github/
+/.vscode/
+/.idea/
+*.iml
+
+.gitignore
+
+Dockerfile
+.dockerignore
+README.md
+
+/.next/
