@@ -1,30 +1,30 @@
 import { createGlobalStyle, css } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
-  @font-face {
-    font-family: 'Mulish';
-    font-style: normal;
-    font-weight: 300;
-    font-display: swap;
-    src: local(''),
-        url('/fonts/Mulish-Light.ttf') format('ttf');
-  }
-  @font-face {
-    font-family: 'Mulish';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: local(''),
-        url('/fonts/Mulish-Regular.ttf') format('ttf');
-  }
-  @font-face {
-    font-family: 'Mulish';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: local(''),
-        url('/fonts/Mulish-Bold.ttf') format('ttf');
-  }
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local(''),
+       url('/fonts/mulish-v3-latin-300.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local(''),
+       url('/fonts/mulish-v3-latin-regular.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local(''),
+       url('/fonts/mulish-v3-latin-700.woff2') format('woff2'),
+}
 
   *{
     margin: 0;
