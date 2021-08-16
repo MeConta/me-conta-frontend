@@ -3,7 +3,7 @@ import { renderWithTheme } from 'utils/tests/helpers'
 import Button from '.'
 
 describe('<Button/>', () => {
-  it('should render medium size by default', () => {
+  it('should render large size by default', () => {
     renderWithTheme(<Button>button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
       height: '5rem',
@@ -31,6 +31,21 @@ describe('<Button/>', () => {
     renderWithTheme(<Button>button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
       'border-radius': '3.4rem'
+    })
+  })
+
+  it('should render the button with a medium size', () => {
+    renderWithTheme(<Button size="medium">button</Button>)
+    expect(screen.getByRole('button')).toHaveStyle({
+      height: '3rem',
+      'font-size': '1.2rem'
+    })
+  })
+
+  it('should render a button with secondary color', () => {
+    renderWithTheme(<Button color="secondary">button</Button>)
+    expect(screen.getByRole('button')).toHaveStyle({
+      'background-color': '#DE3163'
     })
   })
 })

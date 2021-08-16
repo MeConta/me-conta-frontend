@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Button/> should render medium size by default 1`] = `
+exports[`<Button/> should render large size by default 1`] = `
 .c0 {
   color: #FFFFFF;
-  background: #458FF6;
   border: 0;
   border-radius: 3.4rem;
-  font-size: 2.2rem;
-  height: 5rem;
   padding: 0.8rem 5.6rem;
+  height: 5rem;
+  font-size: 2.2rem;
+  background: #458FF6;
 }
 
 .c0:hover {
@@ -19,6 +19,7 @@ exports[`<Button/> should render medium size by default 1`] = `
 
 <button
   class="c0"
+  color="primary"
 >
   button
 </button>

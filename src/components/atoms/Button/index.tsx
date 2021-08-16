@@ -1,9 +1,19 @@
 import * as S from './styles'
 
-interface Props {
+export type Props = {
   children: React.ReactNode
+  size?: 'medium' | 'large'
+  color?: 'primary' | 'secondary'
 }
 
-export default function Button({ children }: Props) {
-  return <S.Button>{children}</S.Button>
+export default function Button({
+  children,
+  size = 'large',
+  color = 'primary'
+}: Props) {
+  return (
+    <S.Button size={size} color={color}>
+      {children}
+    </S.Button>
+  )
 }

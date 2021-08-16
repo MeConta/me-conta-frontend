@@ -1,4 +1,5 @@
 import { createGlobalStyle, css } from 'styled-components'
+import media from 'styled-media-query'
 
 const GlobalStyles = createGlobalStyle`
 @font-face {
@@ -41,7 +42,7 @@ const GlobalStyles = createGlobalStyle`
 
     body {
       font-family: ${theme.font.family};
-      font-size: ${theme.font.sizes.medium};
+      font-size: ${theme.font.sizes['desk-medium']};
     }
 
     button {
