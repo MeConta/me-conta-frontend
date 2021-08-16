@@ -5,7 +5,7 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    radius: '3.4rem'
+    'btn-radius': '3.4rem'
   },
   font: {
     family:
@@ -14,12 +14,17 @@ export default {
     normal: 400,
     bold: 600,
     sizes: {
-      xsmall: '1.2rem',
-      small: '1.4rem',
-      medium: '1.6rem',
-      large: '1.8rem',
-      xlarge: '2.0rem',
-      xxlarge: '2.8rem'
+      'desk-xsmall': '1rem',
+      'desk-small': '1.1rem',
+      'desk-medium': '1.2rem',
+      'desk-large': '1.5rem',
+      'desk-xlarge': '2.2rem',
+      'desk-xxlarge': '3rem',
+      'mob-xsmall': '0.8rem',
+      'mob-small': '1rem',
+      'mob-medium': '1.2rem',
+      'mob-large': '1.5rem',
+      'mob-xlarge': '1.8rem'
     }
   },
   colors: {

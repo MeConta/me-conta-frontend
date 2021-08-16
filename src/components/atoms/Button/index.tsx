@@ -1,6 +1,9 @@
 import * as S from './styles'
 
-export default function Button(){
-  return <S.Button>Botão</S.Button>
+interface Props {
+  children: React.ReactNode
 }
 
+export default function Button({ children }: Props) {
+  return <S.Button>{children}</S.Button>
+}
