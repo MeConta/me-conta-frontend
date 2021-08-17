@@ -1,0 +1,21 @@
+# DEPENDENCY STAGE
+FROM node:slim as dependencies
+WORKDIR /usr/src/app
+COPY ../package*.json ./
+RUN npm ci
+
+# STORYBOOK BUILD STAGE
+FROM node:slim as storybook-builder
+WORKDIR /usr/src/app
+COPY ../ ./
+COPY --from=dependencies /usr/src/app/node_modules ./node_modules
+RUN npm run build-storybook
+
+# STORYBOOK STAGE
+FROM node:slim as storybook
+WORKDIR /usr/src/app
+COPY --from=storybook-builder /usr/src/app/storybook-static ./
+RUN npm i -g http-server
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+CMD ["npx", "http-server", "-p ${PORT}",  "/usr/src/app/"]

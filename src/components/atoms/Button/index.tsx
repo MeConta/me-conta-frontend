@@ -6,11 +6,7 @@ export type Props = {
   color?: 'primary' | 'secondary'
 }
 
-export default function Button({
-  children,
-  size = 'large',
-  color = 'primary'
-}: Props) {
+export function Button({ children, size = 'large', color = 'primary' }: Props) {
   return (
     <S.Button size={size} color={color}>
       {children}

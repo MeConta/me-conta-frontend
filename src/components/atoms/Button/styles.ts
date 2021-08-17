@@ -1,6 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { Props } from '.'
-import media from 'styled-media-query'
 
 type ButtonProps = Pick<Props, 'size' | 'color'>
 
