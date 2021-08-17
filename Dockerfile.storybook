@@ -1,13 +1,13 @@
 # DEPENDENCY STAGE
 FROM node:slim as dependencies
 WORKDIR /usr/src/app
-COPY ../package*.json ./
+COPY ./package*.json ./
 RUN npm ci
 
 # STORYBOOK BUILD STAGE
 FROM node:slim as storybook-builder
 WORKDIR /usr/src/app
-COPY ../ ./
+COPY ./ ./
 COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 RUN npm run build-storybook
 
