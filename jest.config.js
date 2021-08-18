@@ -6,8 +6,10 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.ts(x)?',
     '!src/**/stories.tsx',
-    '!src/pages/_document.tsx',
-    '!src/pages/_app.tsx'
+    '!src/pages/*.tsx',
+    '!src/styles/*.ts',
+    '!src/utils/tests/helpers.tsx',
+    '!src/types/*.d.ts'
   ],
   coverageReporters: ['lcov', 'text'],
   modulePaths: ['<rootDir>/src/', '<rootDir>/.jest'],
