@@ -19,5 +19,6 @@ export const Primary = Template.bind({})
 Primary.args = {
   color: 'primary',
   size: 'large',
+  radius: 'round',
   children: 'Button'
 }

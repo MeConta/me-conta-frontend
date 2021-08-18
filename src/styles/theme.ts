@@ -5,7 +5,8 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    'btn-radius': '3.4rem'
+    'btn-round-radius': '3.4rem',
+    'btn-square-radius': '0.7rem'
   },
   font: {
     family:
