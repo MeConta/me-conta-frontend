@@ -12,12 +12,17 @@ export default {
   }
 } as Meta
 
-const Template: Story<Props> = (args) => <Button {...args} />
+export const Default: Story<Props> = (args) => <Button {...args} />
+export const asLink: Story<Props> = (args) => <Button {...args} />
 
-export const Primary = Template.bind({})
-
-Primary.args = {
+Default.args = {
   color: 'primary',
   size: 'large',
   children: 'Button'
+}
+
+asLink.args = {
+  children: 'Button',
+  as: 'a',
+  href: '/link'
 }

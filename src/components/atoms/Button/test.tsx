@@ -48,4 +48,13 @@ describe('<Button/>', () => {
       'background-color': '#DE3163'
     })
   })
+
+  it('should render Button as a link', () => {
+    renderWithTheme(
+      <Button as="a" href="/link">
+        button
+      </Button>
+    )
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/link')
+  })
 })
