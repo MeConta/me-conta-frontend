@@ -18,10 +18,14 @@ export const asLink: Story<Props> = (args) => <Button {...args} />
 Default.args = {
   color: 'primary',
   size: 'large',
+  radius: 'round',
   children: 'Button'
 }
 
 asLink.args = {
+  color: 'primary',
+  size: 'large',
+  radius: 'round',
   children: 'Button',
   as: 'a',
   href: '/link'

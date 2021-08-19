@@ -8,7 +8,8 @@ type ButtonTypes =
 export type Props = {
   children: React.ReactNode
   size?: 'medium' | 'large'
-  color?: 'primary' | 'secondary'
+  color?: 'primary' | 'secondary' | 'negative'
+  radius?: 'round' | 'square'
   as?: React.ElementType
 } & ButtonTypes
 
@@ -16,10 +17,11 @@ export function Button({
   children,
   size = 'large',
   color = 'primary',
+  radius = 'round',
   ...props
 }: Props) {
   return (
-    <S.Button size={size} color={color} {...props}>
+    <S.Button size={size} color={color} radius={radius} {...props}>
       {children}
     </S.Button>
   )

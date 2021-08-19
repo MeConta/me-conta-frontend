@@ -27,10 +27,17 @@ describe('<Button/>', () => {
     )
   })
 
-  it('should render the button with a border radius', () => {
+  it('should render the button with a round border radius by default', () => {
     renderWithTheme(<Button>button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
       'border-radius': '3.4rem'
+    })
+  })
+
+  it('should render the button with a "square" border radius', () => {
+    renderWithTheme(<Button radius="square">button</Button>)
+    expect(screen.getByRole('button')).toHaveStyle({
+      'border-radius': '0.7rem'
     })
   })
 
@@ -46,6 +53,15 @@ describe('<Button/>', () => {
     renderWithTheme(<Button color="secondary">button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
       'background-color': '#DE3163'
+    })
+  })
+
+  it('should render a button with negative color set', () => {
+    renderWithTheme(<Button color="negative">button</Button>)
+    expect(screen.getByRole('button')).toHaveStyle({
+      'background-color': '#FFFFFF',
+      color: '#DE3163',
+      border: '1px solid #DE3163'
     })
   })
 

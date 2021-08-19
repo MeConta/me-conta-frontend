@@ -7,7 +7,6 @@ exports[`<Button/> should render large size by default 1`] = `
   -ms-flex-align: center;
   align-items: center;
   border: 0;
-  border-radius: 3.4rem;
   color: #FFFFFF;
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -23,6 +22,7 @@ exports[`<Button/> should render large size by default 1`] = `
   font-size: 2.2rem;
   padding: 0.8rem 4.8rem;
   background: #458FF6;
+  border-radius: 3.4rem;
 }
 
 .c0:hover {
@@ -34,6 +34,7 @@ exports[`<Button/> should render large size by default 1`] = `
 <button
   class="c0"
   color="primary"
+  radius="round"
 >
   button
 </button>
