@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
+    "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "storybook": "start-storybook -p -s ./public 6006",
     "build-storybook": "build-storybook"

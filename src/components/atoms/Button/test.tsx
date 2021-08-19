@@ -35,7 +35,7 @@ describe('<Button/>', () => {
   })
 
   it('should render the button with a "square" border radius', () => {
-    renderWithTheme(<Button radius='square'>button</Button>)
+    renderWithTheme(<Button radius="square">button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
       'border-radius': '0.7rem'
     })
@@ -59,8 +59,18 @@ describe('<Button/>', () => {
   it('should render a button with negative color set', () => {
     renderWithTheme(<Button color="negative">button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
-      'background-color': '#FFFFFF', color: '#DE3163', border:'1px solid #DE3163'
+      'background-color': '#FFFFFF',
+      color: '#DE3163',
+      border: '1px solid #DE3163'
     })
   })
 
+  it('should render Button as a link', () => {
+    renderWithTheme(
+      <Button as="a" href="/link">
+        button
+      </Button>
+    )
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/link')
+  })
 })

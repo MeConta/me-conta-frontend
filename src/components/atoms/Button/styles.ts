@@ -7,10 +7,12 @@ const buttonModifiers = {
   medium: (theme: DefaultTheme) => css`
     height: 3rem;
     font-size: ${theme.font.sizes['desk-medium']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
   `,
   large: (theme: DefaultTheme) => css`
     height: 5rem;
     font-size: ${theme.font.sizes['desk-xlarge']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
   primary: (theme: DefaultTheme) => css`
     background: ${theme.colors.cornflowerBlue};
@@ -48,9 +50,12 @@ const buttonModifiers = {
 
 export const Button = styled.button<ButtonProps>`
   ${({ theme, size, color, radius }) => css`
-    color: ${theme.colors.white};
+    align-items: center;
     border: 0;
-    padding: ${theme.spacings.xxsmall} ${theme.spacings.xxlarge};
+    color: ${theme.colors.white};
+    display: inline-flex;
+    justify-content: center;
+    text-decoration: none;
 
     ${!!size && buttonModifiers[size](theme)};
     ${!!color && buttonModifiers[color](theme)};

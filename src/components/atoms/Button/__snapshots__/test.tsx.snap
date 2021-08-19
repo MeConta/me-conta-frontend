@@ -2,13 +2,27 @@
 
 exports[`<Button/> should render large size by default 1`] = `
 .c0 {
-  color: #FFFFFF;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   border: 0;
-  border-radius: 3.4rem;
-  padding: 0.8rem 5.6rem;
+  color: #FFFFFF;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-text-decoration: none;
+  text-decoration: none;
   height: 5rem;
   font-size: 2.2rem;
+  padding: 0.8rem 4.8rem;
   background: #458FF6;
+  border-radius: 3.4rem;
 }
 
 .c0:hover {
@@ -20,6 +34,7 @@ exports[`<Button/> should render large size by default 1`] = `
 <button
   class="c0"
   color="primary"
+  radius="round"
 >
   button
 </button>
