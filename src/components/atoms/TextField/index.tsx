@@ -5,29 +5,40 @@ import * as S from './styles'
 
 export type Props = {
   label?: string
-  inputChange?: (value:string)=>void
+  inputChange?: (value: string) => void
   initialValue?: string
+  error?: string
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function TextInput({ label, name, initialValue = '', inputChange, ...props }: Props) {
+export function TextInput({
+  label,
+  name,
+  initialValue = '',
+  inputChange,
+  error,
+  ...props
+}: Props) {
   const [value, setValue] = useState(initialValue)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value)
-    {inputChange && inputChange(e.currentTarget.value)}
+    {
+      inputChange && inputChange(e.currentTarget.value)
+    }
   }
 
   return (
     <div>
-      {label && <label htmlFor={name}>{label}</label>}
+      {!!label && <label htmlFor={name}>{label}</label>}
       <div>
         <S.Input
           value={value}
           onChange={onChange}
           name={name}
-          {...(label ? { id: name } : {})}
+          {...(!!label ? { id: name } : {})}
           {...props}
         />
       </div>
+      {!!error && <p> {error} </p>}
     </div>
   )
 }

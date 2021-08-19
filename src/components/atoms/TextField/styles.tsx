@@ -3,9 +3,7 @@ import styled, { css, DefaultTheme } from 'styled-components'
 
 // type ButtonProps = Pick<Props, 'size' | 'color' | 'radius'>
 
-const inputModifiers = {
-
-}
+const inputModifiers = {}
 
 export const Input = styled.input`
   ${({ theme }) => css`

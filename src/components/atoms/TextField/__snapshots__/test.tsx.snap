@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Input/> should render error the input 1`] = `
+.c0 {
+  color: #848A8C;
+  background-color: #FFFFFF;
+  border: 1px solid #848A8C;
+  border-radius: 0.7rem;
+  padding: 0.8rem 5.6rem;
+}
+
+<div>
+  <div>
+    <input
+      class="c0"
+      value=""
+    />
+  </div>
+  <p>
+     
+    Error message
+     
+  </p>
+</div>
+`;
