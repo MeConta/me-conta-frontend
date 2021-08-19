@@ -1,6 +1,6 @@
 import { Button } from 'components/atoms/Button'
-// import { Input } from 'components/atoms/Input'
-
+import { TextInput } from 'components/atoms/TextField'
+import { useState } from 'react'
 
 export default function Home() {
   return (
@@ -8,6 +8,8 @@ export default function Home() {
       <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
+      <TextInput label="nome completo"/>
+      <TextInput type="email" label="telefone"/>
     </div>
   )
 }
