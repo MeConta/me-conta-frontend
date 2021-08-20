@@ -5,7 +5,7 @@ type ButtonTypes =
   | AnchorHTMLAttributes<HTMLAnchorElement>
   | ButtonHTMLAttributes<HTMLButtonElement>
 
-export type Props = {
+export type ButtonProps = {
   children: React.ReactNode
   size?: 'medium' | 'large'
   color?: 'primary' | 'secondary' | 'negative'
@@ -19,10 +19,10 @@ export function Button({
   color = 'primary',
   radius = 'round',
   ...props
-}: Props) {
+}: ButtonProps) {
   return (
-    <S.Button size={size} color={color} radius={radius} {...props}>
+    <S.Wrapper size={size} color={color} radius={radius} {...props}>
       {children}
-    </S.Button>
+    </S.Wrapper>
   )
 }

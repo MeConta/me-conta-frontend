@@ -1,9 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { Props } from '.'
+import { ButtonProps } from '.'
 
-type ButtonProps = Pick<Props, 'size' | 'color' | 'radius'>
+type WrapperProps = Pick<ButtonProps, 'size' | 'color' | 'radius'>
 
-const buttonModifiers = {
+const wrapperModifiers = {
   medium: (theme: DefaultTheme) => css`
     height: 3rem;
     font-size: ${theme.font.sizes['desk-medium']};
@@ -48,7 +48,7 @@ const buttonModifiers = {
   `
 }
 
-export const Button = styled.button<ButtonProps>`
+export const Wrapper = styled.button<WrapperProps>`
   ${({ theme, size, color, radius }) => css`
     align-items: center;
     border: 0;
@@ -57,8 +57,8 @@ export const Button = styled.button<ButtonProps>`
     justify-content: center;
     text-decoration: none;
 
-    ${!!size && buttonModifiers[size](theme)};
-    ${!!color && buttonModifiers[color](theme)};
-    ${!!radius && buttonModifiers[radius](theme)};
+    ${!!size && wrapperModifiers[size](theme)};
+    ${!!color && wrapperModifiers[color](theme)};
+    ${!!radius && wrapperModifiers[radius](theme)};
   `}
 `
