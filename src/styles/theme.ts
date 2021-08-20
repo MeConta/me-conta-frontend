@@ -35,10 +35,11 @@ export default {
     cornflowerBlue: '#458FF6',
     malibu: '#67C3F3',
     mineShaft: '#333333',
-    lightGray:'#848A8C',
+    lightGray: '#848A8C',
     gray: '#828282',
     powderAsh: '#BBC7C3',
-    white: '#FFFFFF'
+    white: '#FFFFFF',
+    black: '#000000'
   },
   spacings: {
     xxsmall: '0.8rem',

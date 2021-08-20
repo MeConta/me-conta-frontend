@@ -3,11 +3,12 @@ import { InputHTMLAttributes, useState } from 'react'
 import * as S from './styles'
 // import { EyeFill } from '@styled-icons/bootstrap'
 
-export type Props = {
+export type TextInputProps = {
   label?: string
   inputChange?: (value: string) => void
   initialValue?: string
   error?: string
+  disabled?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 
 export function TextInput({
@@ -16,9 +17,11 @@ export function TextInput({
   initialValue = '',
   inputChange,
   error,
+  disabled,
   ...props
-}: Props) {
+}: TextInputProps) {
   const [value, setValue] = useState(initialValue)
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value)
     {
@@ -27,18 +30,19 @@ export function TextInput({
   }
 
   return (
-    <div>
-      {!!label && <label htmlFor={name}>{label}</label>}
-      <div>
+    <S.Wrapper disabled={disabled} error={!!error}>
+      {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
+      <S.InputWrapper>
         <S.Input
           value={value}
           onChange={onChange}
           name={name}
+          disabled={disabled}
           {...(!!label ? { id: name } : {})}
           {...props}
         />
-      </div>
-      {!!error && <p> {error} </p>}
-    </div>
+      </S.InputWrapper>
+      {!!error && <S.Error> {error} </S.Error>}
+    </S.Wrapper>
   )
 }
