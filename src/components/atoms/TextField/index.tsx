@@ -1,5 +1,5 @@
-import { ChangeEvent } from 'react'
-import { InputHTMLAttributes, useState } from 'react'
+import { ChangeEvent, InputHTMLAttributes, useState } from 'react'
+
 import * as S from './styles'
 // import { EyeFill } from '@styled-icons/bootstrap'
 

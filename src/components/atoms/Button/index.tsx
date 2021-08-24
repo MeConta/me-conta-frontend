@@ -1,4 +1,5 @@
-import React, { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+
 import * as S from './styles'
 
 type ButtonTypes =

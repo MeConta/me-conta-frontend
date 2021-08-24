@@ -8,8 +8,8 @@ export default function Home() {
       <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
-      <TextInput label="nome completo"/>
-      <TextInput type="email" label="telefone"/>
+      <TextInput label="nome completo" />
+      <TextInput type="email" label="telefone" />
     </div>
   )
 }
