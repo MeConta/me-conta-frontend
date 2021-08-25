@@ -68,4 +68,24 @@ describe('<TextInput/>', () => {
     userEvent.tab()
     expect(input).not.toHaveFocus()
   })
+
+  it('should render with password icon', () => {
+    render(
+      <TextInput label="accessible" name="accessible" hasIcon type="password" />
+    )
+    expect(screen.getByTestId('fillIcon')).toBeInTheDocument()
+  })
+
+  it('should change icon when user click', () => {
+    render(
+      <TextInput label="accessible" name="accessible" hasIcon type="password" />
+    )
+    const fillIcon = screen.getByTestId('fillIcon')
+    userEvent.click(fillIcon)
+    const slashIcon = screen.getByTestId('slashIcon')
+    expect(fillIcon).not.toBeInTheDocument()
+    expect(slashIcon).toBeInTheDocument()
+    userEvent.click(slashIcon)
+    expect(slashIcon).not.toBeInTheDocument()
+  })
 })
