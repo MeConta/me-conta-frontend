@@ -15,7 +15,10 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*": ["eslint --fix", "npm run test --findRelatedTests src/components"]
+    "src/**/*": [
+      "eslint --fix",
+      "npm run test --findRelatedTests src/components"
+    ]
   },
   "dependencies": {
     "next": "11.0.1",
@@ -28,6 +31,8 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@storybook/addon-actions": "^6.3.7",
     "@storybook/addon-essentials": "^6.3.7",
     "@storybook/addon-links": "^6.3.7",
