@@ -1,33 +1,29 @@
-import { ChangeEvent, InputHTMLAttributes, useState } from 'react'
-
-import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
+import { ChangeEvent, InputHTMLAttributes, useState, ReactNode } from 'react'
 
 import * as S from './styles'
 
-export type TextInputProps = {
+export type TextFieldProps = {
   label?: string
   inputChange?: (value: string) => void
   initialValue?: string
   error?: string
   disabled?: boolean
-  hasIcon?: boolean
+  type?: string
+  children?: ReactNode
 } & InputHTMLAttributes<HTMLInputElement>
 
-type ToggleType = 'password' | 'text'
-
-export function TextInput({
+export function TextField({
   label,
   name,
   initialValue = '',
   inputChange,
   error,
   disabled,
-  hasIcon = false,
-  type,
+  type = 'text',
+  children,
   ...props
-}: TextInputProps) {
+}: TextFieldProps) {
   const [value, setValue] = useState(initialValue)
-  const [toggleType, setToggleType] = useState<ToggleType>('password')
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value)
@@ -36,36 +32,17 @@ export function TextInput({
     }
   }
 
-  const toggleIcon = () => {
-    if (toggleType === 'password') {
-      setToggleType('text')
-    } else {
-      setToggleType('password')
-    }
-  }
-
-  const _type = hasIcon ? toggleType : type
-
-  const icon = {
-    password: <EyeFill aria-label="Mostrar Senha" />,
-    text: <EyeSlashFill aria-label="Esconder Senha" />
-  }
-
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
       {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
       <S.InputWrapper>
-        {hasIcon && (
-          <S.Icon data-testid="icon" onClick={toggleIcon}>
-            {icon[toggleType]}
-          </S.Icon>
-        )}
+        {children}
         <S.Input
           value={value}
           onChange={onChange}
           name={name}
           disabled={disabled}
-          type={_type}
+          type={type}
           {...(!!label ? { id: name } : {})}
           {...props}
         />

@@ -1,10 +1,10 @@
 import { Story, Meta } from '@storybook/react'
 
-import { TextField, TextFieldProps } from '.'
+import { PasswordField, PasswordFieldProps } from '.'
 
 export default {
-  component: TextField,
-  title: 'Atoms/TextField',
+  component: PasswordField,
+  title: 'Atoms/PasswordField',
   argTypes: {
     children: {
       type: 'string'
@@ -12,7 +12,9 @@ export default {
   }
 } as Meta
 
-export const Default: Story<TextFieldProps> = (args) => <TextField {...args} />
+export const Default: Story<PasswordFieldProps> = (args) => (
+  <PasswordField {...args} />
+)
 
 Default.args = {
   label: 'Descrição',

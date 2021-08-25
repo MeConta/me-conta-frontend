@@ -1,7 +1,7 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { TextInputProps } from '.'
+import { TextFieldProps } from '.'
 
-type WrapperProps = Pick<TextInputProps, 'disabled'> & { error?: boolean }
+type WrapperProps = Pick<TextFieldProps, 'disabled'> & { error?: boolean }
 
 const wrapperModifiers = {
   error: (theme: DefaultTheme) => css`
@@ -25,19 +25,6 @@ const wrapperModifiers = {
     }
   `
 }
-
-export const Icon = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    color: ${theme.colors.gray};
-    order: 1;
-
-    & > svg {
-      width: 2rem;
-      height: 100%;
-    }
-  `}
-`
 
 export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, error, disabled }) => css`

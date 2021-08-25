@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TextInput/> should render error the input 1`] = `
+exports[`<TextField/> should render error the input 1`] = `
 .c0 {
   margin-bottom: 1.6rem;
 }
@@ -53,6 +53,7 @@ exports[`<TextInput/> should render error the input 1`] = `
   >
     <input
       class="c3"
+      type="text"
       value=""
     />
   </div>
@@ -64,4 +65,4 @@ exports[`<TextInput/> should render error the input 1`] = `
      
   </p>
 </div>
-`;
+`

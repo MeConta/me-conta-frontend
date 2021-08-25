@@ -2,27 +2,27 @@ import userEvent from '@testing-library/user-event'
 
 import { render, screen, waitFor, act } from 'utils/tests/helpers'
 
-import { TextInput } from '.'
+import { TextField } from '.'
 
-describe('<TextInput/>', () => {
+describe('<TextField/>', () => {
   it('should render the input with a label, when provided', () => {
-    render(<TextInput label="Nome completo" name="nome" />)
+    render(<TextField label="Nome completo" name="nome" />)
     expect(screen.getByLabelText('Nome completo')).toBeInTheDocument()
   })
 
   it('should render the input without the label, when not provided', () => {
-    render(<TextInput />)
+    render(<TextField />)
     expect(screen.queryByLabelText('qualquer coisa')).not.toBeInTheDocument()
   })
 
   it('should render the input with placeholder, when provided', () => {
-    render(<TextInput placeholder="nome completo" />)
+    render(<TextField placeholder="nome completo" />)
     expect(screen.getByPlaceholderText('nome completo')).toBeInTheDocument()
   })
 
   it('should change value as changed', async () => {
     const mockChange = jest.fn()
-    render(<TextInput inputChange={mockChange} />)
+    render(<TextField inputChange={mockChange} />)
     const input = screen.getByRole('textbox')
     const text = 'texto do teste'
     userEvent.type(input, text)
@@ -34,7 +34,7 @@ describe('<TextInput/>', () => {
 
   it('If disabled should not change value', async () => {
     const mockChange = jest.fn()
-    render(<TextInput disabled inputChange={mockChange} />)
+    render(<TextField disabled inputChange={mockChange} />)
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled
 
@@ -48,13 +48,13 @@ describe('<TextInput/>', () => {
 
   it('should render error the input', () => {
     const errorMessage = 'Error message'
-    const { container } = render(<TextInput error={errorMessage} />)
+    const { container } = render(<TextField error={errorMessage} />)
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
     expect(container.firstChild).toMatchSnapshot()
   })
 
   it('should accessible by tab', () => {
-    render(<TextInput label="accessible" name="accessible" />)
+    render(<TextField label="accessible" name="accessible" />)
     const input = screen.getByLabelText('accessible')
     expect(document.body).toHaveFocus()
     userEvent.tab()
@@ -62,31 +62,10 @@ describe('<TextInput/>', () => {
   })
 
   it('should accessible by tab when disabled', () => {
-    render(<TextInput label="accessible" name="accessible" disabled />)
+    render(<TextField label="accessible" name="accessible" disabled />)
     const input = screen.getByLabelText('accessible')
     expect(document.body).toHaveFocus()
     userEvent.tab()
     expect(input).not.toHaveFocus()
-  })
-
-  it('should render with password icon', () => {
-    render(
-      <TextInput label="accessible" name="accessible" hasIcon type="password" />
-    )
-    expect(screen.getByLabelText(/mostrar senha/i)).toBeInTheDocument()
-  })
-
-  it('should change icon when user click', () => {
-    render(
-      <TextInput label="accessible" name="accessible" hasIcon type="password" />
-    )
-    act(() => {
-      userEvent.click(screen.getByTestId('icon'))
-    })
-    expect(screen.getByLabelText(/esconder senha/i)).toBeInTheDocument()
-    act(() => {
-      userEvent.click(screen.getByTestId('icon'))
-    })
-    expect(screen.getByLabelText(/mostrar senha/i)).toBeInTheDocument()
   })
 })
