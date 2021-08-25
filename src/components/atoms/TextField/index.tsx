@@ -47,15 +47,19 @@ export function TextInput({
   const _type = hasIcon ? toggleType : type
 
   const icon = {
-    password: <EyeFill data-testid="fillIcon" />,
-    text: <EyeSlashFill data-testid="slashIcon" />
+    password: <EyeFill aria-label="Mostrar Senha" />,
+    text: <EyeSlashFill aria-label="Esconder Senha" />
   }
 
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
       {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
       <S.InputWrapper>
-        {hasIcon && <S.Icon onClick={toggleIcon}>{icon[toggleType]}</S.Icon>}
+        {hasIcon && (
+          <S.Icon data-testid="icon" onClick={toggleIcon}>
+            {icon[toggleType]}
+          </S.Icon>
+        )}
         <S.Input
           value={value}
           onChange={onChange}

@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 
-import { render, screen, waitFor } from 'utils/tests/helpers'
+import { render, screen, waitFor, act } from 'utils/tests/helpers'
 
 import { TextInput } from '.'
 
@@ -73,19 +73,20 @@ describe('<TextInput/>', () => {
     render(
       <TextInput label="accessible" name="accessible" hasIcon type="password" />
     )
-    expect(screen.getByTestId('fillIcon')).toBeInTheDocument()
+    expect(screen.getByLabelText(/mostrar senha/i)).toBeInTheDocument()
   })
 
   it('should change icon when user click', () => {
     render(
       <TextInput label="accessible" name="accessible" hasIcon type="password" />
     )
-    const fillIcon = screen.getByTestId('fillIcon')
-    userEvent.click(fillIcon)
-    const slashIcon = screen.getByTestId('slashIcon')
-    expect(fillIcon).not.toBeInTheDocument()
-    expect(slashIcon).toBeInTheDocument()
-    userEvent.click(slashIcon)
-    expect(slashIcon).not.toBeInTheDocument()
+    act(() => {
+      userEvent.click(screen.getByTestId('icon'))
+    })
+    expect(screen.getByLabelText(/esconder senha/i)).toBeInTheDocument()
+    act(() => {
+      userEvent.click(screen.getByTestId('icon'))
+    })
+    expect(screen.getByLabelText(/mostrar senha/i)).toBeInTheDocument()
   })
 })
