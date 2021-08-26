@@ -1,5 +1,6 @@
 import { Button } from 'components/atoms/Button'
-import { TextInput } from 'components/atoms/TextField'
+import { PhoneField } from 'components/atoms/PhoneField'
+import { TextField } from 'components/atoms/TextField'
 
 export default function Home() {
   return (
@@ -7,8 +8,9 @@ export default function Home() {
       <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
-      <TextInput label="nome completo" />
-      <TextInput type="password" label="password" />
+      <TextField label="nome completo" />
+      <TextField type="password" label="password" />
+      <PhoneField />
     </div>
   )
 }

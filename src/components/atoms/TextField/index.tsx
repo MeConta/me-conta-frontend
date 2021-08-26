@@ -4,6 +4,7 @@ import * as S from './styles'
 
 export type TextFieldProps = {
   label?: string
+  value?: string
   inputChange?: (value: string) => void
   initialValue?: string
   error?: string
@@ -17,16 +18,17 @@ export function TextField({
   name,
   initialValue = '',
   inputChange,
+  value,
   error,
   disabled,
   type = 'text',
   children,
   ...props
 }: TextFieldProps) {
-  const [value, setValue] = useState(initialValue)
+  const [valueDefault, setValueDefault] = useState(initialValue)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value)
+    setValueDefault(e.currentTarget.value)
     {
       inputChange && inputChange(e.currentTarget.value)
     }
@@ -38,7 +40,7 @@ export function TextField({
       <S.InputWrapper>
         {children}
         <S.Input
-          value={value}
+          value={value || valueDefault}
           onChange={onChange}
           name={name}
           disabled={disabled}
