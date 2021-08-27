@@ -22,7 +22,7 @@ describe('<TextField/>', () => {
 
   it('should change value as changed', async () => {
     const mockChange = jest.fn()
-    render(<TextField inputChange={mockChange} />)
+    render(<TextField onChange={mockChange} />)
     const input = screen.getByRole('textbox')
     const text = 'texto do teste'
     userEvent.type(input, text)
@@ -34,7 +34,7 @@ describe('<TextField/>', () => {
 
   it('If disabled should not change value', async () => {
     const mockChange = jest.fn()
-    render(<TextField disabled inputChange={mockChange} />)
+    render(<TextField disabled onChange={mockChange} />)
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled
 

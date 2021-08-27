@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from 'react'
+import { ChangeEventHandler, InputHTMLAttributes, useState } from 'react'
 
 import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
 import { TextField } from '../TextField'
@@ -9,22 +9,24 @@ type ToggleType = 'text' | 'password'
 
 export type PasswordFieldProps = {
   label?: string
-  inputChange?: (value: string) => void
   initialValue?: string
   error?: string
   disabled?: boolean
+  value?: string
+  onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
 export function PasswordField({
   label,
   name,
   initialValue = '',
-  inputChange,
+  onChange,
   error,
   disabled,
   ...props
 }: PasswordFieldProps) {
   const [toggleType, setToggleType] = useState<ToggleType>('password')
+  const [value, setValue] = useState<string>('')
 
   const toggleIcon = () => {
     if (toggleType === 'password') {
@@ -42,9 +44,10 @@ export function PasswordField({
   return (
     <TextField
       label={label}
+      value={value}
       name={name}
       initialValue={initialValue}
-      inputChange={inputChange}
+      onChange={onChange}
       error={error}
       disabled={disabled}
       type={toggleType}

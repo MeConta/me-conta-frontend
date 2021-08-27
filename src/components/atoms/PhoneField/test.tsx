@@ -1,6 +1,12 @@
-import { formatPhoneNumber } from 'utils/format-string/helpers'
+import userEvent from '@testing-library/user-event'
+import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 
-import { render, screen, fireEvent } from 'utils/tests/helpers'
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor
+} from '../../../utils/tests/helpers'
 
 import { PhoneField } from '.'
 
@@ -9,8 +15,18 @@ describe('<PhoneField/>', () => {
     const inputNumber = '99999999999'
 
     render(<PhoneField data-testid="phone-number" label="phone" />)
-    const inputElement = screen.getAllByTestId('phone-number')[0]
+    const inputElement = screen.getByTestId('phone-number')
     fireEvent.change(inputElement, { target: { value: inputNumber } })
-    expect(inputElement).toHaveDisplayValue(formatPhoneNumber(inputNumber))
+    expect(inputElement).toHaveDisplayValue('(99) 99999-9999')
+  })
+
+  it('should not change value with text input', async () => {
+    render(<PhoneField data-testid="phone-number" label="phone" />)
+    const inputElement = screen.getByTestId('phone-number')
+    const text = 'abcdef'
+    userEvent.type(inputElement, text)
+    await waitFor(() => {
+      expect(inputElement).toHaveValue('')
+    })
   })
 })

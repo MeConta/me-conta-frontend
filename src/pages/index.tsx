@@ -1,4 +1,5 @@
 import { Button } from 'components/atoms/Button'
+import { PasswordField } from 'components/atoms/PasswordField'
 import { PhoneField } from 'components/atoms/PhoneField'
 import { TextField } from 'components/atoms/TextField'
 
@@ -9,7 +10,7 @@ export default function Home() {
         Conheça toda equipe
       </Button>
       <TextField label="nome completo" />
-      <TextField type="password" label="password" />
+      <PasswordField label="password" />
       <PhoneField />
     </div>
   )

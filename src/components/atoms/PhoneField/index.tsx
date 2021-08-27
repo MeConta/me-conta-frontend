@@ -1,4 +1,9 @@
-import { InputHTMLAttributes, useState } from 'react'
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  InputHTMLAttributes,
+  useState
+} from 'react'
 import { TextField } from '../TextField'
 import {
   formatPhoneNumber,
@@ -12,6 +17,8 @@ export type PhoneFieldProps = {
   initialValue?: string
   error?: string
   disabled?: boolean
+  value?: string
+  onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
 export function PhoneField({
@@ -25,8 +32,8 @@ export function PhoneField({
   // Rever Type
   const [value, setValue] = useState<string>('')
 
-  const onChange = (value: string) => {
-    const newValue = removePhoneMask(value)
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = removePhoneMask(e.target.value)
     setValue(newValue)
     return newValue
   }
@@ -35,10 +42,10 @@ export function PhoneField({
     <TextField
       label={label}
       name={name}
-      maxLength={16}
+      maxLength={15}
       initialValue={initialValue}
       value={formatPhoneNumber(value)}
-      inputChange={onChange}
+      onChange={handleChange}
       placeholder={phonePlaceHolder}
       error={error}
       disabled={disabled}
