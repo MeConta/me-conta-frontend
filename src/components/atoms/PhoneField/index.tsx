@@ -27,7 +27,6 @@ export function PhoneField({
 
   const onChange = (value: string) => {
     const newValue = removePhoneMask(value)
-    console.log(newValue)
     setValue(newValue)
     return newValue
   }
