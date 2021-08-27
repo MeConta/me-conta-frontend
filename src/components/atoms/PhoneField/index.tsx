@@ -1,6 +1,11 @@
 import { InputHTMLAttributes, useState } from 'react'
 import { TextField } from '../TextField'
-import { formatPhoneNumber, removePhoneMask } from 'utils/format-string'
+import {
+  formatPhoneNumber,
+  removePhoneMask
+} from '../../../utils/format-string/helpers'
+
+const phonePlaceHolder = '(##) # ####-####'
 
 export type PhoneFieldProps = {
   label?: string
@@ -22,6 +27,7 @@ export function PhoneField({
 
   const onChange = (value: string) => {
     const newValue = removePhoneMask(value)
+    console.log(newValue)
     setValue(newValue)
     return newValue
   }
@@ -30,11 +36,11 @@ export function PhoneField({
     <TextField
       label={label}
       name={name}
-      maxLength={15}
+      maxLength={16}
       initialValue={initialValue}
       value={formatPhoneNumber(value)}
       inputChange={onChange}
-      // placeholder={maskPropriety[mask].placeHolder}
+      placeholder={phonePlaceHolder}
       error={error}
       disabled={disabled}
       {...props}

@@ -1,7 +1,6 @@
-import userEvent from '@testing-library/user-event'
-import { formatPhoneNumber } from 'utils/format-string'
+import { formatPhoneNumber } from 'utils/format-string/helpers'
 
-import { render, screen, waitFor, act, fireEvent } from 'utils/tests/helpers'
+import { render, screen, fireEvent } from 'utils/tests/helpers'
 
 import { PhoneField } from '.'
 
