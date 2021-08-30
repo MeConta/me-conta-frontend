@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RadioField/> should render error the input 1`] = `
+.c0 {
+  margin-bottom: 1.6rem;
+}
+
+.c0 .c2 {
+  border-color: #DE3163;
+}
+
+.c5 {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: #848A8C;
+  margin-left: 0.8rem;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  vertical-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 0.7rem;
+  padding: 0 1.6rem;
+}
+
+.c1 {
+  margin-top: 0.8rem;
+}
+
+.c4 {
+  height: 2rem;
+}
+
+.c6 {
+  color: #DE3163;
+  font-size: 1rem;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div
+      class="c2 c3"
+    >
+      <input
+        class="c4"
+        data-testid="radio"
+        id="test-1"
+        name="name"
+        type="radio"
+        value="test-1"
+      />
+      <label
+        class="c5"
+        for="test-1"
+      >
+        test-1
+      </label>
+    </div>
+    <div
+      class="c2 c3"
+    >
+      <input
+        class="c4"
+        data-testid="radio"
+        id="test-2"
+        name="name"
+        type="radio"
+        value="test-2"
+      />
+      <label
+        class="c5"
+        for="test-2"
+      >
+        test-2
+      </label>
+    </div>
+    <div
+      class="c2 c3"
+    >
+      <input
+        class="c4"
+        data-testid="radio"
+        id="test-3"
+        name="name"
+        type="radio"
+        value="test-3"
+      />
+      <label
+        class="c5"
+        for="test-3"
+      >
+        test-3
+      </label>
+    </div>
+  </div>
+  <p
+    class="c6"
+  >
+     
+    Error message
+     
+  </p>
+</div>
+`;
