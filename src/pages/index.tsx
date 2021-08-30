@@ -3,6 +3,7 @@ import { CheckboxField } from 'components/atoms/CheckboxField'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { PhoneField } from 'components/atoms/PhoneField'
 import { RadioField } from 'components/atoms/RadioField'
+import { SelectField } from 'components/atoms/SelectField'
 import { TextField } from 'components/atoms/TextField'
 
 export default function Home() {
@@ -24,6 +25,14 @@ export default function Home() {
         disabled
         label="Gênero"
         options={['Masculino', 'Feminino']}
+      />
+      <SelectField
+        name="select"
+        label="Animal"
+        options={[
+          { value: 'cachorro', label: 'cachorro' },
+          { value: 'gato', label: 'gato' }
+        ]}
       />
     </div>
   )
