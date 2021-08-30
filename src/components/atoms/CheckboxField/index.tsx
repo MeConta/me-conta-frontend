@@ -22,17 +22,19 @@ export function CheckboxField({
   ...props
 }: CheckboxFieldProps) {
   return (
-    <>
-      <S.Input
-        value={value}
-        onChange={onChange}
-        name={name}
-        disabled={disabled}
-        type="checkbox"
-        {...(!!label ? { id: name } : {})}
-        {...props}
-      />
-      {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-    </>
+    <S.Wrapper>
+      <S.InputWrapper>
+        <S.Input
+          value={value}
+          onChange={onChange}
+          name={name}
+          disabled={disabled}
+          type="checkbox"
+          {...(!!label ? { id: name } : {})}
+          {...props}
+        />
+        {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
+      </S.InputWrapper>
+    </S.Wrapper>
   )
 }
