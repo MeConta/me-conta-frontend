@@ -35,6 +35,7 @@ export function CheckboxField({
         />
         {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
       </S.InputWrapper>
+      {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )
 }

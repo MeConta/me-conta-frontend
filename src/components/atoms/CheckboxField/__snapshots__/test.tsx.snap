@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CheckboxField/> should render error the input 1`] = `
+.c0 {
+  margin-bottom: 1.6rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  vertical-align: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 0.7rem;
+  padding: 0.8rem 1.6rem;
+  margin-top: 0.8rem;
+}
+
+.c3 {
+  color: #DE3163;
+  font-size: 1rem;
+}
+
+.c2 {
+  height: 2rem;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <input
+      class="c2"
+      data-testid="checkbox"
+      name="checkbox"
+      type="checkbox"
+      value=""
+    />
+  </div>
+  <p
+    class="c3"
+  >
+     
+    Error message
+     
+  </p>
+</div>
+`;
