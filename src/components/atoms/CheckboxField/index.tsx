@@ -22,7 +22,7 @@ export function CheckboxField({
   ...props
 }: CheckboxFieldProps) {
   return (
-    <S.InputWrapper>
+    <>
       <S.Input
         value={value}
         onChange={onChange}
@@ -33,6 +33,6 @@ export function CheckboxField({
         {...props}
       />
       {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-    </S.InputWrapper>
+    </>
   )
 }

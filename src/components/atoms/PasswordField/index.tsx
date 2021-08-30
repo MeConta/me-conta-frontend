@@ -21,12 +21,12 @@ export function PasswordField({
   name,
   initialValue = '',
   onChange,
+  value,
   error,
   disabled,
   ...props
 }: PasswordFieldProps) {
   const [toggleType, setToggleType] = useState<ToggleType>('password')
-  const [value, setValue] = useState<string>('')
 
   const toggleIcon = () => {
     if (toggleType === 'password') {
