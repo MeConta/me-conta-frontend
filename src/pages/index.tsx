@@ -14,16 +14,16 @@ export default function Home() {
       </Button>
       <TextField
         name="name"
-        disabled
         label="nome completo"
         placeholder="Digite seu some"
+        error="Error Message"
       />
       <PasswordField
         placeholder="Digite sua senha"
         name="password"
         label="password"
       />
-      <PhoneField label="Telefone" />
+      <PhoneField name="phone" label="Telefone" />
       <CheckboxField label="checkbox" />
       <RadioField
         name="gender"

@@ -1,4 +1,5 @@
 import { ReactNode, ChangeEventHandler } from 'react'
+import { FormGroup } from '../FormGroup'
 
 import * as S from './styles'
 
@@ -8,7 +9,7 @@ type Option = {
 }
 
 export type SelectFieldProps = {
-  label?: string
+  label: string
   initialValue?: string
   error?: string
   disabled?: boolean
@@ -32,27 +33,24 @@ export function SelectField({
   ...props
 }: SelectFieldProps) {
   return (
-    <S.Wrapper disabled={disabled} error={!!error}>
-      {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-      <S.InputWrapper>
-        <S.Select
-          onChange={onChange}
-          name={name}
-          disabled={disabled}
-          {...(!!label ? { id: name } : {})}
-          {...props}
-        >
-          <S.DefaultOption disabled selected value="">
-            {defaultSelect || 'Selecione'}
-          </S.DefaultOption>
-          {options.map(({ value, label }: Option, index) => (
-            <option key={index} value={value}>
-              {label}
-            </option>
-          ))}
-        </S.Select>
-      </S.InputWrapper>
-      {!!error && <S.Error> {error} </S.Error>}
-    </S.Wrapper>
+    <FormGroup error={error} name={name} label={label}>
+      <S.Select
+        defaultValue="none"
+        onChange={onChange}
+        name={name}
+        disabled={disabled}
+        {...(!!label ? { id: name } : {})}
+        {...props}
+      >
+        <option disabled value="none">
+          {defaultSelect || 'Selecione'}
+        </option>
+        {options.map(({ value, label }: Option, index) => (
+          <option key={index} value={value}>
+            {label}
+          </option>
+        ))}
+      </S.Select>
+    </FormGroup>
   )
 }

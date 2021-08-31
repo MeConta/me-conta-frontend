@@ -4,10 +4,12 @@ import { SelectField } from '.'
 
 describe('<SelectField/>', () => {
   it('should render the input with a label, when provided', () => {
+    const onChangeMocked = jest.fn()
     render(
       <SelectField
         options={[{ value: 'teste', label: 'teste' }]}
         label="Nome completo"
+        onChange={onChangeMocked}
         name="nome"
       />
     )
