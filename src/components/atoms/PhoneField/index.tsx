@@ -13,7 +13,8 @@ import {
 const phonePlaceHolder = '(##) # ####-####'
 
 export type PhoneFieldProps = {
-  label?: string
+  label: string
+  name: string
   initialValue?: string
   error?: string
   disabled?: boolean

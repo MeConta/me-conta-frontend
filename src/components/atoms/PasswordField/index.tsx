@@ -8,10 +8,11 @@ import * as S from './styles'
 type ToggleType = 'text' | 'password'
 
 export type PasswordFieldProps = {
-  label?: string
+  label: string
   initialValue?: string
   error?: string
   disabled?: boolean
+  name: string
   value?: string
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
