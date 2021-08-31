@@ -1,15 +1,17 @@
 import { InputHTMLAttributes, ReactNode, ChangeEventHandler } from 'react'
+import { FormGroup } from '../FormGroup'
 
 import * as S from './styles'
 
 export type TextFieldProps = {
-  label?: string
+  label: string
   initialValue?: string
   error?: string
   disabled?: boolean
   type?: string
   children?: ReactNode
   value?: string
+  name: string
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
@@ -25,21 +27,17 @@ export function TextField({
   ...props
 }: TextFieldProps) {
   return (
-    <S.Wrapper disabled={disabled} error={!!error}>
-      {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-      <S.InputWrapper>
-        {children}
-        <S.Input
-          value={value}
-          onChange={onChange}
-          name={name}
-          disabled={disabled}
-          type={type}
-          {...(!!label ? { id: name } : {})}
-          {...props}
-        />
-      </S.InputWrapper>
-      {!!error && <S.Error> {error} </S.Error>}
-    </S.Wrapper>
+    <FormGroup label={label} name={name} error={error}>
+      {children}
+      <S.Input
+        value={value}
+        onChange={onChange}
+        name={name}
+        disabled={disabled}
+        type={type}
+        id={name}
+        {...props}
+      />
+    </FormGroup>
   )
 }

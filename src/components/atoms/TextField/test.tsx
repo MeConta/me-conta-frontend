@@ -5,24 +5,14 @@ import { render, screen, waitFor } from 'utils/tests/helpers'
 import { TextField } from '.'
 
 describe('<TextField/>', () => {
-  it('should render the input with a label, when provided', () => {
-    render(<TextField label="Nome completo" name="nome" />)
-    expect(screen.getByLabelText('Nome completo')).toBeInTheDocument()
-  })
-
-  it('should render the input without the label, when not provided', () => {
-    render(<TextField />)
-    expect(screen.queryByLabelText('qualquer coisa')).not.toBeInTheDocument()
-  })
-
   it('should render the input with placeholder, when provided', () => {
-    render(<TextField placeholder="nome completo" />)
+    render(<TextField name="name" label="label" placeholder="nome completo" />)
     expect(screen.getByPlaceholderText('nome completo')).toBeInTheDocument()
   })
 
   it('should change value as changed', async () => {
     const mockChange = jest.fn()
-    render(<TextField onChange={mockChange} />)
+    render(<TextField name="name" label="label" onChange={mockChange} />)
     const input = screen.getByRole('textbox')
     const text = 'texto do teste'
     userEvent.type(input, text)
@@ -34,7 +24,9 @@ describe('<TextField/>', () => {
 
   it('If disabled should not change value', async () => {
     const mockChange = jest.fn()
-    render(<TextField disabled onChange={mockChange} />)
+    render(
+      <TextField name="name" label="label" disabled onChange={mockChange} />
+    )
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled
 
@@ -44,13 +36,6 @@ describe('<TextField/>', () => {
       expect(input).not.toHaveValue(text)
       expect(mockChange).not.toHaveBeenCalled()
     })
-  })
-
-  it('should render error the input', () => {
-    const errorMessage = 'Error message'
-    const { container } = render(<TextField error={errorMessage} />)
-    expect(screen.getByText(errorMessage)).toBeInTheDocument()
-    expect(container.firstChild).toMatchSnapshot()
   })
 
   it('should accessible by tab', () => {

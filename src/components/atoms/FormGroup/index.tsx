@@ -3,10 +3,10 @@ import { ReactNode } from 'react'
 import * as S from './styles'
 
 export type FormGroupProps = {
-  label?: string
+  label: string
   error?: string
   children: ReactNode
-  name?: string
+  name: string
 }
 
 export function FormGroup({ label, name, error, children }: FormGroupProps) {

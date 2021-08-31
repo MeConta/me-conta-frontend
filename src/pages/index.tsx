@@ -12,7 +12,12 @@ export default function Home() {
       <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
-      <TextField placeholder="Digite seu some" label="nome completo" />
+      <TextField
+        name="name"
+        disabled
+        label="nome completo"
+        placeholder="Digite seu some"
+      />
       <PasswordField
         placeholder="Digite sua senha"
         name="password"

@@ -45,6 +45,27 @@ exports[`<TextField/> should render error the input 1`] = `
   width: 100%;
 }
 
+.c3:disabled {
+  cursor: not-allowed;
+  color: #828282;
+}
+
+.c3:disabled::-webkit-input-placeholder {
+  color: currentColor;
+}
+
+.c3:disabled::-moz-placeholder {
+  color: currentColor;
+}
+
+.c3:disabled:-ms-input-placeholder {
+  color: currentColor;
+}
+
+.c3:disabled::placeholder {
+  color: currentColor;
+}
+
 <div
   class="c0"
 >

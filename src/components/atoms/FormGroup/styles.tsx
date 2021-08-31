@@ -1,7 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { FormGroupProps } from '.'
 
-type WrapperProps = FormGroupProps
+type WrapperProps = { error: string | undefined }
 
 const wrapperModifiers = {
   error: (theme: DefaultTheme) => css`
