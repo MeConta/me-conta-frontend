@@ -63,7 +63,7 @@ export const Error = styled.p`
 `
 
 export const Input = styled.input`
-  ${({ theme }) => css`
+  ${() => css`
     height: 2rem;
   `}
 `

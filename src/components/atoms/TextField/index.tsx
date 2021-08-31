@@ -16,7 +16,6 @@ export type TextFieldProps = {
 export function TextField({
   label,
   name,
-  initialValue = '',
   onChange,
   value,
   error,

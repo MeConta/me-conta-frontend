@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, ChangeEventHandler } from 'react'
+import { InputHTMLAttributes, ChangeEventHandler } from 'react'
 
 import * as S from './styles'
 
@@ -14,7 +14,6 @@ export type CheckboxFieldProps = {
 export function CheckboxField({
   label,
   name,
-  initialValue = '',
   onChange,
   value,
   error,

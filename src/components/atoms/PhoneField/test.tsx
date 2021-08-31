@@ -1,5 +1,4 @@
 import userEvent from '@testing-library/user-event'
-import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 
 import {
   render,

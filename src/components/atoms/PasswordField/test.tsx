@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 
-import { render, screen, waitFor, act } from 'utils/tests/helpers'
+import { render, screen, act } from 'utils/tests/helpers'
 
 import { PasswordField } from '.'
 

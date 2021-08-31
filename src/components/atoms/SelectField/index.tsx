@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, ChangeEventHandler } from 'react'
+import { ReactNode, ChangeEventHandler } from 'react'
 
 import * as S from './styles'
 
@@ -24,13 +24,10 @@ export type SelectFieldProps = {
 export function SelectField({
   label,
   name,
-  initialValue = '',
   onChange,
-  value,
   options,
   error,
   disabled,
-  children,
   defaultSelect,
   ...props
 }: SelectFieldProps) {

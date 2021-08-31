@@ -16,9 +16,7 @@ export type RadioFieldProps = {
 export function RadioField({
   label,
   name,
-  initialValue = '',
   onChange,
-  value,
   options,
   error,
   disabled,

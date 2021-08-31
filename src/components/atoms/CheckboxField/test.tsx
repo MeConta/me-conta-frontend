@@ -1,9 +1,7 @@
-import { render, screen, waitFor } from '../../../utils/tests/helpers'
+import { render, screen, waitFor, act } from '../../../utils/tests/helpers'
+import userEvent from '@testing-library/user-event'
 
 import { CheckboxField } from '.'
-import { act } from 'react-test-renderer'
-import userEvent from '@testing-library/user-event'
-import { RadioField } from '../RadioField'
 
 describe('<CheckboxField/>', () => {
   it('should not change value with text input', async () => {
