@@ -39,7 +39,7 @@ export function SelectField({
         onChange={onChange}
         name={name}
         disabled={disabled}
-        {...(!!label ? { id: name } : {})}
+        id={name}
         {...props}
       >
         <option disabled value="none">
