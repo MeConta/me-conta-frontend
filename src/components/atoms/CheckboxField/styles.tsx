@@ -1,18 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { CheckboxFieldProps } from '.'
 
-type WrapperProps = Pick<CheckboxFieldProps, 'disabled'> & { error?: boolean }
+type WrapperProps = Pick<CheckboxFieldProps, 'disabled'>
 
 const wrapperModifiers = {
-  error: (theme: DefaultTheme) => css`
-    ${InputWrapper} {
-      border-color: ${theme.colors.ceriseRed};
-    }
-
-    ${Label} {
-      color: ${theme.colors.ceriseRed};
-    }
-  `,
   disabled: (theme: DefaultTheme) => css`
     ${Label},
     ${Input} {
@@ -27,10 +18,9 @@ const wrapperModifiers = {
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, error, disabled }) => css`
+  ${({ theme, disabled }) => css`
     margin-bottom: ${theme.spacings.xsmall};
 
-    ${error && wrapperModifiers.error(theme)}
     ${disabled && wrapperModifiers.disabled(theme)}
   `}
 `

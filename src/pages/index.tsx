@@ -24,7 +24,7 @@ export default function Home() {
         label="password"
       />
       <PhoneField name="phone" label="Telefone" />
-      <CheckboxField label="checkbox" />
+      <CheckboxField label="checkbox" error="Error" disabled />
       <RadioField
         name="gender"
         disabled

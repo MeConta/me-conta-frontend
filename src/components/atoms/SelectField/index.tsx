@@ -5,7 +5,7 @@ import * as S from './styles'
 
 type Option = {
   label: string
-  value: string
+  value: string | number
 }
 
 export type SelectFieldProps = {

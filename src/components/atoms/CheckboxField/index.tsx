@@ -21,7 +21,7 @@ export function CheckboxField({
   ...props
 }: CheckboxFieldProps) {
   return (
-    <S.Wrapper>
+    <S.Wrapper disabled={disabled}>
       <S.InputWrapper>
         <S.Input
           value={value}
