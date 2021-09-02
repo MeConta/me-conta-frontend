@@ -5,6 +5,7 @@ import { PhoneField } from 'components/atoms/PhoneField'
 import { RadioField } from 'components/atoms/RadioField'
 import { SelectField } from 'components/atoms/SelectField'
 import { TextField } from 'components/atoms/TextField'
+import { TextAreaField } from 'components/atoms/TextAreaField'
 
 export default function Home() {
   return (
@@ -39,6 +40,7 @@ export default function Home() {
           { value: 'gato', label: 'gato' }
         ]}
       />
+      <TextAreaField label="textarea" name="textarea" />
     </div>
   )
 }
