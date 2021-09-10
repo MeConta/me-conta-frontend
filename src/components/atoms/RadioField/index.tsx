@@ -32,7 +32,7 @@ export function RadioField({
           name={name}
           disabled={disabled}
           type="radio"
-          {...(!!label ? { id: name } : {})}
+          {...(!!label ? { id: value } : {})}
           {...props}
         />
         {<S.RadioValue htmlFor={value}>{value}</S.RadioValue>}
@@ -42,7 +42,7 @@ export function RadioField({
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
       {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
-      <S.RadioGroup>{renderRadioInput()}</S.RadioGroup>
+      <S.RadioGroup id={name}>{renderRadioInput()}</S.RadioGroup>
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )

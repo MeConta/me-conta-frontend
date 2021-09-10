@@ -64,8 +64,9 @@ export const InputWrapper = styled.div`
   `}
 `
 
-export const RadioGroup = styled.div`
+export const RadioGroup = styled.fieldset`
   margin-top: 0.8rem;
+  border: none;
 `
 
 export const Input = styled.input`
