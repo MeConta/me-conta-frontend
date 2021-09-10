@@ -45,11 +45,17 @@ const wrapperModifiers = {
   `,
   square: (theme: DefaultTheme) => css`
     border-radius: ${theme.border['btn-square-radius']};
+  `,
+  disabled: () => css`
+    &:disabled {
+      cursor: not-allowed;
+      filter: saturate(30%);
+    }
   `
 }
 
 export const Wrapper = styled.button<WrapperProps>`
-  ${({ theme, size, color, radius }) => css`
+  ${({ theme, size, color, radius, disabled }) => css`
     align-items: center;
     border: 0;
     color: ${theme.colors.white};
@@ -60,5 +66,6 @@ export const Wrapper = styled.button<WrapperProps>`
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};
     ${!!radius && wrapperModifiers[radius](theme)};
+    ${disabled && wrapperModifiers.disabled};
   `}
 `

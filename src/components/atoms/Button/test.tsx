@@ -73,4 +73,13 @@ describe('<Button/>', () => {
     )
     expect(screen.getByRole('link')).toHaveAttribute('href', '/link')
   })
+
+  it('should render disabled Button', () => {
+    render(<Button disabled>button</Button>)
+    const buttonElement = screen.getByRole('button')
+    expect(buttonElement).toBeDisabled()
+    expect(buttonElement).toHaveStyleRule('cursor', 'not-allowed', {
+      modifier: ':disabled'
+    })
+  })
 })

@@ -19,7 +19,8 @@ Default.args = {
   color: 'primary',
   size: 'large',
   radius: 'round',
-  children: 'Button'
+  children: 'Button',
+  disabled: false
 }
 
 asLink.args = {
