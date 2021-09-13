@@ -6,8 +6,17 @@ import { RadioField } from 'components/atoms/RadioField'
 import { SelectField } from 'components/atoms/SelectField'
 import { TextField } from 'components/atoms/TextField'
 import { TextAreaField } from 'components/atoms/TextAreaField'
+import { Carousel } from 'components/molecules/Carousel'
 
 export default function Home() {
+  const members = [
+    { imageSrc: '', imageAlt: '', name: 'at01', title: 'psicólogo' },
+    { imageSrc: '', imageAlt: '', name: 'at02', title: 'psicólogo' },
+    { imageSrc: '', imageAlt: '', name: 'at03', title: 'psicólogo' },
+    { imageSrc: '', imageAlt: '', name: 'at04', title: 'psicólogo' },
+    { imageSrc: '', imageAlt: '', name: 'at05', title: 'psicólogo' }
+  ]
+
   return (
     <div>
       <Button color="negative" radius="square">
@@ -41,6 +50,7 @@ export default function Home() {
         ]}
       />
       <TextAreaField label="textarea" name="textarea" />
+      <Carousel teamMembers={members} />
     </div>
   )
 }
