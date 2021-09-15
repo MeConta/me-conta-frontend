@@ -13,5 +13,8 @@ module.exports = {
   ],
   coverageReporters: ['lcov', 'text'],
   modulePaths: ['<rootDir>/src/', '<rootDir>/.jest'],
-  setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+  }
 }
