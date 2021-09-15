@@ -1,21 +1,21 @@
-import { TeamMemberCard } from 'components/atoms/TeamMemberCard'
+import { TeamMemberCard } from '../../atoms/TeamMemberCard'
 import React from 'react'
 import Slider from 'react-slick'
 
 import * as S from './styles'
 
-type CarouselPros = {
+export type CarouselProps = {
   teamMembers: Array<TeamMember>
 }
 
 export interface TeamMember {
-  imageSrc: string
-  imageAlt: string
+  imageSrc?: string
+  imageAlt?: string
   name: string
   title: string
 }
 
-export function Carousel({ teamMembers }: CarouselPros) {
+export function Carousel({ teamMembers }: CarouselProps) {
   const settings = {
     dots: true,
     infinite: true,
