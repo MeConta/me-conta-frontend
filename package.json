@@ -15,7 +15,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*": [
+    "src/**/*.{js,ts,tsx,jsx}": [
       "eslint --fix",
       "npm run test --findRelatedTests src/components"
     ]
