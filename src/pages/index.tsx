@@ -7,18 +7,20 @@ import { SelectField } from 'components/atoms/SelectField'
 import { TextField } from 'components/atoms/TextField'
 import { TextAreaField } from 'components/atoms/TextAreaField'
 import { Carousel } from 'components/molecules/Carousel'
+import Header from 'components/molecules/Header'
 
 export default function Home() {
   const members = [
-    { imageSrc: '', imageAlt: '', name: 'at01', title: 'psicólogo' },
-    { imageSrc: '', imageAlt: '', name: 'at02', title: 'psicólogo' },
-    { imageSrc: '', imageAlt: '', name: 'at03', title: 'psicólogo' },
-    { imageSrc: '', imageAlt: '', name: 'at04', title: 'psicólogo' },
-    { imageSrc: '', imageAlt: '', name: 'at05', title: 'psicólogo' }
+    { name: 'at01', title: 'psicólogo' },
+    { name: 'at02', title: 'psicólogo' },
+    { name: 'at03', title: 'psicólogo' },
+    { name: 'at04', title: 'psicólogo' },
+    { name: 'at05', title: 'psicólogo' }
   ]
 
   return (
-    <div>
+    <>
+      <Header />
       <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
@@ -51,6 +53,6 @@ export default function Home() {
       />
       <TextAreaField label="textarea" name="textarea" />
       <Carousel teamMembers={members} />
-    </div>
+    </>
   )
 }
