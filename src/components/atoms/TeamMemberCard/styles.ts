@@ -16,18 +16,12 @@ export const Wrapper = styled.div`
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 3rem;
+    margin-top: 1.5rem;
   }
 
   p {
     color: white;
     font-size: 1.2rem;
     line-height: 3rem;
-  }
-
-  @media only screen and (min-width: 600px) {
-    img {
-      width: 70px;
-      height: 90px;
-    }
   }
 `

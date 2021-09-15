@@ -6,16 +6,20 @@ import * as S from './styles'
 
 export type CarouselProps = {
   teamMembers: Array<TeamMember>
+  unoptimizedImage?: boolean
 }
 
 export interface TeamMember {
-  imageSrc?: string
+  imageSrc?: StaticImageData
   imageAlt?: string
   name: string
   title: string
 }
 
-export function Carousel({ teamMembers }: CarouselProps) {
+export function Carousel({
+  teamMembers,
+  unoptimizedImage = false
+}: CarouselProps) {
   const settings = {
     dots: true,
     infinite: true,
@@ -59,6 +63,7 @@ export function Carousel({ teamMembers }: CarouselProps) {
             imageAlt={attendee.imageAlt}
             name={attendee.name}
             title={attendee.title}
+            unoptimizedImage={unoptimizedImage}
           />
         ))}
       </Slider>
