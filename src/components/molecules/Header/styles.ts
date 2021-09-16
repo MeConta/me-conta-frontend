@@ -8,6 +8,30 @@ export const Wrapper = styled.header`
     justify-content: space-around;
     padding: ${theme.spacings.medium} ${theme.spacings.xxxlarge};
     background-color: ${theme.colors.white};
+
+    .open-menu-button {
+      width: 5rem;
+      height: 5rem;
+      display: none;
+      cursor: pointer;
+    }
+
+    @media only screen and (max-width: 1300px) {
+      justify-content: space-between;
+
+      .options-container {
+        display: none;
+      }
+
+      .open-menu-button {
+        display: block;
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      padding: ${theme.spacings.medium} ${theme.spacings.medium}
+        ${theme.spacings.medium} ${theme.spacings.xxsmall};
+    }
   `}
 `
 
@@ -26,10 +50,6 @@ export const OptionsContainer = styled.div`
 
     button {
       margin-left: ${theme.spacings.xsmall};
-    }
-
-    @media only screen and (max-width: 1300px) {
-      display: none;
     }
   `}
 `
