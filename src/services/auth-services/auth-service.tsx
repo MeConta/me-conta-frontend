@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren } from 'react'
 
 export interface AuthService {
-  cadastro(input: { email: string; senha: string }): Promise<void>
+  login(input: { email: string; senha: string }): Promise<void>
 }
 
 const AuthorizationContext = createContext<

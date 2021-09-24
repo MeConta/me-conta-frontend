@@ -47,6 +47,7 @@ export function PasswordField({
       label={label}
       value={value}
       name={name}
+      role="password"
       initialValue={initialValue}
       onChange={onChange}
       error={error}
