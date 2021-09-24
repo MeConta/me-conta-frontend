@@ -32,6 +32,7 @@ exports[`<RadioField/> should render error the input 1`] = `
 
 .c1 {
   margin-top: 0.8rem;
+  border: none;
 }
 
 .c4 {
@@ -46,8 +47,9 @@ exports[`<RadioField/> should render error the input 1`] = `
 <div
   class="c0"
 >
-  <div
+  <fieldset
     class="c1"
+    id="name"
   >
     <div
       class="c2 c3"
@@ -103,7 +105,7 @@ exports[`<RadioField/> should render error the input 1`] = `
         test-3
       </label>
     </div>
-  </div>
+  </fieldset>
   <p
     class="c6"
   >
