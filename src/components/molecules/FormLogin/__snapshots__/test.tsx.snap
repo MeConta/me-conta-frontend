@@ -180,6 +180,7 @@ exports[`<FormLogin/> should render a login form  1`] = `
             class="c3"
             id="password"
             name="password"
+            role="password"
             type="password"
             value=""
           />
@@ -204,4 +205,4 @@ exports[`<FormLogin/> should render a login form  1`] = `
     </form>
   </div>
 </body>
-`
+`;

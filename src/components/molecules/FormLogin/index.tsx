@@ -5,14 +5,16 @@ import * as Yup from 'yup'
 import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
+import { AuthService } from '../../../services/auth-services/auth-service'
 
 type MyFormValues = {
   email: string
   password: string
 }
 
-export const FormLogin = () => {
-  const formSubmit = ({ email, password }: MyFormValues) => {
+export const FormLogin = (props: { authService: AuthService }) => {
+  const formSubmit = async ({ email, password }: MyFormValues) => {
+    await props.authService.login({ email, senha: password })
     // chamada da api(email, password)
   }
 
