@@ -57,8 +57,8 @@ exports[`<RadioField/> should render error the input 1`] = `
       <input
         class="c4"
         data-testid="radio"
-        id="test-1"
         name="name"
+        role="radio"
         type="radio"
         value="test-1"
       />
@@ -75,8 +75,8 @@ exports[`<RadioField/> should render error the input 1`] = `
       <input
         class="c4"
         data-testid="radio"
-        id="test-2"
         name="name"
+        role="radio"
         type="radio"
         value="test-2"
       />
@@ -93,8 +93,8 @@ exports[`<RadioField/> should render error the input 1`] = `
       <input
         class="c4"
         data-testid="radio"
-        id="test-3"
         name="name"
+        role="radio"
         type="radio"
         value="test-3"
       />

@@ -5,9 +5,13 @@ import { AuthService } from '../../../services/auth-services/auth-service'
 import { fireEvent, waitFor } from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
+const authServiceMock: AuthService = {
+  login: jest.fn()
+}
+
 describe('<FormLogin/>', () => {
   it('should render a login form ', async () => {
-    const { container } = render(<FormLogin />)
+    const { container } = render(<FormLogin authService={authServiceMock} />)
 
     expect(screen.getByLabelText(/e-mail/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
@@ -21,10 +25,6 @@ describe('<FormLogin/>', () => {
     expect(container.parentElement).toMatchSnapshot()
   })
   it('should call AuthService.login', async () => {
-    const authServiceMock: AuthService = {
-      login: jest.fn()
-    }
-
     const { container } = render(<FormLogin authService={authServiceMock} />)
 
     const email = screen.getByRole('textbox', { name: 'E-mail' })
