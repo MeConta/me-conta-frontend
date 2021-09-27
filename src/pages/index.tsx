@@ -6,22 +6,27 @@ import { RadioField } from 'components/atoms/RadioField'
 import { SelectField } from 'components/atoms/SelectField'
 import { TextField } from 'components/atoms/TextField'
 import { TextAreaField } from 'components/atoms/TextAreaField'
-import { Carousel } from 'components/molecules/Carousel'
-import Header from 'components/molecules/Header'
+import { Carousel, TeamMember } from 'components/molecules/Carousel'
+import { FormCadastro } from '../components/molecules/FormCadastro'
 
 export default function Home() {
-  const members = [
-    { name: 'at01', title: 'psicólogo' },
-    { name: 'at02', title: 'psicólogo' },
-    { name: 'at03', title: 'psicólogo' },
-    { name: 'at04', title: 'psicólogo' },
-    { name: 'at05', title: 'psicólogo' }
+  const img: StaticImageData = {
+    src: '/teamMemberExample2.png',
+    height: 100,
+    width: 100,
+    placeholder: ''
+  }
+  const members: TeamMember[] = [
+    { name: 'at01', title: 'psicólogo', imageSrc: img, imageAlt: '' },
+    { imageSrc: img, imageAlt: '', name: 'at02', title: 'psicólogo' },
+    { imageSrc: img, imageAlt: '', name: 'at03', title: 'psicólogo' },
+    { imageSrc: img, imageAlt: '', name: 'at04', title: 'psicólogo' },
+    { imageSrc: img, imageAlt: '', name: 'at05', title: 'psicólogo' }
   ]
 
   return (
-    <>
-      <Header />
-      <Button color="negative" radius="square">
+    <div>
+      {/*<Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
       <TextField
@@ -52,7 +57,8 @@ export default function Home() {
         ]}
       />
       <TextAreaField label="textarea" name="textarea" />
-      <Carousel teamMembers={members} />
-    </>
+      <Carousel teamMembers={members} />*/}
+      <FormCadastro />
+    </div>
   )
 }

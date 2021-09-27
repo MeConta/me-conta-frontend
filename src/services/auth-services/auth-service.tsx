@@ -8,7 +8,7 @@ const AuthorizationContext = createContext<
   { authService: AuthService } | undefined
 >(undefined)
 
-const AuthorizationProvider = (
+export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: AuthService }>
 ) => {
   return (

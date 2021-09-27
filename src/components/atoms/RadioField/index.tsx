@@ -10,6 +10,7 @@ export type RadioFieldProps = {
   options: string[]
   name: string
   value?: string
+  role?: string
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
@@ -20,6 +21,7 @@ export function RadioField({
   options,
   error,
   disabled,
+  role = 'radio',
   ...props
 }: RadioFieldProps) {
   const renderRadioInput = () =>
@@ -27,11 +29,11 @@ export function RadioField({
       <S.InputWrapper key={index}>
         <S.Input
           value={value}
-          id={value}
           onChange={onChange}
           name={name}
           disabled={disabled}
           type="radio"
+          role={role}
           {...(!!label ? { id: value } : {})}
           {...props}
         />
