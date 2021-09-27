@@ -1,4 +1,5 @@
 import { ChangeEventHandler, InputHTMLAttributes, useState } from 'react'
+import PasswordStrengthBar from 'react-password-strength-bar'
 
 import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
 import { TextField } from '../TextField'
@@ -6,6 +7,14 @@ import { TextField } from '../TextField'
 import * as S from './styles'
 
 type ToggleType = 'text' | 'password'
+
+export enum ScoreWordsEnum {
+  fraca,
+  okay,
+  boa,
+  forte,
+  incrivel
+}
 
 export type PasswordFieldProps = {
   label: string
@@ -15,6 +24,8 @@ export type PasswordFieldProps = {
   name: string
   value?: string
   onChange?: ChangeEventHandler<any> | undefined
+  showStrengthBar?: boolean
+  handleStrength?: (score: any, feedback: any) => void
 } & InputHTMLAttributes<HTMLInputElement>
 
 export function PasswordField({
@@ -25,6 +36,8 @@ export function PasswordField({
   value,
   error,
   disabled,
+  showStrengthBar = false,
+  handleStrength,
   ...props
 }: PasswordFieldProps) {
   const [toggleType, setToggleType] = useState<ToggleType>('password')
@@ -43,21 +56,35 @@ export function PasswordField({
   }
 
   return (
-    <TextField
-      label={label}
-      value={value}
-      name={name}
-      role="password"
-      initialValue={initialValue}
-      onChange={onChange}
-      error={error}
-      disabled={disabled}
-      type={toggleType}
-      {...props}
-    >
-      <S.Icon data-testid="icon" onClick={toggleIcon}>
-        {icon[toggleType]}
-      </S.Icon>
-    </TextField>
+    <>
+      <TextField
+        label={label}
+        value={value}
+        name={name}
+        role="password"
+        initialValue={initialValue}
+        onChange={onChange}
+        error={error}
+        disabled={disabled}
+        type={toggleType}
+        {...props}
+      >
+        <S.Icon data-testid="icon" onClick={toggleIcon}>
+          {icon[toggleType]}
+        </S.Icon>
+      </TextField>
+
+      {showStrengthBar && (
+        <PasswordStrengthBar
+          minLength={props.minLength || 8}
+          password={value}
+          scoreWords={Object.keys(ScoreWordsEnum).map(
+            (key, value) => ScoreWordsEnum[value]
+          )}
+          shortScoreWord="muito curta"
+          onChangeScore={handleStrength || undefined}
+        />
+      )}
+    </>
   )
 }

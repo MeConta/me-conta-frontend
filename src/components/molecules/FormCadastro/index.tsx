@@ -1,8 +1,8 @@
 import { TextField } from 'components/atoms/TextField'
 import { Button } from 'components/atoms/Button'
-import { PasswordField } from 'components/atoms/PasswordField'
+import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { RadioField } from 'components/atoms/RadioField'
 import * as Yup from 'yup'
 
@@ -13,22 +13,25 @@ type MyFormValues = {
   tipo: string
 }
 
-const validation = Yup.object({
-  email: Yup.string().email('Must be e-mail').required('E-mails is required'),
-  password: Yup.string().required('password required'),
-  passwordConfirm: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirmation not valid'),
-  tipo: Yup.string().required('Tipo is Required')
-})
 export function FormCadastro() {
-  const formSubmit = async ({
-    email,
-    password,
-    passwordConfirm,
-    tipo
-  }: MyFormValues) => {
-    console.log('Luiz é um cara legal!')
+  const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
+
+  const validation = Yup.object({
+    email: Yup.string()
+      .email('E-mail inválido')
+      .required('E-mails is required'),
+    password: Yup.string()
+      .required('password required')
+      .test('make-a-strong-password-test', 'A senha está fraca', () => {
+        return passwordScore >= ScoreWordsEnum.okay
+      }),
+    passwordConfirm: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .required('Confirmation not valid'),
+    tipo: Yup.string().required('Tipo is Required')
+  })
+
+  const formSubmit = async ({}: MyFormValues) => {
     return true
   }
 
@@ -66,6 +69,10 @@ export function FormCadastro() {
           <PasswordField
             label="Password"
             name="password"
+            showStrengthBar
+            handleStrength={(score) => {
+              setPasswordScore(score)
+            }}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.password}
