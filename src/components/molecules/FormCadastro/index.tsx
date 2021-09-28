@@ -5,7 +5,7 @@ import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { RadioField } from 'components/atoms/RadioField'
 import * as Yup from 'yup'
-import { SignupService } from '../../../services/signup-service/signup-service'
+import { ISignupService } from '../../../services/signup-service/signup-service'
 
 type MyFormValues = {
   email: string
@@ -28,7 +28,7 @@ export const TYPES = {
   ATENDENTE: 'Voluntário Atendente'
 }
 
-export function FormCadastro(props: { signupService: SignupService }) {
+export function FormCadastro(props: { signupService: ISignupService }) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
   const validation = Yup.object({
@@ -48,8 +48,6 @@ export function FormCadastro(props: { signupService: SignupService }) {
 
   const formSubmit = async ({ email, password, tipo }: MyFormValues) => {
     props.signupService.initialSignup({ email, password, tipo })
-    console.log('Luiz é um cara legal', email, password, tipo)
-    return true
   }
 
   const initialValues: MyFormValues = {

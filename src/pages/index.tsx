@@ -8,6 +8,8 @@ import { TextField } from 'components/atoms/TextField'
 import { TextAreaField } from 'components/atoms/TextAreaField'
 import { Carousel, TeamMember } from 'components/molecules/Carousel'
 import { FormCadastro } from '../components/molecules/FormCadastro'
+import { useContext } from 'react'
+import { SignupContext } from '../services/signup-service/signup-service'
 
 export default function Home() {
   const img: StaticImageData = {
@@ -24,9 +26,11 @@ export default function Home() {
     { imageSrc: img, imageAlt: '', name: 'at05', title: 'psicólogo' }
   ]
 
+  const { signupService } = useContext(SignupContext)
+
   return (
     <div>
-      {/*<Button color="negative" radius="square">
+      {/* <Button color="negative" radius="square">
         Conheça toda equipe
       </Button>
       <TextField
@@ -57,8 +61,8 @@ export default function Home() {
         ]}
       />
       <TextAreaField label="textarea" name="textarea" />
-      <Carousel teamMembers={members} />
-      <FormCadastro signupService={} />*/}
+      <Carousel teamMembers={members} /> */}
+      <FormCadastro signupService={signupService} />
     </div>
   )
 }

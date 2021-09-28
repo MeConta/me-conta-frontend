@@ -3,10 +3,10 @@ import React from 'react'
 import { render, screen, waitFor } from 'utils/tests/helpers'
 import { FormCadastro, TYPES } from '.'
 import { fireEvent } from '@testing-library/dom'
-import { SignupService } from '../../../services/signup-service/signup-service'
+import { ISignupService } from '../../../services/signup-service/signup-service'
 
 describe('<FormCadastro/>', () => {
-  const signupServiceMock: SignupService = {
+  const signupServiceMock: ISignupService = {
     initialSignup: jest.fn()
   }
   it('deve renderizar o formulario de cadastro ', async () => {
