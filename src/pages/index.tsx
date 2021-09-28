@@ -57,8 +57,8 @@ export default function Home() {
         ]}
       />
       <TextAreaField label="textarea" name="textarea" />
-      <Carousel teamMembers={members} />*/}
-      <FormCadastro />
+      <Carousel teamMembers={members} />
+      <FormCadastro signupService={} />*/}
     </div>
   )
 }

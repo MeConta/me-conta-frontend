@@ -5,6 +5,7 @@ import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { RadioField } from 'components/atoms/RadioField'
 import * as Yup from 'yup'
+import { SignupService } from '../../../services/signup-service/signup-service'
 
 type MyFormValues = {
   email: string
@@ -13,25 +14,41 @@ type MyFormValues = {
   tipo: string
 }
 
-export function FormCadastro() {
+export const ERRORS = {
+  INVALID_EMAIL: `E-mail inválido`,
+  REQUIRED_EMAIL: `E-mails is required`,
+  REQUIRED_PASSWORD: `A senha é necessária`,
+  WEAK_PASSWORD: `A senha deve ser forte`,
+  PASSWORD_MISMATCH: `As senhas devem ser iguais`
+}
+
+export const TYPES = {
+  ALUNO: 'Aluno',
+  SUPERVISOR: 'Voluntário Supervisor',
+  ATENDENTE: 'Voluntário Atendente'
+}
+
+export function FormCadastro(props: { signupService: SignupService }) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
   const validation = Yup.object({
     email: Yup.string()
-      .email('E-mail inválido')
-      .required('E-mails is required'),
+      .email(ERRORS.INVALID_EMAIL)
+      .required(ERRORS.REQUIRED_EMAIL),
     password: Yup.string()
-      .required('password required')
-      .test('make-a-strong-password-test', 'A senha está fraca', () => {
-        return passwordScore > ScoreWordsEnum.razoável
+      .required(ERRORS.REQUIRED_PASSWORD)
+      .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, () => {
+        return passwordScore > ScoreWordsEnum.razoavel
       }),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
+      .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
       .required('Confirmation not valid'),
     tipo: Yup.string().required('Tipo is Required')
   })
 
-  const formSubmit = async ({}: MyFormValues) => {
+  const formSubmit = async ({ email, password, tipo }: MyFormValues) => {
+    props.signupService.initialSignup({ email, password, tipo })
+    console.log('Luiz é um cara legal', email, password, tipo)
     return true
   }
 
@@ -87,7 +104,7 @@ export function FormCadastro() {
             error={errors.passwordConfirm}
           />
           <RadioField
-            options={['Aluno', 'Voluntário']}
+            options={Object.values(TYPES)}
             name="tipo"
             label="Tipo"
             onChange={handleChange}

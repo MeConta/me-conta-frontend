@@ -17,6 +17,7 @@ export type RadioFieldProps = {
 export function RadioField({
   label,
   name,
+  value,
   onChange,
   options,
   error,
@@ -25,19 +26,20 @@ export function RadioField({
   ...props
 }: RadioFieldProps) {
   const renderRadioInput = () =>
-    options.map((value, index) => (
+    options.map((option, index) => (
       <S.InputWrapper key={index}>
         <S.Input
-          value={value}
+          value={option}
+          checked={value === option}
           onChange={onChange}
           name={name}
           disabled={disabled}
           type="radio"
           role={role}
-          {...(!!label ? { id: value } : {})}
+          {...(!!label ? { id: option } : {})}
           {...props}
         />
-        {<S.RadioValue htmlFor={value}>{value}</S.RadioValue>}
+        {<S.RadioValue htmlFor={option}>{option}</S.RadioValue>}
       </S.InputWrapper>
     ))
 

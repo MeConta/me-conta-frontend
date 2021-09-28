@@ -11,9 +11,9 @@ type ToggleType = 'text' | 'password'
 export enum ScoreWordsEnum {
   ruim,
   fraca,
-  razoável,
+  razoavel,
   forte,
-  incrível
+  incrivel
 }
 
 export type PasswordFieldProps = {
