@@ -23,7 +23,7 @@ export function FormCadastro() {
     password: Yup.string()
       .required('password required')
       .test('make-a-strong-password-test', 'A senha está fraca', () => {
-        return passwordScore >= ScoreWordsEnum.okay
+        return passwordScore > ScoreWordsEnum.razoável
       }),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwords must match')

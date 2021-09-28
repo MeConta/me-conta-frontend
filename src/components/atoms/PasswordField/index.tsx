@@ -9,11 +9,11 @@ import * as S from './styles'
 type ToggleType = 'text' | 'password'
 
 export enum ScoreWordsEnum {
+  ruim,
   fraca,
-  okay,
-  boa,
+  razoável,
   forte,
-  incrivel
+  incrível
 }
 
 export type PasswordFieldProps = {
