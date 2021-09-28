@@ -19,7 +19,8 @@ export const ERRORS = {
   REQUIRED_EMAIL: `E-mails is required`,
   REQUIRED_PASSWORD: `A senha é necessária`,
   WEAK_PASSWORD: `A senha deve ser forte`,
-  PASSWORD_MISMATCH: `As senhas devem ser iguais`
+  PASSWORD_MISMATCH: `As senhas devem ser iguais`,
+  REQUIRED_TYPE: `Tipo is Required`
 }
 
 export const TYPES = {
@@ -28,7 +29,11 @@ export const TYPES = {
   ATENDENTE: 'Voluntário Atendente'
 }
 
-export function FormCadastro(props: { signupService: ISignupService }) {
+export function FormCadastro(props: {
+  signupService: ISignupService
+  handleSuccess: () => void
+  handleError: (error: Error) => void
+}) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
   const validation = Yup.object({
@@ -43,11 +48,16 @@ export function FormCadastro(props: { signupService: ISignupService }) {
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
       .required('Confirmation not valid'),
-    tipo: Yup.string().required('Tipo is Required')
+    tipo: Yup.string().required(ERRORS.REQUIRED_TYPE)
   })
 
   const formSubmit = async ({ email, password, tipo }: MyFormValues) => {
-    props.signupService.initialSignup({ email, password, tipo })
+    try {
+      await props.signupService.initialSignup({ email, password, tipo })
+      props.handleSuccess()
+    } catch (e) {
+      props.handleError(e)
+    }
   }
 
   const initialValues: MyFormValues = {

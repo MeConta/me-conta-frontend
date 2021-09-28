@@ -62,7 +62,14 @@ export default function Home() {
       />
       <TextAreaField label="textarea" name="textarea" />
       <Carousel teamMembers={members} /> */}
-      <FormCadastro signupService={signupService} />
+      <FormCadastro
+        signupService={signupService}
+        handleSuccess={() => alert('Deu Bom')}
+        handleError={(error) => {
+          alert('Deu Ruim!')
+          console.log(error)
+        }}
+      />
     </div>
   )
 }
