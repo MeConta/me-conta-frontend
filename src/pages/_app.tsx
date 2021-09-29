@@ -8,10 +8,11 @@ import {
   SignupProvider,
   SignupService
 } from 'services/signup-service/signup-service'
+import axios from 'axios'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SignupProvider signupService={new SignupService()}>
+    <SignupProvider signupService={new SignupService(axios)}>
       <ThemeProvider theme={theme}>
         <Head>
           <title>Me Conta</title>

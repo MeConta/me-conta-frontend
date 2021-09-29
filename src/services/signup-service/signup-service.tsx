@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren } from 'react'
-import axios from 'axios'
 import { BackendError } from '../../types/backend-error'
 import { UserType } from '../../enums/user-type.enum'
+import { AxiosStatic } from 'axios'
 
 export enum SignupError {
   DUPLICATED
@@ -25,11 +25,12 @@ export interface ISignupService {
 }
 
 export class SignupService implements ISignupService {
+  constructor(private readonly service: AxiosStatic) {}
   async initialSignup(user: SignupUser) {
-    // throw new SignupError('duplicado', 'mensagem do back')
-    //throw getSignupError(SignupError.DUPLICATED)
-
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user` || '', user)
+    await this.service.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/user` || '',
+      user
+    )
   }
 }
 
