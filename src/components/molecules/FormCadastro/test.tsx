@@ -55,7 +55,6 @@ describe('<FormCadastro/>', () => {
   })
   it('deve exibir erro de nome inválido', async () => {
     const { name, button } = elements()
-    await userEvent.type(name, '')
     await fireEvent.click(button)
     await waitFor(() => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()

@@ -10,6 +10,7 @@ describe('<RadioField/>', () => {
         options={['teste']}
         data-testid="radio"
         label="radio"
+        readOnly
       />
     )
     expect(screen.getByTestId('radio')).toBeInTheDocument()
@@ -23,6 +24,7 @@ describe('<RadioField/>', () => {
         options={options}
         data-testid="radio"
         label="radio"
+        readOnly
       />
     )
     const elements = screen.getAllByTestId('radio')
@@ -59,6 +61,7 @@ describe('<RadioField/>', () => {
         data-testid="radio"
         options={options}
         error={errorMessage}
+        readOnly
       />
     )
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
