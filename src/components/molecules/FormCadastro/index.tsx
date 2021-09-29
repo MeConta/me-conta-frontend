@@ -5,16 +5,23 @@ import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { RadioField } from 'components/atoms/RadioField'
 import * as Yup from 'yup'
-import { ISignupService } from '../../../services/signup-service/signup-service'
+import {
+  ISignupService,
+  SignupUser
+} from '../../../services/signup-service/signup-service'
+import { BackendError } from '../../../types/backend-error'
+import { UserType } from '../../../enums/user-type.enum'
 
 type MyFormValues = {
+  name: string
   email: string
   password: string
   passwordConfirm: string
-  tipo: string
+  tipo: UserType
 }
 
-export const ERRORS = {
+const ERRORS = {
+  REQUIRED_NAME: `Nome é obrigatório`,
   INVALID_EMAIL: `E-mail inválido`,
   REQUIRED_EMAIL: `E-mails is required`,
   REQUIRED_PASSWORD: `A senha é necessária`,
@@ -31,12 +38,13 @@ export const TYPES = {
 
 export function FormCadastro(props: {
   signupService: ISignupService
-  handleSuccess: () => void
-  handleError: (error: Error) => void
+  handleSuccess: (form: SignupUser) => void
+  handleError: (error: BackendError) => void
 }) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
   const validation = Yup.object({
+    name: Yup.string().required(ERRORS.REQUIRED_NAME),
     email: Yup.string()
       .email(ERRORS.INVALID_EMAIL)
       .required(ERRORS.REQUIRED_EMAIL),
@@ -48,23 +56,27 @@ export function FormCadastro(props: {
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
       .required('Confirmation not valid'),
-    tipo: Yup.string().required(ERRORS.REQUIRED_TYPE)
+    tipo: Yup.mixed().oneOf(
+      [UserType.ALUNO, UserType.ATENDENTE, UserType.SUPERVISOR],
+      ERRORS.REQUIRED_TYPE
+    )
   })
 
-  const formSubmit = async ({ email, password, tipo }: MyFormValues) => {
+  const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
-      await props.signupService.initialSignup({ email, password, tipo })
-      props.handleSuccess()
+      await props.signupService.initialSignup({ name, email, password, tipo })
+      props.handleSuccess({ name, email, password, tipo })
     } catch (e) {
       props.handleError(e)
     }
   }
 
   const initialValues: MyFormValues = {
+    name: '',
     email: '',
     password: '',
     passwordConfirm: '',
-    tipo: ''
+    tipo: UserType.ALUNO
   }
 
   return (
@@ -83,6 +95,14 @@ export function FormCadastro(props: {
         isValid
       }) => (
         <form onSubmit={handleSubmit}>
+          <TextField
+            label="Nome"
+            name="name"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.name}
+            error={errors.name}
+          />
           <TextField
             label="E-mail"
             name="email"

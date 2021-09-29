@@ -1,15 +1,8 @@
-import { Button } from 'components/atoms/Button'
-import { CheckboxField } from 'components/atoms/CheckboxField'
-import { PasswordField } from 'components/atoms/PasswordField'
-import { PhoneField } from 'components/atoms/PhoneField'
-import { RadioField } from 'components/atoms/RadioField'
-import { SelectField } from 'components/atoms/SelectField'
-import { TextField } from 'components/atoms/TextField'
-import { TextAreaField } from 'components/atoms/TextAreaField'
-import { Carousel, TeamMember } from 'components/molecules/Carousel'
+import { TeamMember } from 'components/molecules/Carousel'
 import { FormCadastro } from '../components/molecules/FormCadastro'
 import { useContext } from 'react'
 import { SignupContext } from '../services/signup-service/signup-service'
+import { UserType } from '../enums/user-type.enum'
 
 export default function Home() {
   const img: StaticImageData = {
@@ -62,12 +55,19 @@ export default function Home() {
       />
       <TextAreaField label="textarea" name="textarea" />
       <Carousel teamMembers={members} /> */}
+      <h1>Faça seu cadastro</h1>
       <FormCadastro
         signupService={signupService}
-        handleSuccess={() => alert('Deu Bom')}
+        handleSuccess={(form) => {
+          if (form.tipo === UserType.ALUNO) {
+            alert('Deve redirecionar para Dashboard')
+          } else {
+            alert('Deve redirecionar para Form de Voluntario')
+          }
+        }}
         handleError={(error) => {
+          console.log(error, error.code)
           alert('Deu Ruim!')
-          console.log(error)
         }}
       />
     </div>

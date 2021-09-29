@@ -4,6 +4,7 @@ import { render, screen, waitFor } from 'utils/tests/helpers'
 import { FormCadastro, TYPES } from '.'
 import { fireEvent } from '@testing-library/dom'
 import {
+  getSignupError,
   ISignupService,
   SignupError
 } from '../../../services/signup-service/signup-service'
@@ -16,6 +17,7 @@ describe('<FormCadastro/>', () => {
   const handleErrorMock = jest.fn()
 
   const elements = () => {
+    const name = screen.getByRole('textbox', { name: 'Nome' })
     const email = screen.getByRole('textbox', { name: 'E-mail' })
     const password = screen.getByRole('password', { name: 'Password' })
     const confirm = screen.getByRole('password', { name: 'Confirmar Password' })
@@ -23,6 +25,7 @@ describe('<FormCadastro/>', () => {
     const button = screen.getByRole('button')
 
     return {
+      name,
       email,
       password,
       confirm,
@@ -42,15 +45,24 @@ describe('<FormCadastro/>', () => {
   })
 
   it('deve renderizar o formulario de cadastro ', async () => {
-    const { email, password, confirm, tipo } = elements()
+    const { name, email, password, confirm, tipo } = elements()
 
+    expect(name).toBeInTheDocument()
     expect(email).toBeInTheDocument()
     expect(password).toBeInTheDocument()
     expect(confirm).toBeInTheDocument()
     expect(tipo).toBeInTheDocument()
   })
+  it('deve exibir erro de nome inválido', async () => {
+    const { name, button } = elements()
+    await userEvent.type(name, '')
+    await fireEvent.click(button)
+    await waitFor(() => {
+      expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
+    })
+  })
   it('deve exibir erro de email inválido', async () => {
-    const email = screen.getByRole('textbox', { name: 'E-mail' })
+    const { email } = elements()
     await userEvent.type(email, 'email')
 
     await waitFor(() => {
@@ -76,8 +88,9 @@ describe('<FormCadastro/>', () => {
     })
   })
   it('deve chamar o signup service com sucesso', async () => {
-    const { email, password, confirm, tipo, button } = elements()
+    const { name, email, password, confirm, tipo, button } = elements()
 
+    await userEvent.type(name, 'Nome')
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
@@ -86,6 +99,7 @@ describe('<FormCadastro/>', () => {
 
     await waitFor(() => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
+        name: 'Nome',
         email: 'teste@teste.com',
         password: '!@#ASD!@#AASASD',
         tipo: TYPES.ALUNO
@@ -97,10 +111,11 @@ describe('<FormCadastro/>', () => {
     jest
       .spyOn(signupServiceMock, 'initialSignup')
       .mockImplementation(() =>
-        Promise.reject(new SignupError('409', 'mensagem de erro'))
+        Promise.reject(getSignupError(SignupError.DUPLICATED))
       )
-    const { email, password, confirm, tipo, button } = elements()
+    const { name, email, password, confirm, tipo, button } = elements()
 
+    await userEvent.type(name, 'Nome')
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
