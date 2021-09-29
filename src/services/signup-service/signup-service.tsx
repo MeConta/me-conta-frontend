@@ -28,7 +28,7 @@ export class SignupService implements ISignupService {
   constructor(private readonly service: AxiosStatic) {}
   async initialSignup(user: SignupUser) {
     await this.service.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/user` || '',
+      `${process.env.NEXT_PUBLIC_API_URL}/usuario/` || '',
       user
     )
   }
