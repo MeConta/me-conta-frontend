@@ -98,9 +98,9 @@ describe('<FormCadastro/>', () => {
 
     await waitFor(() => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
-        name: 'Nome',
+        nome: 'Nome',
         email: 'teste@teste.com',
-        password: '!@#ASD!@#AASASD',
+        senha: '!@#ASD!@#AASASD',
         tipo: TYPES.ALUNO
       })
       expect(handleSuccessMock).toBeCalled()
