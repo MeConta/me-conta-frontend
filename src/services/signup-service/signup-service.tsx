@@ -15,9 +15,9 @@ export function getSignupError(error: SignupError): BackendError | undefined {
 }
 
 export type SignupUser = {
-  name: string
+  nome: string
   email: string
-  password: string
+  senha: string
   tipo: UserType
 }
 export interface ISignupService {
@@ -28,7 +28,7 @@ export class SignupService implements ISignupService {
   constructor(private readonly service: AxiosStatic) {}
   async initialSignup(user: SignupUser) {
     await this.service.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/usuario/` || '',
+      `${process.env.NEXT_PUBLIC_API_URL}/cadastro-inicial/` || '',
       user
     )
   }

@@ -64,8 +64,13 @@ export function FormCadastro(props: {
 
   const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
-      await props.signupService.initialSignup({ name, email, password, tipo })
-      props.handleSuccess({ name, email, password, tipo })
+      await props.signupService.initialSignup({
+        nome: name,
+        email,
+        senha: password,
+        tipo
+      })
+      props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {
       props.handleError(e)
     }

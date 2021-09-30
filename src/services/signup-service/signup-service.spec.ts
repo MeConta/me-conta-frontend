@@ -17,8 +17,8 @@ describe('SignupService', () => {
     jest.spyOn(axios.default, 'post').mockResolvedValue(null)
     await service.initialSignup({
       email: 'teste@teste.com',
-      name: 'Fulano de tal',
-      password: 's3nh$F0R!3',
+      nome: 'Fulano de tal',
+      senha: 's3nh$F0R!3',
       tipo: UserType.ALUNO
     })
     expect(axios.default.post).toBeCalled()
