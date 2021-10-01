@@ -3,7 +3,7 @@ import { InputHTMLAttributes, ChangeEventHandler } from 'react'
 import * as S from './styles'
 
 export type CheckboxFieldProps = {
-  label?: string
+  label?: string | any
   initialValue?: string
   error?: string
   disabled?: boolean

@@ -1,6 +1,7 @@
 import { TextField } from 'components/atoms/TextField'
 import { Button } from 'components/atoms/Button'
 import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
+import { CheckboxField } from 'components/atoms/CheckboxField'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
 import { RadioField } from 'components/atoms/RadioField'
@@ -18,16 +19,19 @@ type MyFormValues = {
   password: string
   passwordConfirm: string
   tipo: UserType
+  termsConfirm: boolean
 }
 
 const ERRORS = {
   REQUIRED_NAME: `Nome é obrigatório`,
   INVALID_EMAIL: `E-mail inválido`,
+  MIN_LENGHT_NAME: `Nome deve conter mais de 2 caracteres`,
   REQUIRED_EMAIL: `E-mails is required`,
   REQUIRED_PASSWORD: `A senha é necessária`,
   WEAK_PASSWORD: `A senha deve ser forte`,
   PASSWORD_MISMATCH: `As senhas devem ser iguais`,
-  REQUIRED_TYPE: `Tipo is Required`
+  REQUIRED_TYPE: `Tipo is Required`,
+  REQUIRED_TERM: `Termo obrigatório`
 }
 
 export const TYPES = {
@@ -44,7 +48,9 @@ export function FormCadastro(props: {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
   const validation = Yup.object({
-    name: Yup.string().required(ERRORS.REQUIRED_NAME),
+    name: Yup.string()
+      .required(ERRORS.REQUIRED_NAME)
+      .min(2, ERRORS.MIN_LENGHT_NAME),
     email: Yup.string()
       .email(ERRORS.INVALID_EMAIL)
       .required(ERRORS.REQUIRED_EMAIL),
@@ -59,10 +65,18 @@ export function FormCadastro(props: {
     tipo: Yup.mixed().oneOf(
       [UserType.ALUNO, UserType.ATENDENTE, UserType.SUPERVISOR],
       ERRORS.REQUIRED_TYPE
-    )
+    ),
+    termsConfirm: Yup.boolean().required().oneOf([true], ERRORS.REQUIRED_TERM)
   })
 
-  const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
+  const formSubmit = async ({
+    name,
+    email,
+    password,
+    tipo,
+    termsConfirm
+  }: MyFormValues) => {
+    console.log('TERMOS', termsConfirm)
     try {
       await props.signupService.initialSignup({
         nome: name,
@@ -81,7 +95,8 @@ export function FormCadastro(props: {
     email: '',
     password: '',
     passwordConfirm: '',
-    tipo: UserType.ALUNO
+    tipo: UserType.ALUNO,
+    termsConfirm: false
   }
 
   return (
@@ -144,6 +159,18 @@ export function FormCadastro(props: {
             onBlur={handleBlur}
             value={values.tipo}
             error={errors.tipo}
+          />
+          <CheckboxField
+            label={
+              <p>
+                Eu li e concordo com os Termos de Uso e Políticas de Privacidade
+              </p>
+            }
+            name="termsConfirm"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            checked={values.termsConfirm}
+            error={errors.termsConfirm}
           />
           <Button
             radius="square"

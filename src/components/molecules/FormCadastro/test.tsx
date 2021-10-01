@@ -23,6 +23,7 @@ describe('<FormCadastro/>', () => {
     const confirm = screen.getByRole('password', { name: 'Confirmar Password' })
     const tipo = screen.getByLabelText(TYPES.ALUNO)
     const button = screen.getByRole('button')
+    const termsConfirm = screen.getByRole('checkbox')
 
     return {
       name,
@@ -30,7 +31,8 @@ describe('<FormCadastro/>', () => {
       password,
       confirm,
       tipo,
-      button
+      button,
+      termsConfirm
     }
   }
 
@@ -87,13 +89,15 @@ describe('<FormCadastro/>', () => {
     })
   })
   it('deve chamar o signup service com sucesso', async () => {
-    const { name, email, password, confirm, tipo, button } = elements()
+    const { name, email, password, confirm, tipo, button, termsConfirm } =
+      elements()
 
     await userEvent.type(name, 'Nome')
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
     await fireEvent.click(tipo)
+    await fireEvent.click(termsConfirm)
     await fireEvent.click(button)
 
     await waitFor(() => {
@@ -112,13 +116,15 @@ describe('<FormCadastro/>', () => {
       .mockImplementation(() =>
         Promise.reject(getSignupError(SignupError.DUPLICATED))
       )
-    const { name, email, password, confirm, tipo, button } = elements()
+    const { name, email, password, confirm, tipo, button, termsConfirm } =
+      elements()
 
     await userEvent.type(name, 'Nome')
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
     await fireEvent.click(tipo)
+    await fireEvent.click(termsConfirm)
     await fireEvent.click(button)
 
     await waitFor(() => {
