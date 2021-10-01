@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren } from 'react'
+import { createContext, PropsWithChildren, useContext } from 'react'
 import { BackendError } from '../../types/backend-error'
 import { UserType } from '../../enums/user-type.enum'
 import { AxiosStatic } from 'axios'
@@ -34,20 +34,21 @@ export class SignupService implements ISignupService {
   }
 }
 
-type SignupProviderProps = {
+type SignupProps = {
   signupService: ISignupService
 }
 
-export const SignupContext = createContext<SignupProviderProps>(
-  {} as SignupProviderProps
-)
+export const SignupContext = createContext<SignupProps>({} as SignupProps)
 
-export const SignupProvider = (
-  props: PropsWithChildren<SignupProviderProps>
-) => {
+export const SignupProvider = (props: PropsWithChildren<SignupProps>) => {
   return (
     <SignupContext.Provider value={{ signupService: props.signupService }}>
       {props.children}
     </SignupContext.Provider>
   )
+}
+
+export function useSignup(): SignupProps {
+  const context = useContext(SignupContext)
+  return context
 }

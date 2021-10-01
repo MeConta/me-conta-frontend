@@ -26,11 +26,11 @@ const ERRORS = {
   REQUIRED_NAME: `Nome é obrigatório`,
   INVALID_EMAIL: `E-mail inválido`,
   MIN_LENGHT_NAME: `Nome deve conter mais de 2 caracteres`,
-  REQUIRED_EMAIL: `E-mails is required`,
-  REQUIRED_PASSWORD: `A senha é necessária`,
+  REQUIRED_EMAIL: `E-mail é obrigatório`,
+  REQUIRED_PASSWORD: `A senha é obrigatório`,
   WEAK_PASSWORD: `A senha deve ser forte`,
   PASSWORD_MISMATCH: `As senhas devem ser iguais`,
-  REQUIRED_TYPE: `Tipo is Required`,
+  REQUIRED_TYPE: `Tipo é obrigatório`,
   REQUIRED_TERM: `Termo obrigatório`
 }
 
@@ -69,14 +69,7 @@ export function FormCadastro(props: {
     termsConfirm: Yup.boolean().required().oneOf([true], ERRORS.REQUIRED_TERM)
   })
 
-  const formSubmit = async ({
-    name,
-    email,
-    password,
-    tipo,
-    termsConfirm
-  }: MyFormValues) => {
-    console.log('TERMOS', termsConfirm)
+  const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
       await props.signupService.initialSignup({
         nome: name,
@@ -162,9 +155,16 @@ export function FormCadastro(props: {
           />
           <CheckboxField
             label={
-              <p>
-                Eu li e concordo com os Termos de Uso e Políticas de Privacidade
-              </p>
+              <span>
+                Eu li e concordo com os{' '}
+                <a href="/static/termosDeUso.pdf" target="_blank">
+                  Termos de uso
+                </a>{' '}
+                e{' '}
+                <a href="/static/politicaPrivacidade.pdf">
+                  Políticas de Privacidade
+                </a>
+              </span>
             }
             name="termsConfirm"
             onChange={handleChange}

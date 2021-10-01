@@ -1,8 +1,7 @@
 import { TeamMember } from 'components/molecules/Carousel'
 import { FormCadastro } from '../components/molecules/FormCadastro'
-import { useContext } from 'react'
-import { SignupContext } from '../services/signup-service/signup-service'
 import { UserType } from '../enums/user-type.enum'
+import { useSignup } from '../services/signup-service/signup-service'
 
 export default function Home() {
   const img: StaticImageData = {
@@ -19,7 +18,7 @@ export default function Home() {
     { imageSrc: img, imageAlt: '', name: 'at05', title: 'psicólogo' }
   ]
 
-  const { signupService } = useContext(SignupContext)
+  const { signupService } = useSignup()
 
   return (
     <div>
