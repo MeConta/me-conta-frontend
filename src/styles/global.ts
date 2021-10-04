@@ -57,6 +57,13 @@ const GlobalStyles = createGlobalStyle`
 
 export const Main = styled.main`
   margin: 0 1.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media only screen and (max-width: 480px) {
+    margin: 0;
+  }
 `
 
 export default GlobalStyles

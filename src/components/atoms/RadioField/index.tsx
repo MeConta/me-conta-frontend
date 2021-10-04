@@ -42,7 +42,6 @@ export function RadioField({
           {...(!!label ? { id: option.label } : {})}
           {...props}
         />
-        {value}
         {<S.RadioValue htmlFor={option.label}>{option.label}</S.RadioValue>}
       </S.InputWrapper>
     ))

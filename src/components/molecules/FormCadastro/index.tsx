@@ -12,6 +12,7 @@ import {
   SignupUser
 } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
+import * as S from './styles'
 
 type MyFormValues = {
   name: string
@@ -107,7 +108,7 @@ export function FormCadastro(props: {
         isSubmitting,
         isValid
       }) => (
-        <form onSubmit={handleSubmit}>
+        <S.Form onSubmit={handleSubmit}>
           <TextField
             label="Nome"
             name="name"
@@ -174,14 +175,16 @@ export function FormCadastro(props: {
             checked={values.termsConfirm}
             error={errors.termsConfirm}
           />
-          <Button
-            radius="square"
-            disabled={isSubmitting || !isValid}
-            type="submit"
-          >
-            CADASTRAR
-          </Button>
-        </form>
+          <S.ButtonContainer>
+            <Button
+              radius="square"
+              disabled={isSubmitting || !isValid}
+              type="submit"
+            >
+              CADASTRAR
+            </Button>
+          </S.ButtonContainer>
+        </S.Form>
       )}
     </Formik>
   )
