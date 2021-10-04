@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 
-export const Wrapper = styled.section`
-  width: 80%;
+export const WrapperFields = styled.section`
   display: flex;
+  max-width: 80%;
   justify-content: center;
-  align-items: center;
   @media only screen and (min-width: 1440px) {
     width: 1280px;
   }

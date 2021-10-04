@@ -57,10 +57,11 @@ const GlobalStyles = createGlobalStyle`
 
 export const Main = styled.main`
   margin: 0 1.5rem;
-  padding-bottom: 2rem;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   @media only screen and (max-width: 480px) {
     margin: 0;
   }

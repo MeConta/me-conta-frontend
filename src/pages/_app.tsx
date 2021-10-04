@@ -9,7 +9,6 @@ import {
   SignupService
 } from 'services/signup-service/signup-service'
 import axios from 'axios'
-import { Header } from 'components/molecules/Header'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -27,7 +26,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           <meta name="theme-color" content="#06092B" />
         </Head>
         <GlobalStyle />
-        <Header />
         <Main>
           <Component {...pageProps} />
         </Main>
