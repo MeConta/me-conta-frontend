@@ -1,7 +1,4 @@
 import { TeamMember } from 'components/molecules/Carousel'
-import { FormCadastro } from '../components/molecules/FormCadastro'
-import { UserType } from '../enums/user-type.enum'
-import { useSignup } from '../services/signup-service/signup-service'
 
 export default function Home() {
   const img: StaticImageData = {
@@ -17,8 +14,6 @@ export default function Home() {
     { imageSrc: img, imageAlt: '', name: 'at04', title: 'psicólogo' },
     { imageSrc: img, imageAlt: '', name: 'at05', title: 'psicólogo' }
   ]
-
-  const { signupService } = useSignup()
 
   return (
     <div>
@@ -54,21 +49,6 @@ export default function Home() {
       />
       <TextAreaField label="textarea" name="textarea" />
       <Carousel teamMembers={members} /> */}
-      <h1>Faça seu cadastro</h1>
-      <FormCadastro
-        signupService={signupService}
-        handleSuccess={(form) => {
-          if (form.tipo === UserType.ALUNO) {
-            alert('Deve redirecionar para Dashboard')
-          } else {
-            alert('Deve redirecionar para Form de Voluntario')
-          }
-        }}
-        handleError={(error) => {
-          console.log(error, error.code)
-          alert('Deu Ruim!')
-        }}
-      />
     </div>
   )
 }

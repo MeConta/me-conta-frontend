@@ -1,24 +1,24 @@
-import { TextField } from 'components/atoms/TextField'
 import { Button } from 'components/atoms/Button'
-import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
 import { CheckboxField } from 'components/atoms/CheckboxField'
+import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
+import { RadioField } from 'components/atoms/RadioField'
+import { TextField } from 'components/atoms/TextField'
 import { Formik } from 'formik'
 import React, { useState } from 'react'
-import { RadioField } from 'components/atoms/RadioField'
 import * as Yup from 'yup'
+import { UserType } from '../../../enums/user-type.enum'
 import {
   ISignupService,
   SignupUser
 } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
-import { UserType } from '../../../enums/user-type.enum'
 
 type MyFormValues = {
   name: string
   email: string
   password: string
   passwordConfirm: string
-  tipo: UserType
+  tipo: number
   termsConfirm: boolean
 }
 
@@ -62,7 +62,7 @@ export function FormCadastro(props: {
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
       .required('Confirmation not valid'),
-    tipo: Yup.mixed().oneOf(
+    tipo: Yup.number().oneOf(
       [UserType.ALUNO, UserType.ATENDENTE, UserType.SUPERVISOR],
       ERRORS.REQUIRED_TYPE
     ),
@@ -145,7 +145,9 @@ export function FormCadastro(props: {
             error={errors.passwordConfirm}
           />
           <RadioField
-            options={Object.values(TYPES)}
+            options={Object.values(TYPES).map((type, index) => {
+              return { label: type, value: index }
+            })}
             name="tipo"
             label="Tipo"
             onChange={handleChange}

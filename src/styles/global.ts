@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components'
+import styled, { createGlobalStyle, css } from 'styled-components'
 import media from 'styled-media-query'
 
 const GlobalStyles = createGlobalStyle`
@@ -53,6 +53,10 @@ const GlobalStyles = createGlobalStyle`
   html, body, #__next {
     height: 100%;
   }
+`
+
+export const Main = styled.main`
+  margin: 0 1.5rem;
 `
 
 export default GlobalStyles

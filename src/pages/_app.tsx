@@ -3,12 +3,13 @@ import Head from 'next/head'
 import { ThemeProvider } from 'styled-components'
 
 import theme from 'styles/theme'
-import GlobalStyle from 'styles/global'
+import GlobalStyle, { Main } from 'styles/global'
 import {
   SignupProvider,
   SignupService
 } from 'services/signup-service/signup-service'
 import axios from 'axios'
+import { Header } from 'components/molecules/Header'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -26,7 +27,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           <meta name="theme-color" content="#06092B" />
         </Head>
         <GlobalStyle />
-        <Component {...pageProps} />
+        <Header />
+        <Main>
+          <Component {...pageProps} />
+        </Main>
       </ThemeProvider>
     </SignupProvider>
   )

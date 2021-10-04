@@ -61,7 +61,7 @@ exports[`<RadioField/> should render error the input 1`] = `
         readonly=""
         role="radio"
         type="radio"
-        value="test-1"
+        value="1"
       />
       <label
         class="c5"
@@ -80,7 +80,7 @@ exports[`<RadioField/> should render error the input 1`] = `
         readonly=""
         role="radio"
         type="radio"
-        value="test-2"
+        value="2"
       />
       <label
         class="c5"
@@ -99,7 +99,7 @@ exports[`<RadioField/> should render error the input 1`] = `
         readonly=""
         role="radio"
         type="radio"
-        value="test-3"
+        value="3"
       />
       <label
         class="c5"
