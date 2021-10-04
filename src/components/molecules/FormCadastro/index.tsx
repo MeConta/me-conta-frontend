@@ -76,7 +76,7 @@ export function FormCadastro(props: {
         nome: name,
         email,
         senha: password,
-        tipo
+        tipo: Number(tipo)
       })
       props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {

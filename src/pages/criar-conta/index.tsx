@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { FormCadastro } from 'components/molecules/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
 import { useSignup } from 'services/signup-service/signup-service'
@@ -5,6 +6,7 @@ import * as S from './styles'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
+  const router = useRouter()
 
   return (
     <S.Wrapper>
@@ -12,9 +14,9 @@ export default function CriarConta() {
         signupService={signupService}
         handleSuccess={(form) => {
           if (form.tipo === UserType.ALUNO) {
-            alert('Deve redirecionar para Dashboard')
+            router.push('/cadastro-aluno')
           } else {
-            alert('Deve redirecionar para Form de Voluntario')
+            router.push('/cadastro-atendente')
           }
         }}
         handleError={(error) => {
