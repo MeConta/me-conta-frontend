@@ -27,9 +27,11 @@ export default function CriarConta() {
           }}
         />
         <S.Link>
+          Já possui uma conta? &nbsp;
           <Link href="/login">
-            <a>Já possui uma conta? Entrar.</a>
+            <a>Entrar</a>
           </Link>
+          .
         </S.Link>
       </S.WrapperFields>
     </WrapperForm>
