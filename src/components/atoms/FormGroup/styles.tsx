@@ -50,6 +50,8 @@ export const InputWrapper = styled.div`
 export const Error = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.ceriseRed};
+    display: block;
     font-size: ${theme.font.sizes['desk-xsmall']};
+    margin-top: 1rem;
   `}
 `

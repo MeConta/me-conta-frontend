@@ -42,7 +42,9 @@ exports[`<FormGroup/> should render error input 1`] = `
 
 .c5 {
   color: #DE3163;
+  display: block;
   font-size: 1rem;
+  margin-top: 1rem;
 }
 
 <div

@@ -47,7 +47,7 @@ export const Label = styled.label`
 
 export const RadioValue = styled.label`
   ${({ theme }) => css`
-    font-size: ${theme.font.sizes['desk-medium']};
+    font-size: ${theme.font.sizes['desk-large']};
     font-weight: ${theme.font.light};
     color: ${theme.colors.lightGray};
     margin-left: ${theme.spacings.xxsmall};
