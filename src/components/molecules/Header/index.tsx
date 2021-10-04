@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Logo from '../../../assets/logo.png'
+import Logo from '../../../../public/assets/logo.png'
 import { Button } from '../../atoms/Button'
 
 import { FiMenu } from 'react-icons/fi'

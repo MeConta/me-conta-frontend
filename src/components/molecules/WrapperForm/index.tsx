@@ -1,5 +1,5 @@
 import React, { ReactPropTypes } from 'react'
-import Logo from '../../../assets/logo.png'
+import Logo from '../../../../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as S from './styles'

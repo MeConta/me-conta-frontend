@@ -21,8 +21,8 @@ describe('<FormCadastro/>', () => {
   const elements = () => {
     const name = screen.getByRole('textbox', { name: 'Nome' })
     const email = screen.getByRole('textbox', { name: 'E-mail' })
-    const password = screen.getByRole('password', { name: 'Password' })
-    const confirm = screen.getByRole('password', { name: 'Confirmar Password' })
+    const password = screen.getByRole('password', { name: 'Senha' })
+    const confirm = screen.getByRole('password', { name: 'Confirmar Senha' })
     const tipo = screen.getByLabelText(TYPES.ALUNO)
     const button = screen.getByRole('button')
     const termsConfirm = screen.getByRole('checkbox')

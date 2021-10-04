@@ -127,7 +127,7 @@ export function FormCadastro(props: {
             error={errors.email}
           />
           <PasswordField
-            label="Password"
+            label="Senha"
             name="password"
             showStrengthBar
             handleStrength={(score) => {
@@ -139,7 +139,7 @@ export function FormCadastro(props: {
             error={errors.password}
           />
           <PasswordField
-            label="Confirmar Password"
+            label="Confirmar Senha"
             name="passwordConfirm"
             onChange={handleChange}
             onBlur={handleBlur}
