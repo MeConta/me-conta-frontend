@@ -3,7 +3,7 @@ import { FormCadastro } from 'components/molecules/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
 import { useSignup } from 'services/signup-service/signup-service'
 import { WrapperForm } from '../../components/molecules/WrapperForm'
-import * as S from './styles'
+import * as S from '../../styles/pages/criar-conta/styles'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
