@@ -30,6 +30,7 @@ const ERRORS = {
   REQUIRED_EMAIL: `E-mail é obrigatório`,
   REQUIRED_PASSWORD: `A senha é obrigatório`,
   WEAK_PASSWORD: `A senha deve ser forte`,
+  REQUIRED_CONFIRM_PASSWORD: 'A confirmação de senha é obrigatório',
   PASSWORD_MISMATCH: `As senhas devem ser iguais`,
   REQUIRED_TYPE: `Tipo é obrigatório`,
   REQUIRED_TERM: `Termo obrigatório`
@@ -62,7 +63,7 @@ export function FormCadastro(props: {
       }),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
-      .required('Confirmation not valid'),
+      .required(ERRORS.REQUIRED_CONFIRM_PASSWORD),
     tipo: Yup.number().oneOf(
       [UserType.ALUNO, UserType.ATENDENTE, UserType.SUPERVISOR],
       ERRORS.REQUIRED_TYPE
@@ -164,7 +165,7 @@ export function FormCadastro(props: {
                   Termos de uso
                 </a>{' '}
                 e{' '}
-                <a href="/static/politicaPrivacidade.pdf">
+                <a href="/static/politicaPrivacidade.pdf" target="_blank">
                   Políticas de Privacidade
                 </a>
               </span>
