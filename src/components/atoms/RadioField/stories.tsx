@@ -18,6 +18,10 @@ export const Default: Story<RadioFieldProps> = (args) => (
 
 Default.args = {
   label: 'Descrição',
-  options: ['test-1', 'test-2'],
+  options: [
+    { label: 'test-1', value: 1 },
+    { label: 'test-2', value: 2 },
+    { label: 'test-3', value: 3 }
+  ],
   name: 'gender'
 }

@@ -3,11 +3,17 @@ import { RadioField } from '.'
 import userEvent from '@testing-library/user-event'
 
 describe('<RadioField/>', () => {
+  const options = [
+    { label: 'test-1', value: 1 },
+    { label: 'test-2', value: 2 },
+    { label: 'test-3', value: 3 }
+  ]
+
   it('should not change value with text input', async () => {
     render(
       <RadioField
         name="name"
-        options={['teste']}
+        options={[{ label: 'teste', value: 1 }]}
         data-testid="radio"
         label="radio"
         readOnly
@@ -17,7 +23,6 @@ describe('<RadioField/>', () => {
   })
 
   it('should render all options', async () => {
-    const options = ['test-1', 'test-2', 'test-3']
     render(
       <RadioField
         name="name"
@@ -32,7 +37,6 @@ describe('<RadioField/>', () => {
   })
 
   it('should disable input with disabled propriety', async () => {
-    const options = ['test-1', 'test-2', 'test-3']
     const mockChange = jest.fn()
     render(
       <RadioField
@@ -40,10 +44,11 @@ describe('<RadioField/>', () => {
         data-testid="radio"
         options={options}
         disabled
+        role="radio"
         onChange={mockChange}
       />
     )
-    const input = screen.getByDisplayValue(options[0])
+    const input = screen.getAllByRole('radio')[0]
     expect(input).toBeDisabled()
 
     userEvent.click(input)
@@ -54,7 +59,6 @@ describe('<RadioField/>', () => {
 
   it('should render error the input', () => {
     const errorMessage = 'Error message'
-    const options = ['test-1', 'test-2', 'test-3']
     const { container } = render(
       <RadioField
         name="name"
