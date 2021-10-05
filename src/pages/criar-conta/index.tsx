@@ -22,8 +22,7 @@ export default function CriarConta() {
             }
           }}
           handleError={(error) => {
-            console.log(error, error.code)
-            alert('Deu Ruim!')
+            console.error(error)
           }}
         />
         <S.Link>

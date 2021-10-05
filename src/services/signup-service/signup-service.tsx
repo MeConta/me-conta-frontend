@@ -1,7 +1,7 @@
+import { AxiosInstance } from 'axios'
 import { createContext, PropsWithChildren, useContext } from 'react'
-import { BackendError } from '../../types/backend-error'
 import { UserType } from '../../enums/user-type.enum'
-import { AxiosStatic } from 'axios'
+import { BackendError } from '../../types/backend-error'
 
 export enum SignupError {
   DUPLICATED
@@ -25,12 +25,9 @@ export interface ISignupService {
 }
 
 export class SignupService implements ISignupService {
-  constructor(private readonly service: AxiosStatic) {}
+  constructor(private readonly service: AxiosInstance) {}
   async initialSignup(user: SignupUser) {
-    await this.service.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/cadastro-inicial/` || '',
-      user
-    )
+    await this.service.post('/cadastro-inicial/', user)
   }
 }
 

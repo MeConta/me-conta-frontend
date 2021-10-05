@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle, css } from 'styled-components'
 import media from 'styled-media-query'
+import 'react-toastify/dist/ReactToastify.css'
 
 const GlobalStyles = createGlobalStyle`
 @font-face {
