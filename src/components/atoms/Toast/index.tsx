@@ -22,7 +22,6 @@ export function Toast() {
 
   return (
     <div>
-      <button onClick={() => emit(ToastType.ERROR, 'aaaaaaaaaa')}>Toast</button>
       <ToastContainer
         position="top-right"
         autoClose={5000}
