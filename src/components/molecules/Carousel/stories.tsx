@@ -1,6 +1,6 @@
 import { Story, Meta } from '@storybook/react'
 
-import teamMemberExample from '../../../assets/teamMemberExample2.png'
+import teamMemberExample from '../../../../public/assets/teamMemberExample2.png'
 import { Carousel, CarouselProps } from '.'
 
 export default {
