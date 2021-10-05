@@ -1,4 +1,5 @@
 export enum EHttpSuccess {
+  OK = 200,
   CREATED = 201
 }
 

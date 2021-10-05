@@ -29,7 +29,7 @@ export function Toast() {
   }
 
   return (
-    <div>
+    <>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -41,6 +41,6 @@ export function Toast() {
         draggable
         pauseOnHover
       />
-    </div>
+    </>
   )
 }

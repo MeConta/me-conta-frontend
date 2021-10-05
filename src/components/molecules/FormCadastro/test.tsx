@@ -9,7 +9,6 @@ import {
   SignupError
 } from '../../../services/signup-service/signup-service'
 import { UserType } from 'enums/user-type.enum'
-import { act } from 'react-test-renderer'
 
 describe('<FormCadastro/>', () => {
   const signupServiceMock: ISignupService = {
@@ -59,9 +58,7 @@ describe('<FormCadastro/>', () => {
   })
   it('deve exibir erro de nome inválido', async () => {
     const { name, button } = elements()
-    await act(async () => {
-      fireEvent.click(button)
-    })
+    fireEvent.click(button)
     await waitFor(() => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
     })
@@ -100,11 +97,9 @@ describe('<FormCadastro/>', () => {
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
-    await act(async () => {
-      fireEvent.click(tipo)
-      fireEvent.click(termsConfirm)
-      fireEvent.click(button)
-    })
+    fireEvent.click(tipo)
+    fireEvent.click(termsConfirm)
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
@@ -129,11 +124,9 @@ describe('<FormCadastro/>', () => {
     await userEvent.type(email, 'teste@teste.com')
     await userEvent.type(password, '!@#ASD!@#AASASD')
     await userEvent.type(confirm, '!@#ASD!@#AASASD')
-    await act(async () => {
-      fireEvent.click(tipo)
-      fireEvent.click(termsConfirm)
-      fireEvent.click(button)
-    })
+    fireEvent.click(tipo)
+    fireEvent.click(termsConfirm)
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(handleErrorMock).toBeCalled()
