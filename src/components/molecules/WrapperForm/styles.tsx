@@ -11,6 +11,10 @@ export const Wrapper = styled.div`
     padding: ${theme.spacings.large} ${theme.spacings.xxsmall};
     max-width: 50%;
 
+    a {
+      margin: 0 0 2rem 0;
+    }
+
     @media only screen and (max-width: 450px) {
       border: 0;
       max-width: 100%;

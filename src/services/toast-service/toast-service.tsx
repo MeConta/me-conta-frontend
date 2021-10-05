@@ -1,10 +1,5 @@
-import { ReactNode, ReactPropTypes } from 'react'
-import { createContext, PropsWithChildren, useContext } from 'react'
+import { createContext, ReactNode, useContext } from 'react'
 import { toast } from 'react-toastify'
-
-export interface IToastService {
-  initialSignup: () => void
-}
 
 export enum ToastType {
   ERROR = 'error',
@@ -14,7 +9,7 @@ export enum ToastType {
 }
 
 type ToastProps = {
-  emit: (type: ToastType, message: string) => void
+  emit: (type: ToastType, message: string | JSX.Element) => void
 }
 
 type ToastProviderProps = {
@@ -24,7 +19,7 @@ type ToastProviderProps = {
 export const ToastContext = createContext<ToastProps>({} as ToastProps)
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const emit = (type: ToastType, message: string) => {
+  const emit = (type: ToastType, message: string | JSX.Element) => {
     toast[type](message, {
       position: 'top-right',
       autoClose: 5000,
