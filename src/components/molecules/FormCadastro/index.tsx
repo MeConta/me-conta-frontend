@@ -56,6 +56,7 @@ export function FormCadastro(props: {
   const validation = Yup.object({
     name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
+      .trim()
       .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
       .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),
     email: Yup.string()
