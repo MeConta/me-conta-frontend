@@ -1,9 +1,10 @@
 import { useRouter } from 'next/router'
-import { FormCadastro } from 'components/molecules/FormCadastro'
+import { FormCadastro } from 'components/organisms/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
 import { useSignup } from 'services/signup-service/signup-service'
 import { WrapperForm } from '../../components/molecules/WrapperForm'
 import * as S from '../../styles/pages/criar-conta/styles'
+import * as F from '../../styles/form/styles'
 import Link from 'next/link'
 
 export default function CriarConta() {
@@ -11,7 +12,7 @@ export default function CriarConta() {
   const router = useRouter()
   return (
     <WrapperForm>
-      <S.WrapperFields>
+      <F.WrapperFields>
         <FormCadastro
           signupService={signupService}
           handleSuccess={(form) => {
@@ -32,7 +33,7 @@ export default function CriarConta() {
           </Link>
           .
         </S.Link>
-      </S.WrapperFields>
+      </F.WrapperFields>
     </WrapperForm>
   )
 }
