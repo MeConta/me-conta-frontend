@@ -14,6 +14,9 @@ import {
 import { BackendError } from '../../../types/backend-error'
 import * as S from './styles'
 
+const MAX_LENGTH_NAME_VALUE = 100
+const MIN_LENGTH_NAME_VALUE = 2
+
 type MyFormValues = {
   name: string
   email: string
@@ -26,7 +29,8 @@ type MyFormValues = {
 const ERRORS = {
   REQUIRED_NAME: `Nome é obrigatório`,
   INVALID_EMAIL: `E-mail inválido`,
-  MIN_LENGHT_NAME: `Nome deve conter mais de 2 caracteres`,
+  MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres`,
+  MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres`,
   REQUIRED_EMAIL: `E-mail é obrigatório`,
   REQUIRED_PASSWORD: `A senha é obrigatório`,
   WEAK_PASSWORD: `A senha deve ser forte`,
@@ -52,7 +56,8 @@ export function FormCadastro(props: {
   const validation = Yup.object({
     name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
-      .min(2, ERRORS.MIN_LENGHT_NAME),
+      .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
+      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),
     email: Yup.string()
       .email(ERRORS.INVALID_EMAIL)
       .required(ERRORS.REQUIRED_EMAIL),
@@ -113,6 +118,7 @@ export function FormCadastro(props: {
           <TextField
             label="Nome"
             name="name"
+            maxLength={MAX_LENGTH_NAME_VALUE}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.name}
