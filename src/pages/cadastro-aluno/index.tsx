@@ -1,7 +1,13 @@
+import FormAluno from '../../components/organisms/FormAluno'
+import { WrapperForm } from '../../components/molecules/WrapperForm'
+import * as F from '../../styles/form/styles'
+
 export default function CadastroAluno() {
   return (
-    <div>
-      <p>ALUNO PAGE</p>
-    </div>
+    <WrapperForm>
+      <F.WrapperFields>
+        <FormAluno />
+      </F.WrapperFields>
+    </WrapperForm>
   )
 }
