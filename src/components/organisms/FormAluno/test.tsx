@@ -11,8 +11,10 @@ describe('<FormAluno />', () => {
       name: 'Nome Completo'
     })
     const telefone = screen.getByTestId('phone-number')
+    const dataNascimento = screen.getByLabelText('Data de nascimento')
 
     expect(nome).toBeInTheDocument()
     expect(telefone).toBeInTheDocument()
+    expect(dataNascimento).toBeInTheDocument()
   })
 })
