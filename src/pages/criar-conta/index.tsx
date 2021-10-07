@@ -13,6 +13,7 @@ export default function CriarConta() {
   return (
     <WrapperForm>
       <F.WrapperFields>
+        <F.Header>Criar Conta</F.Header>
         <FormCadastro
           signupService={signupService}
           handleSuccess={(form) => {

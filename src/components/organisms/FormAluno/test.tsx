@@ -10,7 +10,9 @@ describe('<FormAluno />', () => {
     const nome = screen.getByRole('textbox', {
       name: 'Nome Completo'
     })
+    const telefone = screen.getByTestId('phone-number')
 
     expect(nome).toBeInTheDocument()
+    expect(telefone).toBeInTheDocument()
   })
 })

@@ -6,6 +6,10 @@ export default function CadastroAluno() {
   return (
     <WrapperForm>
       <F.WrapperFields>
+        <F.Header>Perfil</F.Header>
+        <F.Subtitle>
+          Preencha as informações abaixo para marcar um atendimento:
+        </F.Subtitle>
         <FormAluno />
       </F.WrapperFields>
     </WrapperForm>
