@@ -6,7 +6,7 @@ describe('<Button/>', () => {
   it('should render large size by default', () => {
     render(<Button>button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
-      height: '5rem',
+      'min-height': '5rem',
       'font-size': '2.2rem'
     })
     expect(screen.getByRole('button')).toBeInTheDocument()
@@ -44,7 +44,7 @@ describe('<Button/>', () => {
   it('should render the button with a medium size', () => {
     render(<Button size="medium">button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
-      height: '3rem',
+      'min-height': '3rem',
       'font-size': '1.2rem'
     })
   })

@@ -1,5 +1,5 @@
 export const Scholarity = [
-  { value: null, label: '' },
+  { value: '', label: '' },
   { value: 1, label: '1º Ano - Ensino Médio' },
   { value: 2, label: '2º Ano - Ensino Médio' },
   { value: 3, label: '3º Ano - Ensino Médio' },

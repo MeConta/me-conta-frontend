@@ -7,6 +7,10 @@ import { SelectField } from '../../atoms/SelectField'
 import { States } from './states'
 import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
+import { Button } from '../../atoms/Button'
+import { useRouter } from 'next/router'
+import React from 'react'
+import Link from 'next/link'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -23,22 +27,24 @@ type MyFormValues = {
   estado: string
   genero: string
   escolaridade: string
+  tipoEscola: string
 }
 
 const ERRORS = {
   REQUIRED_NAME: `Nome completo é obrigatório.`,
   REQUIRED_PHONE: `Telefone é obrigatório.`,
-  MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres`,
-  MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres`,
-  LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos`,
-  REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório',
-  MAX_BIRTHDATE: `Data de nascimento inválida`,
-  MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres`,
-  MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres`,
+  MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
+  MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
+  LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
+  REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
+  MAX_BIRTHDATE: `Data de nascimento inválida.`,
+  MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres.`,
+  MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres.`,
   REQUIRED_CITY: `Cidade é obrigatório.`,
   REQUIRED_STATE: `Estado é obrigatório.`,
   REQUIRED_GENDER: `Gênero é obrigatório.`,
-  REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`
+  REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
+  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
 }
 
 const today = new Date()
@@ -65,7 +71,8 @@ const FormAluno = () => {
       .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
     estado: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
-    escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY)
+    escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY),
+    tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE)
   })
 
   const GENDER = {
@@ -75,6 +82,11 @@ const FormAluno = () => {
     NAO_DECLARAR: 'Prefiro não declarar'
   }
 
+  const TIPOESCOLA = {
+    PUBLICA: 'Escola Pública',
+    PARTICULAR: 'Escola Particular'
+  }
+
   const initialValues: MyFormValues = {
     name: '',
     phoneNumber: '',
@@ -82,8 +94,10 @@ const FormAluno = () => {
     cidade: '',
     estado: '',
     genero: '',
-    escolaridade: ''
+    escolaridade: '',
+    tipoEscola: ''
   }
+  const router = useRouter()
 
   return (
     <Formik
@@ -93,7 +107,15 @@ const FormAluno = () => {
       }}
       validationSchema={validation}
     >
-      {({ values, errors, handleSubmit, handleChange, handleBlur }) => (
+      {({
+        values,
+        errors,
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        isSubmitting,
+        isValid
+      }) => (
         <S.Form onSubmit={handleSubmit}>
           <TextField
             label="Nome Completo"
@@ -113,7 +135,6 @@ const FormAluno = () => {
             value={values.phoneNumber}
             onChange={handleChange}
           />
-          <p>{values.phoneNumber}</p>
           <TextField
             label="Data de nascimento"
             name="dataNascimento"
@@ -159,6 +180,33 @@ const FormAluno = () => {
             value={values.escolaridade}
             error={errors.escolaridade}
           />
+
+          <RadioField
+            options={Object.values(TIPOESCOLA).map((type, index) => {
+              return { label: type, value: index }
+            })}
+            name="tipoEscola"
+            label="Tipo de Escola"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.tipoEscola}
+            error={errors.tipoEscola}
+          />
+          <S.ButtonContainer>
+            <Button
+              radius="square"
+              disabled={isSubmitting || !isValid}
+              type="submit"
+              color="primary"
+            >
+              Concluir minha inscrição.
+            </Button>
+          </S.ButtonContainer>
+          <S.Link>
+            <Link href="/">
+              <a>Pular: preencher depois.</a>
+            </Link>
+          </S.Link>
         </S.Form>
       )}
     </Formik>

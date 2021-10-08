@@ -5,12 +5,12 @@ type WrapperProps = Pick<ButtonProps, 'size' | 'color' | 'radius'>
 
 const wrapperModifiers = {
   medium: (theme: DefaultTheme) => css`
-    height: 3rem;
+    min-height: 3rem;
     font-size: ${theme.font.sizes['desk-medium']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
   `,
   large: (theme: DefaultTheme) => css`
-    height: 5rem;
+    min-height: 5rem;
     font-size: ${theme.font.sizes['desk-xlarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,

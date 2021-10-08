@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import 'react-phone-number-input/style.css'
 
 export const InputWrapper = styled.div`
   ${({ theme }) => css`

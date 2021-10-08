@@ -37,14 +37,14 @@ export function PhoneField({
     <FormGroup label={label} name={name} error={error}>
       <S.InputWrapper>
         <InputMask
-          mask="(99) 99999-9999"
+          mask={'(99) 99999-9999'}
           onBlur={props.onBlur}
           onChange={handleChange}
           value={value}
           name={name}
           id={name}
           {...props}
-        ></InputMask>
+        />
       </S.InputWrapper>
     </FormGroup>
   )
