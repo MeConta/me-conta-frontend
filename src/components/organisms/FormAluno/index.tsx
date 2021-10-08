@@ -3,15 +3,24 @@ import { Formik } from 'formik'
 import * as S from './styles'
 import { TextField } from '../../atoms/TextField'
 import { PhoneField } from '../../atoms/PhoneField'
+import { SelectField } from '../../atoms/SelectField'
+import { States } from './states'
+import { RadioField } from '../../atoms/RadioField'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
 const LENGTH_PHONE_VALUE = 11
 
+const MAX_LENGTH_CITY_VALUE = 100
+const MIN_LENGTH_CITY_VALUE = 3
+
 type MyFormValues = {
   name: string
   phoneNumber: string
   dataNascimento: string
+  cidade: string
+  estado: string
+  genero: string
 }
 
 const ERRORS = {
@@ -21,7 +30,12 @@ const ERRORS = {
   MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres`,
   LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos`,
   REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório',
-  MAX_BIRTHDATE: 'Data de nascimento inválida'
+  MAX_BIRTHDATE: `Data de nascimento inválida`,
+  MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres`,
+  MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres`,
+  REQUIRED_CITY: `Cidade é obrigatório.`,
+  REQUIRED_STATE: `Estado é obrigatório.`,
+  REQUIRED_GENDER: `Gênero é obrigatório.`
 }
 
 const today = new Date()
@@ -40,14 +54,32 @@ const FormAluno = () => {
       .required(ERRORS.REQUIRED_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
-      .max(today, ERRORS.MAX_BIRTHDATE)
+      .max(today, ERRORS.MAX_BIRTHDATE),
+    cidade: Yup.string()
+      .required(ERRORS.REQUIRED_CITY)
+      .trim()
+      .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
+      .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
+    estado: Yup.string().required(ERRORS.REQUIRED_STATE),
+    genero: Yup.string().required()
   })
+
+  const GENDER = {
+    FEMININO: 'Feminino',
+    MASCULINO: 'Masculino',
+    NAO_BINARIO: 'Não Binário',
+    NAO_DECLARAR: 'Prefiro não declarar'
+  }
 
   const initialValues: MyFormValues = {
     name: '',
     phoneNumber: '',
-    dataNascimento: ''
+    dataNascimento: '',
+    cidade: '',
+    estado: '',
+    genero: ''
   }
+
   return (
     <Formik
       initialValues={initialValues}
@@ -85,6 +117,33 @@ const FormAluno = () => {
             onBlur={handleBlur}
             value={values.dataNascimento}
             error={errors.dataNascimento}
+          />
+          <TextField
+            label="Cidade"
+            name="cidade"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.cidade}
+            error={errors.cidade}
+          />
+          <SelectField
+            label="Estado"
+            name="estado"
+            options={States}
+            onChange={handleChange}
+            value={values.estado}
+            error={errors.estado}
+          />
+          <RadioField
+            options={Object.values(GENDER).map((type, index) => {
+              return { label: type, value: index }
+            })}
+            name="genero"
+            label="Gênero"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.genero}
+            error={errors.genero}
           />
         </S.Form>
       )}
