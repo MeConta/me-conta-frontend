@@ -15,6 +15,7 @@ describe('<FormAluno />', () => {
     const cidade = screen.getByLabelText('Cidade')
     const estado = screen.getByLabelText('Estado')
     const genero = screen.getByText('Gênero')
+    const escolaridade = screen.getByLabelText('Escolaridade')
 
     expect(nome).toBeInTheDocument()
     expect(telefone).toBeInTheDocument()
@@ -22,5 +23,6 @@ describe('<FormAluno />', () => {
     expect(cidade).toBeInTheDocument()
     expect(estado).toBeInTheDocument()
     expect(genero).toBeInTheDocument()
+    expect(escolaridade).toBeInTheDocument()
   })
 })

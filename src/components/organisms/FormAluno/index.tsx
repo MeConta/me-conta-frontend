@@ -5,6 +5,7 @@ import { TextField } from '../../atoms/TextField'
 import { PhoneField } from '../../atoms/PhoneField'
 import { SelectField } from '../../atoms/SelectField'
 import { States } from './states'
+import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
 
 const MAX_LENGTH_NAME_VALUE = 100
@@ -21,6 +22,7 @@ type MyFormValues = {
   cidade: string
   estado: string
   genero: string
+  escolaridade: string
 }
 
 const ERRORS = {
@@ -35,7 +37,8 @@ const ERRORS = {
   MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres`,
   REQUIRED_CITY: `Cidade é obrigatório.`,
   REQUIRED_STATE: `Estado é obrigatório.`,
-  REQUIRED_GENDER: `Gênero é obrigatório.`
+  REQUIRED_GENDER: `Gênero é obrigatório.`,
+  REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`
 }
 
 const today = new Date()
@@ -61,7 +64,8 @@ const FormAluno = () => {
       .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
       .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
     estado: Yup.string().required(ERRORS.REQUIRED_STATE),
-    genero: Yup.string().required()
+    genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
+    escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY)
   })
 
   const GENDER = {
@@ -77,7 +81,8 @@ const FormAluno = () => {
     dataNascimento: '',
     cidade: '',
     estado: '',
-    genero: ''
+    genero: '',
+    escolaridade: ''
   }
 
   return (
@@ -144,6 +149,15 @@ const FormAluno = () => {
             onBlur={handleBlur}
             value={values.genero}
             error={errors.genero}
+          />
+
+          <SelectField
+            label="Escolaridade"
+            name="escolaridade"
+            options={Scholarity}
+            onChange={handleChange}
+            value={values.escolaridade}
+            error={errors.escolaridade}
           />
         </S.Form>
       )}
