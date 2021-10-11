@@ -28,6 +28,13 @@ export class SignupService implements ISignupService {
   constructor(private readonly service: AxiosInstance) {}
   async initialSignup(user: SignupUser) {
     await this.service.post('/cadastro-inicial/', user)
+    const response = await this.service.post('/auth/login/', {
+      username: user.email,
+      password: user.senha
+    })
+    if (typeof window !== undefined) {
+      window.localStorage.setItem('token', response.data.token)
+    }
   }
 }
 

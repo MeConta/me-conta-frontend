@@ -1,12 +1,17 @@
-import { render, screen } from 'utils/tests/helpers'
+import { render, screen, waitFor } from 'utils/tests/helpers'
 import FormAluno from './index'
 import { fireEvent } from '@testing-library/dom'
 import React from 'react'
-import { redirect } from 'next/dist/next-server/server/api-utils'
+import userEvent from '@testing-library/user-event'
+import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
 
 describe('<FormAluno />', () => {
+  const signupServiceMock: ISignupAlunoService = {
+    alunoSignup: jest.fn()
+  }
+
   beforeEach(() => {
-    render(<FormAluno />)
+    render(<FormAluno alunoSignup={signupServiceMock} />)
   })
 
   it('deve renderizar o formulário de aluno', () => {
@@ -31,9 +36,40 @@ describe('<FormAluno />', () => {
     expect(tipoEscola).toBeInTheDocument()
   })
 
-  // it('deve redirecionar para a página inicial', () => {
-  //   const link = screen.getByRole('link')
-  //   fireEvent.click(link)
-  //   expect(redirect.next()).toBeCalled()
-  // })
+  it('deve chamar o signup service com sucesso', async () => {
+    const nome = screen.getByRole('textbox', {
+      name: 'Nome Completo'
+    })
+    const telefone = screen.getByTestId('phone-number')
+    const dataNascimento = screen.getByLabelText('Data de nascimento')
+    const cidade = screen.getByLabelText('Cidade')
+    const estado = screen.getByLabelText('Estado')
+    const genero = screen.getByLabelText('Masculino')
+    const escolaridade = screen.getByLabelText('Escolaridade')
+    const tipoEscola = screen.getByLabelText('Escola Pública')
+    const button = screen.getByRole('button')
+
+    await userEvent.type(nome, 'Nome')
+    await fireEvent.change(telefone, { target: { value: '93234566543' } })
+    await fireEvent.change(dataNascimento, { target: { value: '1992-01-18' } })
+    await userEvent.type(cidade, 'Araxá')
+    await fireEvent.change(estado, { target: { value: 'MG' } })
+    await fireEvent.change(escolaridade, { target: { value: '1' } })
+    await fireEvent.click(genero)
+    await fireEvent.click(tipoEscola)
+    await fireEvent.click(button)
+
+    await waitFor(async () => {
+      await expect(signupServiceMock.alunoSignup).toBeCalledWith({
+        name: 'Nome',
+        telefone: '93234566543',
+        dataNascimento: '1992-01-18',
+        cidade: 'Araxá',
+        estado: 'MG',
+        genero: 'M',
+        escolaridade: 1,
+        tipoEscola: 0
+      })
+    })
+  })
 })

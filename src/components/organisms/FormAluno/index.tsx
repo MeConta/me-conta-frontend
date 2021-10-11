@@ -21,13 +21,13 @@ const MIN_LENGTH_CITY_VALUE = 3
 
 type MyFormValues = {
   name: string
-  phoneNumber: string
+  telefone: string
   dataNascimento: string
   cidade: string
   estado: string
   genero: string
-  escolaridade: string
   tipoEscola: string
+  escolaridade: string
 }
 
 const ERRORS = {
@@ -49,14 +49,14 @@ const ERRORS = {
 
 const today = new Date()
 
-const FormAluno = () => {
+const FormAluno = (props: any) => {
   const validation = Yup.object({
     name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
       .trim()
       .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
       .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),
-    phoneNumber: Yup.string()
+    telefone: Yup.string()
       .trim()
       .min(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
       .max(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
@@ -75,12 +75,12 @@ const FormAluno = () => {
     tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE)
   })
 
-  const GENDER = {
-    FEMININO: 'Feminino',
-    MASCULINO: 'Masculino',
-    NAO_BINARIO: 'Não Binário',
-    NAO_DECLARAR: 'Prefiro não declarar'
-  }
+  const GENDER = [
+    { value: 'M', label: 'Masculino' },
+    { value: 'F', label: 'Feminino' },
+    { value: 'NB', label: 'Não Binário' },
+    { value: 'ND', label: 'Prefiro não Declarar' }
+  ]
 
   const TIPOESCOLA = {
     PUBLICA: 'Escola Pública',
@@ -89,21 +89,24 @@ const FormAluno = () => {
 
   const initialValues: MyFormValues = {
     name: '',
-    phoneNumber: '',
+    telefone: '',
     dataNascimento: '',
     cidade: '',
     estado: '',
-    genero: '',
+    genero: '0',
     escolaridade: '',
-    tipoEscola: ''
+    tipoEscola: '0'
   }
-  const router = useRouter()
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={() => {
-        console.log('submitted')
+      onSubmit={async (values) => {
+        await props.alunoSignup.alunoSignup({
+          ...values,
+          tipoEscola: +values.tipoEscola,
+          escolaridade: +values.escolaridade
+        })
       }}
       validationSchema={validation}
     >
@@ -129,10 +132,10 @@ const FormAluno = () => {
           <PhoneField
             data-testid="phone-number"
             label="Telefone"
-            name="phoneNumber"
+            name="telefone"
             onBlur={handleBlur}
-            error={errors.phoneNumber}
-            value={values.phoneNumber}
+            error={errors.telefone}
+            value={values.telefone}
             onChange={handleChange}
           />
           <TextField
@@ -161,9 +164,7 @@ const FormAluno = () => {
             error={errors.estado}
           />
           <RadioField
-            options={Object.values(GENDER).map((type, index) => {
-              return { label: type, value: index }
-            })}
+            options={GENDER}
             name="genero"
             label="Gênero"
             onChange={handleChange}
@@ -193,12 +194,7 @@ const FormAluno = () => {
             error={errors.tipoEscola}
           />
           <S.ButtonContainer>
-            <Button
-              radius="square"
-              disabled={isSubmitting || !isValid}
-              type="submit"
-              color="primary"
-            >
+            <Button radius="square" type="submit" color="primary">
               Concluir minha inscrição.
             </Button>
           </S.ButtonContainer>

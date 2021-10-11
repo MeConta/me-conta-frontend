@@ -1,6 +1,9 @@
 import FormAluno from '../../components/organisms/FormAluno'
 import { WrapperForm } from '../../components/molecules/WrapperForm'
 import * as F from '../../styles/form/styles'
+import { SignupAlunoService } from '../../services/signup-aluno-service/signup-aluno-service'
+
+const service = new SignupAlunoService()
 
 export default function CadastroAluno() {
   return (
@@ -10,7 +13,7 @@ export default function CadastroAluno() {
         <F.Subtitle>
           Preencha as informações abaixo para marcar um atendimento:
         </F.Subtitle>
-        <FormAluno />
+        <FormAluno alunoSignup={service} />
       </F.WrapperFields>
     </WrapperForm>
   )
