@@ -15,9 +15,7 @@ describe('<FormAluno />', () => {
   })
 
   it('deve renderizar o formulário de aluno', () => {
-    const nome = screen.getByRole('textbox', {
-      name: 'Nome Completo'
-    })
+    const nome = screen.getByLabelText('Nome Completo')
     const telefone = screen.getByTestId('phone-number')
     const dataNascimento = screen.getByLabelText('Data de nascimento')
     const cidade = screen.getByLabelText('Cidade')
@@ -37,9 +35,6 @@ describe('<FormAluno />', () => {
   })
 
   it('deve chamar o signup service com sucesso', async () => {
-    const nome = screen.getByRole('textbox', {
-      name: 'Nome Completo'
-    })
     const telefone = screen.getByTestId('phone-number')
     const dataNascimento = screen.getByLabelText('Data de nascimento')
     const cidade = screen.getByLabelText('Cidade')
@@ -48,9 +43,7 @@ describe('<FormAluno />', () => {
     const escolaridade = screen.getByLabelText('Escolaridade')
     const tipoEscola = screen.getByLabelText('Escola Pública')
     const button = screen.getByRole('button')
-
-    await userEvent.type(nome, 'Nome')
-    await fireEvent.change(telefone, { target: { value: '93234566543' } })
+    await fireEvent.change(telefone, { target: { value: '93934566543' } })
     await fireEvent.change(dataNascimento, { target: { value: '1992-01-18' } })
     await userEvent.type(cidade, 'Araxá')
     await fireEvent.change(estado, { target: { value: 'MG' } })
@@ -61,8 +54,7 @@ describe('<FormAluno />', () => {
 
     await waitFor(async () => {
       await expect(signupServiceMock.alunoSignup).toBeCalledWith({
-        name: 'Nome',
-        telefone: '93234566543',
+        telefone: '(93) 93456-6543',
         dataNascimento: '1992-01-18',
         cidade: 'Araxá',
         estado: 'MG',

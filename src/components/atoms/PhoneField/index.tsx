@@ -20,26 +20,13 @@ export function PhoneField({
   onChange,
   ...props
 }: PhoneFieldProps) {
-  const removePhoneMask = (inputValue: string): string => {
-    const onlyPhoneNumbers = inputValue.replace(/\D/g, '')
-    return onlyPhoneNumbers
-  }
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value
-    event.target.value = removePhoneMask(inputValue)
-    if (onChange) {
-      onChange(event)
-    }
-  }
-
   return (
     <FormGroup label={label} name={name} error={error}>
       <S.InputWrapper>
         <InputMask
           mask={'(99) 99999-9999'}
           onBlur={props.onBlur}
-          onChange={handleChange}
+          onChange={onChange}
           value={value}
           name={name}
           id={name}

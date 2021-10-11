@@ -14,7 +14,14 @@ describe('SignupService', () => {
   })
 
   it('Deve chamar o post do axios', async () => {
-    jest.spyOn(axios.default, 'post').mockResolvedValue(null)
+    jest
+      .spyOn(axios.default, 'post')
+      .mockResolvedValue(null)
+      .mockResolvedValue({
+        data: {
+          token: 'mocked'
+        }
+      })
     await service.initialSignup({
       email: 'teste@teste.com',
       nome: 'Fulano de tal',

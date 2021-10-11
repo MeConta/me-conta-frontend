@@ -11,6 +11,7 @@ import { Button } from '../../atoms/Button'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Link from 'next/link'
+import moment from 'moment'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -20,7 +21,6 @@ const MAX_LENGTH_CITY_VALUE = 100
 const MIN_LENGTH_CITY_VALUE = 3
 
 type MyFormValues = {
-  name: string
   telefone: string
   dataNascimento: string
   cidade: string
@@ -47,23 +47,21 @@ const ERRORS = {
   REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
 }
 
-const today = new Date()
-
 const FormAluno = (props: any) => {
   const validation = Yup.object({
-    name: Yup.string()
+    /*name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
       .trim()
       .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
-      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),
+      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),*/
     telefone: Yup.string()
       .trim()
-      .min(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
-      .max(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
+      //.min(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
+      //.max(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
       .required(ERRORS.REQUIRED_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
-      .max(today, ERRORS.MAX_BIRTHDATE),
+      .max(moment().toDate(), ERRORS.MAX_BIRTHDATE),
     cidade: Yup.string()
       .required(ERRORS.REQUIRED_CITY)
       .trim()
@@ -88,7 +86,6 @@ const FormAluno = (props: any) => {
   }
 
   const initialValues: MyFormValues = {
-    name: '',
     telefone: '',
     dataNascimento: '',
     cidade: '',
@@ -124,10 +121,14 @@ const FormAluno = (props: any) => {
             label="Nome Completo"
             name="name"
             maxLength={MAX_LENGTH_NAME_VALUE}
+            disabled
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.name}
-            error={errors.name}
+            value={
+              typeof window !== 'undefined'
+                ? window.localStorage.getItem('nome') || ''
+                : ''
+            }
           />
           <PhoneField
             data-testid="phone-number"
@@ -142,18 +143,11 @@ const FormAluno = (props: any) => {
             label="Data de nascimento"
             name="dataNascimento"
             type="date"
+            max={moment().format('YYYY-MM-DD')}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.dataNascimento}
             error={errors.dataNascimento}
-          />
-          <TextField
-            label="Cidade"
-            name="cidade"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.cidade}
-            error={errors.cidade}
           />
           <SelectField
             label="Estado"
@@ -162,6 +156,14 @@ const FormAluno = (props: any) => {
             onChange={handleChange}
             value={values.estado}
             error={errors.estado}
+          />
+          <TextField
+            label="Cidade"
+            name="cidade"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.cidade}
+            error={errors.cidade}
           />
           <RadioField
             options={GENDER}

@@ -12,7 +12,7 @@ type AlunoSignupUser = {
 }
 
 export interface ISignupAlunoService {
-  alunoSignup: (user: AlunoSignupUser) => void
+  alunoSignup: (user: AlunoSignupUser) => Promise<void>
 }
 
 export class SignupAlunoService implements ISignupAlunoService {

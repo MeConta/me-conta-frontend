@@ -34,6 +34,7 @@ export class SignupService implements ISignupService {
     })
     if (typeof window !== undefined) {
       window.localStorage.setItem('token', response.data.token)
+      window.localStorage.setItem('nome', user.nome)
     }
   }
 }
