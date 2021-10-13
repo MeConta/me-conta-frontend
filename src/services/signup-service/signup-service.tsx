@@ -21,20 +21,21 @@ export type SignupUser = {
   tipo: UserType
 }
 export interface ISignupService {
-  initialSignup: (user: SignupUser) => void
+  initialSignup: (user: SignupUser) => Promise<{ token: string }>
 }
 
 export class SignupService implements ISignupService {
   constructor(private readonly service: AxiosInstance) {}
-  async initialSignup(user: SignupUser) {
+  async initialSignup(user: SignupUser): Promise<{
+    token: string
+  }> {
     await this.service.post('/cadastro-inicial/', user)
     const response = await this.service.post('/auth/login/', {
       username: user.email,
       password: user.senha
     })
-    if (typeof window !== undefined) {
-      window.localStorage.setItem('token', response.data.token)
-      window.localStorage.setItem('nome', user.nome)
+    return {
+      token: response.data.token
     }
   }
 }

@@ -122,15 +122,18 @@ describe('<FormAluno />', () => {
     expect(tipoEscola).toBeChecked()
     expect(button).toBeEnabled()
     await waitFor(async () => {
-      expect(signupServiceMock.alunoSignup).toBeCalledWith({
-        telefone: '(93) 93456-6543',
-        dataNascimento: '1992-01-18',
-        cidade: 'Araxá',
-        estado: 'MG',
-        genero: 'M',
-        escolaridade: 1,
-        tipoEscola: 0
-      })
+      expect(signupServiceMock.alunoSignup).toBeCalledWith(
+        {
+          telefone: '(93) 93456-6543',
+          dataNascimento: '1992-01-18',
+          cidade: 'Araxá',
+          estado: 'MG',
+          genero: 'M',
+          escolaridade: 1,
+          tipoEscola: 0
+        },
+        expect.any(String)
+      )
       expect(handleSuccessMock).toBeCalled()
     })
   })

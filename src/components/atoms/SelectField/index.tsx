@@ -35,7 +35,6 @@ export function SelectField({
   return (
     <FormGroup error={error} name={name} label={label}>
       <S.Select
-        defaultValue="none"
         onChange={onChange}
         name={name}
         disabled={disabled}

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { AxiosInstance } from 'axios'
 
 type AlunoSignupUser = {
   telefone: string
@@ -11,16 +11,16 @@ type AlunoSignupUser = {
 }
 
 export interface ISignupAlunoService {
-  alunoSignup: (user: AlunoSignupUser) => Promise<void>
+  alunoSignup: (user: AlunoSignupUser, token: string) => Promise<void>
 }
 
 export class SignupAlunoService implements ISignupAlunoService {
-  constructor() {}
+  constructor(private readonly service: AxiosInstance) {}
 
-  async alunoSignup(user: AlunoSignupUser) {
-    await axios.post('http://localhost:3000/cadastro-aluno', user, {
+  async alunoSignup(user: AlunoSignupUser, token: string) {
+    await this.service.post('/cadastro-aluno', user, {
       headers: {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
+        Authorization: `Bearer ${token}`
       }
     })
   }

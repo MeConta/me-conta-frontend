@@ -5,7 +5,7 @@ describe('Signup Aluno Service', () => {
   let service: SignupAlunoService
   jest.mock('axios')
   beforeEach(() => {
-    service = new SignupAlunoService()
+    service = new SignupAlunoService(axios.default)
   })
 
   it('Should be defined.', () => {
@@ -15,15 +15,18 @@ describe('Signup Aluno Service', () => {
   it('Post should be called.', async () => {
     jest.spyOn(axios.default, 'post').mockResolvedValue(null)
 
-    await service.alunoSignup({
-      telefone: '(32)3456-6543',
-      dataNascimento: '18/01/1992',
-      cidade: 'Araxá',
-      estado: 'MG',
-      genero: 'Não Binário',
-      escolaridade: 1,
-      tipoEscola: 0
-    })
+    await service.alunoSignup(
+      {
+        telefone: '(32)3456-6543',
+        dataNascimento: '18/01/1992',
+        cidade: 'Araxá',
+        estado: 'MG',
+        genero: 'Não Binário',
+        escolaridade: 1,
+        tipoEscola: 0
+      },
+      'MOCKED_TOKEN'
+    )
 
     expect(axios.default.post).toBeCalled()
   })

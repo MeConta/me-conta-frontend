@@ -4,8 +4,7 @@ import * as F from '../../styles/form/styles'
 import { SignupAlunoService } from '../../services/signup-aluno-service/signup-aluno-service'
 import { useRouter } from 'next/router'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
-
-const service = new SignupAlunoService()
+import { api } from '../../services/api/api'
 
 export default function CadastroAluno() {
   const router = useRouter()
@@ -18,7 +17,7 @@ export default function CadastroAluno() {
           Preencha as informações abaixo para marcar um atendimento:
         </F.Subtitle>
         <FormAluno
-          alunoSignup={service}
+          alunoSignup={new SignupAlunoService(api)}
           handleSuccess={async () => {
             emit(ToastType.SUCCESS, 'Cadastro realizado com sucesso!')
             await router.push('/')

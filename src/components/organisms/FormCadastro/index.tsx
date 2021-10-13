@@ -13,6 +13,7 @@ import {
 } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
 import * as S from './styles'
+import { useLocalStorage } from '../../../hooks/localstorage.hook'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -52,6 +53,8 @@ export function FormCadastro(props: {
   handleError: (error: BackendError) => void
 }) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
+  const [, setToken] = useLocalStorage<string>('token', '')
+  const [, setNome] = useLocalStorage<string>('nome', '')
 
   const validation = Yup.object({
     name: Yup.string()
@@ -79,12 +82,14 @@ export function FormCadastro(props: {
 
   const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
-      await props.signupService.initialSignup({
+      const { token } = await props.signupService.initialSignup({
         nome: name,
         email,
         senha: password,
         tipo: Number(tipo)
       })
+      setToken(token)
+      setNome(name)
       props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {
       props.handleError(e)

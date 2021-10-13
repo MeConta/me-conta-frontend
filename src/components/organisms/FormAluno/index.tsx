@@ -15,6 +15,7 @@ import moment from 'moment'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
 import { SignupUser } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
+import { useLocalStorage } from '../../../hooks/localstorage.hook'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -55,6 +56,8 @@ const FormAluno = (props: {
   handleSuccess: () => void
   handleError: (error: BackendError) => void
 }) => {
+  const [name] = useLocalStorage<string>('nome', '')
+  const [token] = useLocalStorage<string>('token', '')
   const validation = Yup.object({
     /*name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
@@ -108,11 +111,14 @@ const FormAluno = (props: {
       validateOnChange={false}
       onSubmit={async (values) => {
         try {
-          await props.alunoSignup.alunoSignup({
-            ...values,
-            tipoEscola: +values.tipoEscola,
-            escolaridade: +values.escolaridade
-          })
+          await props.alunoSignup.alunoSignup(
+            {
+              ...values,
+              tipoEscola: +values.tipoEscola,
+              escolaridade: +values.escolaridade
+            },
+            token
+          )
           props.handleSuccess()
         } catch (e) {
           props.handleError(e)
@@ -137,11 +143,7 @@ const FormAluno = (props: {
             disabled
             onChange={handleChange}
             onBlur={handleBlur}
-            value={
-              typeof window !== 'undefined'
-                ? window.localStorage.getItem('nome') || ''
-                : ''
-            }
+            value={name}
           />
           <PhoneField
             data-testid="phone-number"

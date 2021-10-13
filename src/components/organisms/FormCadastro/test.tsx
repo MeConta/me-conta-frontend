@@ -52,6 +52,11 @@ describe('<FormCadastro/>', () => {
     )
   })
 
+  beforeEach(async () => {
+    jest.spyOn(signupServiceMock, 'initialSignup').mockResolvedValue({
+      token: 'MOCKED_TOKEN'
+    })
+  })
   it('deve renderizar o formulário de cadastro ', async () => {
     const { name, email, password, confirm, tipo } = elements()
 
@@ -113,6 +118,7 @@ describe('<FormCadastro/>', () => {
       .mockImplementation(() =>
         Promise.reject(getSignupError(SignupError.DUPLICATED))
       )
+
     await fillForm()
 
     await waitFor(() => {
