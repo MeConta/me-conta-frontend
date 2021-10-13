@@ -62,6 +62,8 @@ export const Wrapper = styled.button<WrapperProps>`
     display: inline-flex;
     justify-content: center;
     text-decoration: none;
+    cursor: pointer;
+    text-align: center;
 
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};

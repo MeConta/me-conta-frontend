@@ -8,12 +8,10 @@ import { States } from './states'
 import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
 import { Button } from '../../atoms/Button'
-import { useRouter } from 'next/router'
 import React from 'react'
 import Link from 'next/link'
 import moment from 'moment'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
-import { SignupUser } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
 
@@ -222,10 +220,9 @@ const FormAluno = (props: {
           </S.ButtonContainer>
           <S.Link>
             <Link href="/">
-              <a>Pular: preencher depois.</a>
+              <a>Preencher depois.</a>
             </Link>
           </S.Link>
-          <pre>{JSON.stringify(values)}</pre>
         </S.Form>
       )}
     </Formik>
