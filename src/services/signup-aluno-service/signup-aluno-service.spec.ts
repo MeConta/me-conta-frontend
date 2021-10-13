@@ -16,14 +16,13 @@ describe('Signup Aluno Service', () => {
     jest.spyOn(axios.default, 'post').mockResolvedValue(null)
 
     await service.alunoSignup({
-      name: 'Teste Aluno',
       telefone: '(32)3456-6543',
       dataNascimento: '18/01/1992',
       cidade: 'Araxá',
       estado: 'MG',
       genero: 'Não Binário',
-      escolaridade: '1',
-      tipoEscola: 'Escola Particular'
+      escolaridade: 1,
+      tipoEscola: 0
     })
 
     expect(axios.default.post).toBeCalled()

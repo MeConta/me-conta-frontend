@@ -1,14 +1,13 @@
 import axios from 'axios'
 
 type AlunoSignupUser = {
-  name: string
   telefone: string
   dataNascimento: string
   cidade: string
   estado: string
   genero: string
-  tipoEscola: string
-  escolaridade: string
+  tipoEscola: number
+  escolaridade: number
 }
 
 export interface ISignupAlunoService {

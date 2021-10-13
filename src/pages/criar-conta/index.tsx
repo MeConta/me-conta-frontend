@@ -16,11 +16,11 @@ export default function CriarConta() {
         <F.Header>Criar Conta</F.Header>
         <FormCadastro
           signupService={signupService}
-          handleSuccess={(form) => {
-            if (form.tipo === UserType.ALUNO) {
-              router.push('/cadastro-aluno')
+          handleSuccess={async (form) => {
+            if (+form.tipo === UserType.ALUNO) {
+              await router.push('/cadastro-aluno')
             } else {
-              router.push('/cadastro-atendente')
+              await router.push('/cadastro-atendente')
             }
           }}
           handleError={(error) => {

@@ -18,23 +18,28 @@ describe('<FormCadastro/>', () => {
   const handleErrorMock = jest.fn()
 
   const elements = () => {
-    const name = screen.getByRole('textbox', { name: 'Nome' })
-    const email = screen.getByRole('textbox', { name: 'E-mail' })
-    const password = screen.getByRole('password', { name: 'Senha' })
-    const confirm = screen.getByRole('password', { name: 'Confirmar Senha' })
-    const tipo = screen.getByLabelText(TYPES.ALUNO)
-    const button = screen.getByRole('button')
-    const termsConfirm = screen.getByRole('checkbox')
-
     return {
-      name,
-      email,
-      password,
-      confirm,
-      tipo,
-      button,
-      termsConfirm
+      name: screen.getByRole('textbox', { name: 'Nome' }),
+      email: screen.getByRole('textbox', { name: 'E-mail' }),
+      password: screen.getByRole('password', { name: 'Senha' }),
+      confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
+      tipo: screen.getByLabelText(TYPES.ALUNO),
+      button: screen.getByRole('button'),
+      termsConfirm: screen.getByRole('checkbox')
     }
+  }
+
+  const fillForm = async () => {
+    const { name, email, password, confirm, tipo, button, termsConfirm } =
+      elements()
+
+    await userEvent.type(name, 'Nome')
+    await userEvent.type(email, 'teste@teste.com')
+    await userEvent.type(password, '!@#ASD!@#AASASD')
+    await userEvent.type(confirm, '!@#ASD!@#AASASD')
+    fireEvent.click(tipo)
+    fireEvent.click(termsConfirm)
+    fireEvent.click(button)
   }
 
   beforeEach(() => {
@@ -47,7 +52,7 @@ describe('<FormCadastro/>', () => {
     )
   })
 
-  it('deve renderizar o formulario de cadastro ', async () => {
+  it('deve renderizar o formulário de cadastro ', async () => {
     const { name, email, password, confirm, tipo } = elements()
 
     expect(name).toBeInTheDocument()
@@ -57,7 +62,7 @@ describe('<FormCadastro/>', () => {
     expect(tipo).toBeInTheDocument()
   })
   it('deve exibir erro de nome inválido', async () => {
-    const { name, button } = elements()
+    const { button } = elements()
     fireEvent.click(button)
     await waitFor(() => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
@@ -90,16 +95,7 @@ describe('<FormCadastro/>', () => {
     })
   })
   it('deve chamar o signup service com sucesso', async () => {
-    const { name, email, password, confirm, tipo, button, termsConfirm } =
-      elements()
-
-    await userEvent.type(name, 'Nome')
-    await userEvent.type(email, 'teste@teste.com')
-    await userEvent.type(password, '!@#ASD!@#AASASD')
-    await userEvent.type(confirm, '!@#ASD!@#AASASD')
-    fireEvent.click(tipo)
-    fireEvent.click(termsConfirm)
-    fireEvent.click(button)
+    await fillForm()
 
     await waitFor(() => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
@@ -117,16 +113,7 @@ describe('<FormCadastro/>', () => {
       .mockImplementation(() =>
         Promise.reject(getSignupError(SignupError.DUPLICATED))
       )
-    const { name, email, password, confirm, tipo, button, termsConfirm } =
-      elements()
-
-    await userEvent.type(name, 'Nome')
-    await userEvent.type(email, 'teste@teste.com')
-    await userEvent.type(password, '!@#ASD!@#AASASD')
-    await userEvent.type(confirm, '!@#ASD!@#AASASD')
-    fireEvent.click(tipo)
-    fireEvent.click(termsConfirm)
-    fireEvent.click(button)
+    await fillForm()
 
     await waitFor(() => {
       expect(handleErrorMock).toBeCalled()

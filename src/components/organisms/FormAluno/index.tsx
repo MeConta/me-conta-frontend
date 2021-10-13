@@ -12,6 +12,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import Link from 'next/link'
 import moment from 'moment'
+import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
+import { SignupUser } from '../../../services/signup-service/signup-service'
+import { BackendError } from '../../../types/backend-error'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -47,7 +50,11 @@ const ERRORS = {
   REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
 }
 
-const FormAluno = (props: any) => {
+const FormAluno = (props: {
+  alunoSignup: ISignupAlunoService
+  handleSuccess: () => void
+  handleError: (error: BackendError) => void
+}) => {
   const validation = Yup.object({
     /*name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
@@ -90,7 +97,7 @@ const FormAluno = (props: any) => {
     dataNascimento: '',
     cidade: '',
     estado: '',
-    genero: '0',
+    genero: 'ND',
     escolaridade: '',
     tipoEscola: '0'
   }
@@ -98,12 +105,18 @@ const FormAluno = (props: any) => {
   return (
     <Formik
       initialValues={initialValues}
+      validateOnChange={false}
       onSubmit={async (values) => {
-        await props.alunoSignup.alunoSignup({
-          ...values,
-          tipoEscola: +values.tipoEscola,
-          escolaridade: +values.escolaridade
-        })
+        try {
+          await props.alunoSignup.alunoSignup({
+            ...values,
+            tipoEscola: +values.tipoEscola,
+            escolaridade: +values.escolaridade
+          })
+          props.handleSuccess()
+        } catch (e) {
+          props.handleError(e)
+        }
       }}
       validationSchema={validation}
     >
@@ -196,7 +209,12 @@ const FormAluno = (props: any) => {
             error={errors.tipoEscola}
           />
           <S.ButtonContainer>
-            <Button radius="square" type="submit" color="primary">
+            <Button
+              radius="square"
+              type="submit"
+              color="primary"
+              disabled={isSubmitting || !isValid}
+            >
               Concluir minha inscrição.
             </Button>
           </S.ButtonContainer>
@@ -205,6 +223,7 @@ const FormAluno = (props: any) => {
               <a>Pular: preencher depois.</a>
             </Link>
           </S.Link>
+          <pre>{JSON.stringify(values)}</pre>
         </S.Form>
       )}
     </Formik>
