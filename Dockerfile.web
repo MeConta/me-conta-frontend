@@ -9,6 +9,12 @@ FROM node:slim as builder
 WORKDIR /usr/src/app
 COPY ./ ./
 COPY --from=dependencies /usr/src/app/node_modules ./node_modules
+ARG NODE_ENV
+ENV NODE_ENV=$NODE_ENV
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$API_URL
+ARG API_URL
+ENV API_URL=$API_URL
 RUN npm run build
 
 # RUN STAGE
@@ -19,7 +25,11 @@ COPY --from=builder /usr/src/app/public ./public
 COPY --from=builder /usr/src/app/.next ./.next
 COPY --from=builder /usr/src/app/node_modules ./node_modules/
 COPY --from=builder /usr/src/app/package*.json ./
-ENV NODE_ENV=${NODE_ENV}
-ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ARG NODE_ENV
+ENV NODE_ENV=$NODE_ENV
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$API_URL
+ARG API_URL
+ENV API_URL=$API_URL
 EXPOSE ${PORT}
 CMD ["npm", "start"]

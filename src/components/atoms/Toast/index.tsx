@@ -16,11 +16,15 @@ export function Toast() {
   const addToastInApiInterceptor = () => {
     api.interceptors.response.use(
       (response) => {
+        console.log('API_URL', process.env.API_URL)
+        console.log('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL)
         const httpStatusCode = response?.status
         emit(ToastType.SUCCESS, getSuccessMessage(httpStatusCode))
         return response
       },
       (error) => {
+        console.log('API_URL', process.env.API_URL)
+        console.log('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL)
         const httpErrorCode = error?.response?.data?.code as EHttpErrorCode
         emit(ToastType.ERROR, getErrorMessage(httpErrorCode))
         return Promise.reject(error)
