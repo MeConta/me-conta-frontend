@@ -3,7 +3,7 @@ import { WrapperForm } from '../../../components/molecules/WrapperForm'
 import { Button } from '../../../components/atoms/Button'
 import React from 'react'
 import Link from 'next/link'
-import * as S from './styles'
+import * as S from '../../../styles/pages/cadastro-aluno/sucesso/styles'
 
 export default function AlunoSucesso() {
   return (
