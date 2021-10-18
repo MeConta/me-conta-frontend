@@ -1,13 +1,13 @@
-# DEV DEPENDENCY STAGE
-FROM node:slim as dev-dependencies
+# DEPENDENCY STAGE
+FROM node:slim as dependencies
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci -D
+RUN npm ci
 
 # BUILD STAGE
 FROM node:slim as builder
 WORKDIR /usr/src/app
-COPY --from=dev-dependencies /usr/src/app/node_modules ./node_modules
+COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 COPY ./ ./
 ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
@@ -15,17 +15,10 @@ ARG API_URL
 ENV API_URL=$API_URL
 RUN npm run build
 
-# PROD DEPENDENCY STAGE
-FROM node:slim as prod-dependencies
-WORKDIR /usr/src/app
-COPY package*.json ./
-ENV NODE_ENV=production
-RUN npm ci
-
 # RUN STAGE
 FROM node:slim as runner
 WORKDIR /usr/src/app
-COPY --from=prod-dependencies /usr/src/app/node_modules ./node_modules/
+COPY --from=dependencies /usr/src/app/node_modules ./node_modules/
 COPY --from=builder /usr/src/app/next.config.js ./
 COPY --from=builder /usr/src/app/public ./public
 COPY --from=builder /usr/src/app/.next ./.next
