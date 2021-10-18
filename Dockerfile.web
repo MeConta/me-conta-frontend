@@ -1,34 +1,37 @@
-# DEPENDENCY STAGE
-FROM node:slim as dependencies
+# DEV DEPENDENCY STAGE
+FROM node:slim as dev-dependencies
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm ci
+RUN npm ci -D
 
 # BUILD STAGE
 FROM node:slim as builder
 WORKDIR /usr/src/app
+COPY --from=dev-dependencies /usr/src/app/node_modules ./node_modules
 COPY ./ ./
-COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$API_URL
 ARG API_URL
 ENV API_URL=$API_URL
 RUN npm run build
 
+# PROD DEPENDENCY STAGE
+FROM node:slim as prod-dependencies
+WORKDIR /usr/src/app
+COPY package*.json ./
+ENV NODE_ENV=production
+RUN npm ci
+
 # RUN STAGE
 FROM node:slim as runner
 WORKDIR /usr/src/app
+COPY --from=prod-dependencies /usr/src/app/node_modules ./node_modules/
 COPY --from=builder /usr/src/app/next.config.js ./
 COPY --from=builder /usr/src/app/public ./public
 COPY --from=builder /usr/src/app/.next ./.next
-COPY --from=builder /usr/src/app/node_modules ./node_modules/
 COPY --from=builder /usr/src/app/package*.json ./
 ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$API_URL
 ARG API_URL
 ENV API_URL=$API_URL
 EXPOSE ${PORT}
