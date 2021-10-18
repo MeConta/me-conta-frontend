@@ -58,16 +58,7 @@ const FormAluno = (props: {
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
   const validation = Yup.object({
-    /*name: Yup.string()
-      .required(ERRORS.REQUIRED_NAME)
-      .trim()
-      .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
-      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),*/
-    telefone: Yup.string()
-      .trim()
-      //.min(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
-      //.max(LENGTH_PHONE_VALUE, ERRORS.LENGHT_PHONE)
-      .required(ERRORS.REQUIRED_PHONE),
+    telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
       .max(moment().toDate(), ERRORS.MAX_BIRTHDATE),
@@ -135,23 +126,8 @@ const FormAluno = (props: {
         isValid
       }) => (
         <S.Form onSubmit={handleSubmit}>
-          <TextField
-            label="Nome Completo"
-            name="name"
-            maxLength={MAX_LENGTH_NAME_VALUE}
-            disabled
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={name}
-          />
-          <TextField
-            label="E-mail"
-            name="email"
-            disabled
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={email}
-          />
+          <TextField label="Nome Completo" name="name" disabled value={name} />
+          <TextField label="E-mail" name="email" disabled value={email} />
           <PhoneField
             data-testid="phone-number"
             label="Telefone"

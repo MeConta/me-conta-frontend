@@ -8,14 +8,11 @@ describe('<FormAtendente/>', () => {
   }
 
   const getAllElements = () => {
-    const dataNascimento = screen.getByLabelText('Data de nascimento')
-    const cidade = screen.getByRole('textbox', {
-      name: 'Cidade'
-    })
-
     return {
-      dataNascimento,
-      cidade
+      dataNascimento: screen.getByLabelText('Data de nascimento'),
+      cidade: screen.getByRole('textbox', {
+        name: 'Cidade'
+      })
     }
   }
 

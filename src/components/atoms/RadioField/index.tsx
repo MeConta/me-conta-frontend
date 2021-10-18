@@ -4,7 +4,7 @@ import * as S from './styles'
 
 export type RadioFieldProps = {
   label?: string
-  initialValue?: string
+  initialValue?: string | number
   error?: string
   disabled?: boolean
   options: {

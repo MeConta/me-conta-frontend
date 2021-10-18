@@ -6,61 +6,157 @@ import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
 import * as S from './styles'
 import { Button } from 'components/atoms/Button'
+import { useLocalStorage } from '../../../hooks/localstorage.hook'
+import React, { ChangeEvent, ChangeEventHandler } from 'react'
+import { UserType } from '../../../enums/user-type.enum'
+import { RadioField } from '../../atoms/RadioField'
+
+import moment from 'moment'
+import { PhoneField } from '../../atoms/PhoneField'
+import { SelectField } from '../../atoms/SelectField'
+import { States } from '../FormAluno/states'
+import { TextAreaField } from '../../atoms/TextAreaField'
+import { CheckboxField } from '../../atoms/CheckboxField'
 
 type FormAtendenteProps = {
   signupService: ISignupService
 }
 
 type MyFormValues = {
+  telefone: string
   dataNascimento: string
   cidade: string
   estado: EBrazilStates | string
   genero: string
-  telefone: number
-  formado: boolean
   instituicao: string
-  frentes: string[]
+  frentes: number[]
+  formado: number
+  anoFormacao: number
+  semestre: number
+  especializacoes: string
+  areaAtuacao: string
+  crp: string
   bio: string
+  tipo: UserType
 }
 
-const FIELDS_CONFIGS = {
-  MAX_LENGHT_CIDADE: 60, // validar
-  MIN_LENGHT_CIDADE: 2 // validar
+const TYPES = {
+  SUPERVISOR: 'Voluntário Supervisor',
+  ATENDENTE: 'Voluntário Atendente'
 }
 
-const FIELDS_ERRORS = {
-  REQUIRED_CIDADE: 'Cidade é obrigatório',
-  MAX_CIDADE: `Cidade deve conter menos de ${FIELDS_CONFIGS.MAX_LENGHT_CIDADE} caracteres`,
-  MIN_CIDADE: `Cidade deve conter mais de ${FIELDS_CONFIGS.MIN_LENGHT_CIDADE} caracteres`,
-  REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório'
+const GENDER = [
+  { value: 'M', label: 'Masculino' },
+  { value: 'F', label: 'Feminino' },
+  { value: 'NB', label: 'Não Binário' },
+  { value: 'ND', label: 'Prefiro não Declarar' }
+]
+
+const areasAtuacao = [
+  {
+    value: 'professor',
+    label: 'Professor de Psicologia'
+  },
+  {
+    value: 'psicologo',
+    label: 'Psicólogo'
+  }
+]
+
+const MAX_LENGTH_CITY_VALUE = 100
+const MIN_LENGTH_CITY_VALUE = 3
+
+const MAX_LENGTH_NAME_VALUE = 100
+const MIN_LENGTH_NAME_VALUE = 2
+const LENGTH_PHONE_VALUE = 11
+
+const ERRORS = {
+  REQUIRED_NAME: `Nome completo é obrigatório.`,
+  REQUIRED_PHONE: `Telefone é obrigatório.`,
+  MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
+  MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
+  LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
+  REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
+  MIN_AGE: `Voluntários devem ter mais de 18 anos.`,
+  MAX_BIRTHDATE: `Data de nascimento inválida.`,
+  MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres.`,
+  MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres.`,
+  REQUIRED_CITY: `Cidade é obrigatório.`,
+  REQUIRED_STATE: `Estado é obrigatório.`,
+  REQUIRED_GENDER: `Gênero é obrigatório.`,
+  REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
+  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`,
+  REQUIRED_SCHOOL: `Instituição é obrigatória`,
+  REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
+  REQUIRED_CRP: `CRP é obrigatório`,
+  REQUIRED_FIELD: `Área de atuação é obrigatória`,
+  REQUIRED_BIO: `A Apresentação é obrigatória`
 }
 
 export function FormAtendente({ signupService }: FormAtendenteProps) {
+  const [name] = useLocalStorage<string>('nome', '')
+  const [token] = useLocalStorage<string>('token', '')
+  const [email] = useLocalStorage<string>('email', '')
+  const [tipo] = useLocalStorage<UserType>('tipo', UserType.ATENDENTE)
   const validation = Yup.object({
-    dataNascimento: Yup.string().required(
-      FIELDS_ERRORS.REQUIRED_DATA_NASCIMENTO
-    ),
+    telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
+    dataNascimento: Yup.date()
+      .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
+      .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE),
     cidade: Yup.string()
-      .required(FIELDS_ERRORS.REQUIRED_CIDADE)
+      .required(ERRORS.REQUIRED_CITY)
       .trim()
-      .min(FIELDS_CONFIGS.MIN_LENGHT_CIDADE, FIELDS_ERRORS.MIN_CIDADE)
-      .max(FIELDS_CONFIGS.MAX_LENGHT_CIDADE, FIELDS_ERRORS.MAX_CIDADE)
+      .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
+      .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
+    estado: Yup.string().required(ERRORS.REQUIRED_STATE),
+    genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
+    anoFormacao: Yup.number()
+      .required(ERRORS.REQUIRED_FORMATION_YEAR)
+      .max(+moment().format('YYYY'), ERRORS.REQUIRED_FORMATION_YEAR),
+    crp: Yup.string().required(ERRORS.REQUIRED_CRP),
+    instituicao: Yup.string().required(ERRORS.REQUIRED_SCHOOL),
+    areaAtuacao: Yup.string().required(ERRORS.REQUIRED_FIELD),
+    bio: Yup.string().required(ERRORS.REQUIRED_BIO)
   })
 
   const initialValues: MyFormValues = {
+    telefone: '',
     dataNascimento: '',
     cidade: '',
-    estado: '',
     genero: '',
-    telefone: 0,
-    formado: false,
+    estado: '',
     instituicao: '',
+    formado: 0,
+    anoFormacao: +moment().format('YYYY'),
+    semestre: 1,
+    especializacoes: '',
+    crp: '',
+    areaAtuacao: '',
     frentes: [],
-    bio: ''
+    bio: '',
+    tipo
   }
 
   const formSubmit = async (form: MyFormValues) => {
     console.log(form)
+  }
+
+  const frentesCheckbox = (
+    value: number[],
+    cb: (e: ChangeEvent<any> | ChangeEvent<HTMLInputElement>) => void,
+    ...labels: string[]
+  ) => {
+    return labels.map((label, i) => {
+      return (
+        <CheckboxField
+          key={i}
+          label={label}
+          name={`frentesAtuacao${i}`}
+          value={i}
+          onChange={cb}
+        />
+      )
+    })
   }
 
   return (
@@ -79,24 +175,185 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
         isValid
       }) => (
         <S.Form onSubmit={handleSubmit}>
+          <TextField label="Nome Completo" name="name" disabled value={name} />
+          <TextField label="E-mail" name="email" disabled value={email} />
+          <PhoneField
+            data-testid="phone-number"
+            label="Telefone"
+            name="telefone"
+            onBlur={handleBlur}
+            error={errors.telefone}
+            value={values.telefone}
+            onChange={handleChange}
+          />
           <TextField
             label="Data de nascimento"
             name="dataNascimento"
             type="date"
+            max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.dataNascimento}
             error={errors.dataNascimento}
           />
+          <SelectField
+            label="Estado"
+            name="estado"
+            options={States}
+            onChange={handleChange}
+            value={values.estado}
+            error={errors.estado}
+          />
           <TextField
             label="Cidade"
             name="cidade"
             onChange={handleChange}
-            maxLength={FIELDS_CONFIGS.MAX_LENGHT_CIDADE}
             onBlur={handleBlur}
             value={values.cidade}
             error={errors.cidade}
           />
+          <RadioField
+            options={GENDER}
+            name="genero"
+            label="Gênero"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.genero}
+            error={errors.genero}
+          />
+          <TextField
+            label="Instituição"
+            name="instituicao"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.instituicao}
+            error={errors.instituicao}
+          />
+          {+values.tipo === 2 && (
+            <RadioField
+              options={[
+                {
+                  value: 1,
+                  label: 'Sim'
+                },
+                {
+                  value: 0,
+                  label: 'Não'
+                }
+              ]}
+              name="formado"
+              label="Formado"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={+values.formado}
+              error={errors.formado}
+            />
+          )}
+          {+values.formado === 0 && (
+            <TextField
+              label="Semestre"
+              name="semestre"
+              type="number"
+              min={0}
+              max={10}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.semestre}
+              error={errors.semestre}
+            />
+          )}
+          {+values.formado === 1 && (
+            <>
+              <TextField
+                label="Ano de Formação"
+                name="anoFormacao"
+                type="number"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                max={+moment().format('YYYY')}
+                value={values.anoFormacao}
+                error={errors.anoFormacao}
+              />
+              <TextField
+                label="CRP"
+                name="crp"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.crp}
+                error={errors.crp}
+              />
+              <TextAreaField
+                label="Possui especialização? Se sim, qual(is)?"
+                name="especializacoes"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.especializacoes}
+                error={errors.especializacoes}
+              />
+            </>
+          )}
+          {+values.tipo === 1 && (
+            <SelectField
+              label="Área de Atuação"
+              name="areaAtuacao"
+              options={areasAtuacao}
+              onChange={handleChange}
+              value={values.areaAtuacao}
+              error={errors.areaAtuacao}
+            />
+          )}
+          {+values.tipo === 2 && (
+            <>
+              <h3>
+                Selecione em quais frentes você gostaria de atuar (pode
+                selecionar mais de uma opção):
+              </h3>
+              {frentesCheckbox(
+                values.frentes,
+                (e) => {
+                  console.log('checked?', e.target.checked, +e.target.value)
+                  if (e.target.checked) {
+                    values.frentes.push(+e.target.value)
+                  } else {
+                    values.frentes = values.frentes.filter(
+                      (value) => +e.target.value !== value
+                    )
+                  }
+                  values.frentes = values.frentes.sort()
+                  console.log('frentes', values.frentes)
+                },
+                'Sessões de acolhimento dos estudantes',
+                'Coaching de rotina de estudos',
+                'Orientação vocacional'
+              )}
+            </>
+          )}
+
+          <RadioField
+            options={Object.values(TYPES).map((type, index) => {
+              return { label: type, value: index + 1 }
+            })}
+            name="tipo"
+            label="Tipo"
+            onChange={(e) => {
+              values.formado = 1
+              handleChange(e)
+            }}
+            onBlur={handleBlur}
+            value={+values.tipo}
+            error={errors.tipo}
+          />
+          {+values.tipo === 2 && (
+            <TextAreaField
+              label="Breve descrição sobre você (Será utilizada em sua apresentação)"
+              name="bio"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.bio}
+              error={errors.bio}
+            />
+          )}
+
           <S.ButtonContainer>
             <Button
               radius="square"
@@ -106,6 +363,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
               CADASTRAR
             </Button>
           </S.ButtonContainer>
+          {JSON.stringify(values)}
         </S.Form>
       )}
     </Formik>

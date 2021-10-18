@@ -56,6 +56,7 @@ export function FormCadastro(props: {
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setNome] = useLocalStorage<string>('nome', '')
   const [, setEmail] = useLocalStorage<string>('email', '')
+  const [, setTipo] = useLocalStorage<UserType>('tipo', UserType.ALUNO)
 
   const validation = Yup.object({
     name: Yup.string()
@@ -92,6 +93,7 @@ export function FormCadastro(props: {
       setToken(token)
       setNome(name)
       setEmail(email)
+      setTipo(tipo)
       props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {
       props.handleError(e)

@@ -4,10 +4,10 @@ import * as S from './styles'
 
 export type CheckboxFieldProps = {
   label?: string | any
-  initialValue?: string
+  initialValue?: string | number | boolean
   error?: string
   disabled?: boolean
-  value?: string
+  value?: string | number | boolean
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 

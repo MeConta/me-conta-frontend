@@ -10,7 +10,7 @@ export type TextFieldProps = {
   disabled?: boolean
   type?: string
   children?: ReactNode
-  value?: string
+  value?: string | number
   name: string
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
