@@ -1,4 +1,4 @@
-import React, { ChangeEvent, InputHTMLAttributes } from 'react'
+import React, { useState, ChangeEvent, InputHTMLAttributes } from 'react'
 import InputMask from 'react-input-mask'
 import { FormGroup } from '../FormGroup'
 import * as S from './styles'
@@ -20,13 +20,26 @@ export function PhoneField({
   onChange,
   ...props
 }: PhoneFieldProps) {
+  const removePhoneMask = (inputValue: string): string => {
+    const onlyPhoneNumbers = inputValue.replace(/\D/g, '')
+    return onlyPhoneNumbers
+  }
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value
+    event.target.value = removePhoneMask(inputValue)
+    if (onChange) {
+      onChange(event)
+    }
+  }
+
   return (
     <FormGroup label={label} name={name} error={error}>
       <S.InputWrapper>
         <InputMask
           mask={'(99) 99999-9999'}
           onBlur={props.onBlur}
-          onChange={onChange}
+          onChange={handleChange}
           value={value}
           name={name}
           id={name}

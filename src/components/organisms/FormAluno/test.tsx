@@ -124,7 +124,7 @@ describe('<FormAluno />', () => {
     await waitFor(async () => {
       expect(signupServiceMock.alunoSignup).toBeCalledWith(
         {
-          telefone: '(93) 93456-6543',
+          telefone: '93934566543',
           dataNascimento: '1992-01-18',
           cidade: 'Araxá',
           estado: 'MG',
