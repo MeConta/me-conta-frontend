@@ -145,7 +145,7 @@ const FormAluno = (props: {
             value={name}
           />
           <TextField
-            label="Email"
+            label="E-mail"
             name="email"
             disabled
             onChange={handleChange}

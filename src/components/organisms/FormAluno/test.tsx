@@ -16,7 +16,7 @@ describe('<FormAluno />', () => {
   const elements = () => {
     return {
       nome: screen.getByLabelText('Nome Completo'),
-      email: screen.getByLabelText('Email'),
+      email: screen.getByLabelText('E-mail'),
       telefone: screen.getByTestId('phone-number'),
       dataNascimento: screen.getByLabelText('Data de nascimento'),
       cidade: screen.getByLabelText('Cidade'),
