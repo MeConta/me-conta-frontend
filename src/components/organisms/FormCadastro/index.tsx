@@ -55,6 +55,7 @@ export function FormCadastro(props: {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setNome] = useLocalStorage<string>('nome', '')
+  const [, setEmail] = useLocalStorage<string>('email', '')
 
   const validation = Yup.object({
     name: Yup.string()
@@ -90,6 +91,7 @@ export function FormCadastro(props: {
       })
       setToken(token)
       setNome(name)
+      setEmail(email)
       props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {
       props.handleError(e)

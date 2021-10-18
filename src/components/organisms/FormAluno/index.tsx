@@ -56,6 +56,7 @@ const FormAluno = (props: {
 }) => {
   const [name] = useLocalStorage<string>('nome', '')
   const [token] = useLocalStorage<string>('token', '')
+  const [email] = useLocalStorage<string>('email', '')
   const validation = Yup.object({
     /*name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
@@ -142,6 +143,14 @@ const FormAluno = (props: {
             onChange={handleChange}
             onBlur={handleBlur}
             value={name}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            disabled
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={email}
           />
           <PhoneField
             data-testid="phone-number"

@@ -16,6 +16,7 @@ describe('<FormAluno />', () => {
   const elements = () => {
     return {
       nome: screen.getByLabelText('Nome Completo'),
+      email: screen.getByLabelText('Email'),
       telefone: screen.getByTestId('phone-number'),
       dataNascimento: screen.getByLabelText('Data de nascimento'),
       cidade: screen.getByLabelText('Cidade'),
@@ -29,6 +30,7 @@ describe('<FormAluno />', () => {
   const fillForm = async () => {
     const {
       telefone,
+      email,
       dataNascimento,
       cidade,
       estado,
@@ -54,6 +56,7 @@ describe('<FormAluno />', () => {
       dataNascimento,
       cidade,
       estado,
+      email,
       genero,
       escolaridade,
       tipoEscola,
@@ -78,6 +81,7 @@ describe('<FormAluno />', () => {
   it('deve renderizar o formulário de aluno', () => {
     const {
       nome,
+      email,
       telefone,
       dataNascimento,
       cidade,
@@ -88,6 +92,7 @@ describe('<FormAluno />', () => {
     } = elements()
 
     expect(nome).toBeInTheDocument()
+    expect(email).toBeInTheDocument()
     expect(telefone).toBeInTheDocument()
     expect(dataNascimento).toBeInTheDocument()
     expect(cidade).toBeInTheDocument()
