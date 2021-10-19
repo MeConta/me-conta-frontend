@@ -1,8 +1,8 @@
 import { ISignupService } from 'services/signup-service/signup-service'
 import { render, screen } from 'utils/tests/helpers'
-import { FormAtendente } from '.'
+import { FormVoluntario } from '.'
 
-describe('<FormAtendente/>', () => {
+describe('<FormVoluntario/>', () => {
   const signupServiceMock: ISignupService = {
     initialSignup: jest.fn()
   }
@@ -17,7 +17,7 @@ describe('<FormAtendente/>', () => {
   }
 
   beforeEach(() => {
-    render(<FormAtendente signupService={signupServiceMock} />)
+    render(<FormVoluntario signupService={signupServiceMock} />)
   })
 
   it('deve renderizar o formulário de atendimento', () => {

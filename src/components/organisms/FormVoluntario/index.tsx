@@ -41,8 +41,8 @@ type MyFormValues = {
 }
 
 const TYPES = {
-  SUPERVISOR: 'Voluntário Supervisor',
-  ATENDENTE: 'Voluntário Atendente'
+  SUPERVISOR: 'Supervisor *',
+  ATENDENTE: 'Atendente **'
 }
 
 const GENDER = [
@@ -93,7 +93,7 @@ const ERRORS = {
   REQUIRED_BIO: `A Apresentação é obrigatória`
 }
 
-export function FormAtendente({ signupService }: FormAtendenteProps) {
+export function FormVoluntario({ signupService }: FormAtendenteProps) {
   const [name] = useLocalStorage<string>('nome', '')
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
@@ -126,7 +126,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
     genero: '',
     estado: '',
     instituicao: '',
-    formado: 0,
+    formado: tipo === 2 ? 0 : 1,
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
     especializacoes: '',
@@ -222,7 +222,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
             error={errors.genero}
           />
           <TextField
-            label="Instituição"
+            label="Instituição de ensino"
             name="instituicao"
             onChange={handleChange}
             onBlur={handleBlur}
@@ -234,15 +234,15 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
               options={[
                 {
                   value: 1,
-                  label: 'Sim'
+                  label: 'Superior Completo'
                 },
                 {
                   value: 0,
-                  label: 'Não'
+                  label: 'Superior em Andamento'
                 }
               ]}
               name="formado"
-              label="Formado"
+              label="Nível de Formação"
               onChange={handleChange}
               onBlur={handleBlur}
               value={+values.formado}
@@ -265,7 +265,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
           {+values.formado === 1 && (
             <>
               <TextField
-                label="Ano de Formação"
+                label="Ano de conclusão"
                 name="anoFormacao"
                 type="number"
                 onChange={handleChange}
@@ -304,10 +304,10 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
           )}
           {+values.tipo === 2 && (
             <>
-              <h3>
+              <S.Title>
                 Selecione em quais frentes você gostaria de atuar (pode
                 selecionar mais de uma opção):
-              </h3>
+              </S.Title>
               {frentesCheckbox(
                 values.frentes,
                 (e) => {
@@ -334,7 +334,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
               return { label: type, value: index + 1 }
             })}
             name="tipo"
-            label="Tipo"
+            label="Tipo de voluntário:"
             onChange={(e) => {
               values.formado = 1
               handleChange(e)
@@ -363,7 +363,7 @@ export function FormAtendente({ signupService }: FormAtendenteProps) {
               CADASTRAR
             </Button>
           </S.ButtonContainer>
-          {JSON.stringify(values)}
+          {/* {JSON.stringify(values)} */}
         </S.Form>
       )}
     </Formik>

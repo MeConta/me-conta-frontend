@@ -20,7 +20,7 @@ export default function CriarConta() {
             if (+form.tipo === UserType.ALUNO) {
               await router.push('/cadastro-aluno')
             } else {
-              await router.push('/cadastro-atendente')
+              await router.push('/cadastro-voluntario')
             }
           }}
           handleError={(error) => {

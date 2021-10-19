@@ -13,8 +13,9 @@ export const WrapperFields = styled.section`
 export const Header = styled.p`
   ${({ theme }) => css`
     justify-content: center;
+    text-align: center;
     display: flex;
-    padding-bottom: 1rem;
+    padding: 1rem;
     color: ${theme.colors.lightGray};
     font-size: ${theme.font.sizes['desk-xlarge']};
     font-style: ${theme.font.light};
@@ -24,8 +25,20 @@ export const Header = styled.p`
 export const Subtitle = styled.p`
   ${({ theme }) => css`
     justify-content: center;
+    text-align: center;
     display: flex;
     padding-bottom: 1rem;
+    color: ${theme.colors.lightGray};
+    font-size: ${theme.font.sizes['desk-large']};
+    font-style: ${theme.font.light};
+  `}
+`
+
+export const Footer = styled.p`
+  ${({ theme }) => css`
+    justify-content: center;
+    text-align: left;
+    margin: 1rem;
     color: ${theme.colors.lightGray};
     font-size: ${theme.font.sizes['desk-large']};
     font-style: ${theme.font.light};

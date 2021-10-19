@@ -54,6 +54,6 @@ export const Error = styled.p`
 
 export const Input = styled.input`
   ${() => css`
-    height: 2rem;
+    height: 2 rem;
   `}
 `

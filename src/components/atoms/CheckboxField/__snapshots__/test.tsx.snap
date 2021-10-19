@@ -26,7 +26,7 @@ exports[`<CheckboxField/> should render error the input 1`] = `
 }
 
 .c2 {
-  height: 2rem;
+  height: 2 rem;
 }
 
 <div
