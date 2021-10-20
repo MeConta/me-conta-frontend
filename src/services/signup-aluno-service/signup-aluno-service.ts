@@ -4,7 +4,7 @@ type AlunoSignupUser = {
   telefone: string
   dataNascimento: string
   cidade: string
-  estado: string
+  UF: string
   genero: string
   tipoEscola: number
   escolaridade: number

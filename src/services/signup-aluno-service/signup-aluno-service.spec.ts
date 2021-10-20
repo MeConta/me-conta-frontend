@@ -20,7 +20,7 @@ describe('Signup Aluno Service', () => {
         telefone: '(32)3456-6543',
         dataNascimento: '18/01/1992',
         cidade: 'Araxá',
-        estado: 'MG',
+        UF: 'MG',
         genero: 'Não Binário',
         escolaridade: 1,
         tipoEscola: 0
