@@ -26,7 +26,7 @@ type MyFormValues = {
   telefone: string
   dataNascimento: string
   cidade: string
-  estado: string
+  UF: string
   genero: string
   tipoEscola: string
   escolaridade: string
@@ -67,7 +67,7 @@ const FormAluno = (props: {
       .trim()
       .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
       .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
-    estado: Yup.string().required(ERRORS.REQUIRED_STATE),
+    UF: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
     escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY),
     tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE)
@@ -89,7 +89,7 @@ const FormAluno = (props: {
     telefone: '',
     dataNascimento: '',
     cidade: '',
-    estado: '',
+    UF: '',
     genero: 'ND',
     escolaridade: '',
     tipoEscola: '0'
@@ -149,11 +149,11 @@ const FormAluno = (props: {
           />
           <SelectField
             label="Estado"
-            name="estado"
+            name="UF"
             options={States}
             onChange={handleChange}
-            value={values.estado}
-            error={errors.estado}
+            value={values.UF}
+            error={errors.UF}
           />
           <TextField
             label="Cidade"

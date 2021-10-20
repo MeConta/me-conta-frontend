@@ -20,7 +20,7 @@ describe('<FormAluno />', () => {
       telefone: screen.getByTestId('phone-number'),
       dataNascimento: screen.getByLabelText('Data de nascimento'),
       cidade: screen.getByLabelText('Cidade'),
-      estado: screen.getByLabelText('Estado'),
+      UF: screen.getByLabelText('Estado'),
       genero: screen.getByLabelText('Masculino'),
       escolaridade: screen.getByLabelText('Escolaridade'),
       tipoEscola: screen.getByLabelText('Escola Pública'),
@@ -33,7 +33,7 @@ describe('<FormAluno />', () => {
       email,
       dataNascimento,
       cidade,
-      estado,
+      UF,
       genero,
       escolaridade,
       tipoEscola,
@@ -46,7 +46,7 @@ describe('<FormAluno />', () => {
         target: { value: '1992-01-18' }
       })
       fireEvent.change(cidade, { target: { value: 'Araxá' } })
-      fireEvent.change(estado, { target: { value: 'MG' } })
+      fireEvent.change(UF, { target: { value: 'MG' } })
       fireEvent.click(genero)
       fireEvent.change(escolaridade, { target: { value: '1' } })
       fireEvent.click(tipoEscola)
@@ -55,7 +55,7 @@ describe('<FormAluno />', () => {
       telefone,
       dataNascimento,
       cidade,
-      estado,
+      UF,
       email,
       genero,
       escolaridade,
@@ -85,7 +85,7 @@ describe('<FormAluno />', () => {
       telefone,
       dataNascimento,
       cidade,
-      estado,
+      UF,
       genero,
       escolaridade,
       tipoEscola
@@ -96,7 +96,7 @@ describe('<FormAluno />', () => {
     expect(telefone).toBeInTheDocument()
     expect(dataNascimento).toBeInTheDocument()
     expect(cidade).toBeInTheDocument()
-    expect(estado).toBeInTheDocument()
+    expect(UF).toBeInTheDocument()
     expect(genero).toBeInTheDocument()
     expect(escolaridade).toBeInTheDocument()
     expect(tipoEscola).toBeInTheDocument()
@@ -107,7 +107,7 @@ describe('<FormAluno />', () => {
       telefone,
       dataNascimento,
       cidade,
-      estado,
+      UF,
       genero,
       escolaridade,
       tipoEscola,
@@ -121,7 +121,7 @@ describe('<FormAluno />', () => {
     expect(telefone).toHaveValue('(93) 93456-6543')
     expect(dataNascimento).toHaveValue('1992-01-18')
     expect(cidade).toHaveValue('Araxá')
-    expect(estado).toHaveValue('MG')
+    expect(UF).toHaveValue('MG')
     expect(genero).toBeChecked()
     expect(escolaridade).toHaveValue('1')
     expect(tipoEscola).toBeChecked()
@@ -132,7 +132,7 @@ describe('<FormAluno />', () => {
           telefone: '93934566543',
           dataNascimento: '1992-01-18',
           cidade: 'Araxá',
-          estado: 'MG',
+          UF: 'MG',
           genero: 'M',
           escolaridade: 1,
           tipoEscola: 0
