@@ -278,6 +278,7 @@ export function FormVoluntario({
                 type="number"
                 onChange={handleChange}
                 onBlur={handleBlur}
+                data-testid="anoFormacao"
                 max={+moment().format('YYYY')}
                 value={values.anoFormacao}
                 error={errors.anoFormacao}
