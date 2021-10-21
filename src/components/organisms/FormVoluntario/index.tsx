@@ -1,7 +1,7 @@
 import { TextField } from 'components/atoms/TextField'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-import { ISignupService } from 'services/signup-service/signup-service'
+import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
 import * as S from './styles'
@@ -18,8 +18,8 @@ import { States } from '../FormAluno/states'
 import { TextAreaField } from '../../atoms/TextAreaField'
 import { CheckboxField } from '../../atoms/CheckboxField'
 
-type FormAtendenteProps = {
-  signupService: ISignupService
+type FormVoluntarioProps = {
+  signupVoluntarioService: ISignupVoluntarioService
 }
 
 type MyFormValues = {
@@ -93,7 +93,9 @@ const ERRORS = {
   REQUIRED_BIO: `A Apresentação é obrigatória`
 }
 
-export function FormVoluntario({ signupService }: FormAtendenteProps) {
+export function FormVoluntario({
+  signupVoluntarioService
+}: FormVoluntarioProps) {
   const [name] = useLocalStorage<string>('nome', '')
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
@@ -139,6 +141,12 @@ export function FormVoluntario({ signupService }: FormAtendenteProps) {
 
   const formSubmit = async (form: MyFormValues) => {
     console.log(form)
+    try {
+      await signupVoluntarioService.voluntarioSignUp(form, token)
+      // handleSuccess()
+    } catch (e) {
+      // handleError(e)
+    }
   }
 
   const frentesCheckbox = (

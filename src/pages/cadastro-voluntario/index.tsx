@@ -3,6 +3,8 @@ import { FormVoluntario } from 'components/organisms/FormVoluntario'
 import { useSignup } from 'services/signup-service/signup-service'
 import * as S from '../../styles/pages/cadastro-voluntario/styles'
 import * as F from '../../styles/form/styles'
+import { SignupVoluntarioService } from '../../services/signup-voluntario-service/signup-voluntario-service'
+import { api } from 'services/api/api'
 
 export default function CadastroVoluntario() {
   const { signupService } = useSignup()
@@ -14,7 +16,9 @@ export default function CadastroVoluntario() {
       </F.Header>
       <F.Subtitle>Por favor, preencha as informações abaixo:</F.Subtitle>
       <F.WrapperFields>
-        <FormVoluntario signupService={signupService} />
+        <FormVoluntario
+          signupVoluntarioService={new SignupVoluntarioService(api)}
+        />
       </F.WrapperFields>
       <br />
       <F.Footer>
