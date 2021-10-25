@@ -39,7 +39,7 @@ const ERRORS = {
   MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
   LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
   REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
-  MAX_BIRTHDATE: `Data de nascimento inválida.`,
+  BIRTHDATE: `Data de nascimento inválida.`,
   MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres.`,
   MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres.`,
   REQUIRED_CITY: `Cidade é obrigatório.`,
@@ -61,7 +61,8 @@ const FormAluno = (props: {
     telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
-      .max(moment().toDate(), ERRORS.MAX_BIRTHDATE),
+      .max(moment().toDate(), ERRORS.BIRTHDATE)
+      .min(moment().subtract(100, 'years').toDate(), ERRORS.BIRTHDATE),
     cidade: Yup.string()
       .required(ERRORS.REQUIRED_CITY)
       .trim()

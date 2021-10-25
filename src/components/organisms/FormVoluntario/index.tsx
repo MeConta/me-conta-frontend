@@ -104,7 +104,8 @@ export function FormVoluntario({
     telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
-      .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE),
+      .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE)
+      .min(moment().subtract(100, 'years').toDate(), ERRORS.MAX_BIRTHDATE),
     cidade: Yup.string()
       .required(ERRORS.REQUIRED_CITY)
       .trim()
