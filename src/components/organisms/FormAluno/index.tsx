@@ -205,7 +205,7 @@ const FormAluno = (props: {
             </Button>
           </S.ButtonContainer>
           <S.Link>
-            <Link href="/">
+            <Link href="/dashboard-aluno">
               <a>Preencher depois.</a>
             </Link>
           </S.Link>
