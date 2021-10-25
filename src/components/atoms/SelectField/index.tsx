@@ -41,7 +41,7 @@ export function SelectField({
         id={name}
         {...props}
       >
-        <option disabled value="none">
+        <option disabled value="">
           {defaultSelect || 'Selecione'}
         </option>
         {options.map(({ value, label }: Option, index) => (

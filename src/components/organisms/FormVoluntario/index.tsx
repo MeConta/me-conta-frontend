@@ -26,7 +26,7 @@ type MyFormValues = {
   telefone: string
   dataNascimento: string
   cidade: string
-  estado: EBrazilStates | string
+  UF: EBrazilStates | string
   genero: string
   instituicao: string
   frentes: number[]
@@ -110,15 +110,27 @@ export function FormVoluntario({
       .trim()
       .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
       .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
-    estado: Yup.string().required(ERRORS.REQUIRED_STATE),
+    UF: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
-    anoFormacao: Yup.number()
-      .required(ERRORS.REQUIRED_FORMATION_YEAR)
-      .max(+moment().format('YYYY'), ERRORS.REQUIRED_FORMATION_YEAR),
-    crp: Yup.string().required(ERRORS.REQUIRED_CRP),
+    anoFormacao: Yup.number().when('formado', {
+      is: '1',
+      then: Yup.number()
+        .required(ERRORS.REQUIRED_FORMATION_YEAR)
+        .max(+moment().format('YYYY'), ERRORS.REQUIRED_FORMATION_YEAR)
+    }),
+    crp: Yup.string().when('formado', {
+      is: '1',
+      then: Yup.string().required(ERRORS.REQUIRED_CRP)
+    }),
     instituicao: Yup.string().required(ERRORS.REQUIRED_SCHOOL),
-    areaAtuacao: Yup.string().required(ERRORS.REQUIRED_FIELD),
-    bio: Yup.string().required(ERRORS.REQUIRED_BIO)
+    areaAtuacao: Yup.string().when('tipo', {
+      is: '1',
+      then: Yup.string().required(ERRORS.REQUIRED_FIELD)
+    }),
+    bio: Yup.string().when('tipo', {
+      is: '2',
+      then: Yup.string().required(ERRORS.REQUIRED_BIO)
+    })
   })
 
   const initialValues: MyFormValues = {
@@ -126,7 +138,7 @@ export function FormVoluntario({
     dataNascimento: '',
     cidade: '',
     genero: '',
-    estado: '',
+    UF: '',
     instituicao: '',
     formado: tipo === 2 ? 0 : 1,
     anoFormacao: +moment().format('YYYY'),
@@ -142,7 +154,16 @@ export function FormVoluntario({
   const formSubmit = async (form: MyFormValues) => {
     console.log(form)
     try {
-      await signupVoluntarioService.voluntarioSignUp(form, token)
+      await signupVoluntarioService.voluntarioSignUp(
+        {
+          ...form,
+          formado: !!form.formado,
+          tipo: +form.tipo,
+          areaAtuacao: form.areaAtuacao || null,
+          especializacoes: form.especializacoes || null
+        },
+        token
+      )
       // handleSuccess()
     } catch (e) {
       // handleError(e)
@@ -206,11 +227,11 @@ export function FormVoluntario({
           />
           <SelectField
             label="Estado"
-            name="estado"
+            name="UF"
             options={States}
             onChange={handleChange}
-            value={values.estado}
-            error={errors.estado}
+            value={values.UF}
+            error={errors.UF}
           />
           <TextField
             label="Cidade"
@@ -266,7 +287,7 @@ export function FormVoluntario({
               max={10}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.semestre}
+              value={+values.formado === 0 ? values.semestre : ''}
               error={errors.semestre}
             />
           )}
@@ -301,7 +322,7 @@ export function FormVoluntario({
               />
             </>
           )}
-          {+values.tipo === 1 && (
+          {+values.formado === 1 && (
             <SelectField
               label="Área de Atuação"
               name="areaAtuacao"
@@ -371,6 +392,9 @@ export function FormVoluntario({
             >
               CADASTRAR
             </Button>
+
+            {values.anoFormacao}
+            {values.formado}
           </S.ButtonContainer>
           {/* {JSON.stringify(values)} */}
         </S.Form>
