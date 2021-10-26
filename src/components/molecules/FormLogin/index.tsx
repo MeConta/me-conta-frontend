@@ -1,18 +1,18 @@
-import Link from 'next/link'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-
 import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
-import { AuthService } from '../../../services/auth-services/auth-service'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { IAuthService } from '../../../services/auth-services/auth-service'
+
+import * as S from './styles'
 
 type MyFormValues = {
   email: string
   password: string
 }
 
-export const FormLogin = (props: { authService: AuthService }) => {
+export const FormLogin = (props: { authService: IAuthService }) => {
   const formSubmit = async ({ email, password }: MyFormValues) => {
     await props.authService.login({ email, senha: password })
     // chamada da api(email, password)
@@ -39,11 +39,10 @@ export const FormLogin = (props: { authService: AuthService }) => {
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting
+        isSubmitting,
+        isValid
       }) => (
-        <form onSubmit={handleSubmit}>
-          <h2>Faça seu login e comece seu atendimento!</h2>
-
+        <S.Form onSubmit={handleSubmit}>
           <TextField
             label="E-mail"
             name="email"
@@ -53,21 +52,23 @@ export const FormLogin = (props: { authService: AuthService }) => {
             error={errors.email}
           />
           <PasswordField
-            label="Password"
+            label="Senha"
             name="password"
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.password}
             error={errors.password}
           />
-          <Link href="/forgot-password">
-            <a>Esqueceu a senha?</a>
-          </Link>
-          <Button radius="square" disabled={isSubmitting} type="submit">
-            ENTRAR
-          </Button>
-          <p>Quer fazer parte do Me Conta?</p>
-        </form>
+          <S.ButtonContainer>
+            <Button
+              radius="square"
+              disabled={isSubmitting || !isValid}
+              type="submit"
+            >
+              ENTRAR
+            </Button>
+          </S.ButtonContainer>
+        </S.Form>
       )}
     </Formik>
   )
