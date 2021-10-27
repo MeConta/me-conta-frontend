@@ -7,7 +7,7 @@ import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import * as S from './styles'
 import { Button } from 'components/atoms/Button'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
-import React, { ChangeEvent, ChangeEventHandler } from 'react'
+import React, { ChangeEvent } from 'react'
 import { UserType } from '../../../enums/user-type.enum'
 import { RadioField } from '../../atoms/RadioField'
 
@@ -17,9 +17,12 @@ import { SelectField } from '../../atoms/SelectField'
 import { States } from '../FormAluno/states'
 import { TextAreaField } from '../../atoms/TextAreaField'
 import { CheckboxField } from '../../atoms/CheckboxField'
+import { BackendError } from '../../../types/backend-error'
 
 type FormVoluntarioProps = {
   signupVoluntarioService: ISignupVoluntarioService
+  handleSuccess: () => void
+  handleError: (err: BackendError) => void
 }
 
 type MyFormValues = {
@@ -30,7 +33,7 @@ type MyFormValues = {
   genero: string
   instituicao: string
   frentes: number[]
-  formado: number
+  formado: boolean
   anoFormacao: number
   semestre: number
   especializacoes: string
@@ -73,9 +76,9 @@ const LENGTH_PHONE_VALUE = 11
 const ERRORS = {
   REQUIRED_NAME: `Nome completo é obrigatório.`,
   REQUIRED_PHONE: `Telefone é obrigatório.`,
-  MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
-  MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
-  LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
+  MIN_LENGTH_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
+  MAX_LENGTH_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
+  LENGTH_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
   REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
   MIN_AGE: `Voluntários devem ter mais de 18 anos.`,
   MAX_BIRTHDATE: `Data de nascimento inválida.`,
@@ -84,7 +87,7 @@ const ERRORS = {
   REQUIRED_CITY: `Cidade é obrigatório.`,
   REQUIRED_STATE: `Estado é obrigatório.`,
   REQUIRED_GENDER: `Gênero é obrigatório.`,
-  REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
+  REQUIRED_EDUCATION: `Escolaridade é obrigatória.`,
   REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`,
   REQUIRED_SCHOOL: `Instituição é obrigatória`,
   REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
@@ -94,7 +97,9 @@ const ERRORS = {
 }
 
 export function FormVoluntario({
-  signupVoluntarioService
+  signupVoluntarioService,
+  handleSuccess,
+  handleError
 }: FormVoluntarioProps) {
   const [name] = useLocalStorage<string>('nome', '')
   const [token] = useLocalStorage<string>('token', '')
@@ -134,6 +139,8 @@ export function FormVoluntario({
     })
   })
 
+  console.log('XPTO', +tipo, UserType.SUPERVISOR, UserType.SUPERVISOR === +tipo)
+
   const initialValues: MyFormValues = {
     telefone: '',
     dataNascimento: '',
@@ -141,7 +148,7 @@ export function FormVoluntario({
     genero: '',
     UF: '',
     instituicao: '',
-    formado: tipo === 2 ? 0 : 1,
+    formado: UserType.SUPERVISOR === +tipo,
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
     especializacoes: '',
@@ -149,26 +156,7 @@ export function FormVoluntario({
     areaAtuacao: '',
     frentes: [],
     bio: '',
-    tipo
-  }
-
-  const formSubmit = async (form: MyFormValues) => {
-    console.log(form)
-    try {
-      await signupVoluntarioService.voluntarioSignUp(
-        {
-          ...form,
-          formado: !!form.formado,
-          tipo: +form.tipo,
-          areaAtuacao: form.areaAtuacao || null,
-          especializacoes: form.especializacoes || null
-        },
-        token
-      )
-      // handleSuccess()
-    } catch (e) {
-      // handleError(e)
-    }
+    tipo: +tipo
   }
 
   const frentesCheckbox = (
@@ -187,6 +175,26 @@ export function FormVoluntario({
         />
       )
     })
+  }
+
+  const formSubmit = async (form: MyFormValues) => {
+    console.log(form)
+    try {
+      await signupVoluntarioService.voluntarioSignUp(
+        {
+          ...form,
+          formado: form.formado,
+          tipo: +form.tipo,
+          areaAtuacao: form.areaAtuacao || null,
+          especializacoes: form.especializacoes || null,
+          crp: form.crp || null
+        },
+        token
+      )
+      handleSuccess()
+    } catch (e) {
+      handleError(e)
+    }
   }
 
   return (
@@ -279,7 +287,7 @@ export function FormVoluntario({
               error={errors.formado}
             />
           )}
-          {+values.formado === 0 && (
+          {!values.formado && (
             <TextField
               label="Semestre"
               name="semestre"
@@ -288,11 +296,11 @@ export function FormVoluntario({
               max={10}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={+values.formado === 0 ? values.semestre : ''}
+              value={values.formado ? values.semestre : ''}
               error={errors.semestre}
             />
           )}
-          {+values.formado === 1 && (
+          {values.formado && (
             <>
               <TextField
                 label="Ano de conclusão"
@@ -323,7 +331,7 @@ export function FormVoluntario({
               />
             </>
           )}
-          {+values.formado === 1 && (
+          {values.formado && (
             <SelectField
               label="Área de Atuação"
               name="areaAtuacao"
@@ -366,10 +374,7 @@ export function FormVoluntario({
             })}
             name="tipo"
             label="Tipo de voluntário:"
-            onChange={(e) => {
-              values.formado = 1
-              handleChange(e)
-            }}
+            onChange={handleChange}
             onBlur={handleBlur}
             value={+values.tipo}
             error={errors.tipo}

@@ -1,5 +1,7 @@
 import { SignupVoluntarioService } from './signup-voluntario-service'
 import * as axios from 'axios'
+import { EBrazilStates } from '../../utils/enums/brazil-states.enum'
+import { UserType } from '../../enums/user-type.enum'
 
 describe('Signup Voluntario Service', () => {
   let service: SignupVoluntarioService
@@ -20,7 +22,7 @@ describe('Signup Voluntario Service', () => {
         telefone: '93934566543',
         dataNascimento: '1992-01-18',
         cidade: 'Araxá',
-        estado: 'MG',
+        UF: EBrazilStates.MG,
         genero: 'M',
         instituicao: 'UFRJ',
         frentes: [1],
@@ -30,7 +32,8 @@ describe('Signup Voluntario Service', () => {
         especializacoes: 'teste',
         areaAtuacao: 'teste',
         crp: '1234567',
-        bio: 'bio do test'
+        bio: 'bio do test',
+        tipo: UserType.ATENDENTE
       },
       'MOCKED_TOKEN'
     )
