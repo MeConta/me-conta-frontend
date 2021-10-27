@@ -2,6 +2,7 @@ import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
 import { Formik } from 'formik'
+import { useLocalStorage } from 'hooks/localstorage.hook'
 import { BackendError } from 'types/backend-error'
 import * as Yup from 'yup'
 import { IAuthService } from '../../../services/auth-services/auth-service'
@@ -30,9 +31,12 @@ export const FormLogin = ({
   handleSuccess,
   handleError
 }: FormLoginProps) => {
+  const [, setToken] = useLocalStorage<string>('token', '')
+
   const formSubmit = async ({ email, password }: MyFormValues) => {
     try {
-      await authService.login({ email, senha: password })
+      const { token } = await authService.login({ email, senha: password })
+      setToken(token)
       handleSuccess()
     } catch (error) {
       handleError(error)

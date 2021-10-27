@@ -7,3 +7,12 @@ export const api = axios.create({
     Accept: 'application/json'
   }
 })
+
+api.interceptors.request.use((config) => {
+  const tokenLocalStorage = window.localStorage.getItem('token')
+  if (tokenLocalStorage) {
+    const token = JSON.parse(tokenLocalStorage)
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
