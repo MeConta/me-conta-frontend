@@ -5,6 +5,7 @@ import * as S from '../../styles/pages/cadastro-voluntario/styles'
 import * as F from '../../styles/form/styles'
 import { SignupVoluntarioService } from '../../services/signup-voluntario-service/signup-voluntario-service'
 import { api } from 'services/api/api'
+import { BackendError } from 'types/backend-error'
 
 export default function CadastroVoluntario() {
   const { signupService } = useSignup()
@@ -17,6 +18,12 @@ export default function CadastroVoluntario() {
       <F.Subtitle>Por favor, preencha as informações abaixo:</F.Subtitle>
       <F.WrapperFields>
         <FormVoluntario
+          handleSuccess={() => {
+            // router.push('/dashboard-aluno')
+          }}
+          handleError={(error: BackendError) => {
+            // console.log(error)
+          }}
           signupVoluntarioService={new SignupVoluntarioService(api)}
         />
       </F.WrapperFields>

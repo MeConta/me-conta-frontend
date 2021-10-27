@@ -28,3 +28,12 @@ export const Title = styled.p`
     font-style: ${theme.font.light};
   `}
 `
+
+export const FrenteError = styled.span`
+  ${({ theme }) => css`
+    color: ${theme.colors.ceriseRed};
+    display: block;
+    font-size: ${theme.font.sizes['desk-xsmall']};
+    margin-bottom: 1rem;
+  `}
+`

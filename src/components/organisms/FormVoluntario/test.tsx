@@ -167,8 +167,6 @@ describe('<FormVoluntario/>', () => {
     })
   })
 
-  /*
-  // TODO: Ajustar esses testes
   describe('Tipo Supervisor', () => {
     beforeEach(async () => {
       const { tipoSupervisor } = Elements()
@@ -184,7 +182,7 @@ describe('<FormVoluntario/>', () => {
     it('Deve renderizar o campo Área de atuação', () => {
       expect(screen.getByLabelText('Área de Atuação')).toBeInTheDocument()
     })
-  })*/
+  })
 
   describe('Deve enviar o formulário corretamente', () => {
     it('Deve verificar se os campos foram preenchidos', async () => {

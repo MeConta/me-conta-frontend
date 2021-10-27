@@ -25,6 +25,11 @@ type FormVoluntarioProps = {
   handleError: (err: BackendError) => void
 }
 
+enum ESituacaoCurso {
+  COMPLETO = `COMPLETO`,
+  ANDAMENTO = `ANDAMENTO`
+}
+
 type MyFormValues = {
   telefone: string
   dataNascimento: string
@@ -33,7 +38,7 @@ type MyFormValues = {
   genero: string
   instituicao: string
   frentes: number[]
-  formado: boolean
+  formado: string
   anoFormacao: number
   semestre: number
   especializacoes: string
@@ -93,7 +98,9 @@ const ERRORS = {
   REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
   REQUIRED_CRP: `CRP é obrigatório`,
   REQUIRED_FIELD: `Área de atuação é obrigatória`,
-  REQUIRED_BIO: `A Apresentação é obrigatória`
+  REQUIRED_BIO: `A Apresentação é obrigatória`,
+  INVALID_YEAR: 'Ano de formação inválido',
+  REQUIRED_FRONTS: 'Frentes de atuação é obrigatório'
 }
 
 export function FormVoluntario({
@@ -119,27 +126,26 @@ export function FormVoluntario({
     UF: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
     anoFormacao: Yup.number().when('formado', {
-      is: '1',
+      is: ESituacaoCurso.COMPLETO,
       then: Yup.number()
         .required(ERRORS.REQUIRED_FORMATION_YEAR)
-        .max(+moment().format('YYYY'), ERRORS.REQUIRED_FORMATION_YEAR)
+        .max(+moment().format('YYYY'), ERRORS.INVALID_YEAR)
     }),
     crp: Yup.string().when('formado', {
-      is: '1',
+      is: ESituacaoCurso.COMPLETO,
       then: Yup.string().required(ERRORS.REQUIRED_CRP)
     }),
     instituicao: Yup.string().required(ERRORS.REQUIRED_SCHOOL),
-    areaAtuacao: Yup.string().when('tipo', {
-      is: '1',
+    areaAtuacao: Yup.string().when('formado', {
+      is: ESituacaoCurso.COMPLETO,
       then: Yup.string().required(ERRORS.REQUIRED_FIELD)
     }),
+    frentes: Yup.array().min(1, ERRORS.REQUIRED_FRONTS).required(),
     bio: Yup.string().when('tipo', {
       is: '2',
       then: Yup.string().required(ERRORS.REQUIRED_BIO)
     })
   })
-
-  console.log('XPTO', +tipo, UserType.SUPERVISOR, UserType.SUPERVISOR === +tipo)
 
   const initialValues: MyFormValues = {
     telefone: '',
@@ -148,7 +154,7 @@ export function FormVoluntario({
     genero: '',
     UF: '',
     instituicao: '',
-    formado: UserType.SUPERVISOR === +tipo,
+    formado: ESituacaoCurso.ANDAMENTO,
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
     especializacoes: '',
@@ -178,12 +184,12 @@ export function FormVoluntario({
   }
 
   const formSubmit = async (form: MyFormValues) => {
-    console.log(form)
     try {
       await signupVoluntarioService.voluntarioSignUp(
         {
           ...form,
-          formado: form.formado,
+          formado:
+            form.tipo == 1 ? true : form.formado === ESituacaoCurso.COMPLETO,
           tipo: +form.tipo,
           areaAtuacao: form.areaAtuacao || null,
           especializacoes: form.especializacoes || null,
@@ -210,6 +216,7 @@ export function FormVoluntario({
         handleBlur,
         handleSubmit,
         isSubmitting,
+        setFieldValue,
         isValid
       }) => (
         <S.Form onSubmit={handleSubmit}>
@@ -271,11 +278,11 @@ export function FormVoluntario({
             <RadioField
               options={[
                 {
-                  value: 1,
+                  value: ESituacaoCurso.COMPLETO,
                   label: 'Superior Completo'
                 },
                 {
-                  value: 0,
+                  value: ESituacaoCurso.ANDAMENTO,
                   label: 'Superior em Andamento'
                 }
               ]}
@@ -283,11 +290,11 @@ export function FormVoluntario({
               label="Nível de Formação"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={+values.formado}
+              value={values.formado}
               error={errors.formado}
             />
           )}
-          {!values.formado && (
+          {values.formado !== ESituacaoCurso.COMPLETO && values.tipo != 1 && (
             <TextField
               label="Semestre"
               name="semestre"
@@ -296,11 +303,15 @@ export function FormVoluntario({
               max={10}
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.formado ? values.semestre : ''}
+              value={
+                values.formado !== ESituacaoCurso.COMPLETO
+                  ? values.semestre
+                  : ''
+              }
               error={errors.semestre}
             />
           )}
-          {values.formado && (
+          {(values.formado === ESituacaoCurso.COMPLETO || values.tipo == 1) && (
             <>
               <TextField
                 label="Ano de conclusão"
@@ -329,52 +340,53 @@ export function FormVoluntario({
                 value={values.especializacoes}
                 error={errors.especializacoes}
               />
+              <SelectField
+                label="Área de Atuação"
+                name="areaAtuacao"
+                options={areasAtuacao}
+                onChange={handleChange}
+                value={values.areaAtuacao}
+                error={errors.areaAtuacao}
+              />
             </>
           )}
-          {values.formado && (
-            <SelectField
-              label="Área de Atuação"
-              name="areaAtuacao"
-              options={areasAtuacao}
-              onChange={handleChange}
-              value={values.areaAtuacao}
-              error={errors.areaAtuacao}
-            />
-          )}
-          {+values.tipo === 2 && (
-            <>
-              <S.Title>
-                Selecione em quais frentes você gostaria de atuar (pode
-                selecionar mais de uma opção):
-              </S.Title>
-              {frentesCheckbox(
-                values.frentes,
-                (e) => {
-                  console.log('checked?', e.target.checked, +e.target.value)
-                  if (e.target.checked) {
-                    values.frentes.push(+e.target.value)
-                  } else {
-                    values.frentes = values.frentes.filter(
-                      (value) => +e.target.value !== value
-                    )
-                  }
-                  values.frentes = values.frentes.sort()
-                  console.log('frentes', values.frentes)
-                },
-                'Sessões de acolhimento dos estudantes',
-                'Coaching de rotina de estudos',
-                'Orientação vocacional'
-              )}
-            </>
-          )}
-
+          <>
+            <S.Title>
+              Selecione em quais frentes você gostaria de atuar (pode selecionar
+              mais de uma opção):
+            </S.Title>
+            {frentesCheckbox(
+              values.frentes,
+              (e) => {
+                if (e.target.checked) {
+                  setFieldValue(
+                    'frentes',
+                    [...values.frentes, +e.target.value].sort()
+                  )
+                  // values.frentes.push(+e.target.value)
+                } else {
+                  const novasFrentes = values.frentes.filter(
+                    (value) => +e.target.value !== value
+                  )
+                  setFieldValue('frentes', [...novasFrentes].sort())
+                }
+              },
+              'Sessões de acolhimento dos estudantes',
+              'Coaching de rotina de estudos',
+              'Orientação vocacional'
+            )}
+            <S.FrenteError>{errors.frentes}</S.FrenteError>
+          </>
           <RadioField
             options={Object.values(TYPES).map((type, index) => {
               return { label: type, value: index + 1 }
             })}
             name="tipo"
             label="Tipo de voluntário:"
-            onChange={handleChange}
+            onChange={(e) => {
+              setFieldValue('formado', 'true')
+              handleChange(e)
+            }}
             onBlur={handleBlur}
             value={+values.tipo}
             error={errors.tipo}
@@ -398,11 +410,7 @@ export function FormVoluntario({
             >
               CADASTRAR
             </Button>
-
-            {values.anoFormacao}
-            {values.formado}
           </S.ButtonContainer>
-          {/* {JSON.stringify(values)} */}
         </S.Form>
       )}
     </Formik>
