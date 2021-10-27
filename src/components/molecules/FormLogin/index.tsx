@@ -2,6 +2,7 @@ import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
 import { Formik } from 'formik'
+import { BackendError } from 'types/backend-error'
 import * as Yup from 'yup'
 import { IAuthService } from '../../../services/auth-services/auth-service'
 
@@ -12,17 +13,37 @@ type MyFormValues = {
   password: string
 }
 
-export const FormLogin = (props: { authService: IAuthService }) => {
+type FormLoginProps = {
+  authService: IAuthService
+  handleSuccess: () => void
+  handleError: (error: BackendError) => void
+}
+
+const ERRORS = {
+  INVALID_EMAIL: `E-mail inválido`,
+  REQUIRED_EMAIL: `E-mail é obrigatório`,
+  REQUIRED_PASSWORD: `A senha é obrigatório`
+}
+
+export const FormLogin = ({
+  authService,
+  handleSuccess,
+  handleError
+}: FormLoginProps) => {
   const formSubmit = async ({ email, password }: MyFormValues) => {
-    await props.authService.login({ email, senha: password })
-    // chamada da api(email, password)
+    try {
+      await authService.login({ email, senha: password })
+      handleSuccess()
+    } catch (error) {
+      handleError(error)
+    }
   }
 
   const SigninSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string()
-      .min(8, 'Deve ter minimo de 8 caracteres')
-      .required('Required')
+    email: Yup.string()
+      .email(ERRORS.INVALID_EMAIL)
+      .required(ERRORS.REQUIRED_EMAIL),
+    password: Yup.string().required(ERRORS.REQUIRED_PASSWORD)
   })
 
   const initialValues: MyFormValues = { email: '', password: '' }

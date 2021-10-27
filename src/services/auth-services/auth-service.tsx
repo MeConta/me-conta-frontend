@@ -15,7 +15,6 @@ export class AuthService implements IAuthService {
   async login(form: LoginForm): Promise<{
     token: string
   }> {
-    await this.service.post('/cadastro-inicial/', form)
     const response = await this.service.post('/auth/login/', {
       username: form.email,
       password: form.senha
