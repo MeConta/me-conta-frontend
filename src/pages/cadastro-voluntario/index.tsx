@@ -6,23 +6,29 @@ import * as F from '../../styles/form/styles'
 import { SignupVoluntarioService } from '../../services/signup-voluntario-service/signup-voluntario-service'
 import { api } from 'services/api/api'
 import { BackendError } from 'types/backend-error'
+import { useRouter } from 'next/router'
+import { ToastType, useToast } from 'services/toast-service/toast-service'
 
 export default function CadastroVoluntario() {
   const { signupService } = useSignup()
+  const router = useRouter()
+  const { emit } = useToast()
   return (
     <WrapperForm>
       <F.Header>
-        Estamos muito felizes com seu interesse em entrar para o time de
-        voluntários Me Conta!
+        Estamos muito felizes com seu interesse em entrar <br /> para o time de
+        voluntários do Me Conta!
       </F.Header>
       <F.Subtitle>Por favor, preencha as informações abaixo:</F.Subtitle>
       <F.WrapperFields>
         <FormVoluntario
-          handleSuccess={() => {
-            // router.push('/dashboard-aluno')
+          handleSuccess={async () => {
+            await router.push('/cadastro-voluntario/sucesso')
+            emit(ToastType.SUCCESS, 'Cadastro realizado com sucesso!')
           }}
           handleError={(error: BackendError) => {
-            // console.log(error)
+            emit(ToastType.ERROR, 'Erro ao realizar o cadastro!')
+            console.log(error)
           }}
           signupVoluntarioService={new SignupVoluntarioService(api)}
         />
