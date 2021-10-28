@@ -131,10 +131,15 @@ export function FormVoluntario({
         .required(ERRORS.REQUIRED_FORMATION_YEAR)
         .max(+moment().format('YYYY'), ERRORS.INVALID_YEAR)
     }),
-    crp: Yup.string().when('formado', {
-      is: ESituacaoCurso.COMPLETO,
-      then: Yup.string().required(ERRORS.REQUIRED_CRP)
-    }),
+    crp: Yup.string()
+      .when('formado', {
+        is: ESituacaoCurso.COMPLETO,
+        then: Yup.string().required(ERRORS.REQUIRED_CRP)
+      })
+      .when('tipo', {
+        is: '1',
+        then: Yup.string().required(ERRORS.REQUIRED_CRP)
+      }),
     instituicao: Yup.string().required(ERRORS.REQUIRED_SCHOOL),
     areaAtuacao: Yup.string().when('formado', {
       is: ESituacaoCurso.COMPLETO,
@@ -350,33 +355,35 @@ export function FormVoluntario({
               />
             </>
           )}
-          <>
-            <S.Title>
-              Selecione em quais frentes você gostaria de atuar (pode selecionar
-              mais de uma opção):
-            </S.Title>
-            {frentesCheckbox(
-              values.frentes,
-              (e) => {
-                if (e.target.checked) {
-                  setFieldValue(
-                    'frentes',
-                    [...values.frentes, +e.target.value].sort()
-                  )
-                  // values.frentes.push(+e.target.value)
-                } else {
-                  const novasFrentes = values.frentes.filter(
-                    (value) => +e.target.value !== value
-                  )
-                  setFieldValue('frentes', [...novasFrentes].sort())
-                }
-              },
-              'Sessões de acolhimento dos estudantes',
-              'Coaching de rotina de estudos',
-              'Orientação vocacional'
-            )}
-            <S.FrenteError>{errors.frentes}</S.FrenteError>
-          </>
+          {+values.tipo === 2 && (
+            <>
+              <S.Title>
+                Selecione em quais frentes você gostaria de atuar (pode
+                selecionar mais de uma opção):
+              </S.Title>
+              {frentesCheckbox(
+                values.frentes,
+                (e) => {
+                  if (e.target.checked) {
+                    setFieldValue(
+                      'frentes',
+                      [...values.frentes, +e.target.value].sort()
+                    )
+                    // values.frentes.push(+e.target.value)
+                  } else {
+                    const novasFrentes = values.frentes.filter(
+                      (value) => +e.target.value !== value
+                    )
+                    setFieldValue('frentes', [...novasFrentes].sort())
+                  }
+                },
+                'Sessões de acolhimento dos estudantes',
+                'Coaching de rotina de estudos',
+                'Orientação vocacional'
+              )}
+              <S.FrenteError>{errors.frentes}</S.FrenteError>
+            </>
+          )}
           <RadioField
             options={Object.values(TYPES).map((type, index) => {
               return { label: type, value: index + 1 }
