@@ -1,37 +1,83 @@
-import { render, screen } from 'utils/tests/helpers'
-
+import userEvent from '@testing-library/user-event'
+import {
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+  waitFor
+} from 'utils/tests/helpers'
 import { FormLogin } from '.'
 import { IAuthService } from '../../../services/auth-services/auth-service'
-import { fireEvent, waitFor } from '@testing-library/dom'
-import userEvent from '@testing-library/user-event'
 
-const authServiceMock: IAuthService = {
-  login: jest.fn()
+const preencherFormularioParaSubmeter = async () => {
+  const email = screen.getByRole('textbox', { name: 'E-mail' })
+  const password = screen.getByRole('password', { name: 'Senha' })
+  const submit = screen.getByRole('button')
+
+  await userEvent.type(email, 'email@teste.com')
+  await userEvent.type(password, 'S3nh@valid@')
+  await fireEvent.click(submit)
 }
 
 describe('<FormLogin/>', () => {
-  it('should render a login form ', async () => {
-    const { container } = render(<FormLogin authService={authServiceMock} />)
+  let renderResult: RenderResult
+  const authServiceMock: IAuthService = {
+    login: jest.fn()
+  }
+  const handleSuccessMock = jest.fn()
+  const handleErrorMock = jest.fn()
 
+  beforeEach(() => {
+    renderResult = render(
+      <FormLogin
+        authService={authServiceMock}
+        handleSuccess={handleSuccessMock}
+        handleError={handleErrorMock}
+      />
+    )
+  })
+
+  it('deve renderizar todos os elementos do formulário', () => {
     expect(screen.getByRole('textbox', { name: 'E-mail' })).toBeInTheDocument()
     expect(screen.getByRole('password', { name: 'Senha' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
 
-    expect(container.parentElement).toMatchSnapshot()
+    expect(renderResult.container.parentElement).toMatchSnapshot()
   })
-  it('should call AuthService.login', async () => {
-    const { container } = render(<FormLogin authService={authServiceMock} />)
 
+  it('deve exibir error de email inválido', async () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
-    const password = screen.getByRole('password', { name: 'Senha' })
-    const submit = screen.getByRole('button')
 
-    await userEvent.type(email, 'email@teste.com')
-    await userEvent.type(password, 'S3nh@valid@')
-    await fireEvent.click(submit)
+    await userEvent.type(email, 'meuemailcom')
+
+    await waitFor(() => {
+      expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
+    })
+  })
+
+  it('deve submeter formulário e chamar callback de sucesso', async () => {
+    await preencherFormularioParaSubmeter()
+
+    jest
+      .spyOn(authServiceMock, 'login')
+      .mockImplementation(() => Promise.resolve({ token: 'XPTO' }))
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()
+      expect(handleSuccessMock).toBeCalled()
+    })
+  })
+
+  it('deve submeter formulário e chamar callback de error', async () => {
+    await preencherFormularioParaSubmeter()
+
+    jest
+      .spyOn(authServiceMock, 'login')
+      .mockImplementation(() => Promise.reject())
+
+    await waitFor(() => {
+      expect(authServiceMock.login).toBeCalled()
+      expect(handleErrorMock).toBeCalled()
     })
   })
 })

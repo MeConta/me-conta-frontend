@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<FormLogin/> should render a login form  1`] = `
+exports[`<FormLogin/> deve renderizar todos os elementos do formulário 1`] = `
 .c8 {
   -webkit-align-items: center;
   -webkit-box-align: center;
