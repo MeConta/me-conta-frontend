@@ -11,14 +11,16 @@ const SucessoVoluntario = () => {
       <F.Header>
         Muito Obrigado! <br /> Sua inscrição foi concluida com sucesso!
       </F.Header>
+      <br />
       <F.Subtitle>
         Nossa equipe analisará suas informações e <br /> assim que possível
         entrará em contato
       </F.Subtitle>
+      <br />
       <Link href="/" passHref>
         <S.ButtonContainer>
           <Button color="primary" radius="square" size="large" as="a">
-            Voltar à página inicial
+            Voltar a página inicial
           </Button>
         </S.ButtonContainer>
       </Link>
