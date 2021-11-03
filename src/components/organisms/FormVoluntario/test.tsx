@@ -6,6 +6,7 @@ import { fireEvent } from '@testing-library/dom'
 import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 import { act } from 'react-test-renderer'
 import moment from 'moment'
+import { BackendError } from 'types/backend-error'
 
 describe('<FormVoluntario/>', () => {
   const handleSuccessMock = jest.fn()
@@ -234,8 +235,24 @@ describe('<FormVoluntario/>', () => {
           },
           expect.any(String)
         )
-        // expect(handleSuccessMock).toBeCalled()
+        expect(handleSuccessMock).toBeCalled()
       })
+    })
+  })
+
+  it('deve falhar ao chamar o signup service', async () => {
+    jest.spyOn(signupServiceMock, 'voluntarioSignUp').mockRejectedValue({
+      code: 0,
+      message: 'MOCKED ERROR'
+    } as BackendError)
+    const { button } = await fillForm()
+
+    await act(async () => {
+      fireEvent.click(button)
+    })
+
+    await waitFor(async () => {
+      expect(handleErrorMock).toBeCalled()
     })
   })
 })
