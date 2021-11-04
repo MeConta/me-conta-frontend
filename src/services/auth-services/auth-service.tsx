@@ -6,9 +6,15 @@ type LoginForm = {
   senha: string
 }
 
+type ResetSenhaForm = {
+  hash: string
+  senha: string
+}
+
 export interface IAuthService {
   login(form: LoginForm): Promise<{ token: string; tipo: string }>
   recuperarSenha?(email: string): Promise<void>
+  resetarSenha?(form: ResetSenhaForm): Promise<void>
 }
 
 export class AuthService implements IAuthService {
@@ -30,6 +36,13 @@ export class AuthService implements IAuthService {
   async recuperarSenha(email: string): Promise<void> {
     await this.service.post('/senha/recuperacao/', {
       email
+    })
+  }
+
+  async resetarSenha(form: ResetSenhaForm): Promise<void> {
+    await this.service.post('/senha/reset/', {
+      hash: form.hash,
+      senha: form.senha
     })
   }
 }
