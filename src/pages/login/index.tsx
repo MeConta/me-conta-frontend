@@ -25,7 +25,12 @@ export default function Login() {
           }}
         />
         <S.Link>
-          <Link href="/recuperar-senha">
+          <Link href="/criar-conta">
+            <a>Criar conta</a>
+          </Link>
+        </S.Link>
+        <S.Link>
+          <Link href="/recuperacao-de-senha">
             <a>Esqueceu a senha?</a>
           </Link>
         </S.Link>

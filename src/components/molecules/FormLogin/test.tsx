@@ -60,7 +60,7 @@ describe('<FormLogin/>', () => {
 
     jest
       .spyOn(authServiceMock, 'login')
-      .mockImplementation(() => Promise.resolve({ token: 'XPTO' }))
+      .mockImplementation(() => Promise.resolve({ token: 'XPTO', tipo: '0' }))
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()

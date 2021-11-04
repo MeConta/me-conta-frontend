@@ -8,6 +8,7 @@ type LoginForm = {
 
 export interface IAuthService {
   login(form: LoginForm): Promise<{ token: string; tipo: string }>
+  recuperarSenha?(email: string): Promise<void>
 }
 
 export class AuthService implements IAuthService {
@@ -24,6 +25,12 @@ export class AuthService implements IAuthService {
       token: response.data.token,
       tipo: response.data.tipo
     }
+  }
+
+  async recuperarSenha(email: string): Promise<void> {
+    await this.service.post('/senha/recuperacao/', {
+      email
+    })
   }
 }
 
