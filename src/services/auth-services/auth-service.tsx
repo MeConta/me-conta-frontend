@@ -7,20 +7,22 @@ type LoginForm = {
 }
 
 export interface IAuthService {
-  login(form: LoginForm): Promise<{ token: string }>
+  login(form: LoginForm): Promise<{ token: string; tipo: string }>
 }
 
 export class AuthService implements IAuthService {
   constructor(private readonly service: AxiosInstance) {}
   async login(form: LoginForm): Promise<{
     token: string
+    tipo: string
   }> {
     const response = await this.service.post('/auth/login/', {
       username: form.email,
       password: form.senha
     })
     return {
-      token: response.data.token
+      token: response.data.token,
+      tipo: response.data.tipo
     }
   }
 }

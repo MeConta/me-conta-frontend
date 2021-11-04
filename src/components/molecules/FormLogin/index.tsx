@@ -32,11 +32,16 @@ export const FormLogin = ({
   handleError
 }: FormLoginProps) => {
   const [, setToken] = useLocalStorage<string>('token', '')
+  const [, setTipo] = useLocalStorage<string>('tipo', '')
 
   const formSubmit = async ({ email, password }: MyFormValues) => {
     try {
-      const { token } = await authService.login({ email, senha: password })
+      const { token, tipo } = await authService.login({
+        email,
+        senha: password
+      })
       setToken(token)
+      setTipo(tipo)
       handleSuccess()
     } catch (error) {
       handleError(error)
