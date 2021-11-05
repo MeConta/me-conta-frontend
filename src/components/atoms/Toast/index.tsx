@@ -2,11 +2,7 @@ import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { api } from 'services/api/api'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
-import {
-  EHttpErrorCode,
-  getErrorMessage
-} from 'utils/enums/http-error-code.enum'
-import { getSuccessMessage } from 'utils/enums/http-success-code.enum'
+import { getErrorMessage } from 'utils/enums/http-error-code.enum'
 
 export function Toast() {
   const { emit } = useToast()
@@ -16,17 +12,10 @@ export function Toast() {
   const addToastInApiInterceptor = () => {
     api.interceptors.response.use(
       (response) => {
-        console.log('API_URL', process.env.API_URL)
-        console.log('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL)
-        const httpStatusCode = response?.status
-        emit(ToastType.SUCCESS, getSuccessMessage(httpStatusCode))
         return response
       },
       (error) => {
-        console.log('API_URL', process.env.API_URL)
-        console.log('NEXT_PUBLIC_API_URL', process.env.NEXT_PUBLIC_API_URL)
-        const httpErrorCode = error?.response?.data?.code as EHttpErrorCode
-        emit(ToastType.ERROR, getErrorMessage(httpErrorCode))
+        emit(ToastType.ERROR, getErrorMessage(error))
         return Promise.reject(error)
       }
     )

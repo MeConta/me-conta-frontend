@@ -3,6 +3,7 @@ import { FormResetSenha } from 'components/organisms/FormResetSenha'
 import router from 'next/router'
 import { BackendError } from 'types/backend-error'
 import { useAuthService } from '../../services/auth-services/auth-service'
+import { ToastType, useToast } from '../../services/toast-service/toast-service'
 import * as F from '../../styles/form/styles'
 
 type InitialProps = {
@@ -11,6 +12,7 @@ type InitialProps = {
 
 function NovaSenha({ hash }: InitialProps) {
   const { authService } = useAuthService()
+  const { emit } = useToast()
 
   return (
     <WrapperForm>
@@ -21,10 +23,12 @@ function NovaSenha({ hash }: InitialProps) {
           hash={hash}
           authService={authService}
           handleSuccess={() => {
+            emit(ToastType.SUCCESS, 'Senha alterada com sucesso')
             router.push('/login')
           }}
           handleError={(error: BackendError) => {
             console.log(error)
+            router.push('/login')
           }}
         />
       </F.WrapperFields>
