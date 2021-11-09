@@ -355,35 +355,31 @@ export function FormVoluntario({
               />
             </>
           )}
-          {+values.tipo === 2 && (
-            <>
-              <S.Title>
-                Selecione em quais frentes você gostaria de atuar (pode
-                selecionar mais de uma opção):
-              </S.Title>
-              {frentesCheckbox(
-                values.frentes,
-                (e) => {
-                  if (e.target.checked) {
-                    setFieldValue(
-                      'frentes',
-                      [...values.frentes, +e.target.value].sort()
-                    )
-                    // values.frentes.push(+e.target.value)
-                  } else {
-                    const novasFrentes = values.frentes.filter(
-                      (value) => +e.target.value !== value
-                    )
-                    setFieldValue('frentes', [...novasFrentes].sort())
-                  }
-                },
-                'Sessões de acolhimento dos estudantes',
-                'Coaching de rotina de estudos',
-                'Orientação vocacional'
-              )}
-              <S.FrenteError>{errors.frentes}</S.FrenteError>
-            </>
+          <S.Title>
+            Selecione em quais frentes você gostaria de atuar (pode selecionar
+            mais de uma opção):
+          </S.Title>
+          {frentesCheckbox(
+            values.frentes,
+            (e) => {
+              if (e.target.checked) {
+                setFieldValue(
+                  'frentes',
+                  [...values.frentes, +e.target.value].sort()
+                )
+                // values.frentes.push(+e.target.value)
+              } else {
+                const novasFrentes = values.frentes.filter(
+                  (value) => +e.target.value !== value
+                )
+                setFieldValue('frentes', [...novasFrentes].sort())
+              }
+            },
+            'Sessões de acolhimento dos estudantes',
+            'Coaching de rotina de estudos',
+            'Orientação vocacional'
           )}
+          <S.FrenteError>{errors.frentes}</S.FrenteError>
           <RadioField
             options={Object.values(TYPES).map((type, index) => {
               return { label: type, value: index + 1 }

@@ -112,6 +112,7 @@ describe('<FormVoluntario/>', () => {
       superiorEmAndamento,
       tipoAtendente,
       tipoSupervisor,
+      frentesAtuacao,
       descricao
     } = Elements()
     expect(dataNascimento).toBeInTheDocument()
@@ -127,17 +128,13 @@ describe('<FormVoluntario/>', () => {
     expect(instituicaoEnsino).toBeInTheDocument()
     expect(tipoSupervisor).toBeInTheDocument()
     expect(descricao).toBeInTheDocument()
+    expect(frentesAtuacao).toBeInTheDocument()
   })
 
   describe('Atendentes em Geral', () => {
     it('deve renderizar o campo de descricao', () => {
       const { descricao } = Elements()
       expect(descricao).toBeInTheDocument()
-    })
-
-    it('deve renderizar os campos de seleção de frentes', () => {
-      const { frentesAtuacao } = Elements()
-      expect(frentesAtuacao).toBeInTheDocument()
     })
   })
 
@@ -182,6 +179,12 @@ describe('<FormVoluntario/>', () => {
 
     it('Deve renderizar o campo Área de atuação', () => {
       expect(screen.getByLabelText('Área de Atuação')).toBeInTheDocument()
+    })
+
+    it('Deve renderizar o campo Frentes', () => {
+      expect(
+        screen.getByText('Sessões de acolhimento dos estudantes')
+      ).toBeInTheDocument()
     })
   })
 
