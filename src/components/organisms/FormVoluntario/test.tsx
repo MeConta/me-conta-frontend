@@ -186,6 +186,12 @@ describe('<FormVoluntario/>', () => {
         screen.getByText('Sessões de acolhimento dos estudantes')
       ).toBeInTheDocument()
     })
+
+    it('Deve renderizar o campo abordagem psicoterápica', () => {
+      expect(
+        screen.getByRole('textbox', { name: 'Abordagem psicoterápica' })
+      ).toBeInTheDocument()
+    })
   })
 
   describe('Deve enviar o formulário corretamente', () => {
@@ -234,7 +240,8 @@ describe('<FormVoluntario/>', () => {
             semestre: 1,
             areaAtuacao: null,
             bio: 'Teste',
-            tipo: 2
+            tipo: 2,
+            abordagem: ''
           },
           expect.any(String)
         )

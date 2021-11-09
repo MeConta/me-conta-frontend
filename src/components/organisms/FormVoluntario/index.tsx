@@ -46,6 +46,7 @@ type MyFormValues = {
   crp: string
   bio: string
   tipo: UserType
+  abordagem: string
 }
 
 const TYPES = {
@@ -167,7 +168,8 @@ export function FormVoluntario({
     areaAtuacao: '',
     frentes: [],
     bio: '',
-    tipo: +tipo
+    tipo: +tipo,
+    abordagem: ''
   }
 
   const frentesCheckbox = (
@@ -227,6 +229,20 @@ export function FormVoluntario({
         <S.Form onSubmit={handleSubmit}>
           <TextField label="Nome Completo" name="name" disabled value={name} />
           <TextField label="E-mail" name="email" disabled value={email} />
+          <RadioField
+            options={Object.values(TYPES).map((type, index) => {
+              return { label: type, value: index + 1 }
+            })}
+            name="tipo"
+            label="Tipo de voluntário:"
+            onChange={(e) => {
+              setFieldValue('formado', 'true')
+              handleChange(e)
+            }}
+            onBlur={handleBlur}
+            value={+values.tipo}
+            error={errors.tipo}
+          />
           <PhoneField
             data-testid="phone-number"
             label="Telefone"
@@ -380,20 +396,17 @@ export function FormVoluntario({
             'Orientação vocacional'
           )}
           <S.FrenteError>{errors.frentes}</S.FrenteError>
-          <RadioField
-            options={Object.values(TYPES).map((type, index) => {
-              return { label: type, value: index + 1 }
-            })}
-            name="tipo"
-            label="Tipo de voluntário:"
-            onChange={(e) => {
-              setFieldValue('formado', 'true')
-              handleChange(e)
-            }}
-            onBlur={handleBlur}
-            value={+values.tipo}
-            error={errors.tipo}
-          />
+          {+values.tipo === 1 && (
+            <TextField
+              label="Abordagem psicoterápica"
+              name="abordagem"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.abordagem}
+              error={errors.abordagem}
+            />
+          )}
+
           {+values.tipo === 2 && (
             <TextAreaField
               label="Breve descrição sobre você (Será utilizada em sua apresentação)"
