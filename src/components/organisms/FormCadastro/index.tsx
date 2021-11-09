@@ -42,9 +42,17 @@ const ERRORS = {
 }
 
 export const TYPES = {
-  ALUNO: 'Aluno',
-  SUPERVISOR: 'Voluntário Supervisor',
-  ATENDENTE: 'Voluntário Atendente'
+  ALUNO: { label: 'Quero apoio e orientação psicológica (Aluno)', value: 0 },
+  ATENDENTE: {
+    label:
+      'Quero oferecer apoio e orientação psicológica (Voluntário Atendente)',
+    value: 2
+  },
+  SUPERVISOR: {
+    label:
+      'Quero supervisionar estudantes de psicologia (Voluntário Supervisor)',
+    value: 1
+  }
 }
 
 export function FormCadastro(props: {
@@ -163,8 +171,8 @@ export function FormCadastro(props: {
             error={errors.passwordConfirm}
           />
           <RadioField
-            options={Object.values(TYPES).map((type, index) => {
-              return { label: type, value: index }
+            options={Object.values(TYPES).map((type) => {
+              return { label: type.label, value: type.value }
             })}
             name="tipo"
             label="Tipo"

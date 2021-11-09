@@ -23,7 +23,7 @@ describe('<FormCadastro/>', () => {
       email: screen.getByRole('textbox', { name: 'E-mail' }),
       password: screen.getByRole('password', { name: 'Senha' }),
       confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
-      tipo: screen.getByLabelText(TYPES.ALUNO),
+      tipo: screen.getByLabelText(TYPES.ALUNO.label),
       button: screen.getByRole('button'),
       termsConfirm: screen.getByRole('checkbox')
     }

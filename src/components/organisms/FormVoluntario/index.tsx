@@ -160,7 +160,7 @@ export function FormVoluntario({
     genero: '',
     UF: '',
     instituicao: '',
-    formado: ESituacaoCurso.ANDAMENTO,
+    formado: +tipo == 1 ? ESituacaoCurso.COMPLETO : ESituacaoCurso.ANDAMENTO,
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
     especializacoes: '',
@@ -369,6 +369,14 @@ export function FormVoluntario({
                 value={values.areaAtuacao}
                 error={errors.areaAtuacao}
               />
+              <TextField
+                label="Abordagem psicoterápica"
+                name="abordagem"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.abordagem}
+                error={errors.abordagem}
+              />
             </>
           )}
           <S.Title>
@@ -396,16 +404,6 @@ export function FormVoluntario({
             'Orientação vocacional'
           )}
           <S.FrenteError>{errors.frentes}</S.FrenteError>
-          {+values.tipo === 1 && (
-            <TextField
-              label="Abordagem psicoterápica"
-              name="abordagem"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.abordagem}
-              error={errors.abordagem}
-            />
-          )}
 
           {+values.tipo === 2 && (
             <TextAreaField
