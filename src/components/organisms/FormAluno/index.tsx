@@ -30,6 +30,9 @@ type MyFormValues = {
   genero: string
   tipoEscola: string
   escolaridade: string
+  necessidades: string
+  expectativas: string
+  tratamentos: string
 }
 
 const ERRORS = {
@@ -93,7 +96,10 @@ const FormAluno = (props: {
     UF: '',
     genero: 'ND',
     escolaridade: '',
-    tipoEscola: '0'
+    tipoEscola: '0',
+    necessidades: '',
+    expectativas: '',
+    tratamentos: ''
   }
 
   return (
@@ -194,6 +200,34 @@ const FormAluno = (props: {
             value={values.tipoEscola}
             error={errors.tipoEscola}
           />
+
+          <TextField
+            label="Quais são suas necessidades no momento?"
+            name="necessidades"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.necessidades}
+            error={errors.necessidades}
+          />
+
+          <TextField
+            label="O que você espera de nosso serviço?"
+            name="expectativas"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.expectativas}
+            error={errors.expectativas}
+          />
+
+          <TextField
+            label="Você já fez algum tipo de tratamento psicológico?"
+            name="tratamentos"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.tratamentos}
+            error={errors.tratamentos}
+          />
+
           <S.ButtonContainer>
             <Button
               radius="square"

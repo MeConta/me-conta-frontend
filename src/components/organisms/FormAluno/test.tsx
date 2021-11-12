@@ -24,6 +24,15 @@ describe('<FormAluno />', () => {
       genero: screen.getByLabelText('Masculino'),
       escolaridade: screen.getByLabelText('Escolaridade'),
       tipoEscola: screen.getByLabelText('Escola Pública'),
+      necessidades: screen.getByLabelText(
+        'Quais são suas necessidades no momento?'
+      ),
+      expectativas: screen.getByLabelText(
+        'O que você espera de nosso serviço?'
+      ),
+      tratamentos: screen.getByLabelText(
+        'Você já fez algum tipo de tratamento psicológico?'
+      ),
       button: screen.getByRole('button')
     }
   }
@@ -37,6 +46,9 @@ describe('<FormAluno />', () => {
       genero,
       escolaridade,
       tipoEscola,
+      necessidades,
+      expectativas,
+      tratamentos,
       button
     } = elements()
 
@@ -49,6 +61,15 @@ describe('<FormAluno />', () => {
       fireEvent.change(UF, { target: { value: 'MG' } })
       fireEvent.click(genero)
       fireEvent.change(escolaridade, { target: { value: '1' } })
+      fireEvent.change(necessidades, {
+        target: { value: 'Necessidades do aluno' }
+      })
+      fireEvent.change(expectativas, {
+        target: { value: 'Expectativas do aluno' }
+      })
+      fireEvent.change(tratamentos, {
+        target: { value: 'Tratamentos do aluno' }
+      })
       fireEvent.click(tipoEscola)
     })
     return {
@@ -60,6 +81,9 @@ describe('<FormAluno />', () => {
       genero,
       escolaridade,
       tipoEscola,
+      necessidades,
+      expectativas,
+      tratamentos,
       button
     }
   }
@@ -88,7 +112,10 @@ describe('<FormAluno />', () => {
       UF,
       genero,
       escolaridade,
-      tipoEscola
+      tipoEscola,
+      necessidades,
+      expectativas,
+      tratamentos
     } = elements()
 
     expect(nome).toBeInTheDocument()
@@ -100,6 +127,9 @@ describe('<FormAluno />', () => {
     expect(genero).toBeInTheDocument()
     expect(escolaridade).toBeInTheDocument()
     expect(tipoEscola).toBeInTheDocument()
+    expect(necessidades).toBeInTheDocument()
+    expect(expectativas).toBeInTheDocument()
+    expect(tratamentos).toBeInTheDocument()
   })
 
   it('deve chamar o signup service com sucesso', async () => {
@@ -111,6 +141,9 @@ describe('<FormAluno />', () => {
       genero,
       escolaridade,
       tipoEscola,
+      necessidades,
+      expectativas,
+      tratamentos,
       button
     } = await fillForm()
 
@@ -125,6 +158,9 @@ describe('<FormAluno />', () => {
     expect(genero).toBeChecked()
     expect(escolaridade).toHaveValue('1')
     expect(tipoEscola).toBeChecked()
+    expect(necessidades).toHaveValue('Necessidades do aluno')
+    expect(expectativas).toHaveValue('Expectativas do aluno')
+    expect(tratamentos).toHaveValue('Tratamentos do aluno')
     expect(button).toBeEnabled()
     await waitFor(async () => {
       expect(signupServiceMock.alunoSignup).toBeCalledWith(
@@ -135,7 +171,10 @@ describe('<FormAluno />', () => {
           UF: 'MG',
           genero: 'M',
           escolaridade: 1,
-          tipoEscola: 0
+          tipoEscola: 0,
+          necessidades: 'Necessidades do aluno',
+          expectativas: 'Expectativas do aluno',
+          tratamentos: 'Tratamentos do aluno'
         },
         expect.any(String)
       )

@@ -8,6 +8,9 @@ type AlunoSignupUser = {
   genero: string
   tipoEscola: number
   escolaridade: number
+  necessidades: string
+  expectativas: string
+  tratamentos: string
 }
 
 export interface ISignupAlunoService {
