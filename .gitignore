@@ -36,3 +36,6 @@ yarn-error.log*
 # IDEs
 /.idea/
 *.iml
+
+# Storybook dist
+/storybook-static/

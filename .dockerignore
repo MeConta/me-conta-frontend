@@ -10,9 +10,13 @@
 .gitignore
 
 Dockerfile
+Dockerfile*
 .dockerignore
 README.md
 
 /.next/
 /.jest/
 /coverage/
+
+/storybook-static/
+.env.*.local
