@@ -20,3 +20,4 @@ README.md
 
 /storybook-static/
 .env.*.local
+.env.local

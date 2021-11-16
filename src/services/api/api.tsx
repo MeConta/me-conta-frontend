@@ -14,5 +14,6 @@ api.interceptors.request.use((config) => {
     const token = JSON.parse(tokenLocalStorage)
     config.headers.Authorization = `Bearer ${token}`
   }
+  config.url?.concat('api/', config.url)
   return config
 })
