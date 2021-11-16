@@ -11,7 +11,7 @@ ENV API_URL=$API_URL
 WORKDIR /opt/app
 COPY . .
 COPY --from=dependencies /opt/app/node_modules ./node_modules
-RUN npm build
+RUN npm run build
 
 FROM node:lts-alpine AS runner
 WORKDIR /opt/app
