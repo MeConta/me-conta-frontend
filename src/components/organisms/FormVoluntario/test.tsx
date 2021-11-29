@@ -241,7 +241,7 @@ describe('<FormVoluntario/>', () => {
             areaAtuacao: null,
             bio: 'Teste',
             tipo: 2,
-            abordagem: ''
+            abordagem: null
           },
           expect.any(String)
         )

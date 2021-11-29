@@ -200,7 +200,8 @@ export function FormVoluntario({
           tipo: +form.tipo,
           areaAtuacao: form.areaAtuacao || null,
           especializacoes: form.especializacoes || null,
-          crp: form.crp || null
+          crp: form.crp || null,
+          abordagem: form.abordagem || null
         },
         token
       )

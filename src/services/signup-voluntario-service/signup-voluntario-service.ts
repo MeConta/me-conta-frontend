@@ -16,6 +16,7 @@ type VoluntarioSignupUser = {
   especializacoes: string | null
   areaAtuacao: string | null
   crp: string | null
+  abordagem: string | null
   bio: string
   tipo: UserType
 }
