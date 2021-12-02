@@ -79,12 +79,15 @@ const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
 const LENGTH_PHONE_VALUE = 11
 
+const MIN_LENGTH_PHONE_VALUE = 10
+
 const ERRORS = {
   REQUIRED_NAME: `Nome completo é obrigatório.`,
   REQUIRED_PHONE: `Telefone é obrigatório.`,
   MIN_LENGTH_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
   MAX_LENGTH_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
   LENGTH_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
+  INVALID_PHONE: `Telefone inválido.`,
   REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
   MIN_AGE: `Voluntários devem ter mais de 18 anos.`,
   MAX_BIRTHDATE: `Data de nascimento inválida.`,
@@ -101,7 +104,9 @@ const ERRORS = {
   REQUIRED_FIELD: `Área de atuação é obrigatória`,
   REQUIRED_BIO: `A Apresentação é obrigatória`,
   INVALID_YEAR: 'Ano de formação inválido',
-  REQUIRED_FRONTS: 'Frentes de atuação é obrigatório'
+  REQUIRED_FRONTS: 'Frentes de atuação é obrigatório',
+  REQUIRED_FORMATION_SEMESTER: `Semestre de formação é obrigatório.`,
+  MIN_SEMESTER: 'Semestre deve ser no mínimo 1.'
 }
 
 export function FormVoluntario({
@@ -114,7 +119,10 @@ export function FormVoluntario({
   const [email] = useLocalStorage<string>('email', '')
   const [tipo] = useLocalStorage<UserType>('tipo', UserType.ATENDENTE)
   const validation = Yup.object({
-    telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
+    telefone: Yup.string()
+      .trim()
+      .required(ERRORS.REQUIRED_PHONE)
+      .min(MIN_LENGTH_PHONE_VALUE, ERRORS.INVALID_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
       .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE)
@@ -131,6 +139,12 @@ export function FormVoluntario({
       then: Yup.number()
         .required(ERRORS.REQUIRED_FORMATION_YEAR)
         .max(+moment().format('YYYY'), ERRORS.INVALID_YEAR)
+    }),
+    semestre: Yup.number().when('formado', {
+      is: ESituacaoCurso.ANDAMENTO,
+      then: Yup.number()
+        .required(ERRORS.REQUIRED_FORMATION_SEMESTER)
+        .min(1, ERRORS.MIN_SEMESTER)
     }),
     crp: Yup.string()
       .when('formado', {
@@ -237,7 +251,7 @@ export function FormVoluntario({
             name="tipo"
             label="Tipo de voluntário:"
             onChange={(e) => {
-              setFieldValue('formado', 'true')
+              setFieldValue('formado', ESituacaoCurso.COMPLETO)
               handleChange(e)
             }}
             onBlur={handleBlur}
