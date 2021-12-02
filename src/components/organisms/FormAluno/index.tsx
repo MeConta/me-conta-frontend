@@ -22,6 +22,8 @@ const LENGTH_PHONE_VALUE = 11
 const MAX_LENGTH_CITY_VALUE = 100
 const MIN_LENGTH_CITY_VALUE = 3
 
+const MIN_LENGTH_PHONE_VALUE = 10
+
 type MyFormValues = {
   telefone: string
   dataNascimento: string
@@ -38,6 +40,7 @@ type MyFormValues = {
 const ERRORS = {
   REQUIRED_NAME: `Nome completo é obrigatório.`,
   REQUIRED_PHONE: `Telefone é obrigatório.`,
+  INVALID_PHONE: `Telefone inválido.`,
   MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
   MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
   LENGHT_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
@@ -49,7 +52,10 @@ const ERRORS = {
   REQUIRED_STATE: `Estado é obrigatório.`,
   REQUIRED_GENDER: `Gênero é obrigatório.`,
   REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
-  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
+  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`,
+  REQUIRED_NECESSITY: `O campo de necessidades é obrigatório.`,
+  REQUIRED_EXPECTATIONS: `O campo de expectativas é obrigatório.`,
+  REQUIRED_TREATMENTS: `O campo de tratamentos é obrigatório.`
 }
 
 const FormAluno = (props: {
@@ -61,7 +67,10 @@ const FormAluno = (props: {
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
   const validation = Yup.object({
-    telefone: Yup.string().trim().required(ERRORS.REQUIRED_PHONE),
+    telefone: Yup.string()
+      .trim()
+      .required(ERRORS.REQUIRED_PHONE)
+      .min(MIN_LENGTH_PHONE_VALUE, ERRORS.INVALID_PHONE),
     dataNascimento: Yup.date()
       .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
       .max(moment().toDate(), ERRORS.BIRTHDATE)
@@ -74,7 +83,10 @@ const FormAluno = (props: {
     UF: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
     escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY),
-    tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE)
+    tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE),
+    necessidades: Yup.string().required(ERRORS.REQUIRED_NECESSITY),
+    expectativas: Yup.string().required(ERRORS.REQUIRED_EXPECTATIONS),
+    tratamentos: Yup.string().required(ERRORS.REQUIRED_TREATMENTS)
   })
 
   const GENDER = [
