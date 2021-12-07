@@ -52,10 +52,7 @@ const ERRORS = {
   REQUIRED_STATE: `Estado é obrigatório.`,
   REQUIRED_GENDER: `Gênero é obrigatório.`,
   REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
-  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`,
-  REQUIRED_NECESSITY: `O campo de necessidades é obrigatório.`,
-  REQUIRED_EXPECTATIONS: `O campo de expectativas é obrigatório.`,
-  REQUIRED_TREATMENTS: `O campo de tratamentos é obrigatório.`
+  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
 }
 
 const FormAluno = (props: {
@@ -83,10 +80,7 @@ const FormAluno = (props: {
     UF: Yup.string().required(ERRORS.REQUIRED_STATE),
     genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
     escolaridade: Yup.string().required(ERRORS.REQUIRED_SCHOLARITY),
-    tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE),
-    necessidades: Yup.string().required(ERRORS.REQUIRED_NECESSITY),
-    expectativas: Yup.string().required(ERRORS.REQUIRED_EXPECTATIONS),
-    tratamentos: Yup.string().required(ERRORS.REQUIRED_TREATMENTS)
+    tipoEscola: Yup.string().required(ERRORS.REQUIRED_SCHOOL_TYPE)
   })
 
   const GENDER = [
@@ -124,7 +118,10 @@ const FormAluno = (props: {
             {
               ...values,
               tipoEscola: +values.tipoEscola,
-              escolaridade: +values.escolaridade
+              escolaridade: +values.escolaridade,
+              necessidades: values.necessidades || null,
+              expectativas: values.expectativas || null,
+              tratamentos: values.tratamentos || null
             },
             token
           )
