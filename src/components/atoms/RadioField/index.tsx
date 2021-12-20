@@ -1,4 +1,8 @@
-import { InputHTMLAttributes, ChangeEventHandler } from 'react'
+import React, {
+  InputHTMLAttributes,
+  ChangeEventHandler,
+  ForwardedRef
+} from 'react'
 
 import * as S from './styles'
 
@@ -17,28 +21,32 @@ export type RadioFieldProps = {
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function RadioField({
-  label,
-  name,
-  value,
-  onChange,
-  options,
-  error,
-  disabled,
-  role = 'radio',
-  ...props
-}: RadioFieldProps) {
+export const RadioField = React.forwardRef(function RadioField(
+  {
+    label,
+    name,
+    value,
+    onChange,
+    options,
+    error,
+    disabled,
+    role = 'radio',
+    ...props
+  }: RadioFieldProps,
+  ref?: ForwardedRef<HTMLInputElement>
+) {
   const renderRadioInput = () =>
     options.map((option, index) => (
       <S.InputWrapper key={index}>
         <S.Input
           value={option.value}
-          checked={value == option.value}
+          checked={value != null ? value == option.value : undefined}
           onChange={onChange}
           name={name}
           disabled={disabled}
           type="radio"
           role={role}
+          ref={ref}
           {...(!!label ? { id: option.label } : {})}
           {...props}
         />
@@ -53,4 +61,4 @@ export function RadioField({
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )
-}
+})

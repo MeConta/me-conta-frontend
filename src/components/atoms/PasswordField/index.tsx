@@ -1,4 +1,9 @@
-import { ChangeEventHandler, InputHTMLAttributes, useState } from 'react'
+import React, {
+  ChangeEventHandler,
+  ForwardedRef,
+  InputHTMLAttributes,
+  useState
+} from 'react'
 import PasswordStrengthBar from 'react-password-strength-bar'
 
 import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
@@ -28,18 +33,21 @@ export type PasswordFieldProps = {
   handleStrength?: (score: any, feedback: any) => void
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function PasswordField({
-  label,
-  name,
-  initialValue = '',
-  onChange,
-  value,
-  error,
-  disabled,
-  showStrengthBar = false,
-  handleStrength,
-  ...props
-}: PasswordFieldProps) {
+export const PasswordField = React.forwardRef(function PasswordField(
+  {
+    label,
+    name,
+    initialValue = '',
+    onChange,
+    value,
+    error,
+    disabled,
+    showStrengthBar = false,
+    handleStrength,
+    ...props
+  }: PasswordFieldProps,
+  ref?: ForwardedRef<HTMLInputElement>
+) {
   const [toggleType, setToggleType] = useState<ToggleType>('password')
 
   const toggleIcon = () => {
@@ -67,6 +75,7 @@ export function PasswordField({
         error={error}
         disabled={disabled}
         type={toggleType}
+        ref={ref}
         {...props}
       >
         <S.Icon data-testid="icon" onClick={toggleIcon}>
@@ -87,4 +96,4 @@ export function PasswordField({
       )}
     </>
   )
-}
+})

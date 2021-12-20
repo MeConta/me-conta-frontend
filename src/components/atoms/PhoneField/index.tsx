@@ -1,5 +1,5 @@
-import React, { useState, ChangeEvent, InputHTMLAttributes } from 'react'
-import InputMask from 'react-input-mask'
+import React, { ChangeEvent, ForwardedRef, InputHTMLAttributes } from 'react'
+import InputMask, { ReactInputMask } from 'react-input-mask'
 import { FormGroup } from '../FormGroup'
 import * as S from './styles'
 
@@ -12,14 +12,10 @@ export type PhoneFieldProps = {
   value?: string
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function PhoneField({
-  label,
-  name,
-  error,
-  value,
-  onChange,
-  ...props
-}: PhoneFieldProps) {
+export const PhoneField = React.forwardRef(function PhoneField(
+  { label, name, error, value, onChange, ...props }: PhoneFieldProps,
+  ref?: ForwardedRef<ReactInputMask>
+) {
   const removePhoneMask = (inputValue: string): string => {
     const onlyPhoneNumbers = inputValue.replace(/\D/g, '')
     return onlyPhoneNumbers
@@ -51,9 +47,10 @@ export function PhoneField({
           value={value}
           name={name}
           id={name}
+          ref={ref}
           {...props}
         />
       </S.InputWrapper>
     </FormGroup>
   )
-}
+})

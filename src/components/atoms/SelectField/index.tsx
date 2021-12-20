@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEventHandler } from 'react'
+import React, { ReactNode, ChangeEventHandler, ForwardedRef } from 'react'
 import { FormGroup } from '../FormGroup'
 
 import * as S from './styles'
@@ -22,16 +22,19 @@ export type SelectFieldProps = {
   onChange?: ChangeEventHandler<any> | undefined
 }
 
-export function SelectField({
-  label,
-  name,
-  onChange,
-  options,
-  error,
-  disabled,
-  defaultSelect,
-  ...props
-}: SelectFieldProps) {
+export const SelectField = React.forwardRef(function SelectField(
+  {
+    label,
+    name,
+    onChange,
+    options,
+    error,
+    disabled,
+    defaultSelect,
+    ...props
+  }: SelectFieldProps,
+  ref?: ForwardedRef<HTMLSelectElement>
+) {
   return (
     <FormGroup error={error} name={name} label={label}>
       <S.Select
@@ -39,6 +42,7 @@ export function SelectField({
         name={name}
         disabled={disabled}
         id={name}
+        ref={ref}
         {...props}
       >
         <option disabled value="">
@@ -52,4 +56,4 @@ export function SelectField({
       </S.Select>
     </FormGroup>
   )
-}
+})

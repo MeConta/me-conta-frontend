@@ -1,4 +1,8 @@
-import { InputHTMLAttributes, ChangeEventHandler } from 'react'
+import React, {
+  InputHTMLAttributes,
+  ChangeEventHandler,
+  ForwardedRef
+} from 'react'
 
 import * as S from './styles'
 
@@ -11,15 +15,18 @@ export type CheckboxFieldProps = {
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function CheckboxField({
-  label,
-  name,
-  onChange,
-  value,
-  error,
-  disabled,
-  ...props
-}: CheckboxFieldProps) {
+export const CheckboxField = React.forwardRef(function CheckboxField(
+  {
+    label,
+    name,
+    onChange,
+    value,
+    error,
+    disabled,
+    ...props
+  }: CheckboxFieldProps,
+  ref?: ForwardedRef<HTMLInputElement>
+) {
   return (
     <S.Wrapper disabled={disabled}>
       <S.InputWrapper>
@@ -29,6 +36,7 @@ export function CheckboxField({
           name={name}
           disabled={disabled}
           type="checkbox"
+          ref={ref}
           {...(!!label ? { id: name } : {})}
           {...props}
         />
@@ -37,4 +45,4 @@ export function CheckboxField({
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )
-}
+})

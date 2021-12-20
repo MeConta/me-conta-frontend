@@ -1,4 +1,9 @@
-import { InputHTMLAttributes, ReactNode, ChangeEventHandler } from 'react'
+import React, {
+  InputHTMLAttributes,
+  ReactNode,
+  ChangeEventHandler,
+  ForwardedRef
+} from 'react'
 import { FormGroup } from '../FormGroup'
 
 import * as S from './styles'
@@ -15,17 +20,20 @@ export type TextFieldProps = {
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
-export function TextField({
-  label,
-  name,
-  onChange,
-  value,
-  error,
-  disabled,
-  type = 'text',
-  children,
-  ...props
-}: TextFieldProps) {
+export const TextField = React.forwardRef(function TextField(
+  {
+    label,
+    name,
+    onChange,
+    value,
+    error,
+    disabled,
+    type = 'text',
+    children,
+    ...props
+  }: TextFieldProps,
+  ref?: ForwardedRef<HTMLInputElement>
+) {
   return (
     <FormGroup label={label} name={name} error={error}>
       {children}
@@ -36,8 +44,9 @@ export function TextField({
         disabled={disabled}
         type={type}
         id={name}
+        ref={ref}
         {...props}
       />
     </FormGroup>
   )
-}
+})
