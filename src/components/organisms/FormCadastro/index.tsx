@@ -3,7 +3,6 @@ import { CheckboxField } from 'components/atoms/CheckboxField'
 import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
 import { RadioField } from 'components/atoms/RadioField'
 import { TextField } from 'components/atoms/TextField'
-import { Formik } from 'formik'
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import { UserType } from '../../../enums/user-type.enum'
@@ -14,6 +13,8 @@ import {
 import { BackendError } from '../../../types/backend-error'
 import * as S from './styles'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -55,6 +56,15 @@ export const TYPES = {
   }
 }
 
+const initialValues: MyFormValues = {
+  name: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  tipo: UserType.ALUNO,
+  termsConfirm: false
+}
+
 export function FormCadastro(props: {
   signupService: ISignupService
   handleSuccess: (form: SignupUser) => void
@@ -66,7 +76,7 @@ export function FormCadastro(props: {
   const [, setEmail] = useLocalStorage<string>('email', '')
   const [, setTipo] = useLocalStorage<UserType>('tipo', UserType.ALUNO)
 
-  const validation = Yup.object({
+  const validationSchema = Yup.object({
     name: Yup.string()
       .required(ERRORS.REQUIRED_NAME)
       .trim()
@@ -90,7 +100,17 @@ export function FormCadastro(props: {
     termsConfirm: Yup.boolean().required().oneOf([true], ERRORS.REQUIRED_TERM)
   })
 
-  const formSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
+  const {
+    register,
+    formState: { errors, isSubmitting, isSubmitted, isValid },
+    handleSubmit,
+    control
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues
+  })
+
+  const onSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
       const { token } = await props.signupService.initialSignup({
         nome: name,
@@ -108,109 +128,89 @@ export function FormCadastro(props: {
     }
   }
 
-  const initialValues: MyFormValues = {
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    tipo: UserType.ALUNO,
-    termsConfirm: false
-  }
-
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={formSubmit}
-      validationSchema={validation}
-    >
-      {({
-        values,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        isValid
-      }) => (
-        <S.Form onSubmit={handleSubmit}>
-          <TextField
-            label="Nome"
-            name="name"
-            maxLength={MAX_LENGTH_NAME_VALUE}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.name}
-            error={errors.name}
-          />
-          <TextField
-            label="E-mail"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            error={errors.email}
-          />
+    <S.Form onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        label="Nome"
+        maxLength={MAX_LENGTH_NAME_VALUE}
+        error={errors.name?.message}
+        {...register('name')}
+      />
+      <TextField
+        label="E-mail"
+        error={errors.email?.message}
+        {...register('email')}
+      />
+
+      <Controller
+        name="password"
+        control={control}
+        render={({ field }) => (
           <PasswordField
             label="Senha"
-            name="password"
             showStrengthBar
             handleStrength={(score) => {
               setPasswordScore(score)
             }}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            error={errors.password}
+            error={errors.password?.message}
+            {...field}
           />
+        )}
+      />
+
+      <Controller
+        name="passwordConfirm"
+        control={control}
+        render={({ field }) => (
           <PasswordField
             label="Confirmar Senha"
-            name="passwordConfirm"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.passwordConfirm}
-            error={errors.passwordConfirm}
+            {...field}
+            error={errors.passwordConfirm?.message}
           />
+        )}
+      />
+
+      <Controller
+        name="tipo"
+        control={control}
+        render={({ field }) => (
           <RadioField
             options={Object.values(TYPES).map((type) => {
               return { label: type.label, value: type.value }
             })}
-            name="tipo"
             label="Tipo"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.tipo}
-            error={errors.tipo}
+            error={errors.tipo?.message}
+            {...field}
           />
-          <CheckboxField
-            label={
-              <span>
-                Eu li e concordo com os{' '}
-                <a href="/static/termosDeUso.pdf" target="_blank">
-                  Termos de uso
-                </a>{' '}
-                e{' '}
-                <a href="/static/politicaPrivacidade.pdf" target="_blank">
-                  Políticas de Privacidade
-                </a>
-              </span>
-            }
-            name="termsConfirm"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            checked={values.termsConfirm}
-            error={errors.termsConfirm}
-          />
-          <S.ButtonContainer>
-            <Button
-              radius="square"
-              disabled={isSubmitting || !isValid}
-              type="submit"
-            >
-              CADASTRAR
-            </Button>
-          </S.ButtonContainer>
-        </S.Form>
-      )}
-    </Formik>
+        )}
+      />
+
+      <CheckboxField
+        label={
+          <span>
+            Eu li e concordo com os{' '}
+            <a href="/static/termosDeUso.pdf" target="_blank">
+              Termos de uso
+            </a>{' '}
+            e{' '}
+            <a href="/static/politicaPrivacidade.pdf" target="_blank">
+              Políticas de Privacidade
+            </a>
+          </span>
+        }
+        {...register('termsConfirm')}
+        error={errors.termsConfirm?.message}
+      />
+
+      <S.ButtonContainer>
+        <Button
+          radius="square"
+          disabled={isSubmitting || (isSubmitted && !isValid)}
+          type="submit"
+        >
+          CADASTRAR
+        </Button>
+      </S.ButtonContainer>
+    </S.Form>
   )
 }
