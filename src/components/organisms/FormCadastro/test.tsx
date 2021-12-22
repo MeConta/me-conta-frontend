@@ -74,26 +74,29 @@ describe('<FormCadastro/>', () => {
     })
   })
   it('deve exibir erro de email inválido', async () => {
-    const { email } = elements()
+    const { email, button } = elements()
     await userEvent.type(email, 'email')
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
     })
   })
   it('deve exibir erro de senha inválido', async () => {
-    const { password } = elements()
+    const { password, button } = elements()
     await userEvent.type(password, 'senha')
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(screen.getByText(/A senha deve ser forte/)).toBeInTheDocument()
     })
   })
   it('deve exibir erro de senhas diferentes', async () => {
-    const { password, confirm } = elements()
+    const { password, confirm, button } = elements()
 
     await userEvent.type(password, 'senha')
     await userEvent.type(confirm, 'not-senha')
+    fireEvent.click(button)
 
     await waitFor(() => {
       expect(screen.getByText(/As senhas devem ser iguais/)).toBeInTheDocument()
