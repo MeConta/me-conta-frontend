@@ -161,7 +161,7 @@ describe('<FormAluno />', () => {
     expect(necessidades).toHaveValue('Necessidades do aluno')
     expect(expectativas).toHaveValue('Expectativas do aluno')
     expect(tratamentos).toHaveValue('Tratamentos do aluno')
-    expect(button).toBeEnabled()
+    expect(button).toBeDisabled()
     await waitFor(async () => {
       expect(signupServiceMock.alunoSignup).toBeCalledWith(
         {
