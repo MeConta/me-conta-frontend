@@ -62,7 +62,7 @@ const validationSchema = Yup.object({
     .required(ERRORS.REQUIRED_PHONE)
     .min(MIN_LENGTH_PHONE_VALUE, ERRORS.INVALID_PHONE),
   dataNascimento: Yup.date()
-    .typeError(ERRORS.REQUIRED_DATA_NASCIMENTO)
+    .typeError(ERRORS.BIRTHDATE)
     .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
     .max(moment().toDate(), ERRORS.BIRTHDATE)
     .min(moment().subtract(100, 'years').toDate(), ERRORS.BIRTHDATE),
@@ -142,7 +142,7 @@ const FormAluno = (props: {
   }
 
   return (
-    <S.Form onSubmit={handleSubmit(onSubmit)}>
+    <S.Form onSubmit={handleSubmit(onSubmit)} noValidate>
       <TextField label="Nome Completo" name="name" disabled value={name} />
       <TextField label="E-mail" name="email" disabled value={email} />
 
