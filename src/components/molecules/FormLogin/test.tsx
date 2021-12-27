@@ -8,6 +8,7 @@ import {
   waitFor
 } from 'utils/tests/helpers'
 import { FormLogin } from '.'
+import router from '../../../../__mocks__/next/router'
 import { IAuthService } from '../../../services/auth-services/auth-service'
 
 const preencherFormularioParaSubmeter = async () => {
@@ -67,6 +68,48 @@ describe('<FormLogin/>', () => {
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()
+    })
+  })
+
+  it('deve redirecionar para dashboard de aluno', async () => {
+    await preencherFormularioParaSubmeter()
+
+    jest
+      .spyOn(authServiceMock, 'login')
+      .mockImplementation(() =>
+        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO })
+      )
+
+    await waitFor(() => {
+      expect(router.push).toBeCalledWith('/dashboard-aluno')
+    })
+  })
+
+  it('deve redirecionar para dashboard de atendente', async () => {
+    await preencherFormularioParaSubmeter()
+
+    jest
+      .spyOn(authServiceMock, 'login')
+      .mockImplementation(() =>
+        Promise.resolve({ token: 'XPTO', tipo: UserType.ATENDENTE })
+      )
+
+    await waitFor(() => {
+      expect(router.push).toBeCalledWith('/dashboard-atendente')
+    })
+  })
+
+  it('deve redirecionar para dashboard de surpervisor', async () => {
+    await preencherFormularioParaSubmeter()
+
+    jest
+      .spyOn(authServiceMock, 'login')
+      .mockImplementation(() =>
+        Promise.resolve({ token: 'XPTO', tipo: UserType.SUPERVISOR })
+      )
+
+    await waitFor(() => {
+      expect(router.push).toBeCalledWith('/dashboard-surpervisor')
     })
   })
 

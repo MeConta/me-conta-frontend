@@ -4,6 +4,7 @@ import { TextField } from 'components/atoms/TextField'
 import { UserType } from 'enums/user-type.enum'
 import { Formik } from 'formik'
 import { useLocalStorage } from 'hooks/localstorage.hook'
+import router from 'next/router'
 import { BackendError } from 'types/backend-error'
 import * as Yup from 'yup'
 import { IAuthService } from '../../../services/auth-services/auth-service'
@@ -44,6 +45,14 @@ export const FormLogin = ({
       setToken(token)
       handleSuccess()
       setTipo(tipo.toString())
+
+      if (tipo === UserType.ALUNO) {
+        router.push('/dashboard-aluno')
+      } else if (tipo === UserType.ATENDENTE) {
+        router.push('/dashboard-atendente')
+      } else if (tipo === UserType.SUPERVISOR) {
+        router.push('/dashboard-surpervisor')
+      }
     } catch (error) {
       handleError(error)
     }
