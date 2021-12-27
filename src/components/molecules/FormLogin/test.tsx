@@ -56,7 +56,7 @@ describe('<FormLogin/>', () => {
     })
   })
 
-  it('deve submeter formulário e chamar callback de sucesso', async () => {
+  it('deve chamar o serviço de login', async () => {
     await preencherFormularioParaSubmeter()
 
     jest
@@ -67,7 +67,6 @@ describe('<FormLogin/>', () => {
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()
-      expect(handleSuccessMock).toBeCalled()
     })
   })
 
