@@ -9,7 +9,7 @@ import { IAuthService } from '../../../services/auth-services/auth-service'
 
 import * as S from './styles'
 
-type MyFormValues = {
+type FormLoginValues = {
   email: string
   password: string
 }
@@ -34,7 +34,7 @@ export const FormLogin = ({
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setTipo] = useLocalStorage<string>('tipo', '')
 
-  const formSubmit = async ({ email, password }: MyFormValues) => {
+  const formSubmit = async ({ email, password }: FormLoginValues) => {
     try {
       const { token, tipo } = await authService.login({
         email,
@@ -55,7 +55,7 @@ export const FormLogin = ({
     password: Yup.string().required(ERRORS.REQUIRED_PASSWORD)
   })
 
-  const initialValues: MyFormValues = { email: '', password: '' }
+  const initialValues: FormLoginValues = { email: '', password: '' }
 
   return (
     <Formik
