@@ -18,7 +18,6 @@ type FormLoginValues = {
 
 type FormLoginProps = {
   authService: IAuthService
-  handleSuccess: () => void
   handleError: (error: BackendError) => void
 }
 
@@ -28,11 +27,7 @@ const ERRORS = {
   REQUIRED_PASSWORD: `A senha é obrigatório`
 }
 
-export const FormLogin = ({
-  authService,
-  handleSuccess,
-  handleError
-}: FormLoginProps) => {
+export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setTipo] = useLocalStorage<string>('tipo', '')
 
@@ -43,7 +38,6 @@ export const FormLogin = ({
         senha: password
       })
       setToken(token)
-      handleSuccess()
       setTipo(tipo.toString())
 
       if (tipo === UserType.ALUNO) {

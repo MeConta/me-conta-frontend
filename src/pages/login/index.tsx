@@ -1,6 +1,5 @@
 import { WrapperForm } from 'components/molecules/WrapperForm'
 import Link from 'next/link'
-import router from 'next/router'
 import { BackendError } from 'types/backend-error'
 import { FormLogin } from '../../components/molecules/FormLogin'
 import { useAuthService } from '../../services/auth-services/auth-service'
@@ -16,10 +15,6 @@ export default function Login() {
         <F.Header>Login</F.Header>
         <FormLogin
           authService={authService}
-          handleSuccess={() => {
-            // fazer validação para enviar para dashboard correto
-            router.push('/dashboard-aluno')
-          }}
           handleError={(error: BackendError) => {
             console.log(error)
           }}

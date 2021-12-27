@@ -26,16 +26,11 @@ describe('<FormLogin/>', () => {
   const authServiceMock: IAuthService = {
     login: jest.fn()
   }
-  const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
 
   beforeEach(() => {
     renderResult = render(
-      <FormLogin
-        authService={authServiceMock}
-        handleSuccess={handleSuccessMock}
-        handleError={handleErrorMock}
-      />
+      <FormLogin authService={authServiceMock} handleError={handleErrorMock} />
     )
   })
 
