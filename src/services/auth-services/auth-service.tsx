@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { UserType } from 'enums/user-type.enum'
 import { createContext, PropsWithChildren, useContext } from 'react'
 
 type LoginForm = {
@@ -12,7 +13,7 @@ type ResetSenhaForm = {
 }
 
 export interface IAuthService {
-  login(form: LoginForm): Promise<{ token: string; tipo: string }>
+  login(form: LoginForm): Promise<{ token: string; tipo: UserType }>
   recuperarSenha?(email: string): Promise<void>
   resetarSenha?(form: ResetSenhaForm): Promise<void>
 }
@@ -21,7 +22,7 @@ export class AuthService implements IAuthService {
   constructor(private readonly service: AxiosInstance) {}
   async login(form: LoginForm): Promise<{
     token: string
-    tipo: string
+    tipo: UserType
   }> {
     const response = await this.service.post('/auth/login/', {
       username: form.email,
@@ -29,7 +30,7 @@ export class AuthService implements IAuthService {
     })
     return {
       token: response.data.token,
-      tipo: response.data.tipo
+      tipo: parseInt(response.data.tipo, 10) as UserType
     }
   }
 

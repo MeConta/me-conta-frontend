@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event'
+import { UserType } from 'enums/user-type.enum'
 import {
   fireEvent,
   render,
@@ -60,7 +61,9 @@ describe('<FormLogin/>', () => {
 
     jest
       .spyOn(authServiceMock, 'login')
-      .mockImplementation(() => Promise.resolve({ token: 'XPTO', tipo: '0' }))
+      .mockImplementation(() =>
+        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO })
+      )
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()

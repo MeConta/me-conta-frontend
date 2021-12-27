@@ -1,6 +1,7 @@
 import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
+import { UserType } from 'enums/user-type.enum'
 import { Formik } from 'formik'
 import { useLocalStorage } from 'hooks/localstorage.hook'
 import { BackendError } from 'types/backend-error'
@@ -41,8 +42,8 @@ export const FormLogin = ({
         senha: password
       })
       setToken(token)
-      setTipo(tipo)
       handleSuccess()
+      setTipo(tipo.toString())
     } catch (error) {
       handleError(error)
     }
