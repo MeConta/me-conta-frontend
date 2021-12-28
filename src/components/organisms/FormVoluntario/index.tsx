@@ -1,8 +1,5 @@
 import { TextField } from 'components/atoms/TextField'
-import { Formik } from 'formik'
-import * as Yup from 'yup'
 import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
-import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
 import * as S from './styles'
 import { Button } from 'components/atoms/Button'
@@ -18,35 +15,15 @@ import { States } from '../FormAluno/states'
 import { TextAreaField } from '../../atoms/TextAreaField'
 import { CheckboxField } from '../../atoms/CheckboxField'
 import { BackendError } from '../../../types/backend-error'
+import ESituacaoCurso from './situacao-curso'
+import { Formik } from 'formik'
+import validationSchema from './validation'
+import FormVoluntarioValues from './values-type'
 
 type FormVoluntarioProps = {
   signupVoluntarioService: ISignupVoluntarioService
   handleSuccess: () => void
   handleError: (err: BackendError) => void
-}
-
-enum ESituacaoCurso {
-  COMPLETO = `COMPLETO`,
-  ANDAMENTO = `ANDAMENTO`
-}
-
-type MyFormValues = {
-  telefone: string
-  dataNascimento: string
-  cidade: string
-  UF: EBrazilStates | string
-  genero: string
-  instituicao: string
-  frentes: number[]
-  formado: string
-  anoFormacao: number
-  semestre: number
-  especializacoes: string
-  areaAtuacao: string
-  crp: string
-  bio: string
-  tipo: UserType
-  abordagem: string
 }
 
 const TYPES = {
@@ -72,41 +49,22 @@ const areasAtuacao = [
   }
 ]
 
-const MAX_LENGTH_CITY_VALUE = 100
-const MIN_LENGTH_CITY_VALUE = 3
-
-const MAX_LENGTH_NAME_VALUE = 100
-const MIN_LENGTH_NAME_VALUE = 2
-const LENGTH_PHONE_VALUE = 11
-
-const MIN_LENGTH_PHONE_VALUE = 10
-
-const ERRORS = {
-  REQUIRED_NAME: `Nome completo é obrigatório.`,
-  REQUIRED_PHONE: `Telefone é obrigatório.`,
-  MIN_LENGTH_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres.`,
-  MAX_LENGTH_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
-  LENGTH_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
-  INVALID_PHONE: `Telefone inválido.`,
-  REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
-  MIN_AGE: `Voluntários devem ter mais de 18 anos.`,
-  MAX_BIRTHDATE: `Data de nascimento inválida.`,
-  MIN_CITY_NAME: `Cidade deve conter mais de ${MIN_LENGTH_CITY_VALUE} caracteres.`,
-  MAX_CITY_NAME: `Cidade deve conter menos de ${MAX_LENGTH_CITY_VALUE} caracteres.`,
-  REQUIRED_CITY: `Cidade é obrigatório.`,
-  REQUIRED_STATE: `Estado é obrigatório.`,
-  REQUIRED_GENDER: `Gênero é obrigatório.`,
-  REQUIRED_EDUCATION: `Escolaridade é obrigatória.`,
-  REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`,
-  REQUIRED_SCHOOL: `Instituição é obrigatória`,
-  REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
-  REQUIRED_CRP: `CRP é obrigatório`,
-  REQUIRED_FIELD: `Área de atuação é obrigatória`,
-  REQUIRED_BIO: `A Apresentação é obrigatória`,
-  INVALID_YEAR: 'Ano de formação inválido',
-  REQUIRED_FRONTS: 'Frentes de atuação é obrigatório',
-  REQUIRED_FORMATION_SEMESTER: `Semestre de formação é obrigatório.`,
-  MIN_SEMESTER: 'Semestre deve ser no mínimo 1.'
+const frentesCheckbox = (
+  value: number[],
+  cb: (e: ChangeEvent<any> | ChangeEvent<HTMLInputElement>) => void,
+  ...labels: string[]
+) => {
+  return labels.map((label, i) => {
+    return (
+      <CheckboxField
+        key={i}
+        label={label}
+        name={`frentesAtuacao${i}`}
+        value={i}
+        onChange={cb}
+      />
+    )
+  })
 }
 
 export function FormVoluntario({
@@ -118,56 +76,8 @@ export function FormVoluntario({
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
   const [tipo] = useLocalStorage<UserType>('tipo', UserType.ATENDENTE)
-  const validation = Yup.object({
-    telefone: Yup.string()
-      .trim()
-      .required(ERRORS.REQUIRED_PHONE)
-      .min(MIN_LENGTH_PHONE_VALUE, ERRORS.INVALID_PHONE),
-    dataNascimento: Yup.date()
-      .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
-      .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE)
-      .min(moment().subtract(100, 'years').toDate(), ERRORS.MAX_BIRTHDATE),
-    cidade: Yup.string()
-      .required(ERRORS.REQUIRED_CITY)
-      .trim()
-      .min(MIN_LENGTH_CITY_VALUE, ERRORS.MIN_CITY_NAME)
-      .max(MAX_LENGTH_CITY_VALUE, ERRORS.MAX_CITY_NAME),
-    UF: Yup.string().required(ERRORS.REQUIRED_STATE),
-    genero: Yup.string().required(ERRORS.REQUIRED_GENDER),
-    anoFormacao: Yup.number().when('formado', {
-      is: ESituacaoCurso.COMPLETO,
-      then: Yup.number()
-        .required(ERRORS.REQUIRED_FORMATION_YEAR)
-        .max(+moment().format('YYYY'), ERRORS.INVALID_YEAR)
-    }),
-    semestre: Yup.number().when('formado', {
-      is: ESituacaoCurso.ANDAMENTO,
-      then: Yup.number()
-        .required(ERRORS.REQUIRED_FORMATION_SEMESTER)
-        .min(1, ERRORS.MIN_SEMESTER)
-    }),
-    crp: Yup.string()
-      .when('formado', {
-        is: ESituacaoCurso.COMPLETO,
-        then: Yup.string().required(ERRORS.REQUIRED_CRP)
-      })
-      .when('tipo', {
-        is: '1',
-        then: Yup.string().required(ERRORS.REQUIRED_CRP)
-      }),
-    instituicao: Yup.string().required(ERRORS.REQUIRED_SCHOOL),
-    areaAtuacao: Yup.string().when('formado', {
-      is: ESituacaoCurso.COMPLETO,
-      then: Yup.string().required(ERRORS.REQUIRED_FIELD)
-    }),
-    frentes: Yup.array().min(1, ERRORS.REQUIRED_FRONTS).required(),
-    bio: Yup.string().when('tipo', {
-      is: '2',
-      then: Yup.string().required(ERRORS.REQUIRED_BIO)
-    })
-  })
 
-  const initialValues: MyFormValues = {
+  const initialValues: FormVoluntarioValues = {
     telefone: '',
     dataNascimento: '',
     cidade: '',
@@ -186,25 +96,7 @@ export function FormVoluntario({
     abordagem: ''
   }
 
-  const frentesCheckbox = (
-    value: number[],
-    cb: (e: ChangeEvent<any> | ChangeEvent<HTMLInputElement>) => void,
-    ...labels: string[]
-  ) => {
-    return labels.map((label, i) => {
-      return (
-        <CheckboxField
-          key={i}
-          label={label}
-          name={`frentesAtuacao${i}`}
-          value={i}
-          onChange={cb}
-        />
-      )
-    })
-  }
-
-  const formSubmit = async (form: MyFormValues) => {
+  const onSubmit = async (form: FormVoluntarioValues) => {
     try {
       await signupVoluntarioService.voluntarioSignUp(
         {
@@ -221,15 +113,15 @@ export function FormVoluntario({
       )
       handleSuccess()
     } catch (e) {
-      handleError(e)
+      handleError(e as BackendError)
     }
   }
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={formSubmit}
-      validationSchema={validation}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
     >
       {({
         values,
