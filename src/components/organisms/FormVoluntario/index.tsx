@@ -4,7 +4,7 @@ import { ISignupVoluntarioService } from 'services/signup-voluntario-service/sig
 import * as S from './styles'
 import { Button } from 'components/atoms/Button'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useEffect } from 'react'
 import { UserType } from '../../../enums/user-type.enum'
 import { RadioField } from '../../atoms/RadioField'
 
@@ -16,9 +16,10 @@ import { TextAreaField } from '../../atoms/TextAreaField'
 import { CheckboxField } from '../../atoms/CheckboxField'
 import { BackendError } from '../../../types/backend-error'
 import ESituacaoCurso from './situacao-curso'
-import { Formik } from 'formik'
 import validationSchema from './validation'
 import FormVoluntarioValues from './values-type'
+import { Controller, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type FormVoluntarioProps = {
   signupVoluntarioService: ISignupVoluntarioService
@@ -46,6 +47,17 @@ const areasAtuacao = [
   {
     value: 'psicologo',
     label: 'Psicólogo'
+  }
+]
+
+const optionsFormacao = [
+  {
+    value: ESituacaoCurso.COMPLETO,
+    label: 'Superior Completo'
+  },
+  {
+    value: ESituacaoCurso.ANDAMENTO,
+    label: 'Superior em Andamento'
   }
 ]
 
@@ -84,7 +96,7 @@ export function FormVoluntario({
     genero: '',
     UF: '',
     instituicao: '',
-    formado: +tipo == 1 ? ESituacaoCurso.COMPLETO : ESituacaoCurso.ANDAMENTO,
+    formado: '',
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
     especializacoes: '',
@@ -92,7 +104,7 @@ export function FormVoluntario({
     areaAtuacao: '',
     frentes: [],
     bio: '',
-    tipo: +tipo,
+    tipo: '',
     abordagem: ''
   }
 
@@ -101,6 +113,7 @@ export function FormVoluntario({
       await signupVoluntarioService.voluntarioSignUp(
         {
           ...form,
+          dataNascimento: moment(form.dataNascimento).format('YYYY-MM-DD'),
           formado:
             form.tipo == 1 ? true : form.formado === ESituacaoCurso.COMPLETO,
           tipo: +form.tipo,
@@ -117,223 +130,194 @@ export function FormVoluntario({
     }
   }
 
+  const {
+    register,
+    formState: { errors, isSubmitting, isSubmitted, isValid },
+    handleSubmit,
+    control,
+    watch,
+    setValue
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues
+  })
+
+  useEffect(() => {
+    setValue('tipo', +tipo)
+    setValue(
+      'formado',
+      +tipo === UserType.SUPERVISOR
+        ? ESituacaoCurso.COMPLETO
+        : ESituacaoCurso.ANDAMENTO
+    )
+  }, [tipo, setValue])
+
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validationSchema}
-    >
-      {({
-        values,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        setFieldValue,
-        isValid
-      }) => (
-        <S.Form onSubmit={handleSubmit}>
-          <TextField label="Nome Completo" name="name" disabled value={name} />
-          <TextField label="E-mail" name="email" disabled value={email} />
+    <S.Form onSubmit={handleSubmit(onSubmit)}>
+      <TextField label="Nome Completo" name="name" disabled value={name} />
+      <TextField label="E-mail" name="email" disabled value={email} />
+
+      <Controller
+        name="tipo"
+        control={control}
+        render={({ field }) => (
           <RadioField
             options={Object.values(TYPES).map((type, index) => {
               return { label: type, value: index + 1 }
             })}
-            name="tipo"
             label="Tipo de voluntário:"
-            onChange={(e) => {
-              setFieldValue('formado', ESituacaoCurso.COMPLETO)
-              handleChange(e)
-            }}
-            onBlur={handleBlur}
-            value={+values.tipo}
-            error={errors.tipo}
+            error={errors.tipo?.message}
+            {...field}
           />
+        )}
+      />
+
+      <Controller
+        name="telefone"
+        control={control}
+        render={({ field }) => (
           <PhoneField
             data-testid="phone-number"
             label="Telefone"
-            name="telefone"
-            onBlur={handleBlur}
-            error={errors.telefone}
-            value={values.telefone}
-            onChange={handleChange}
+            error={errors.telefone?.message}
+            {...field}
           />
-          <TextField
-            label="Data de nascimento"
-            name="dataNascimento"
-            type="date"
-            max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.dataNascimento}
-            error={errors.dataNascimento}
-          />
-          <SelectField
-            label="Estado"
-            name="UF"
-            options={States}
-            onChange={handleChange}
-            value={values.UF}
-            error={errors.UF}
-          />
-          <TextField
-            label="Cidade"
-            name="cidade"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.cidade}
-            error={errors.cidade}
-          />
+        )}
+      />
+      <TextField
+        label="Data de nascimento"
+        type="date"
+        max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
+        error={errors.dataNascimento?.message}
+        {...register('dataNascimento')}
+      />
+      <SelectField
+        label="Estado"
+        options={States}
+        error={errors.UF?.message}
+        {...register('UF')}
+      />
+      <TextField
+        label="Cidade"
+        error={errors.cidade?.message}
+        {...register('cidade')}
+      />
+      <Controller
+        name="genero"
+        control={control}
+        render={({ field }) => (
           <RadioField
             options={GENDER}
-            name="genero"
             label="Gênero"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.genero}
-            error={errors.genero}
+            error={errors.genero?.message}
+            {...field}
+          />
+        )}
+      />
+      <TextField
+        label="Instituição de ensino"
+        error={errors.instituicao?.message}
+        {...register('instituicao')}
+      />
+      {watch('tipo') === UserType.ATENDENTE && (
+        <Controller
+          name="formado"
+          control={control}
+          render={({ field }) => (
+            <RadioField
+              options={optionsFormacao}
+              label="Nível de Formação"
+              error={errors.formado?.message}
+              {...field}
+            />
+          )}
+        />
+      )}
+      {watch('formado') !== ESituacaoCurso.COMPLETO &&
+        watch('tipo') != UserType.SUPERVISOR && (
+          <TextField
+            label="Semestre"
+            type="number"
+            min={0}
+            max={10}
+            {...register('semestre')}
+            error={errors.semestre?.message}
+          />
+        )}
+      {(watch('formado') === ESituacaoCurso.COMPLETO ||
+        watch('tipo') == UserType.SUPERVISOR) && (
+        <>
+          <TextField
+            label="Ano de conclusão"
+            type="number"
+            data-testid="anoFormacao"
+            max={+moment().format('YYYY')}
+            error={errors.anoFormacao?.message}
+            {...register('anoFormacao')}
           />
           <TextField
-            label="Instituição de ensino"
-            name="instituicao"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.instituicao}
-            error={errors.instituicao}
+            label="CRP"
+            error={errors.crp?.message}
+            {...register('crp')}
           />
-          {+values.tipo === 2 && (
-            <RadioField
-              options={[
-                {
-                  value: ESituacaoCurso.COMPLETO,
-                  label: 'Superior Completo'
-                },
-                {
-                  value: ESituacaoCurso.ANDAMENTO,
-                  label: 'Superior em Andamento'
-                }
-              ]}
-              name="formado"
-              label="Nível de Formação"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.formado}
-              error={errors.formado}
-            />
-          )}
-          {values.formado !== ESituacaoCurso.COMPLETO && values.tipo != 1 && (
-            <TextField
-              label="Semestre"
-              name="semestre"
-              type="number"
-              min={0}
-              max={10}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={
-                values.formado !== ESituacaoCurso.COMPLETO
-                  ? values.semestre
-                  : ''
-              }
-              error={errors.semestre}
-            />
-          )}
-          {(values.formado === ESituacaoCurso.COMPLETO || values.tipo == 1) && (
-            <>
-              <TextField
-                label="Ano de conclusão"
-                name="anoFormacao"
-                type="number"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                data-testid="anoFormacao"
-                max={+moment().format('YYYY')}
-                value={values.anoFormacao}
-                error={errors.anoFormacao}
-              />
-              <TextField
-                label="CRP"
-                name="crp"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.crp}
-                error={errors.crp}
-              />
-              <TextAreaField
-                label="Possui especialização? Se sim, qual(is)?"
-                name="especializacoes"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.especializacoes}
-                error={errors.especializacoes}
-              />
-              <SelectField
-                label="Área de Atuação"
-                name="areaAtuacao"
-                options={areasAtuacao}
-                onChange={handleChange}
-                value={values.areaAtuacao}
-                error={errors.areaAtuacao}
-              />
-              <TextField
-                label="Abordagem psicoterápica"
-                name="abordagem"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.abordagem}
-                error={errors.abordagem}
-              />
-            </>
-          )}
-          <S.Title>
-            Selecione em quais frentes você gostaria de atuar (pode selecionar
-            mais de uma opção):
-          </S.Title>
-          {frentesCheckbox(
-            values.frentes,
-            (e) => {
-              if (e.target.checked) {
-                setFieldValue(
-                  'frentes',
-                  [...values.frentes, +e.target.value].sort()
-                )
-                // values.frentes.push(+e.target.value)
-              } else {
-                const novasFrentes = values.frentes.filter(
-                  (value) => +e.target.value !== value
-                )
-                setFieldValue('frentes', [...novasFrentes].sort())
-              }
-            },
-            'Sessões de acolhimento dos estudantes',
-            'Coaching de rotina de estudos',
-            'Orientação vocacional'
-          )}
-          <S.FrenteError>{errors.frentes}</S.FrenteError>
-
-          {+values.tipo === 2 && (
-            <TextAreaField
-              label="Breve descrição sobre você (Será utilizada em sua apresentação)"
-              name="bio"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.bio}
-              error={errors.bio}
-            />
-          )}
-
-          <S.ButtonContainer>
-            <Button
-              radius="square"
-              disabled={isSubmitting || !isValid}
-              type="submit"
-            >
-              CADASTRAR
-            </Button>
-          </S.ButtonContainer>
-        </S.Form>
+          <TextAreaField
+            label="Possui especialização? Se sim, qual(is)?"
+            error={errors.especializacoes?.message}
+            {...register('especializacoes')}
+          />
+          <SelectField
+            label="Área de Atuação"
+            options={areasAtuacao}
+            error={errors.areaAtuacao?.message}
+            {...register('areaAtuacao')}
+          />
+          <TextField
+            label="Abordagem psicoterápica"
+            error={errors.abordagem?.message}
+            {...register('abordagem')}
+          />
+        </>
       )}
-    </Formik>
+      <S.Title>
+        Selecione em quais frentes você gostaria de atuar (pode selecionar mais
+        de uma opção):
+      </S.Title>
+      {frentesCheckbox(
+        watch('frentes'),
+        (e) => {
+          if (e.target.checked) {
+            setValue('frentes', [...watch('frentes'), +e.target.value].sort())
+            // values.frentes.push(+e.target.value)
+          } else {
+            const novasFrentes = watch('frentes').filter(
+              (value) => +e.target.value !== value
+            )
+            setValue('frentes', [...novasFrentes].sort())
+          }
+        },
+        'Sessões de acolhimento dos estudantes',
+        'Coaching de rotina de estudos',
+        'Orientação vocacional'
+      )}
+      <S.FrenteError>{errors.frentes}</S.FrenteError>
+
+      {+watch('tipo') === UserType.ATENDENTE && (
+        <TextAreaField
+          label="Breve descrição sobre você (Será utilizada em sua apresentação)"
+          error={errors.bio?.message}
+          {...register('bio')}
+        />
+      )}
+
+      <S.ButtonContainer>
+        <Button
+          radius="square"
+          disabled={isSubmitting || (isSubmitted && !isValid)}
+          type="submit"
+        >
+          CADASTRAR
+        </Button>
+      </S.ButtonContainer>
+    </S.Form>
   )
 }

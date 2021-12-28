@@ -16,7 +16,7 @@ type FormVoluntarioValues = {
   areaAtuacao: string
   crp: string
   bio: string
-  tipo: UserType
+  tipo: UserType | ''
   abordagem: string
 }
 

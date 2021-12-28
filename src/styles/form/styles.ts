@@ -34,7 +34,7 @@ export const Subtitle = styled.p`
   `}
 `
 
-export const Footer = styled.p`
+export const Footer = styled.div`
   ${({ theme }) => css`
     justify-content: center;
     text-align: left;
