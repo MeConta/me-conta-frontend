@@ -28,6 +28,12 @@ const ERRORS = {
   REQUIRED_PASSWORD: `A senha é obrigatório`
 }
 
+const redirects = {
+  [UserType.ALUNO]: '/dashboard-aluno',
+  [UserType.ATENDENTE]: '/dashboard-atendente',
+  [UserType.SUPERVISOR]: '/dashboard-supervisor'
+}
+
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setTipo] = useLocalStorage<string>('tipo', '')
@@ -41,12 +47,10 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
       setToken(token)
       setTipo(tipo.toString())
 
-      if (tipo === UserType.ALUNO) {
-        router.push('/dashboard-aluno')
-      } else if (tipo === UserType.ATENDENTE) {
-        router.push('/dashboard-atendente')
-      } else if (tipo === UserType.SUPERVISOR) {
-        router.push('/dashboard-surpervisor')
+      const redirect = redirects[tipo]
+
+      if (redirect) {
+        router.push(redirect)
       }
     } catch (error) {
       handleError(error)

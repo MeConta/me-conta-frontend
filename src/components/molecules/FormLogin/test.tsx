@@ -96,7 +96,7 @@ describe('<FormLogin/>', () => {
     })
   })
 
-  it('deve redirecionar para dashboard de surpervisor', async () => {
+  it('deve redirecionar para dashboard de supervisor', async () => {
     await preencherFormularioParaSubmeter()
 
     jest
@@ -106,7 +106,7 @@ describe('<FormLogin/>', () => {
       )
 
     await waitFor(() => {
-      expect(router.push).toBeCalledWith('/dashboard-surpervisor')
+      expect(router.push).toBeCalledWith('/dashboard-supervisor')
     })
   })
 
