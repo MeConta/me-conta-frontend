@@ -1,10 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
 import { UserType } from 'enums/user-type.enum'
-import { Formik } from 'formik'
 import { useLocalStorage } from 'hooks/localstorage.hook'
 import router from 'next/router'
+import { Controller, useForm } from 'react-hook-form'
 import { BackendError } from 'types/backend-error'
 import * as Yup from 'yup'
 import { IAuthService } from '../../../services/auth-services/auth-service'
@@ -31,7 +32,7 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setTipo] = useLocalStorage<string>('tipo', '')
 
-  const formSubmit = async ({ email, password }: FormLoginValues) => {
+  const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
       const { token, tipo } = await authService.login({
         email,
@@ -61,49 +62,43 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
 
   const initialValues: FormLoginValues = { email: '', password: '' }
 
+  const {
+    register,
+    formState: { errors, isSubmitting, isSubmitted, isValid },
+    handleSubmit,
+    control
+  } = useForm({
+    resolver: yupResolver(SigninSchema),
+    defaultValues: initialValues
+  })
+
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={formSubmit}
-      validationSchema={SigninSchema}
-    >
-      {({
-        values,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        isValid
-      }) => (
-        <S.Form onSubmit={handleSubmit}>
-          <TextField
-            label="E-mail"
-            name="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-            error={errors.email}
-          />
+    <S.Form onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        label="E-mail"
+        error={errors.email?.message}
+        {...register('email')}
+      />
+      <Controller
+        name="password"
+        control={control}
+        render={({ field }) => (
           <PasswordField
             label="Senha"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            error={errors.password}
+            error={errors.password?.message}
+            {...field}
           />
-          <S.ButtonContainer>
-            <Button
-              radius="square"
-              disabled={isSubmitting || !isValid}
-              type="submit"
-            >
-              ENTRAR
-            </Button>
-          </S.ButtonContainer>
-        </S.Form>
-      )}
-    </Formik>
+        )}
+      />
+      <S.ButtonContainer>
+        <Button
+          radius="square"
+          disabled={isSubmitting || (isSubmitted && !isValid)}
+          type="submit"
+        >
+          ENTRAR
+        </Button>
+      </S.ButtonContainer>
+    </S.Form>
   )
 }

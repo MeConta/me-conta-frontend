@@ -44,8 +44,10 @@ describe('<FormLogin/>', () => {
 
   it('deve exibir error de email inválido', async () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
+    const submit = screen.getByRole('button')
 
     await userEvent.type(email, 'meuemailcom')
+    await fireEvent.click(submit)
 
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
