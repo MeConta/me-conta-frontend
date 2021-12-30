@@ -4,7 +4,7 @@ import { IAuthService } from 'services/auth-services/auth-service'
 import { fireEvent, render, screen, waitFor } from 'utils/tests/helpers'
 import { FormResetSenha } from '.'
 
-describe('<FormAluno />', () => {
+describe('<FormResetSenha />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const hashMock = 'djasi-dbfi#$!-S@AFDB'
@@ -68,6 +68,27 @@ describe('<FormAluno />', () => {
     await waitFor(() => {
       expect(authServiceMock.resetarSenha).toBeCalled()
       expect(handleErrorMock).toBeCalled()
+    })
+  })
+
+  it('deve exibir error de campos obrigatorios', async () => {
+    const { button } = elements()
+    fireEvent.click(button)
+    await waitFor(() => {
+      expect(screen.getByText(/A senha é obrigatória/)).toBeInTheDocument()
+      expect(
+        screen.getByText(/A confirmação de senha é obrigatória/)
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('deve exibir error de senhas diferentes', async () => {
+    const { button, password, confirm } = elements()
+    userEvent.type(password, '123849uiwebfiue%$#A')
+    userEvent.type(confirm, 'diferente')
+    fireEvent.click(button)
+    await waitFor(() => {
+      expect(screen.getByText(/As senhas devem ser iguais/)).toBeInTheDocument()
     })
   })
 })

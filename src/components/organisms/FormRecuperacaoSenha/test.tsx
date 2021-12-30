@@ -4,7 +4,7 @@ import { IAuthService } from 'services/auth-services/auth-service'
 import { fireEvent, render, screen, waitFor } from 'utils/tests/helpers'
 import { FormRecuperacaoSenha } from '.'
 
-describe('<FormAluno />', () => {
+describe('<FormRecuperacaoSenha />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const authServiceMock: IAuthService = {
@@ -38,6 +38,8 @@ describe('<FormAluno />', () => {
   it('deve exibir error de email inválido', async () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
     await userEvent.type(email, 'meuemailcom')
+    const button = screen.getByRole('button')
+    fireEvent.click(button)
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
     })

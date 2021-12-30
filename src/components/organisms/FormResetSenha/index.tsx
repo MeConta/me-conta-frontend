@@ -1,7 +1,8 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
 import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
-import { Formik } from 'formik'
 import React, { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { IAuthService } from 'services/auth-services/auth-service'
 import * as Yup from 'yup'
 import { BackendError } from '../../../types/backend-error'
@@ -20,16 +21,16 @@ type MyProps = {
 }
 
 const ERRORS = {
-  REQUIRED_PASSWORD: `A senha é obrigatório`,
+  REQUIRED_PASSWORD: `A senha é obrigatória`,
   WEAK_PASSWORD: `A senha deve ser forte`,
-  REQUIRED_CONFIRM_PASSWORD: 'A confirmação de senha é obrigatório',
+  REQUIRED_CONFIRM_PASSWORD: 'A confirmação de senha é obrigatória',
   PASSWORD_MISMATCH: `As senhas devem ser iguais`
 }
 
 export function FormResetSenha(props: MyProps) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
 
-  const validation = Yup.object({
+  const validationSchema = Yup.object({
     password: Yup.string()
       .required(ERRORS.REQUIRED_PASSWORD)
       .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, () => {
@@ -40,7 +41,7 @@ export function FormResetSenha(props: MyProps) {
       .required(ERRORS.REQUIRED_CONFIRM_PASSWORD)
   })
 
-  const formSubmit = async ({ password }: MyFormValues) => {
+  const onSubmit = async ({ password }: MyFormValues) => {
     try {
       if (props.authService.resetarSenha && props.hash) {
         await props.authService.resetarSenha({
@@ -59,53 +60,52 @@ export function FormResetSenha(props: MyProps) {
     passwordConfirm: ''
   }
 
+  const {
+    control,
+    formState: { errors, isSubmitting, isSubmitted, isValid },
+    handleSubmit
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: initialValues
+  })
+
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={formSubmit}
-      validationSchema={validation}
-    >
-      {({
-        values,
-        errors,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        isSubmitting,
-        isValid
-      }) => (
-        <S.Form onSubmit={handleSubmit}>
+    <S.Form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        control={control}
+        name="password"
+        render={({ field }) => (
           <PasswordField
             label="Senha"
-            name="password"
             showStrengthBar
             handleStrength={(score) => {
               setPasswordScore(score)
             }}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            error={errors.password}
+            error={errors.password?.message}
+            {...field}
           />
+        )}
+      />
+      <Controller
+        control={control}
+        name="passwordConfirm"
+        render={({ field }) => (
           <PasswordField
             label="Confirmar Senha"
-            name="passwordConfirm"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.passwordConfirm}
-            error={errors.passwordConfirm}
+            error={errors.passwordConfirm?.message}
+            {...field}
           />
-          <S.ButtonContainer>
-            <Button
-              radius="square"
-              disabled={isSubmitting || !isValid}
-              type="submit"
-            >
-              ENVIAR
-            </Button>
-          </S.ButtonContainer>
-        </S.Form>
-      )}
-    </Formik>
+        )}
+      />
+      <S.ButtonContainer>
+        <Button
+          radius="square"
+          disabled={isSubmitting || (isSubmitted && !isValid)}
+          type="submit"
+        >
+          ENVIAR
+        </Button>
+      </S.ButtonContainer>
+    </S.Form>
   )
 }
