@@ -53,7 +53,7 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
         router.push(redirect)
       }
     } catch (error) {
-      handleError(error)
+      handleError(error as BackendError)
     }
   }
 

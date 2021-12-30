@@ -163,6 +163,7 @@ const FormAluno = (props: {
         label="Data de nascimento"
         type="date"
         error={errors.dataNascimento?.message}
+        max={moment().format('YYYY-MM-DD')}
         {...register('dataNascimento')}
       />
       <SelectField

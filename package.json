@@ -23,7 +23,6 @@
   "dependencies": {
     "@hookform/resolvers": "^2.8.5",
     "axios": "^0.21.4",
-    "formik": "^2.2.9",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
     "next": "^11.1.2",
