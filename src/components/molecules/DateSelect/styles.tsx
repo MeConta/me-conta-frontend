@@ -57,6 +57,11 @@ export const Wrapper = styled.div`
     text-align: center;
     color: #ffffff;
     border: 0;
+
+    :disabled {
+      background-color: #dcdcdc;
+      color: #000;
+    }
   }
 
   .show-more {
@@ -72,4 +77,12 @@ export const Wrapper = styled.div`
     height: 7.54px;
     margin-left: 6.5px;
   }
+`
+
+export const DayOfWeek = styled.span`
+  text-transform: capitalize;
+`
+
+export const Date = styled.span`
+  text-transform: uppercase;
 `

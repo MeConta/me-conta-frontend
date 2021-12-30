@@ -9,6 +9,7 @@ import {
 } from 'styled-icons/evaicons-outline'
 
 import * as S from './styles'
+import moment from 'moment'
 
 function SampleNextArrow(props: any) {
   const { className, style, onClick } = props
@@ -34,21 +35,29 @@ function SamplePrevArrow(props: any) {
 
 export type DayColumnProps = {
   times: Array<Date>
-  onChange: (value: string) => void
+  day: Date
+  onChange: (value: Date) => void
 }
 
 function DayColumn({ times, onChange }: DayColumnProps) {
+  moment.locale('pt-BR')
+
+  const dayOfWeek = moment(times[0]).format('ddd')
+  const date = moment(times[0]).format('DD/MMM')
+
   return (
     <div className="day-column">
       <div className="day-box">
-        <span>{times[0].toLocaleString('pt-BR', { weekday: 'short' })}</span>
-        <span>
-          {times[0].toLocaleString('pt-BR', { day: 'numeric', month: 'short' })}
-        </span>
+        <S.DayOfWeek>{dayOfWeek}</S.DayOfWeek>
+        <S.Date>{date}</S.Date>
       </div>
       {times.map((time) => {
         return (
-          <button className="time" key={time.toString()}>
+          <button
+            className="time"
+            key={time.toString()}
+            onClick={() => onChange(time)}
+          >
             {time.toLocaleTimeString('pt-br', {
               hour: '2-digit',
               minute: '2-digit'
@@ -56,12 +65,17 @@ function DayColumn({ times, onChange }: DayColumnProps) {
           </button>
         )
       })}
+      {times.length < 1 && (
+        <button className="time" disabled>
+          --
+        </button>
+      )}
     </div>
   )
 }
 
 export type DateSelectProps = {
-  onChange: (value: string) => void
+  onChange: (value: Date) => void
 }
 
 export function DateSelect({ onChange }: DateSelectProps) {
@@ -83,8 +97,8 @@ export function DateSelect({ onChange }: DateSelectProps) {
         <span className="select-a-time-highlight">horário disponível</span>
       </span>
       <Slider className="date" {...settings}>
-        {DateInfo.map((item, index) => (
-          <DayColumn times={item} onChange={onChange} key={index} />
+        {DateInfo.map(({ day, times }, index) => (
+          <DayColumn times={times} day={day} onChange={onChange} key={index} />
         ))}
       </Slider>
       <span className="show-more">
