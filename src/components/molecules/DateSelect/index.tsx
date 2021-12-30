@@ -1,6 +1,5 @@
 import React from 'react'
 import Slider from 'react-slick'
-import { DateInfo } from './dateInfo'
 
 import {
   ArrowIosBackOutline,
@@ -76,9 +75,10 @@ function DayColumn({ times, onChange }: DayColumnProps) {
 
 export type DateSelectProps = {
   onChange: (value: Date) => void
+  availabilty: { day: Date; times: Date[] }[]
 }
 
-export function DateSelect({ onChange }: DateSelectProps) {
+export function DateSelect({ onChange, availabilty }: DateSelectProps) {
   const settings = {
     dots: true,
     infinite: true,
@@ -97,7 +97,7 @@ export function DateSelect({ onChange }: DateSelectProps) {
         <span className="select-a-time-highlight">horário disponível</span>
       </span>
       <Slider className="date" {...settings}>
-        {DateInfo.map(({ day, times }, index) => (
+        {availabilty.map(({ day, times }, index) => (
           <DayColumn times={times} day={day} onChange={onChange} key={index} />
         ))}
       </Slider>
