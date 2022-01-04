@@ -57,25 +57,6 @@ export const Wrapper = styled.div`
     text-align: center;
     color: #ffffff;
     border: 0;
-
-    :disabled {
-      background-color: #dcdcdc;
-      color: #000;
-    }
-  }
-
-  .show-more {
-    margin-top: 29px;
-    font-size: 14px;
-    line-height: 21px;
-    font-weight: 700;
-    display: flex;
-  }
-
-  .downward {
-    width: 12.61px;
-    height: 7.54px;
-    margin-left: 6.5px;
   }
 `
 

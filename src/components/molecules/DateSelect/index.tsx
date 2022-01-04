@@ -3,8 +3,7 @@ import Slider from 'react-slick'
 
 import {
   ArrowIosBackOutline,
-  ArrowIosForwardOutline,
-  ArrowIosDownwardOutline
+  ArrowIosForwardOutline
 } from 'styled-icons/evaicons-outline'
 
 import * as S from './styles'
@@ -34,7 +33,6 @@ function SamplePrevArrow(props: any) {
 
 export type DayColumnProps = {
   times: Array<Date>
-  day: Date
   onChange: (value: Date) => void
 }
 
@@ -64,18 +62,13 @@ function DayColumn({ times, onChange }: DayColumnProps) {
           </button>
         )
       })}
-      {times.length < 1 && (
-        <button className="time" disabled>
-          --
-        </button>
-      )}
     </div>
   )
 }
 
 export type DateSelectProps = {
   onChange: (value: Date) => void
-  availabilty: { day: Date; times: Date[] }[]
+  availabilty: Date[][]
 }
 
 export function DateSelect({ onChange, availabilty }: DateSelectProps) {
@@ -97,13 +90,10 @@ export function DateSelect({ onChange, availabilty }: DateSelectProps) {
         <span className="select-a-time-highlight">horário disponível</span>
       </span>
       <Slider className="date" {...settings}>
-        {availabilty.map(({ day, times }, index) => (
-          <DayColumn times={times} day={day} onChange={onChange} key={index} />
+        {availabilty.map((times, index) => (
+          <DayColumn times={times} onChange={onChange} key={index} />
         ))}
       </Slider>
-      <span className="show-more">
-        MOSTRAR MAIS HORÁRIOS <ArrowIosDownwardOutline className="downward" />
-      </span>
     </S.Wrapper>
   )
 }
