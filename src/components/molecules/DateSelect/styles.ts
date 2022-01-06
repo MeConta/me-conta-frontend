@@ -1,13 +1,20 @@
+import styled from 'styled-components'
+
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-import styled from 'styled-components'
-
 export const Wrapper = styled.div`
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
+  padding: 24px;
+  width: 480px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 
   .select-a-time-main {
     font-weight: 600;
@@ -25,7 +32,7 @@ export const Wrapper = styled.div`
   .date {
     display: flex;
     flex-direction: row;
-    width: 432px;
+    width: 100%;
   }
 
   .day-column {

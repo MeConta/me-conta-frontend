@@ -9,18 +9,11 @@ export type UserInfoProps = {
   email?: string
   profileLink?: string
   frentes: Array<Number>
-  width: number
 }
 
-export function UserInfo({
-  name,
-  email,
-  profileLink,
-  frentes,
-  width
-}: UserInfoProps) {
+export function UserInfo({ name, email, profileLink, frentes }: UserInfoProps) {
   return (
-    <S.Wrapper width={width}>
+    <S.Wrapper>
       <div className="avatarAndInfoContainer">
         <Avatar name={name} email={email} />
         <div className="info">

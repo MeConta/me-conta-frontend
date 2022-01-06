@@ -19,13 +19,12 @@ export function CardVoluntario({
   description
 }: CardVoluntarioProps) {
   return (
-    <S.Wrapper>
+    <S.Wrapper data-testid="card-voluntario">
       <UserInfo
         name={name}
         email={email}
         profileLink={profileLink}
         frentes={frentes}
-        width={400}
       />
       <div className="title">{title}</div>
       <div className="description">{description}</div>

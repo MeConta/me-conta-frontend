@@ -2,20 +2,20 @@ import * as S from './styles'
 
 export const FrentesInfo = [
   {
-    value: 0,
-    id: 'orientacao',
+    id: 0,
+    value: 'orientacao',
     text: 'Orientação vocacional',
     icon: <S.StyledSchool className="frente" />
   },
   {
-    value: 1,
-    id: 'coaching',
+    id: 1,
+    value: 'coaching',
     text: 'Coaching de estudos',
     icon: <S.StyledAutoStories className="frente" />
   },
   {
-    value: 2,
-    id: 'acolhimento',
+    id: 2,
+    value: 'acolhimento',
     text: 'Acolhimento',
     icon: <S.StyledVolunteerActivism className="frente" />
   }

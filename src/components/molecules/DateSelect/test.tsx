@@ -18,7 +18,7 @@ describe('<Carousel />', () => {
 
   it('should render 4 day columns', () => {
     let element = render(
-      <DateSelect availabilty={dateInfo} onChange={() => null} />
+      <DateSelect availability={dateInfo} onChange={() => null} />
     )
     let dayColumns = element.container.querySelectorAll(
       '.slick-slide[aria-hidden=false]'
@@ -27,7 +27,7 @@ describe('<Carousel />', () => {
   })
 
   it('should render the next button when the number of day column is more than 4', () => {
-    render(<DateSelect availabilty={dateInfo} onChange={() => null} />)
+    render(<DateSelect availability={dateInfo} onChange={() => null} />)
     const nextButtonElement = screen.getByRole('button', {
       name: 'ir para a próxima página'
     })
@@ -35,7 +35,7 @@ describe('<Carousel />', () => {
   })
 
   it('should render the previous button when the number of day column is more than 4', () => {
-    render(<DateSelect availabilty={dateInfo} onChange={() => null} />)
+    render(<DateSelect availability={dateInfo} onChange={() => null} />)
     const previousButtonElement = screen.getByRole('button', {
       name: 'ir para página anterior'
     })
@@ -43,7 +43,7 @@ describe('<Carousel />', () => {
   })
 
   it('should render button 1 and 2 to navigate between pages', () => {
-    render(<DateSelect availabilty={dateInfo} onChange={() => null} />)
+    render(<DateSelect availability={dateInfo} onChange={() => null} />)
     expect(screen.queryByRole('button', { name: '1' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: '2' })).toBeInTheDocument()
   })

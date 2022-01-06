@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-   {
-    width: 411px;
+  width: 411px;
+
+  .container {
+    padding-top: 14px;
   }
 
   .title {

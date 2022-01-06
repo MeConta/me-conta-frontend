@@ -3,7 +3,7 @@ import { UserInfo } from './index'
 describe('<UserInfo />', () => {
   describe('<UserInfo /> without profile link', () => {
     it('should not render the profile link', () => {
-      render(<UserInfo name="Luvois Anedo Zaladar" frentes={[0]} width={411} />)
+      render(<UserInfo name="Luvois Anedo Zaladar" frentes={[0]} />)
       expect(screen.queryByRole('link')).not.toBeInTheDocument()
     })
   })
@@ -16,7 +16,6 @@ describe('<UserInfo />', () => {
           email="jitewaboh@lagify.com"
           profileLink="https://www.google.com"
           frentes={[0]}
-          width={664}
         />
       )
       expect(screen.queryByRole('link')).toBeInTheDocument()

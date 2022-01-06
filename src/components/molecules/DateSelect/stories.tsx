@@ -16,5 +16,5 @@ export const Default: Story<DateSelectProps> = (args) => (
 )
 
 Default.args = {
-  availabilty: DateInfo
+  availability: DateInfo
 }

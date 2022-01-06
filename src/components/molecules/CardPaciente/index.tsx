@@ -29,13 +29,12 @@ export function CardPaciente({
         <span className="date">{date}</span>
         <button className="cancelButton">cancelar</button>
       </div>
-      <div>
+      <div className="container">
         <UserInfo
           name={name}
           email={email}
           profileLink={profileLink}
           frentes={frentes}
-          width={411}
         />
         <div className="title">{title}</div>
         <div className="description">{description}</div>

@@ -12,6 +12,5 @@ Default.args = {
   name: 'Luvois Zaladar',
   email: 'jitewaboh@lagify.com',
   profileLink: 'https://www.google.com/',
-  frentes: [0],
-  width: 411
+  frentes: [0]
 }
