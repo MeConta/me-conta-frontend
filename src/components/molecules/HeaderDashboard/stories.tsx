@@ -8,4 +8,6 @@ export default {
   argTypes: {}
 } as Meta
 
-export const Default: Story = () => <HeaderDashboard />
+export const Default: Story = (args) => <HeaderDashboard {...args} />
+
+Default.args = {}

@@ -3,7 +3,7 @@ import HeaderDashboard from '.'
 
 describe('<HeaderDashboard />', () => {
   it('deve mostrar a logo do meconta', () => {
-    render(<HeaderDashboard />)
+    render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(
       screen.getByRole('img', { name: 'Logo Me Conta' })
