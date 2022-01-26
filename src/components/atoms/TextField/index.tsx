@@ -17,6 +17,7 @@ export type TextFieldProps = {
   children?: ReactNode
   value?: string | number
   name: string
+  required?: boolean
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
@@ -28,6 +29,7 @@ export const TextField = React.forwardRef(function TextField(
     value,
     error,
     disabled,
+    required,
     type = 'text',
     children,
     ...props
@@ -35,7 +37,7 @@ export const TextField = React.forwardRef(function TextField(
   ref?: ForwardedRef<HTMLInputElement>
 ) {
   return (
-    <FormGroup label={label} name={name} error={error}>
+    <FormGroup label={label} name={name} error={error} required={required}>
       {children}
       <S.Input
         value={value}

@@ -50,6 +50,11 @@ exports[`<FormLogin/> deve renderizar todos os elementos do formulário 1`] = `
   margin-left: 0.8rem;
 }
 
+.c2[aria-required='true']:after {
+  content: ' *';
+  color: #DE3163;
+}
+
 .c3 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -158,6 +163,7 @@ exports[`<FormLogin/> deve renderizar todos os elementos do formulário 1`] = `
       >
         <label
           class="c2"
+          data-testid="E-mail"
           for="email"
         >
           E-mail
@@ -179,6 +185,7 @@ exports[`<FormLogin/> deve renderizar todos os elementos do formulário 1`] = `
       >
         <label
           class="c2"
+          data-testid="Senha"
           for="password"
         >
           Senha

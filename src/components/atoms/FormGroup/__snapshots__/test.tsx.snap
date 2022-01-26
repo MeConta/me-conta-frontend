@@ -20,6 +20,11 @@ exports[`<FormGroup/> should render error input 1`] = `
   margin-left: 0.8rem;
 }
 
+.c2[aria-required='true']:after {
+  content: ' *';
+  color: #DE3163;
+}
+
 .c4 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -52,6 +57,7 @@ exports[`<FormGroup/> should render error input 1`] = `
 >
   <label
     class="c1 c2"
+    data-testid="qualquer-label"
     for="nome"
   >
     qualquer-label

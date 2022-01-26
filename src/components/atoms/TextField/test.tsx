@@ -10,6 +10,13 @@ describe('<TextField/>', () => {
     expect(screen.getByPlaceholderText('nome completo')).toBeInTheDocument()
   })
 
+  it('should forward required attribute, when required flag is true', () => {
+    render(<TextField name="name" label="label" required={true} />)
+    expect(
+      screen.getByTestId('label').getAttribute('aria-required')
+    ).toBeTruthy()
+  })
+
   it('should change value as changed', async () => {
     const mockChange = jest.fn()
     render(<TextField name="name" label="label" onChange={mockChange} />)

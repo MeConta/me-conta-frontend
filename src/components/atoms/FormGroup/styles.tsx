@@ -28,6 +28,11 @@ export const Label = styled.label`
     font-weight: ${theme.font.light};
     color: ${theme.colors.lightGray};
     margin-left: ${theme.spacings.xxsmall};
+
+    &[aria-required='true']:after {
+      content: ' *';
+      color: ${theme.colors.ceriseRed};
+    }
   `}
 `
 
