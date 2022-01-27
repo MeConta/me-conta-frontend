@@ -26,6 +26,7 @@ export type PasswordFieldProps = {
   initialValue?: string
   error?: string
   disabled?: boolean
+  required?: boolean
   name: string
   value?: string
   onChange?: ChangeEventHandler<any> | undefined
@@ -42,6 +43,7 @@ export const PasswordField = React.forwardRef(function PasswordField(
     value,
     error,
     disabled,
+    required,
     showStrengthBar = false,
     handleStrength,
     ...props
@@ -74,6 +76,7 @@ export const PasswordField = React.forwardRef(function PasswordField(
         onChange={onChange}
         error={error}
         disabled={disabled}
+        required={required}
         type={toggleType}
         ref={ref}
         {...props}

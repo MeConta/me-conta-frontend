@@ -17,5 +17,6 @@ export const Default: Story<PhoneFieldProps> = (args) => (
 )
 
 Default.args = {
-  label: 'Telefone'
+  label: 'Telefone',
+  required: false
 }

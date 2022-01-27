@@ -9,11 +9,12 @@ export type PhoneFieldProps = {
   label: string
   name: string
   error?: string
+  required?: boolean
   value?: string
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const PhoneField = React.forwardRef(function PhoneField(
-  { label, name, error, value, onChange, ...props }: PhoneFieldProps,
+  { label, name, error, value, onChange, required, ...props }: PhoneFieldProps,
   ref?: ForwardedRef<ReactInputMask>
 ) {
   const removePhoneMask = (inputValue: string): string => {
@@ -38,7 +39,7 @@ export const PhoneField = React.forwardRef(function PhoneField(
   }
 
   return (
-    <FormGroup label={label} name={name} error={error}>
+    <FormGroup label={label} name={name} required={required} error={error}>
       <S.InputWrapper>
         <InputMask
           mask={maskBuilder(value)}

@@ -13,6 +13,7 @@ export type SelectFieldProps = {
   initialValue?: string
   error?: string
   disabled?: boolean
+  required?: boolean
   options: Option[]
   type?: string
   children?: ReactNode
@@ -30,13 +31,14 @@ export const SelectField = React.forwardRef(function SelectField(
     options,
     error,
     disabled,
+    required,
     defaultSelect,
     ...props
   }: SelectFieldProps,
   ref?: ForwardedRef<HTMLSelectElement>
 ) {
   return (
-    <FormGroup error={error} name={name} label={label}>
+    <FormGroup error={error} name={name} label={label} required={required}>
       <S.Select
         onChange={onChange}
         name={name}

@@ -16,5 +16,6 @@ export const Default: Story<TextFieldProps> = (args) => <TextField {...args} />
 
 Default.args = {
   label: 'Descrição',
-  placeholder: 'Digite aqui'
+  placeholder: 'Digite aqui',
+  required: false
 }

@@ -10,6 +10,7 @@ export type TextAreaFieldProps = {
   label: string
   error?: string
   disabled?: boolean
+  required?: boolean
   value?: string
   name: string
   onChange?: ChangeEventHandler<any> | undefined
@@ -23,6 +24,7 @@ export const TextAreaField = React.forwardRef(function TextAreaField(
     value,
     error,
     disabled,
+    required,
     ...props
   }: TextAreaFieldProps,
   ref?: ForwardedRef<HTMLTextAreaElement>
@@ -34,6 +36,7 @@ export const TextAreaField = React.forwardRef(function TextAreaField(
         onChange={onChange}
         name={name}
         disabled={disabled}
+        required={required}
         id={name}
         ref={ref}
         {...props}
