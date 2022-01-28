@@ -11,6 +11,7 @@ export type CheckboxFieldProps = {
   initialValue?: string | number | boolean
   error?: string
   disabled?: boolean
+  required?: boolean
   value?: string | number | boolean
   onChange?: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
@@ -23,6 +24,7 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
     value,
     error,
     disabled,
+    required,
     ...props
   }: CheckboxFieldProps,
   ref?: ForwardedRef<HTMLInputElement>
@@ -40,7 +42,11 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
           {...(!!label ? { id: name } : {})}
           {...props}
         />
-        {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
+        {!!label && (
+          <S.Label htmlFor={name} aria-required={required}>
+            {label}
+          </S.Label>
+        )}
       </S.InputWrapper>
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>

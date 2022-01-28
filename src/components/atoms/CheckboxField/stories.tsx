@@ -17,5 +17,6 @@ export const Default: Story<CheckboxFieldProps> = (args) => (
 )
 
 Default.args = {
-  label: 'Descrição'
+  label: 'Descrição',
+  required: false
 }
