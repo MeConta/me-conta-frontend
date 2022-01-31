@@ -24,7 +24,7 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
     value,
     error,
     disabled,
-    required,
+    required = true,
     ...props
   }: CheckboxFieldProps,
   ref?: ForwardedRef<HTMLInputElement>
@@ -43,7 +43,7 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
           {...props}
         />
         {!!label && (
-          <S.Label htmlFor={name} aria-required={required}>
+          <S.Label htmlFor={name} aria-required={required} data-testid={label}>
             {label}
           </S.Label>
         )}

@@ -11,6 +11,7 @@ export type RadioFieldProps = {
   initialValue?: string | number
   error?: string
   disabled?: boolean
+  required?: boolean
   options: {
     value: string | number
     label: string
@@ -30,6 +31,7 @@ export const RadioField = React.forwardRef(function RadioField(
     options,
     error,
     disabled,
+    required,
     role = 'radio',
     ...props
   }: RadioFieldProps,
@@ -56,7 +58,11 @@ export const RadioField = React.forwardRef(function RadioField(
 
   return (
     <S.Wrapper disabled={disabled} error={!!error}>
-      {!!label && <S.Label htmlFor={name}>{label}</S.Label>}
+      {!!label && (
+        <S.Label htmlFor={name} aria-required={required} data-testid={label}>
+          {label}
+        </S.Label>
+      )}
       <S.RadioGroup id={name}>{renderRadioInput()}</S.RadioGroup>
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>

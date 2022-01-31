@@ -42,6 +42,11 @@ export const Label = styled.label`
     color: ${theme.colors.lightGray};
     margin-left: ${theme.spacings.medium};
     padding-bottom: 2px;
+
+    &[aria-required='true']:after {
+      content: ' *';
+      color: ${theme.colors.ceriseRed};
+    }
   `}
 `
 

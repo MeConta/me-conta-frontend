@@ -5,18 +5,18 @@ import { CheckboxField } from '.'
 
 describe('<CheckboxField/>', () => {
   it('should not change value with text input', async () => {
-    render(<CheckboxField data-testid="checkbox" label="checkbox" />)
+    render(<CheckboxField data-testid="checkbox" label="label" />)
     expect(screen.getByTestId('checkbox')).toBeInTheDocument()
   })
 
   it('should change value when clicked', () => {
     render(
-      <CheckboxField data-testid="checkbox" label="checkbox" name="checkbox" />
+      <CheckboxField data-testid="checkbox" label="label" name="checkbox" />
     )
     act(() => {
       userEvent.click(screen.getByTestId('checkbox'))
     })
-    expect(screen.getByLabelText(/checkbox/i)).toBeChecked()
+    expect(screen.getByLabelText(/label/i)).toBeChecked()
   })
 
   it('should disable input with disabled propriety', async () => {
@@ -49,5 +49,10 @@ describe('<CheckboxField/>', () => {
     )
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
     expect(container.firstChild).toMatchSnapshot()
+  })
+
+  it('should forward the required flag to the label', () => {
+    render(<CheckboxField label="label" name="checkbox" required />)
+    expect(screen.getByTestId('label')).toHaveAttribute('aria-required', 'true')
   })
 })

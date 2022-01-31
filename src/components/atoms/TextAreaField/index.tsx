@@ -30,7 +30,7 @@ export const TextAreaField = React.forwardRef(function TextAreaField(
   ref?: ForwardedRef<HTMLTextAreaElement>
 ) {
   return (
-    <FormGroup label={label} name={name} error={error}>
+    <FormGroup label={label} name={name} error={error} required={required}>
       <S.TextArea
         value={value}
         onChange={onChange}

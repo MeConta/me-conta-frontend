@@ -15,7 +15,7 @@ describe('<RadioField/>', () => {
         name="name"
         options={[{ label: 'teste', value: 1 }]}
         data-testid="radio"
-        label="radio"
+        label="radio-label"
         readOnly
       />
     )
@@ -28,7 +28,7 @@ describe('<RadioField/>', () => {
         name="name"
         options={options}
         data-testid="radio"
-        label="radio"
+        label="radio-label"
         readOnly
       />
     )
@@ -70,5 +70,18 @@ describe('<RadioField/>', () => {
     )
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
     expect(container.firstChild).toMatchSnapshot()
+  })
+
+  it('should forward the required flag to the label', () => {
+    render(
+      <RadioField
+        name="name"
+        label="label"
+        options={options}
+        required
+        role="radio"
+      />
+    )
+    expect(screen.getByTestId('label')).toHaveAttribute('aria-required', 'true')
   })
 })

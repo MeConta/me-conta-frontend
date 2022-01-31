@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { render, screen, waitFor } from 'utils/tests/helpers'
 
 import { TextAreaField } from '.'
+import { RadioField } from '../RadioField'
 
 describe('<TextAreaField/>', () => {
   it('should change value as changed', async () => {
@@ -47,5 +48,10 @@ describe('<TextAreaField/>', () => {
     expect(document.body).toHaveFocus()
     userEvent.tab()
     expect(input).not.toHaveFocus()
+  })
+
+  it('should forward the required flag to the label', () => {
+    render(<TextAreaField label="label" name="accessible" required />)
+    expect(screen.getByTestId('label')).toHaveAttribute('aria-required', 'true')
   })
 })
