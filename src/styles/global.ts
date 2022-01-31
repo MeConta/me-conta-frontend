@@ -57,8 +57,9 @@ const GlobalStyles = createGlobalStyle`
 `
 
 export const Main = styled.main`
-  margin: 0 1.5rem;
+  margin: 0;
   min-height: 100vh;
+  background-color: #f4f7f9;
   display: flex;
   justify-content: center;
   align-items: center;

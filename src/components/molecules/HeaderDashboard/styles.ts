@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.header`
-  border-bottom: 1px solid #e3e3e3;
-  padding: 15px 0;
   background-color: #fff;
+  border-bottom: 1px solid #e3e3e3;
+  padding: 15px;
+  position: absolute;
+  top: 0;
+  width: 100%;
 
   @media (max-width: 768px) {
     border: 0;

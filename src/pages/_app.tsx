@@ -1,4 +1,6 @@
 import { Toast } from 'components/atoms/Toast'
+import HeaderDashboard from 'components/molecules/HeaderDashboard'
+import Breadcrumb from 'components/molecules/Breadcrumb'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import {
@@ -35,6 +37,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
             <GlobalStyle />
             <Main>
+              {/* TODO: Verificar usuario logado */}
+              <HeaderDashboard userName="John Snow" />
+              <Breadcrumb />
               <Component {...pageProps} />
             </Main>
           </ToastProvider>
