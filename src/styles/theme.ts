@@ -6,7 +6,8 @@ export default {
   },
   border: {
     'btn-round-radius': '3.4rem',
-    'btn-square-radius': '0.7rem'
+    'btn-square-radius': '0.7rem',
+    'card-radius': '0.4rem'
   },
   font: {
     family:
@@ -36,6 +37,7 @@ export default {
     malibu: '#67C3F3',
     mineShaft: '#333333',
     lightGray: '#848A8C',
+    xlightGray: '#e6e6e6',
     gray: '#828282',
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',
