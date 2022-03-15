@@ -134,11 +134,13 @@ export function FormCadastro(props: {
         label="Nome"
         maxLength={MAX_LENGTH_NAME_VALUE}
         error={errors.name?.message}
+        required={true}
         {...register('name')}
       />
       <TextField
         label="E-mail"
         error={errors.email?.message}
+        required={true}
         {...register('email')}
       />
 
@@ -153,6 +155,7 @@ export function FormCadastro(props: {
               setPasswordScore(score)
             }}
             error={errors.password?.message}
+            required={true}
             {...field}
           />
         )}
@@ -166,6 +169,7 @@ export function FormCadastro(props: {
             label="Confirmar Senha"
             {...field}
             error={errors.passwordConfirm?.message}
+            required={true}
           />
         )}
       />
@@ -180,6 +184,7 @@ export function FormCadastro(props: {
             })}
             label="Tipo"
             error={errors.tipo?.message}
+            required={true}
             {...field}
           />
         )}
@@ -200,6 +205,7 @@ export function FormCadastro(props: {
         }
         {...register('termsConfirm')}
         error={errors.termsConfirm?.message}
+        required={true}
       />
 
       <S.ButtonContainer>

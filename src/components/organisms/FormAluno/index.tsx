@@ -143,8 +143,20 @@ const FormAluno = (props: {
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <TextField label="Nome Completo" name="name" disabled value={name} />
-      <TextField label="E-mail" name="email" disabled value={email} />
+      <TextField
+        label="Nome Completo"
+        name="name"
+        disabled
+        value={name}
+        required={true}
+      />
+      <TextField
+        label="E-mail"
+        name="email"
+        disabled
+        value={email}
+        required={true}
+      />
 
       <Controller
         name="telefone"
@@ -154,6 +166,7 @@ const FormAluno = (props: {
             data-testid="phone-number"
             label="Telefone"
             error={errors.telefone?.message}
+            required={true}
             {...field}
           />
         )}
@@ -164,17 +177,20 @@ const FormAluno = (props: {
         type="date"
         error={errors.dataNascimento?.message}
         max={moment().format('YYYY-MM-DD')}
+        required={true}
         {...register('dataNascimento')}
       />
       <SelectField
         label="Estado"
         options={States}
         error={errors.UF?.message}
+        required={true}
         {...register('UF')}
       />
       <TextField
         label="Cidade"
         error={errors.cidade?.message}
+        required={true}
         {...register('cidade')}
       />
 
@@ -186,6 +202,7 @@ const FormAluno = (props: {
             options={GENDER}
             label="Gênero"
             error={errors.genero?.message}
+            required={true}
             {...field}
           />
         )}
@@ -195,6 +212,7 @@ const FormAluno = (props: {
         label="Escolaridade"
         options={Scholarity}
         error={errors.escolaridade?.message}
+        required={true}
         {...register('escolaridade')}
       />
 
@@ -209,6 +227,7 @@ const FormAluno = (props: {
             label="Tipo de Escola"
             error={errors.tipoEscola?.message}
             {...field}
+            required={true}
           />
         )}
       />
