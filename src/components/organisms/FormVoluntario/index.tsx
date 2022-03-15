@@ -154,8 +154,20 @@ export function FormVoluntario({
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
-      <TextField label="Nome Completo" name="name" disabled value={name} />
-      <TextField label="E-mail" name="email" disabled value={email} />
+      <TextField
+        label="Nome Completo"
+        name="name"
+        disabled
+        value={name}
+        required={true}
+      />
+      <TextField
+        label="E-mail"
+        name="email"
+        disabled
+        value={email}
+        required={true}
+      />
 
       <Controller
         name="tipo"
@@ -181,6 +193,7 @@ export function FormVoluntario({
             label="Telefone"
             error={errors.telefone?.message}
             {...field}
+            required={true}
           />
         )}
       />
@@ -190,17 +203,20 @@ export function FormVoluntario({
         max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
         error={errors.dataNascimento?.message}
         {...register('dataNascimento')}
+        required={true}
       />
       <SelectField
         label="Estado"
         options={States}
         error={errors.UF?.message}
         {...register('UF')}
+        required={true}
       />
       <TextField
         label="Cidade"
         error={errors.cidade?.message}
         {...register('cidade')}
+        required={true}
       />
       <Controller
         name="genero"
@@ -211,6 +227,7 @@ export function FormVoluntario({
             label="Gênero"
             error={errors.genero?.message}
             {...field}
+            required={true}
           />
         )}
       />
@@ -218,6 +235,7 @@ export function FormVoluntario({
         label="Instituição de ensino"
         error={errors.instituicao?.message}
         {...register('instituicao')}
+        required={true}
       />
       {watch('tipo') === UserType.ATENDENTE && (
         <Controller
@@ -259,6 +277,7 @@ export function FormVoluntario({
             label="CRP"
             error={errors.crp?.message}
             {...register('crp')}
+            required={true}
           />
           <TextAreaField
             label="Possui especialização? Se sim, qual(is)?"
@@ -270,6 +289,7 @@ export function FormVoluntario({
             options={areasAtuacao}
             error={errors.areaAtuacao?.message}
             {...register('areaAtuacao')}
+            required={true}
           />
           <TextField
             label="Abordagem psicoterápica"
@@ -299,7 +319,20 @@ export function FormVoluntario({
         'Coaching de rotina de estudos',
         'Orientação vocacional'
       )}
-      <S.FrenteError>{errors.frentes}</S.FrenteError>
+
+      <S.FrenteError>
+        {
+          // @ts-ignore
+          errors.frentes?.message
+            ? // @ts-ignore
+              errors.frentes.message
+            : errors.frentes?.length
+            ? errors.frentes.map((field) => {
+                return field.message
+              })
+            : ''
+        }
+      </S.FrenteError>
 
       {+watch('tipo') === UserType.ATENDENTE && (
         <TextAreaField
