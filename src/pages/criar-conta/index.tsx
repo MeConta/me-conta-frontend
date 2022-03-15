@@ -34,6 +34,10 @@ export default function CriarConta() {
           </Link>
           .
         </S.Link>
+
+        <S.RequiredFieldsLabelContainer>
+          <p>*Os campos com asteristico são de preenchimento obrigatório</p>
+        </S.RequiredFieldsLabelContainer>
       </F.WrapperFields>
     </WrapperForm>
   )
