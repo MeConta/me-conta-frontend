@@ -12,25 +12,25 @@ type ResetSenhaForm = {
   senha: string
 }
 
+type LoginResponse = { token: string; tipo: UserType; nome: string }
+
 export interface IAuthService {
-  login(form: LoginForm): Promise<{ token: string; tipo: UserType }>
+  login(form: LoginForm): Promise<LoginResponse>
   recuperarSenha?(email: string): Promise<void>
   resetarSenha?(form: ResetSenhaForm): Promise<void>
 }
 
 export class AuthService implements IAuthService {
   constructor(private readonly service: AxiosInstance) {}
-  async login(form: LoginForm): Promise<{
-    token: string
-    tipo: UserType
-  }> {
+  async login(form: LoginForm): Promise<LoginResponse> {
     const response = await this.service.post('/auth/login/', {
       username: form.email,
       password: form.senha
     })
     return {
       token: response.data.token,
-      tipo: parseInt(response.data.tipo, 10) as UserType
+      tipo: parseInt(response.data.tipo, 10) as UserType,
+      nome: response.data.nome
     }
   }
 

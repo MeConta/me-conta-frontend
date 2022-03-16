@@ -57,11 +57,13 @@ describe('<FormLogin/>', () => {
   it('deve chamar o serviço de login', async () => {
     await preencherFormularioParaSubmeter()
 
-    jest
-      .spyOn(authServiceMock, 'login')
-      .mockImplementation(() =>
-        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO })
-      )
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+      return Promise.resolve({
+        token: 'XPTO',
+        tipo: UserType.ALUNO,
+        nome: 'John'
+      })
+    })
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()
@@ -74,7 +76,7 @@ describe('<FormLogin/>', () => {
     jest
       .spyOn(authServiceMock, 'login')
       .mockImplementation(() =>
-        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO })
+        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO, nome: 'John' })
       )
 
     await waitFor(() => {
@@ -85,11 +87,13 @@ describe('<FormLogin/>', () => {
   it('deve redirecionar para dashboard de atendente', async () => {
     await preencherFormularioParaSubmeter()
 
-    jest
-      .spyOn(authServiceMock, 'login')
-      .mockImplementation(() =>
-        Promise.resolve({ token: 'XPTO', tipo: UserType.ATENDENTE })
-      )
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
+      Promise.resolve({
+        token: 'XPTO',
+        tipo: UserType.ATENDENTE,
+        nome: 'John'
+      })
+    )
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-atendente')
@@ -99,11 +103,13 @@ describe('<FormLogin/>', () => {
   it('deve redirecionar para dashboard de supervisor', async () => {
     await preencherFormularioParaSubmeter()
 
-    jest
-      .spyOn(authServiceMock, 'login')
-      .mockImplementation(() =>
-        Promise.resolve({ token: 'XPTO', tipo: UserType.SUPERVISOR })
-      )
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
+      Promise.resolve({
+        token: 'XPTO',
+        tipo: UserType.SUPERVISOR,
+        nome: 'John'
+      })
+    )
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-supervisor')

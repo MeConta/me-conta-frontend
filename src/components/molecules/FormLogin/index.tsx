@@ -37,15 +37,17 @@ const redirects = {
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
   const [, setToken] = useLocalStorage<string>('token', '')
   const [, setTipo] = useLocalStorage<string>('tipo', '')
+  const [, setNome] = useLocalStorage<string>('nome', '')
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
-      const { token, tipo } = await authService.login({
+      const { token, tipo, nome } = await authService.login({
         email,
         senha: password
       })
       setToken(token)
       setTipo(tipo.toString())
+      setNome(nome)
 
       const redirect = redirects[tipo]
 
