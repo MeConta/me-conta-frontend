@@ -14,6 +14,7 @@ const validationSchema = Yup.object({
     .required(ERRORS.REQUIRED_PHONE)
     .min(MIN_LENGTH_PHONE_VALUE, ERRORS.INVALID_PHONE),
   dataNascimento: Yup.date()
+    .typeError(ERRORS.INVALID_BIRTHDAY)
     .required(ERRORS.REQUIRED_DATA_NASCIMENTO)
     .max(moment().subtract(18, 'years').toDate(), ERRORS.MIN_AGE)
     .min(moment().subtract(100, 'years').toDate(), ERRORS.MAX_BIRTHDATE),
