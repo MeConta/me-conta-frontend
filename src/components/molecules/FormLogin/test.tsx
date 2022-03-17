@@ -11,6 +11,18 @@ import { FormLogin } from '.'
 import router from '../../../../__mocks__/next/router'
 import { IAuthService } from '../../../services/auth-services/auth-service'
 
+jest.mock('services/auth-services/auth-service', () => {
+  const useAuthService = () => {
+    return {
+      storeSessionData: () => {},
+      session: {
+        nome: 'John Doe'
+      }
+    }
+  }
+  return { useAuthService }
+})
+
 const preencherFormularioParaSubmeter = async () => {
   const email = screen.getByRole('textbox', { name: 'E-mail' })
   const password = screen.getByRole('password', { name: 'Senha' })
@@ -80,7 +92,7 @@ describe('<FormLogin/>', () => {
       )
 
     await waitFor(() => {
-      expect(router.push).toBeCalledWith('/dashboard-aluno')
+      expect(router.push).toBeCalledWith('/dashboard')
     })
   })
 

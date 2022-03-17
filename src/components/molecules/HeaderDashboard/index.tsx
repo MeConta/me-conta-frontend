@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from '../../../../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -6,6 +6,7 @@ import { FiMenu } from 'react-icons/fi'
 import { GrClose } from 'react-icons/gr'
 
 import * as S from './styles'
+import { useAuthService } from 'services/auth-services/auth-service'
 
 type Links = { label: string; href: string }[]
 
@@ -18,15 +19,14 @@ const headerDashboardLinks = [
 export type HeaderDashboardProps = {
   logoSrc?: string | StaticImageData
   links?: Links
-  userName: string
 }
 
 export default function HeaderDashboard({
   logoSrc = Logo,
-  links = headerDashboardLinks,
-  userName
+  links = headerDashboardLinks
 }: HeaderDashboardProps) {
   const [menuToggle, setMenuToggle] = useState(false)
+  const authCtx = useAuthService()
 
   return (
     <S.Wrapper>
@@ -60,10 +60,15 @@ export default function HeaderDashboard({
           <div className="userinfo-container">
             <div className="greeting-container">
               {'Olá, '}
-              <b>{userName}</b>
+              <b>{authCtx.session.nome}</b>
             </div>
 
-            <button className="logout">Sair</button>
+            <button
+              className="logout"
+              onClick={() => authCtx.clearSessionData()}
+            >
+              Sair
+            </button>
           </div>
 
           <GrClose

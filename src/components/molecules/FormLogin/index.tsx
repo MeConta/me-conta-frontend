@@ -8,7 +8,10 @@ import router from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
 import { BackendError } from 'types/backend-error'
 import * as Yup from 'yup'
-import { IAuthService } from '../../../services/auth-services/auth-service'
+import {
+  IAuthService,
+  useAuthService
+} from '../../../services/auth-services/auth-service'
 
 import * as S from './styles'
 
@@ -29,15 +32,17 @@ const ERRORS = {
 }
 
 const redirects = {
-  [UserType.ALUNO]: '/dashboard-aluno',
+  [UserType.ALUNO]: '/dashboard',
   [UserType.ATENDENTE]: '/dashboard-atendente',
   [UserType.SUPERVISOR]: '/dashboard-supervisor'
 }
 
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
-  const [, setToken] = useLocalStorage<string>('token', '')
-  const [, setTipo] = useLocalStorage<string>('tipo', '')
-  const [, setNome] = useLocalStorage<string>('nome', '')
+  // const [, setToken] = useLocalStorage<string>('token', '')
+  // const [, setTipo] = useLocalStorage<string>('tipo', '')
+  // const [, setNome] = useLocalStorage<string>('nome', '')
+
+  const authCtx = useAuthService()
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
@@ -45,9 +50,15 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
         email,
         senha: password
       })
-      setToken(token)
-      setTipo(tipo.toString())
-      setNome(nome)
+      // setToken(token)
+      // setTipo(tipo.toString())
+      // setNome(nome)
+
+      authCtx.storeSessionData({
+        nome,
+        tipo: tipo.toString(),
+        token
+      })
 
       const redirect = redirects[tipo]
 

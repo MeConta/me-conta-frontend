@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
 import { createContext, PropsWithChildren, useContext } from 'react'
+import { useLocalStorage } from '../../hooks/localstorage.hook'
 
 type LoginForm = {
   email: string
@@ -48,8 +49,23 @@ export class AuthService implements IAuthService {
   }
 }
 
+type SessionData = {
+  nome: string
+  tipo: string
+  token: string
+}
+
 type AuthServiceProps = {
   authService: IAuthService
+  session: SessionData
+  storeSessionData: (session: SessionData) => void
+  clearSessionData: () => void
+}
+
+const LocalStorageAuthKeys = {
+  TOKEN: 'token',
+  NOME: 'nome',
+  TIPO: 'tipo'
 }
 
 const AuthorizationContext = createContext<AuthServiceProps>(
@@ -59,8 +75,36 @@ const AuthorizationContext = createContext<AuthServiceProps>(
 export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: IAuthService }>
 ) => {
+  const [token, setToken] = useLocalStorage(LocalStorageAuthKeys.TOKEN, '')
+  const [nome, setNome] = useLocalStorage(LocalStorageAuthKeys.NOME, '')
+  const [tipo, setTipo] = useLocalStorage(LocalStorageAuthKeys.TIPO, '')
+
+  const storeSessionDataHandler = (session: SessionData) => {
+    setToken(session.token)
+    setNome(session.nome)
+    setTipo(session.tipo)
+  }
+
+  const clearSessionDataHandler = () => {
+    Object.keys(LocalStorageAuthKeys).forEach((key) =>
+      localStorage.removeItem(key)
+    )
+  }
+
+  const session: SessionData = {
+    nome,
+    tipo,
+    token
+  }
   return (
-    <AuthorizationContext.Provider value={{ authService: props.authService }}>
+    <AuthorizationContext.Provider
+      value={{
+        authService: props.authService,
+        session,
+        storeSessionData: storeSessionDataHandler,
+        clearSessionData: clearSessionDataHandler
+      }}
+    >
       {props.children}
     </AuthorizationContext.Provider>
   )

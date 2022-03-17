@@ -16,6 +16,12 @@ import { ThemeProvider } from 'styled-components'
 import GlobalStyle, { Main } from 'styles/global'
 import theme from 'styles/theme'
 import { api } from '../services/api/api'
+import dynamic from 'next/dynamic'
+
+const HeadersDashboardNoSsr = dynamic(
+  () => import('../components/molecules/HeaderDashboard'),
+  { ssr: false }
+)
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -37,8 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </Head>
             <GlobalStyle />
             <Main>
-              {/* TODO: Verificar usuario logado */}
-              <HeaderDashboard userName="John Snow" />
+              <HeadersDashboardNoSsr />
               <Breadcrumb />
               <Component {...pageProps} />
             </Main>
