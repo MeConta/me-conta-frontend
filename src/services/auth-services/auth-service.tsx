@@ -77,6 +77,8 @@ export const AuthorizationProvider = (
 ) => {
   const [token, setToken] = useLocalStorage(LocalStorageAuthKeys.TOKEN, '')
   const [nome, setNome] = useLocalStorage(LocalStorageAuthKeys.NOME, '')
+
+  // ** Extract the tipo from token and store it into a state
   const [tipo, setTipo] = useLocalStorage(LocalStorageAuthKeys.TIPO, '')
 
   const storeSessionDataHandler = (session: SessionData) => {

@@ -38,10 +38,6 @@ const redirects = {
 }
 
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
-  // const [, setToken] = useLocalStorage<string>('token', '')
-  // const [, setTipo] = useLocalStorage<string>('tipo', '')
-  // const [, setNome] = useLocalStorage<string>('nome', '')
-
   const authCtx = useAuthService()
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
@@ -50,9 +46,6 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
         email,
         senha: password
       })
-      // setToken(token)
-      // setTipo(tipo.toString())
-      // setNome(nome)
 
       authCtx.storeSessionData({
         nome,
