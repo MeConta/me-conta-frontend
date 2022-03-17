@@ -19,11 +19,13 @@ const headerDashboardLinks = [
 export type HeaderDashboardProps = {
   logoSrc?: string | StaticImageData
   links?: Links
+  userName?: string
 }
 
 export default function HeaderDashboard({
   logoSrc = Logo,
-  links = headerDashboardLinks
+  links = headerDashboardLinks,
+  userName
 }: HeaderDashboardProps) {
   const [menuToggle, setMenuToggle] = useState(false)
   const authCtx = useAuthService()
@@ -60,7 +62,7 @@ export default function HeaderDashboard({
           <div className="userinfo-container">
             <div className="greeting-container">
               {'Olá, '}
-              <b>{authCtx.session.nome}</b>
+              <b>{userName || authCtx.session.nome}</b>
             </div>
 
             <button
