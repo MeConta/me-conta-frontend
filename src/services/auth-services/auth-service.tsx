@@ -66,6 +66,7 @@ type DecodedToken = {
 
 type AuthServiceProps = {
   authService: IAuthService
+  isLoggedIn: boolean
   session: SessionData
   storeSessionData: (session: SessionData) => void
   clearSessionData: () => void
@@ -101,9 +102,9 @@ export const AuthorizationProvider = (
   }
 
   const clearSessionDataHandler = () => {
-    Object.keys(LocalStorageAuthKeys).forEach((key) => {
-      localStorage.removeItem(LocalStorageAuthKeys[key])
-    })
+    setToken('')
+    setNome('')
+    setTipo('')
   }
 
   const session: SessionData = {
@@ -115,6 +116,7 @@ export const AuthorizationProvider = (
     <AuthorizationContext.Provider
       value={{
         authService: props.authService,
+        isLoggedIn: session.token ? true : false,
         session,
         storeSessionData: storeSessionDataHandler,
         clearSessionData: clearSessionDataHandler

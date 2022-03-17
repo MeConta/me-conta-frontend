@@ -1,6 +1,7 @@
 jest.mock('services/auth-services/auth-service', () => {
   const useAuthService = () => {
     return {
+      isLoggedIn: true,
       session: {
         nome: 'John Doe'
       }
@@ -35,5 +36,11 @@ describe('<HeaderDashboard />', () => {
 
     expect(screen.getByText('Olá,')).toBeInTheDocument()
     expect(screen.getByText('John Doe')).toBeInTheDocument()
+  })
+
+  it('deve renderizar o botao para fazer logout', () => {
+    render(<HeaderDashboard logoSrc="/mock-image.png" />)
+
+    expect(screen.getByText('Sair').closest('button')).toBeInTheDocument()
   })
 })

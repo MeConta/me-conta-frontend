@@ -52,35 +52,37 @@ export default function HeaderDashboard({
           onClick={() => setMenuToggle(true)}
         />
 
-        <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
-          <nav className="nav">
-            <ul>
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>
-                    <a>{link.label}</a>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        {authCtx.isLoggedIn && (
+          <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
+            <nav className="nav">
+              <ul>
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href}>
+                      <a>{link.label}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-          <div className="userinfo-container">
-            <div className="greeting-container">
-              {'Olá, '}
-              <b>{userName || authCtx.session.nome}</b>
+            <div className="userinfo-container">
+              <div className="greeting-container">
+                {'Olá, '}
+                <b>{userName || authCtx.session.nome}</b>
+              </div>
+
+              <button className="logout" onClick={logoutHandler}>
+                Sair
+              </button>
             </div>
 
-            <button className="logout" onClick={logoutHandler}>
-              Sair
-            </button>
+            <GrClose
+              className="close-menu-button"
+              onClick={() => setMenuToggle(false)}
+            />
           </div>
-
-          <GrClose
-            className="close-menu-button"
-            onClick={() => setMenuToggle(false)}
-          />
-        </div>
+        )}
       </div>
     </S.Wrapper>
   )
