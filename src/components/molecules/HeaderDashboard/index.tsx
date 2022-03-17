@@ -6,7 +6,7 @@ import { FiMenu } from 'react-icons/fi'
 import { GrClose } from 'react-icons/gr'
 
 import * as S from './styles'
-import { useAuthService } from 'services/auth-services/auth-service'
+import { useAuthService } from '../../../services/auth-services/auth-service'
 
 type Links = { label: string; href: string }[]
 
