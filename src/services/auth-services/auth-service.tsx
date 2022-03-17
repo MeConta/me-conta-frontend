@@ -1,7 +1,8 @@
 import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
-import { createContext, PropsWithChildren, useContext } from 'react'
+import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import { useLocalStorage } from '../../hooks/localstorage.hook'
+import { useJwt } from 'react-jwt'
 
 type LoginForm = {
   email: string
@@ -55,6 +56,14 @@ type SessionData = {
   token: string
 }
 
+type DecodedToken = {
+  email: string
+  exp: number
+  iat: number
+  roles: number[]
+  sub: number
+}
+
 type AuthServiceProps = {
   authService: IAuthService
   session: SessionData
@@ -62,7 +71,7 @@ type AuthServiceProps = {
   clearSessionData: () => void
 }
 
-const LocalStorageAuthKeys = {
+const LocalStorageAuthKeys: { [key: string]: string } = {
   TOKEN: 'token',
   NOME: 'nome',
   TIPO: 'tipo'
@@ -78,8 +87,12 @@ export const AuthorizationProvider = (
   const [token, setToken] = useLocalStorage(LocalStorageAuthKeys.TOKEN, '')
   const [nome, setNome] = useLocalStorage(LocalStorageAuthKeys.NOME, '')
 
-  // ** Extract the tipo from token and store it into a state
-  const [tipo, setTipo] = useLocalStorage(LocalStorageAuthKeys.TIPO, '')
+  const jwtData = useJwt(token)
+  const decodedToken = jwtData.decodedToken as DecodedToken
+
+  const [tipo, setTipo] = useState<string>(
+    decodedToken?.roles?.[0]?.toString() || ''
+  )
 
   const storeSessionDataHandler = (session: SessionData) => {
     setToken(session.token)
@@ -88,9 +101,9 @@ export const AuthorizationProvider = (
   }
 
   const clearSessionDataHandler = () => {
-    Object.keys(LocalStorageAuthKeys).forEach((key) =>
-      localStorage.removeItem(key)
-    )
+    Object.keys(LocalStorageAuthKeys).forEach((key) => {
+      localStorage.removeItem(LocalStorageAuthKeys[key])
+    })
   }
 
   const session: SessionData = {
