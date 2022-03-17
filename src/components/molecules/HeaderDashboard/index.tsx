@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FiMenu } from 'react-icons/fi'
 import { GrClose } from 'react-icons/gr'
+import router from 'next/router'
 
 import * as S from './styles'
 import { useAuthService } from '../../../services/auth-services/auth-service'
@@ -29,6 +30,11 @@ export default function HeaderDashboard({
 }: HeaderDashboardProps) {
   const [menuToggle, setMenuToggle] = useState(false)
   const authCtx = useAuthService()
+
+  const logoutHandler = () => {
+    authCtx.clearSessionData()
+    router.push('/login')
+  }
 
   return (
     <S.Wrapper>
@@ -65,10 +71,7 @@ export default function HeaderDashboard({
               <b>{userName || authCtx.session.nome}</b>
             </div>
 
-            <button
-              className="logout"
-              onClick={() => authCtx.clearSessionData()}
-            >
+            <button className="logout" onClick={logoutHandler}>
               Sair
             </button>
           </div>
