@@ -8,33 +8,28 @@ import router from 'next/router'
 
 import * as S from './styles'
 import { useAuthService } from '../../../services/auth-services/auth-service'
-
-type Links = { label: string; href: string }[]
-
-const headerDashboardLinks = [
-  { label: 'Agenda', href: '/agenda' },
-  { label: 'Meus horários', href: '/meus-horarios' },
-  { label: 'Meu perfil', href: '/meu-perfil' }
-] as Links
+import { headerDashboardLinks } from './headerDashboardLinks'
 
 export type HeaderDashboardProps = {
   logoSrc?: string | StaticImageData
-  links?: Links
   userName?: string
 }
 
 export default function HeaderDashboard({
   logoSrc = Logo,
-  links = headerDashboardLinks,
   userName
 }: HeaderDashboardProps) {
   const [menuToggle, setMenuToggle] = useState(false)
   const authCtx = useAuthService()
 
-  const logoutHandler = () => {
+  const logHandler = () => {
     authCtx.clearSessionData()
     router.push('/login')
   }
+
+  const links = !!authCtx.session.tipo
+    ? headerDashboardLinks[parseInt(authCtx.session.tipo)]
+    : []
 
   return (
     <S.Wrapper>
@@ -52,7 +47,7 @@ export default function HeaderDashboard({
           onClick={() => setMenuToggle(true)}
         />
 
-        {authCtx.isLoggedIn && (
+        {authCtx.isLoggedIn ? (
           <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
             <nav className="nav">
               <ul>
@@ -72,11 +67,23 @@ export default function HeaderDashboard({
                 <b>{userName || authCtx.session.nome}</b>
               </div>
 
-              <button className="logout" onClick={logoutHandler}>
+              <button className="logout" onClick={logHandler}>
                 Sair
               </button>
             </div>
 
+            <GrClose
+              className="close-menu-button"
+              onClick={() => setMenuToggle(false)}
+            />
+          </div>
+        ) : (
+          <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
+            <div className="userinfo-container">
+              <button className="login" onClick={logHandler}>
+                Acesso
+              </button>
+            </div>
             <GrClose
               className="close-menu-button"
               onClick={() => setMenuToggle(false)}

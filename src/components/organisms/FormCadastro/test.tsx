@@ -10,6 +10,15 @@ import {
 } from '../../../services/signup-service/signup-service'
 import { UserType } from 'enums/user-type.enum'
 
+jest.mock('services/auth-services/auth-service', () => {
+  const useAuthService = () => {
+    return {
+      storeSessionData: jest.fn()
+    }
+  }
+  return { useAuthService }
+})
+
 describe('<FormCadastro/>', () => {
   const signupServiceMock: ISignupService = {
     initialSignup: jest.fn()

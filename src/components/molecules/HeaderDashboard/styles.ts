@@ -114,6 +114,7 @@ export const Wrapper = styled.header`
   .userinfo-container {
     display: flex;
     align-items: baseline;
+    margin-left: auto;
 
     @media (max-width: 768px) {
       order: 1;
@@ -132,7 +133,8 @@ export const Wrapper = styled.header`
       font-size: 16px;
     }
 
-    button.logout {
+    button.logout,
+    button.login {
       color: #de3163;
       font-weight: 500;
       background-color: transparent;
@@ -145,7 +147,8 @@ export const Wrapper = styled.header`
       }
     }
 
-    button.logout:hover {
+    button.logout:hover,
+    button.login:hover {
       text-decoration: underline;
     }
   }

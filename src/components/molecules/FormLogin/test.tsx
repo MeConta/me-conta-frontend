@@ -92,7 +92,7 @@ describe('<FormLogin/>', () => {
       )
 
     await waitFor(() => {
-      expect(router.push).toBeCalledWith('/dashboard')
+      expect(router.push).toBeCalledWith('/dashboard-aluno')
     })
   })
 

@@ -32,9 +32,10 @@ const ERRORS = {
 }
 
 const redirects = {
-  [UserType.ALUNO]: '/dashboard',
+  [UserType.ALUNO]: '/dashboard-aluno',
   [UserType.ATENDENTE]: '/dashboard-atendente',
-  [UserType.SUPERVISOR]: '/dashboard-supervisor'
+  [UserType.SUPERVISOR]: '/dashboard-supervisor',
+  [UserType.ADMINISTRADOR]: '/dashboard-administrador'
 }
 
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {

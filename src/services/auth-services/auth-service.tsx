@@ -1,6 +1,12 @@
 import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
-import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import { useLocalStorage } from '../../hooks/localstorage.hook'
 import { useJwt } from 'react-jwt'
 
@@ -95,6 +101,12 @@ export const AuthorizationProvider = (
     decodedToken?.roles?.[0]?.toString() || ''
   )
 
+  useEffect(() => {
+    if (decodedToken && decodedToken.roles) {
+      setTipo(decodedToken.roles[0].toString())
+    }
+  }, [decodedToken])
+
   const storeSessionDataHandler = (session: SessionData) => {
     setToken(session.token)
     setNome(session.nome)
@@ -116,7 +128,7 @@ export const AuthorizationProvider = (
     <AuthorizationContext.Provider
       value={{
         authService: props.authService,
-        isLoggedIn: session.token ? true : false,
+        isLoggedIn: !!session.token,
         session,
         storeSessionData: storeSessionDataHandler,
         clearSessionData: clearSessionDataHandler
