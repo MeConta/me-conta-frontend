@@ -8,6 +8,10 @@ import {
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.7rem;
+  height: 12rem;
 
   .frente {
     border-radius: 50%;
@@ -16,7 +20,7 @@ export const Wrapper = styled.div`
     padding: 10px;
 
     @media (max-width: 768px) {
-      width: 28px;
+      width: 34px;
     }
   }
 `
