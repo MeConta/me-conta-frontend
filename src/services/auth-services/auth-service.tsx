@@ -44,8 +44,7 @@ export class AuthService implements IAuthService {
   }
 
   async logout() {
-    const response = await this.service.post('/auth/logout', {})
-    console.log(response)
+    await this.service.post('/auth/logout', {})
   }
 
   async recuperarSenha(email: string): Promise<void> {
