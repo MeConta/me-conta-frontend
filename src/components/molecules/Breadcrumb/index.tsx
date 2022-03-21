@@ -17,12 +17,18 @@ export default function Breadcrumb() {
       const routePaths = asPath.split('/')
       routePaths.shift()
 
-      const breadCrumbLinksObject = routePaths.map((path, i) => {
-        return {
-          label: path,
-          url: '/' + routePaths.slice(0, i + 1).join('/')
+      if (!routePaths[0]) {
+        routePaths.shift()
+      }
+
+      const breadCrumbLinksObject: BreadCrumbLinks = routePaths.map(
+        (path, i) => {
+          return {
+            label: path,
+            url: '/' + routePaths.slice(0, i + 1).join('/')
+          }
         }
-      })
+      )
 
       setBreadCrumbLinks(breadCrumbLinksObject)
     }
