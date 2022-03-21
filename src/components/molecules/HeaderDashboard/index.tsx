@@ -22,7 +22,8 @@ export default function HeaderDashboard({
   const [menuToggle, setMenuToggle] = useState(false)
   const authCtx = useAuthService()
 
-  const logHandler = () => {
+  const logoutHandler = async () => {
+    await authCtx.authService.logout()
     authCtx.clearSessionData()
     router.push('/login')
   }
@@ -69,7 +70,7 @@ export default function HeaderDashboard({
                 <b>{userName || authCtx.session.nome}</b>
               </div>
 
-              <button className="logout" onClick={logHandler}>
+              <button className="logout" onClick={logoutHandler}>
                 Sair
               </button>
             </div>
@@ -82,8 +83,13 @@ export default function HeaderDashboard({
         ) : (
           <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
             <div className="userinfo-container">
-              <button className="login" onClick={logHandler}>
-                Acesso
+              <button
+                className="login"
+                onClick={() => {
+                  router.push('/login')
+                }}
+              >
+                Acessar
               </button>
             </div>
             <GrClose

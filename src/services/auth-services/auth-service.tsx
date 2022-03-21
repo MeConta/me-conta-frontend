@@ -24,6 +24,7 @@ type LoginResponse = { token: string; tipo: UserType; nome: string }
 
 export interface IAuthService {
   login(form: LoginForm): Promise<LoginResponse>
+  logout(): Promise<void>
   recuperarSenha?(email: string): Promise<void>
   resetarSenha?(form: ResetSenhaForm): Promise<void>
 }
@@ -40,6 +41,11 @@ export class AuthService implements IAuthService {
       tipo: parseInt(response.data.tipo, 10) as UserType,
       nome: response.data.nome
     }
+  }
+
+  async logout() {
+    const response = await this.service.post('/auth/logout', {})
+    console.log(response)
   }
 
   async recuperarSenha(email: string): Promise<void> {

@@ -41,7 +41,7 @@ describe('<HeaderDashboard />', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(screen.queryByText('Meu perfil')).toBeNull()
-    expect(screen.getByRole('button', { name: 'Acesso' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Acessar' })).toBeInTheDocument()
   })
 
   it('deve renderizar os links do aluno', () => {
