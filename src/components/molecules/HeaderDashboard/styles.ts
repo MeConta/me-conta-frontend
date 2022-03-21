@@ -4,8 +4,6 @@ export const Wrapper = styled.header`
   background-color: #fff;
   border-bottom: 1px solid #e3e3e3;
   padding: 15px;
-  position: absolute;
-  top: 0;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -20,6 +18,10 @@ export const Wrapper = styled.header`
 
     @media (max-width: 768px) {
       justify-content: center;
+    }
+
+    .logo-image {
+      cursor: pointer;
     }
 
     .open-menu-button {

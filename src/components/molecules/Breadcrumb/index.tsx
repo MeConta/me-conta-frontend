@@ -39,11 +39,15 @@ export default function Breadcrumb() {
             <a href={link.url}>{link.label.replace('-', ' ')}</a>
             <span
               className={breadCrumbLinkAtivo ? 'divider-off' : 'divider-on'}
-            ></span>
+            />
           </li>
         )
       })
     }
+  }
+
+  if (!breadCrumbLinks.length) {
+    return <></>
   }
 
   return (

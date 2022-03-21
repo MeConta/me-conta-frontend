@@ -16,6 +16,7 @@ import GlobalStyle, { Main } from 'styles/global'
 import theme from 'styles/theme'
 import { api } from '../services/api/api'
 import dynamic from 'next/dynamic'
+import Footer from '../components/molecules/Footer'
 
 const HeadersDashboardNoSsr = dynamic(
   () => import('../components/molecules/HeaderDashboard'),
@@ -45,6 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <HeadersDashboardNoSsr />
               <Breadcrumb />
               <Component {...pageProps} />
+              <Footer />
             </Main>
           </ToastProvider>
         </ThemeProvider>

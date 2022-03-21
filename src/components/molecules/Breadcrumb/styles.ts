@@ -4,13 +4,7 @@ export const Wrapper = styled.div`
   background-color: #ffffff;
   display: flex;
   padding: 18px;
-  position: absolute;
-  top: 81px;
   width: 100%;
-
-  @media (max-width: 768px) {
-    top: 87px;
-  }
 
   .content {
     align-items: center;

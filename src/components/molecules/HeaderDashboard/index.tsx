@@ -34,14 +34,16 @@ export default function HeaderDashboard({
   return (
     <S.Wrapper>
       <div className="content">
-        <Image
-          unoptimized={true}
-          src={logoSrc}
-          alt="Logo Me Conta"
-          width={168}
-          height={56}
-        />
-
+        <Link href="/" passHref>
+          <Image
+            unoptimized={true}
+            src={logoSrc}
+            alt="Logo Me Conta"
+            width={168}
+            height={56}
+            className="logo-image"
+          />
+        </Link>
         <FiMenu
           className="open-menu-button"
           onClick={() => setMenuToggle(true)}
