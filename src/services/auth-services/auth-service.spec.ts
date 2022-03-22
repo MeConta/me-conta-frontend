@@ -1,4 +1,4 @@
-import { AuthService } from './auth-service'
+import { AuthService, AuthorizationProvider } from './auth-service'
 
 import * as axios from 'axios'
 import { UserType } from '../../enums/user-type.enum'
@@ -17,7 +17,7 @@ describe('AuthService', () => {
     expect(service).toBeDefined()
   })
 
-  it('Must do a post request to api/auth/login/', async () => {
+  it('Must do a post request to /auth/login/', async () => {
     jest.spyOn(axios.default, 'post').mockResolvedValue({
       data: {
         token: 'mocked',
@@ -31,7 +31,7 @@ describe('AuthService', () => {
     })
     expect(axios.default.post).toBeCalled()
     expect(axios.default.post).toReturn()
-    expect(axios.default.post).toBeCalledWith('api/auth/login/', {
+    expect(axios.default.post).toBeCalledWith('/auth/login/', {
       password: 's3nh$F0R!3',
       username: 'teste@teste.com'
     })
