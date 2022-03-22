@@ -1,7 +1,8 @@
 import FrentesDropdown from 'components/molecules/FrentesDropdown'
+import { authenticatedRoute } from 'pages/authenticationRoute'
 import * as S from '../../../styles/pages/dashboard-aluno/styles'
 
-export default function Agenda() {
+function Agenda() {
   return (
     <>
       <S.WrapperDashboard>
@@ -10,3 +11,5 @@ export default function Agenda() {
     </>
   )
 }
+
+export default authenticatedRoute(Agenda)
