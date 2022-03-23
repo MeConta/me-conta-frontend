@@ -1,6 +1,6 @@
 import FrentesDropdown from 'components/molecules/FrentesDropdown'
 import * as S from '../../styles/pages/dashboards/styles'
-import * as Styled from './styles'
+import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 
 type SelectedFrente = {
   id: number
