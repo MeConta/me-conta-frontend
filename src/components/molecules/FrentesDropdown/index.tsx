@@ -55,9 +55,13 @@ export default function FrentesDropdown(props: FrentesProps) {
 
       {isOpen && (
         <S.OptionListContainer>
-          <ul>
+          <ul role="menu">
             {frentes.map((item) => (
-              <li key={item.id} onClick={() => itemSelectedHandler(item)}>
+              <li
+                key={item.id}
+                onClick={() => itemSelectedHandler(item)}
+                role="menuitem"
+              >
                 <S.OptionContainer>
                   <S.Option>
                     {item.icon}
