@@ -8,7 +8,7 @@ import {
   useState
 } from 'react'
 import { useLocalStorage } from '../../hooks/localstorage.hook'
-import { useJwt } from 'react-jwt'
+import { parseJwtToObject } from 'utils/convertions/convertions-jwt'
 
 type LoginForm = {
   email: string
@@ -36,6 +36,9 @@ export class AuthService implements IAuthService {
       username: form.email,
       password: form.senha
     })
+
+    //registrar no ssr
+
     return {
       token: response.data.token,
       tipo: parseInt(response.data.tipo, 10) as UserType,
@@ -67,17 +70,9 @@ type SessionData = {
   token: string
 }
 
-type DecodedToken = {
-  email: string
-  exp: number
-  iat: number
-  roles: number[]
-  sub: number
-}
-
 type AuthServiceProps = {
   authService: IAuthService
-  isLoggedIn: boolean
+  isLoggedIn: boolean | null
   session: SessionData
   storeSessionData: (session: SessionData) => void
   clearSessionData: () => void
@@ -96,11 +91,11 @@ const AuthorizationContext = createContext<AuthServiceProps>(
 export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: IAuthService }>
 ) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
   const [token, setToken] = useLocalStorage(LocalStorageAuthKeys.TOKEN, '')
   const [nome, setNome] = useLocalStorage(LocalStorageAuthKeys.NOME, '')
 
-  const jwtData = useJwt(token)
-  const decodedToken = jwtData.decodedToken as DecodedToken
+  const decodedToken = parseJwtToObject(token)
 
   const [tipo, setTipo] = useState<string>(
     decodedToken?.roles?.[0]?.toString() || ''
@@ -112,16 +107,35 @@ export const AuthorizationProvider = (
     }
   }, [decodedToken])
 
+  useEffect(() => {
+    if (!token) {
+      setIsLoggedIn(false)
+    } else {
+      if (
+        !decodedToken ||
+        (decodedToken && decodedToken.exp * 1000 < Date.now())
+      ) {
+        setIsLoggedIn(false)
+      } else {
+        setIsLoggedIn(true)
+      }
+    }
+  }, [token, setIsLoggedIn])
+
   const storeSessionDataHandler = (session: SessionData) => {
     setToken(session.token)
     setNome(session.nome)
     setTipo(session.tipo)
+
+    // store in the next session
   }
 
   const clearSessionDataHandler = () => {
     setToken('')
     setNome('')
     setTipo('')
+
+    //remove from next session
   }
 
   const session: SessionData = {
@@ -129,11 +143,12 @@ export const AuthorizationProvider = (
     tipo,
     token
   }
+
   return (
     <AuthorizationContext.Provider
       value={{
         authService: props.authService,
-        isLoggedIn: !!session.token,
+        isLoggedIn: isLoggedIn,
         session,
         storeSessionData: storeSessionDataHandler,
         clearSessionData: clearSessionDataHandler
