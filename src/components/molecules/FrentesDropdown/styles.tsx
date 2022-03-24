@@ -70,7 +70,7 @@ export const LabelContainer = styled.div`
 }
 `
 
-export const StyledDropdown = styled.div`
+export const StyledDropdown = styled.button`
   padding: 0.2rem 0.6rem;
   display: flex;
   justify-content: start;
@@ -82,6 +82,7 @@ export const StyledDropdown = styled.div`
   border: 0.1rem solid;
   border-color: #848a8c;
   border-radius: 0.7rem;
+  background-color: transparent;
 `
 
 export const StyledArrowIosDownwardOutline = styled(ArrowIosDownwardOutline)`
