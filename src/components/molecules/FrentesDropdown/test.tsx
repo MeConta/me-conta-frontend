@@ -4,6 +4,22 @@ import FrentesDropdown from '.'
 import { FrentesInfo } from './frentesInfo'
 
 describe('<FrentesDropdown />', () => {
+  const menuItemsToBeInTheDocument = () => {
+    FrentesInfo.forEach((frente) => {
+      expect(
+        screen.queryByRole('menuitem', { name: frente.text })
+      ).toBeInTheDocument()
+    })
+  }
+
+  const menuItemsNotToBeInTheDocument = () => {
+    FrentesInfo.forEach((frente) => {
+      expect(
+        screen.queryByRole('menuitem', { name: frente.text })
+      ).not.toBeInTheDocument()
+    })
+  }
+
   it('should dipslay dropdown label', () => {
     render(<FrentesDropdown onSelectItem={(item) => {}} />)
 
@@ -22,27 +38,9 @@ describe('<FrentesDropdown />', () => {
   it('should open menu options when clicked', () => {
     render(<FrentesDropdown onSelectItem={(item) => {}} />)
 
-    expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[0].text })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[1].text })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[2].text })
-    ).not.toBeInTheDocument()
-
+    menuItemsNotToBeInTheDocument()
     userEvent.click(screen.getByRole('button'))
-
-    expect(
-      screen.getByRole('menuitem', { name: FrentesInfo[0].text })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('menuitem', { name: FrentesInfo[1].text })
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('menuitem', { name: FrentesInfo[2].text })
-    ).toBeInTheDocument()
+    menuItemsToBeInTheDocument()
   })
 
   it('should change the selected option and close options when clicked', () => {
@@ -54,14 +52,18 @@ describe('<FrentesDropdown />', () => {
     expect(
       screen.getByRole('button', { name: FrentesInfo[1].text })
     ).toBeInTheDocument()
+    menuItemsNotToBeInTheDocument()
+  })
+
+  it('should toggle options', () => {
+    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+
+    userEvent.click(screen.getByRole('button'))
+    menuItemsToBeInTheDocument()
+    userEvent.click(screen.getByRole('button'))
+    menuItemsNotToBeInTheDocument()
     expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[0].text })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[1].text })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('menuitem', { name: FrentesInfo[2].text })
-    ).not.toBeInTheDocument()
+      screen.getByRole('button', { name: FrentesInfo[0].text })
+    ).toBeInTheDocument()
   })
 })
