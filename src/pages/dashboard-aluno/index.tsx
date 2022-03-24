@@ -1,6 +1,7 @@
 import FrentesDropdown from 'components/molecules/FrentesDropdown'
 import * as S from '../../styles/pages/dashboards/styles'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
+import { authenticatedRoute } from 'pages/authenticationRoute'
 
 type SelectedFrente = {
   id: number
@@ -8,7 +9,7 @@ type SelectedFrente = {
   value: string
 }
 
-export default function DashboardAluno() {
+function DashboardAluno() {
   const onSelectItemHandler = (item: SelectedFrente) => {
     console.log(item)
   }
@@ -22,3 +23,5 @@ export default function DashboardAluno() {
     </S.WrapperDashboard>
   )
 }
+
+export default authenticatedRoute(DashboardAluno)
