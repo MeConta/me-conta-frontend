@@ -8,7 +8,7 @@ import {
   useState
 } from 'react'
 import { useLocalStorage } from '../../hooks/localstorage.hook'
-import { parseJwtToObject } from 'utils/convertions/convertions-jwt'
+import { parseJwtToObject } from '../../utils/convertions/convertions-jwt'
 
 type LoginForm = {
   email: string

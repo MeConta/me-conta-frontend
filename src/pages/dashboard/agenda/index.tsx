@@ -1,5 +1,5 @@
 import FrentesDropdown from 'components/molecules/FrentesDropdown'
-import { authenticatedRoute } from 'pages/authenticationRoute'
+import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import * as S from '../../../styles/pages/dashboards/styles'
 
 function Agenda() {
