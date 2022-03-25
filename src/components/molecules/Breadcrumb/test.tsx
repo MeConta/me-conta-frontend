@@ -1,6 +1,18 @@
 import { render, screen } from '../../../utils/tests/helpers'
 import Breadcrumb from './index'
 
+jest.mock('../../../services/auth-services/auth-service', () => {
+  const useAuthService = () => {
+    return {
+      isLoggedIn: true,
+      session: {
+        nome: 'John Doe'
+      }
+    }
+  }
+  return { useAuthService }
+})
+
 jest.mock('next/router', () => ({
   useRouter: () => ({
     asPath: '/dashboard/meu-perfil'

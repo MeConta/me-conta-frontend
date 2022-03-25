@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import { UserType } from 'enums/user-type.enum'
 import {
   createContext,
@@ -7,8 +8,9 @@ import {
   useEffect,
   useState
 } from 'react'
-import { useLocalStorage } from '../../hooks/localstorage.hook'
 import { parseJwtToObject } from '../../utils/convertions/convertions-jwt'
+import { DecodedToken } from 'types/data'
+import { useRouter } from 'next/router'
 
 type LoginForm = {
   email: string
@@ -36,9 +38,6 @@ export class AuthService implements IAuthService {
       username: form.email,
       password: form.senha
     })
-
-    //registrar no ssr
-
     return {
       token: response.data.token,
       tipo: parseInt(response.data.tipo, 10) as UserType,
@@ -72,10 +71,10 @@ type SessionData = {
 
 type AuthServiceProps = {
   authService: IAuthService
-  isLoggedIn: boolean | null
+  isLoggedIn: boolean
   session: SessionData
-  storeSessionData: (session: SessionData) => void
-  clearSessionData: () => void
+  handleLogin: (session: SessionData) => void
+  handleLogout: () => void
 }
 
 const LocalStorageAuthKeys: { [key: string]: string } = {
@@ -88,60 +87,70 @@ const AuthorizationContext = createContext<AuthServiceProps>(
   {} as AuthServiceProps
 )
 
+let automaticLogoutTimer: NodeJS.Timeout | null
+
 export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: IAuthService }>
 ) => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
-  const [token, setToken] = useLocalStorage(LocalStorageAuthKeys.TOKEN, '')
-  const [nome, setNome] = useLocalStorage(LocalStorageAuthKeys.NOME, '')
+  const isTokenValid = (decodedToken: DecodedToken | null): boolean => {
+    if (!decodedToken || !decodedToken.exp) {
+      return false
+    }
+    return decodedToken.exp * 1000 > Date.now()
+  }
 
-  const decodedToken = parseJwtToObject(token)
+  const createAutomaticLogoutTimer = (decodedToken: DecodedToken) => {
+    const nowInMs = new Date().getTime()
+    const expirationInMs = new Date(decodedToken.exp * 1000).getTime()
+    const currentDuration = expirationInMs - nowInMs
+    if (currentDuration > 0) {
+      setTimeout(() => logoutHandler(true), currentDuration)
+    }
+  }
 
-  const [tipo, setTipo] = useState<string>(
-    decodedToken?.roles?.[0]?.toString() || ''
+  const router = useRouter()
+  const { nome: nomeCookie, token: tokenCookie } = parseCookies()
+  const decodedToken = parseJwtToObject(tokenCookie)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    isTokenValid(decodedToken)
   )
+  const [nome, setNome] = useState<string | null>(null)
+  const [tipo, setTipo] = useState<string | null>(null)
 
   useEffect(() => {
-    if (decodedToken && decodedToken.roles) {
-      setTipo(decodedToken.roles[0].toString())
+    if (isTokenValid(decodedToken)) {
+      setIsLoggedIn(true)
+      setNome(nomeCookie)
+      setTipo(decodedToken?.roles?.[0].toString() as string)
+      createAutomaticLogoutTimer(decodedToken as DecodedToken)
+    } else {
+      setIsLoggedIn(false)
     }
   }, [decodedToken])
 
-  useEffect(() => {
-    if (!token) {
-      setIsLoggedIn(false)
-    } else {
-      if (
-        !decodedToken ||
-        (decodedToken && decodedToken.exp * 1000 < Date.now())
-      ) {
-        setIsLoggedIn(false)
-      } else {
-        setIsLoggedIn(true)
-      }
-    }
-  }, [token, setIsLoggedIn])
-
-  const storeSessionDataHandler = (sessionData: SessionData) => {
-    setToken(sessionData.token)
-    setNome(sessionData.nome)
-    setTipo(sessionData.tipo)
-
-    // store in the next session
+  const loginHandler = (session: SessionData) => {
+    setNome(session.nome)
+    setTipo(session.tipo)
+    setCookie(undefined, 'token', session.token)
+    setCookie(undefined, 'nome', session.nome)
+    setIsLoggedIn(true)
+    createAutomaticLogoutTimer(parseJwtToObject(session.token) as DecodedToken)
   }
 
-  const clearSessionDataHandler = () => {
-    setToken('')
-    setNome('')
-    setTipo('')
+  const logoutHandler = (autoLogout: boolean = false) => {
+    destroyCookie(null, 'token')
+    destroyCookie(null, 'nome')
+    setNome(null)
+    setTipo(null)
+    setIsLoggedIn(false)
 
-    //remove from next session
+    router.push(autoLogout ? '/login?automatic=true' : '/login')
   }
 
   const session: SessionData = {
-    nome,
-    tipo,
-    token
+    nome: nome || '',
+    tipo: tipo || '',
+    token: tokenCookie
   }
 
   return (
@@ -150,8 +159,8 @@ export const AuthorizationProvider = (
         authService: props.authService,
         isLoggedIn: isLoggedIn,
         session,
-        storeSessionData: storeSessionDataHandler,
-        clearSessionData: clearSessionDataHandler
+        handleLogin: loginHandler,
+        handleLogout: logoutHandler
       }}
     >
       {props.children}

@@ -48,7 +48,7 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
         senha: password
       })
 
-      authCtx.storeSessionData({
+      authCtx.handleLogin({
         nome,
         tipo: tipo.toString(),
         token

@@ -14,7 +14,7 @@ import { IAuthService } from '../../../services/auth-services/auth-service'
 jest.mock('services/auth-services/auth-service', () => {
   const useAuthService = () => {
     return {
-      storeSessionData: jest.fn(),
+      handleLogin: jest.fn(),
       session: {
         nome: 'John Doe'
       }

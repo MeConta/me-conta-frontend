@@ -1,12 +1,16 @@
-import { NextComponentType } from 'next'
+import { GetServerSideProps, NextComponentType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useAuthService } from 'services/auth-services/auth-service'
 
+type AuthenticatedRouteOptions = {
+  allowedRoles: number[]
+}
+
 export const authenticatedRoute = (
   Component: NextComponentType,
-  options: { pathAfterFailure: string } = {
-    pathAfterFailure: '/login'
+  options: AuthenticatedRouteOptions = {
+    allowedRoles: [0, 1, 2]
   }
 ) => {
   const AuthenticatedComponent = () => {
@@ -14,18 +18,15 @@ export const authenticatedRoute = (
     const router = useRouter()
 
     useEffect(() => {
-      if (typeof authCtx.isLoggedIn === 'boolean' && !authCtx.isLoggedIn) {
-        router.push(options.pathAfterFailure)
+      if (
+        !authCtx.isLoggedIn &&
+        options.allowedRoles.includes(+authCtx.session.tipo)
+      ) {
+        authCtx.handleLogout()
       }
     }, [authCtx, router])
 
-    return (
-      <>
-        {(authCtx.isLoggedIn && <Component />) || (
-          <div> Checando autenticação... </div>
-        )}
-      </>
-    )
+    return <Component />
   }
 
   return AuthenticatedComponent

@@ -24,7 +24,7 @@ export default function HeaderDashboard({
 
   const logoutHandler = async () => {
     await authCtx.authService.logout()
-    authCtx.clearSessionData()
+    authCtx.handleLogout()
     router.push('/login')
   }
 
@@ -69,7 +69,7 @@ export default function HeaderDashboard({
             <div className="userinfo-container">
               <div className="greeting-container">
                 {'Olá, '}
-                <b>{userName || authCtx.session.nome}</b>
+                <b>{userName || authCtx?.session?.nome}</b>
               </div>
 
               <button className="logout" onClick={logoutHandler}>
