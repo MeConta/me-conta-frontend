@@ -29,6 +29,8 @@ function Navbar({ onPreviousClick, onNextClick, className }: NavbarProps) {
   )
 }
 
+export type DatePickerProps = DayPickerProps
+
 export function DatePicker({ ...props }) {
   const modifiersStyles = {
     selected: {
