@@ -1,10 +1,5 @@
 import styled, { css } from 'styled-components'
 
-// export const DefaultOption = styled.option`
-//   ${({ theme }) => css`
-//     color: ${theme.colors.lightGray};
-//   `}
-// `
 export const Select = styled.select`
   ${({ theme }) => css`
     color: ${theme.colors.black};

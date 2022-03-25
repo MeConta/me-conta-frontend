@@ -9,7 +9,7 @@ type Option = {
 }
 
 export type SelectFieldProps = {
-  label: string
+  labelField: string
   initialValue?: string
   error?: string
   disabled?: boolean
@@ -20,12 +20,12 @@ export type SelectFieldProps = {
   value?: string
   defaultSelect?: string
   name: string
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
 }
 
 export const SelectField = React.forwardRef(function SelectField(
   {
-    label,
+    labelField,
     name,
     onChange,
     options,
@@ -38,7 +38,7 @@ export const SelectField = React.forwardRef(function SelectField(
   ref?: ForwardedRef<HTMLSelectElement>
 ) {
   return (
-    <FormGroup error={error} name={name} label={label} required={required}>
+    <FormGroup error={error} name={name} label={labelField} required={required}>
       <S.Select
         onChange={onChange}
         name={name}

@@ -6,7 +6,11 @@ function Agenda() {
   return (
     <>
       <S.WrapperDashboard>
-        <FrentesDropdown onSelectItem={() => {}} />
+        <FrentesDropdown
+          onSelectItem={() => {
+            // empty for now
+          }}
+        />
       </S.WrapperDashboard>
     </>
   )

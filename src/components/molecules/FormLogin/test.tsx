@@ -14,7 +14,7 @@ import { IAuthService } from '../../../services/auth-services/auth-service'
 jest.mock('services/auth-services/auth-service', () => {
   const useAuthService = () => {
     return {
-      storeSessionData: () => {},
+      storeSessionData: jest.fn(),
       session: {
         nome: 'John Doe'
       }
@@ -23,19 +23,20 @@ jest.mock('services/auth-services/auth-service', () => {
   return { useAuthService }
 })
 
-const preencherFormularioParaSubmeter = async () => {
+const fillFormToSubmit = () => {
   const email = screen.getByRole('textbox', { name: 'E-mail' })
   const password = screen.getByRole('password', { name: 'Senha' })
   const submit = screen.getByRole('button')
 
-  await userEvent.type(email, 'email@teste.com')
-  await userEvent.type(password, 'S3nh@valid@')
-  await fireEvent.click(submit)
+  userEvent.type(email, 'email@teste.com')
+  userEvent.type(password, 'S3nh@valid@')
+  fireEvent.click(submit)
 }
 
 describe('<FormLogin/>', () => {
   let renderResult: RenderResult
   const authServiceMock: IAuthService = {
+    logout: jest.fn(),
     login: jest.fn()
   }
   const handleErrorMock = jest.fn()
@@ -58,8 +59,8 @@ describe('<FormLogin/>', () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
     const submit = screen.getByRole('button')
 
-    await userEvent.type(email, 'meuemailcom')
-    await fireEvent.click(submit)
+    userEvent.type(email, 'meuemailcom')
+    fireEvent.click(submit)
 
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
@@ -67,7 +68,7 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve chamar o serviço de login', async () => {
-    await preencherFormularioParaSubmeter()
+    fillFormToSubmit()
 
     jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
       return Promise.resolve({
@@ -83,7 +84,7 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve redirecionar para dashboard de aluno', async () => {
-    await preencherFormularioParaSubmeter()
+    fillFormToSubmit()
 
     jest
       .spyOn(authServiceMock, 'login')
@@ -97,7 +98,7 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve redirecionar para dashboard de atendente', async () => {
-    await preencherFormularioParaSubmeter()
+    fillFormToSubmit()
 
     jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
       Promise.resolve({
@@ -113,7 +114,7 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve redirecionar para dashboard de supervisor', async () => {
-    await preencherFormularioParaSubmeter()
+    fillFormToSubmit()
 
     jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
       Promise.resolve({
@@ -129,7 +130,7 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve submeter formulário e chamar callback de error', async () => {
-    await preencherFormularioParaSubmeter()
+    fillFormToSubmit()
 
     jest
       .spyOn(authServiceMock, 'login')

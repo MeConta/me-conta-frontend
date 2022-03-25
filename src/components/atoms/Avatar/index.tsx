@@ -30,8 +30,10 @@ export function Avatar({
 
   const getAlternativeText = () => `Avatar do ${name}`
 
-  const getGravatarUrl = (email: string) => {
-    return `https://www.gravatar.com/avatar/${md5(email)}?s=${size}&d=blank`
+  const getGravatarUrl = (emailAvatar: string) => {
+    return `https://www.gravatar.com/avatar/${md5(
+      emailAvatar
+    )}?s=${size}&d=blank`
   }
 
   return (

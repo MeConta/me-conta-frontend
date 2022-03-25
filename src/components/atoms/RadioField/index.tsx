@@ -19,7 +19,7 @@ export type RadioFieldProps = {
   name: string
   value?: string | number
   role?: string
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const RadioField = React.forwardRef(function RadioField(

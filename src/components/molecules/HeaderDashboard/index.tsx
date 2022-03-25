@@ -32,6 +32,8 @@ export default function HeaderDashboard({
     ? headerDashboardLinks[parseInt(authCtx.session.tipo)]
     : []
 
+  const menuToggleClass: string = menuToggle ? 'open' : ''
+
   return (
     <S.Wrapper>
       <div className="content">
@@ -51,7 +53,7 @@ export default function HeaderDashboard({
         />
 
         {authCtx.isLoggedIn ? (
-          <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
+          <div className={`menu-container ${menuToggleClass}`}>
             <nav className="nav">
               <ul>
                 {links.map((link) => (
@@ -81,7 +83,7 @@ export default function HeaderDashboard({
             />
           </div>
         ) : (
-          <div className={`menu-container ${menuToggle ? 'open' : ''}`}>
+          <div className={`menu-container ${menuToggleClass}`}>
             <div className="userinfo-container">
               <button
                 className="login"

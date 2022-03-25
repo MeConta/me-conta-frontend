@@ -7,7 +7,7 @@ import { States } from './states'
 import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
 import { Button } from '../../atoms/Button'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import moment from 'moment'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
@@ -111,6 +111,9 @@ const FormAluno = (props: {
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
 
+  const [nameForm, setNameForm] = useState<string>(name)
+  const [emailForm, setEmailForm] = useState<string>(email)
+
   const {
     register,
     formState: { errors, isSubmitting, isSubmitted, isValid },
@@ -137,6 +140,7 @@ const FormAluno = (props: {
       )
       props.handleSuccess()
     } catch (e) {
+      // @ts-ignore
       props.handleError(e)
     }
   }
@@ -147,15 +151,17 @@ const FormAluno = (props: {
         label="Nome Completo"
         name="name"
         disabled
-        value={name}
+        value={nameForm}
         required={true}
+        onChange={(e) => setNameForm(e.target.value)}
       />
       <TextField
         label="E-mail"
         name="email"
         disabled
-        value={email}
+        value={emailForm}
         required={true}
+        onChange={(e) => setEmailForm(e.target.value)}
       />
 
       <Controller
@@ -181,7 +187,7 @@ const FormAluno = (props: {
         {...register('dataNascimento')}
       />
       <SelectField
-        label="Estado"
+        labelField="Estado"
         options={States}
         error={errors.UF?.message}
         required={true}
@@ -209,7 +215,7 @@ const FormAluno = (props: {
       />
 
       <SelectField
-        label="Escolaridade"
+        labelField="Escolaridade"
         options={Scholarity}
         error={errors.escolaridade?.message}
         required={true}

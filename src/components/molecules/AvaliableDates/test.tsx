@@ -56,7 +56,7 @@ describe('<AvaliableTimes />', () => {
   it('deve renderizar todos os elementos do card', () => {
     const { date, time, button } = elements()
 
-    DATES.map((item, i) => {
+    DATES.forEach((item, i) => {
       let localeDate = item.date.toLocaleDateString()
       let localeTime = item.date.toLocaleTimeString([], {
         hour: '2-digit',

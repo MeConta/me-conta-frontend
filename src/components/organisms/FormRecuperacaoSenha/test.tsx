@@ -8,6 +8,7 @@ describe('<FormRecuperacaoSenha />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const authServiceMock: IAuthService = {
+    logout: jest.fn(),
     login: jest.fn(),
     recuperarSenha: jest.fn()
   }
@@ -37,7 +38,7 @@ describe('<FormRecuperacaoSenha />', () => {
 
   it('deve exibir error de email inválido', async () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
-    await userEvent.type(email, 'meuemailcom')
+    userEvent.type(email, 'meuemailcom')
     const button = screen.getByRole('button')
     fireEvent.click(button)
     await waitFor(() => {

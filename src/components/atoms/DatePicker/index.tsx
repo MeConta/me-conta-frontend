@@ -10,8 +10,6 @@ import {
   ArrowIosForwardOutline
 } from 'styled-icons/evaicons-outline'
 
-export type DatePickerProps = {} & DayPickerProps
-
 type NavbarProps = {
   onPreviousClick: () => void
   onNextClick: () => void
@@ -31,7 +29,7 @@ function Navbar({ onPreviousClick, onNextClick, className }: NavbarProps) {
   )
 }
 
-export function DatePicker({ ...props }: DatePickerProps) {
+export function DatePicker({ ...props }) {
   const modifiersStyles = {
     selected: {
       color: theme.colors.white,

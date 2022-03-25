@@ -13,7 +13,7 @@ export type TextAreaFieldProps = {
   required?: boolean
   value?: string
   name: string
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
 } & TextareaHTMLAttributes<HTMLTextAreaElement>
 
 export const TextAreaField = React.forwardRef(function TextAreaField(

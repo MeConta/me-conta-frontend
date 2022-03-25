@@ -122,10 +122,10 @@ export const AuthorizationProvider = (
     }
   }, [token, setIsLoggedIn])
 
-  const storeSessionDataHandler = (session: SessionData) => {
-    setToken(session.token)
-    setNome(session.nome)
-    setTipo(session.tipo)
+  const storeSessionDataHandler = (sessionData: SessionData) => {
+    setToken(sessionData.token)
+    setNome(sessionData.nome)
+    setTipo(sessionData.tipo)
 
     // store in the next session
   }

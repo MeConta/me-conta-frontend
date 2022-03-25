@@ -21,13 +21,13 @@ describe('<FrentesDropdown />', () => {
   }
 
   it('should dipslay dropdown label', () => {
-    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+    render(<FrentesDropdown onSelectItem={jest.fn()} />)
 
     expect(screen.getByText('Especilidade:')).toBeInTheDocument()
   })
 
   it('should start dropdown closed and with the first option selected as default', () => {
-    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+    render(<FrentesDropdown onSelectItem={jest.fn()} />)
 
     expect(screen.queryByRole('menu')).not.toBeInTheDocument()
     expect(
@@ -36,7 +36,7 @@ describe('<FrentesDropdown />', () => {
   })
 
   it('should open menu options when clicked', () => {
-    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+    render(<FrentesDropdown onSelectItem={jest.fn()} />)
 
     menuItemsNotToBeInTheDocument()
     userEvent.click(screen.getByRole('button'))
@@ -44,7 +44,7 @@ describe('<FrentesDropdown />', () => {
   })
 
   it('should change the selected option and close options when clicked', () => {
-    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+    render(<FrentesDropdown onSelectItem={jest.fn()} />)
 
     userEvent.click(screen.getByRole('button'))
     userEvent.click(screen.getByRole('menuitem', { name: FrentesInfo[1].text }))
@@ -56,7 +56,7 @@ describe('<FrentesDropdown />', () => {
   })
 
   it('should toggle options', () => {
-    render(<FrentesDropdown onSelectItem={(item) => {}} />)
+    render(<FrentesDropdown onSelectItem={jest.fn()} />)
 
     userEvent.click(screen.getByRole('button'))
     menuItemsToBeInTheDocument()
