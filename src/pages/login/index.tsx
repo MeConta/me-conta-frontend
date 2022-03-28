@@ -5,24 +5,11 @@ import { ToastType, useToast } from 'services/toast-service/toast-service'
 import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
 import { FormLogin } from '../../components/molecules/FormLogin'
-import { useEffect } from 'react'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/login/styles'
 
 export default function Login() {
   const { authService } = useAuthContext()
-  const router = useRouter()
-  const { emit } = useToast()
-  useEffect(() => {
-    const { sessionExpired } = router.query
-    if (sessionExpired === 'true') {
-      emit({
-        type: ToastType.WARNING,
-        message: 'Sessão Expirada!',
-        autoClose: false
-      })
-    }
-  }, [])
 
   return (
     <WrapperForm>

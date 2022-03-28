@@ -8,6 +8,7 @@ import {
   useState
 } from 'react'
 import { IAuthService } from 'services/auth-services/auth-service'
+import { ToastType, useToast } from 'services/toast-service/toast-service'
 import { DecodedToken } from 'types/data'
 import { parseJwtToObject } from 'utils/convertions/convertions-jwt'
 
@@ -45,6 +46,7 @@ export const AuthorizationProvider = (
   }
 
   const router = useRouter()
+  const { emit } = useToast()
   const { [CookieKeys.NAME]: nomeCookie, [CookieKeys.TOKEN]: tokenCookie } =
     parseCookies()
   const decodedToken = parseJwtToObject(tokenCookie)
@@ -78,7 +80,15 @@ export const AuthorizationProvider = (
     setNome(null)
     setTipo(null)
     setIsLoggedIn(false)
-    router.push(autoLogout ? '/login' : '/login?sessionExpired=true')
+
+    if (autoLogout) {
+      emit({
+        type: ToastType.WARNING,
+        message: 'Sessão Expirada!',
+        autoClose: false
+      })
+    }
+    router.push('/login')
   }
 
   const session: SessionData = {

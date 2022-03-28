@@ -26,14 +26,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const timeoutIdleMs = 10 * 60 * 1000 // 10 minutes
 
   return (
-    <SignupProvider signupService={new SignupService(api)}>
-      <AuthorizationProvider authService={new AuthService(api)}>
-        <ThemeProvider theme={theme}>
-          <UserActivityContextProvider
-            timeoutForIdleMs={timeoutIdleMs}
-            userIsIdle={false}
-          >
-            <ToastProvider>
+    <ToastProvider>
+      <SignupProvider signupService={new SignupService(api)}>
+        <AuthorizationProvider authService={new AuthService(api)}>
+          <ThemeProvider theme={theme}>
+            <UserActivityContextProvider
+              timeoutForIdleMs={timeoutIdleMs}
+              userIsIdle={false}
+            >
               <Toast />
               <Head>
                 <title>Me Conta</title>
@@ -53,11 +53,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
                 <Footer />
               </Main>
-            </ToastProvider>
-          </UserActivityContextProvider>
-        </ThemeProvider>
-      </AuthorizationProvider>
-    </SignupProvider>
+            </UserActivityContextProvider>
+          </ThemeProvider>
+        </AuthorizationProvider>
+      </SignupProvider>
+    </ToastProvider>
   )
 }
 export default MyApp
