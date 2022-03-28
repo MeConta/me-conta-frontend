@@ -3,6 +3,7 @@ import * as S from '../../styles/pages/dashboards/styles'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import { UserType } from 'enums/user-type.enum'
+import { api } from 'services/api/api'
 
 type SelectedFrente = {
   id: number
@@ -15,12 +16,19 @@ function DashboardAluno() {
     console.log(item)
   }
 
+  const testHandler = async () => {
+    const res = await api.get('/atendimento')
+    console.log(res)
+  }
+
   return (
     <S.WrapperDashboard>
       <Styled.Title>
         Escolha uma especialidade e um especialista para sua sessão:
       </Styled.Title>
       <FrentesDropdown onSelectItem={onSelectItemHandler} />
+
+      <button onClick={testHandler}></button>
     </S.WrapperDashboard>
   )
 }

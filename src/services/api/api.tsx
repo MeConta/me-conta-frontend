@@ -1,7 +1,9 @@
-import axios from 'axios'
-import { parseCookies } from 'nookies'
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import { parseCookies, setCookie } from 'nookies'
+import { CookieKeys } from 'store/auth-context'
+import { AuthService } from '../auth-services/auth-service'
 
-export const api = axios.create({
+const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -10,10 +12,42 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-  const { token } = parseCookies()
+  const { [CookieKeys.TOKEN]: token } = parseCookies()
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
   config.url?.concat('api/', config.url)
   return config
 })
+
+api.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response
+  },
+  (err: AxiosError) => {
+    return new Promise((resolve, reject) => {
+      if (err.response?.status === 401 && err.config) {
+        const request = err.config
+        const authService = new AuthService(api)
+        const { [CookieKeys.REFRESH_TOKEN]: refreshToken } = parseCookies()
+        const newRequest = authService
+          .refreshToken({ refreshToken })
+          .then((res) => {
+            const { token, refreshToken } = res
+            setCookie(null, CookieKeys.TOKEN, token)
+            setCookie(null, CookieKeys.REFRESH_TOKEN, refreshToken)
+            request.headers['Authorization'] = `Bearer ${token}`
+            axios(request)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+        resolve(newRequest)
+      } else {
+        reject(err)
+      }
+    })
+  }
+)
+
+export { api }

@@ -58,4 +58,29 @@ describe('AuthService', () => {
       hash: 'hash'
     })
   })
+
+  it('should be able to refresh the token using /auth/refresh endpoint', async () => {
+    const mockedToken = 'mocked-token-value'
+    const mockedRefreshResponse = {
+      token: mockedToken,
+      refreshToken: 'new-refresh-token',
+      nome: 'John Doe',
+      tipo: 0
+    }
+    jest.spyOn(axios.default, 'post').mockResolvedValue({
+      data: mockedRefreshResponse
+    })
+    const mockedRefreshToken = '1dadawoawkowa'
+
+    const response = await service.refreshToken({
+      refreshToken: mockedRefreshToken
+    })
+
+    expect(axios.default.post).toHaveBeenCalledWith(
+      '/auth/refresh',
+      {},
+      { headers: { 'x-refresh-token': `Bearer ${mockedRefreshToken}` } }
+    )
+    expect(response).toEqual(mockedRefreshResponse)
+  })
 })
