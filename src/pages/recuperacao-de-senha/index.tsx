@@ -1,12 +1,12 @@
 import { WrapperForm } from 'components/molecules/WrapperForm'
 import { FormRecuperacaoSenha } from 'components/organisms/FormRecuperacaoSenha'
 import router from 'next/router'
+import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
-import { useAuthService } from '../../services/auth-services/auth-service'
 import * as F from '../../styles/form/styles'
 
 export default function RecuperacaoDeSenha() {
-  const { authService } = useAuthService()
+  const { authService } = useAuthContext()
 
   return (
     <WrapperForm>

@@ -6,6 +6,7 @@ export const FooterWrapper = styled.footer`
   padding: 25px 33px;
   background: linear-gradient(183.41deg, #67c3f3 -8.57%, #458ff6 82.96%);
   color: white;
+  margin-top: auto;
 
   h1 {
     font-size: 28px;

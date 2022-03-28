@@ -1,5 +1,11 @@
+import { UserType } from 'enums/user-type.enum'
+import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import * as S from '../../styles/pages/dashboards/styles'
 
-export default function DashboardAtendente() {
+function DashboardAtendente() {
   return <S.WrapperDashboard>Dashboard - Atendente</S.WrapperDashboard>
 }
+
+export default authenticatedRoute(DashboardAtendente, {
+  allowedRoles: [UserType.ATENDENTE]
+})

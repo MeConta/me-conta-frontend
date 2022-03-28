@@ -7,8 +7,8 @@ import { GrClose } from 'react-icons/gr'
 import router from 'next/router'
 
 import * as S from './styles'
-import { useAuthService } from '../../../services/auth-services/auth-service'
 import { headerDashboardLinks } from './headerDashboardLinks'
+import { useAuthContext } from 'store/auth-context'
 
 export type HeaderDashboardProps = {
   logoSrc?: string | StaticImageData
@@ -20,11 +20,11 @@ export default function HeaderDashboard({
   userName
 }: HeaderDashboardProps) {
   const [menuToggle, setMenuToggle] = useState(false)
-  const authCtx = useAuthService()
+  const authCtx = useAuthContext()
 
   const logoutHandler = async () => {
     await authCtx.authService.logout()
-    authCtx.clearSessionData()
+    authCtx.handleLogout(false)
     router.push('/login')
   }
 
@@ -69,7 +69,7 @@ export default function HeaderDashboard({
             <div className="userinfo-container">
               <div className="greeting-container">
                 {'Olá, '}
-                <b>{userName || authCtx.session.nome}</b>
+                <b>{userName || authCtx?.session?.nome}</b>
               </div>
 
               <button className="logout" onClick={logoutHandler}>

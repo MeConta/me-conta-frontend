@@ -2,6 +2,9 @@ import FrentesDropdown from 'components/molecules/FrentesDropdown'
 import * as S from '../../styles/pages/dashboards/styles'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
+import { UserType } from 'enums/user-type.enum'
+import { useState } from 'react'
+import Router from 'next/router'
 
 type SelectedFrente = {
   id: number
@@ -24,4 +27,6 @@ function DashboardAluno() {
   )
 }
 
-export default authenticatedRoute(DashboardAluno)
+export default authenticatedRoute(DashboardAluno, {
+  allowedRoles: [UserType.ALUNO]
+})

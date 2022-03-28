@@ -21,10 +21,16 @@ export default function CadastroVoluntario() {
         <FormVoluntario
           handleSuccess={async () => {
             await router.push('/cadastro-voluntario/sucesso')
-            emit(ToastType.SUCCESS, 'Cadastro realizado com sucesso!')
+            emit({
+              type: ToastType.SUCCESS,
+              message: 'Cadastro realizado com sucesso!'
+            })
           }}
           handleError={(error: BackendError) => {
-            emit(ToastType.ERROR, 'Erro ao realizar o cadastro!')
+            emit({
+              type: ToastType.ERROR,
+              message: 'Erro ao realizar o cadastro!'
+            })
             console.log(error)
           }}
           signupVoluntarioService={new SignupVoluntarioService(api)}

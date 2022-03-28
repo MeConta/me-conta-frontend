@@ -1,31 +1,48 @@
+import { UserType } from 'enums/user-type.enum'
 import { NextComponentType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useAuthService } from 'services/auth-services/auth-service'
+import { useAuthContext } from 'store/auth-context'
+import { redirects } from 'utils/routes/redirects'
+
+type AuthenticatedRouteOptions = {
+  allowedRoles: UserType[]
+}
 
 export const authenticatedRoute = (
   Component: NextComponentType,
-  options: { pathAfterFailure: string } = {
-    pathAfterFailure: '/login'
+  options: AuthenticatedRouteOptions = {
+    allowedRoles: []
   }
 ) => {
   const AuthenticatedComponent = () => {
-    const authCtx = useAuthService()
+    const authCtx = useAuthContext()
     const router = useRouter()
 
+    const userRoleIsAuthorized = (params: {
+      userRole: number
+      allowedRoles: number[]
+    }) => {
+      return params.allowedRoles.includes(params.userRole)
+    }
+
     useEffect(() => {
-      if (typeof authCtx.isLoggedIn === 'boolean' && !authCtx.isLoggedIn) {
-        router.push(options.pathAfterFailure)
+      if (!authCtx.isLoggedIn) {
+        authCtx.handleLogout()
+        return
+      }
+      if (
+        !userRoleIsAuthorized({
+          userRole: +authCtx.session.tipo,
+          allowedRoles: options.allowedRoles
+        })
+      ) {
+        const route = redirects[+authCtx.session.tipo]
+        router.push(route)
       }
     }, [authCtx, router])
 
-    return (
-      <>
-        {(authCtx.isLoggedIn && <Component />) || (
-          <div> Checando autenticação... </div>
-        )}
-      </>
-    )
+    return <Component />
   }
 
   return AuthenticatedComponent

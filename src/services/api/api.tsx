@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { parseCookies } from 'nookies'
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -9,9 +10,8 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-  const tokenLocalStorage = window.localStorage.getItem('token')
-  if (tokenLocalStorage) {
-    const token = JSON.parse(tokenLocalStorage)
+  const { token } = parseCookies()
+  if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
   config.url?.concat('api/', config.url)

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import * as S from './styles'
+import { useAuthContext } from '../../../store/auth-context'
 
 export type BreadCrumbLinks = {
   label: string
@@ -10,6 +11,7 @@ export type BreadCrumbLinks = {
 
 export default function Breadcrumb() {
   const { asPath } = useRouter()
+  const authCtx = useAuthContext()
   const [breadCrumbLinks, setBreadCrumbLinks] = useState<BreadCrumbLinks>([])
 
   useEffect(() => {
@@ -57,18 +59,22 @@ export default function Breadcrumb() {
   }
 
   return (
-    <S.Wrapper>
-      <div className="content">
-        {breadCrumbLinks.length > 0 ? (
-          <h2 className="title">
-            <a href={breadCrumbLinks[0].url}>{breadCrumbLinks[0].label}</a>
-          </h2>
-        ) : null}
+    <>
+      {authCtx.isLoggedIn && (
+        <S.Wrapper>
+          <div className="content">
+            {breadCrumbLinks.length > 0 ? (
+              <h2 className="title">
+                <a href={breadCrumbLinks[0].url}>{breadCrumbLinks[0].label}</a>
+              </h2>
+            ) : null}
 
-        <div className="breadcrumb-links">
-          <ul>{renderBreadCrumbLlinks()}</ul>
-        </div>
-      </div>
-    </S.Wrapper>
+            <div className="breadcrumb-links">
+              <ul>{renderBreadCrumbLlinks()}</ul>
+            </div>
+          </div>
+        </S.Wrapper>
+      )}
+    </>
   )
 }
