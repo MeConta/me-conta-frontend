@@ -8,7 +8,7 @@ import router from 'next/router'
 
 import * as S from './styles'
 import { headerDashboardLinks } from './headerDashboardLinks'
-import { useAuthContext } from 'store/auth-context'
+import { useAuthContext } from '../../../store/auth-context'
 
 export type HeaderDashboardProps = {
   logoSrc?: string | StaticImageData

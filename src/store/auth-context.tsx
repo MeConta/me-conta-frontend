@@ -8,9 +8,9 @@ import {
   useState
 } from 'react'
 import { IAuthService } from 'services/auth-services/auth-service'
-import { ToastType, useToast } from 'services/toast-service/toast-service'
+import { ToastType, useToast } from '../services/toast-service/toast-service'
 import { DecodedToken } from 'types/data'
-import { parseJwtToObject } from 'utils/convertions/convertions-jwt'
+import { parseJwtToObject } from '../utils/convertions/convertions-jwt'
 
 const AuthorizationContext = createContext<AuthServiceProps>(
   {} as AuthServiceProps

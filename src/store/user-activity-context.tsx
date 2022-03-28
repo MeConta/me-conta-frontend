@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import { createContext, PropsWithChildren, useState } from 'react'
 import { IdleTimerProvider } from 'react-idle-timer'
 import { useAuthContext } from './auth-context'
