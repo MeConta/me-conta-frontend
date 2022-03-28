@@ -8,8 +8,15 @@ export enum ToastType {
   INFO = 'info'
 }
 
+type EmitParams = {
+  type: ToastType
+  message: string | JSX.Element
+  autoClose?: boolean
+  autoCloseMs?: number
+}
+
 type ToastProps = {
-  emit: (type: ToastType, message: string | JSX.Element) => void
+  emit: (params: EmitParams) => void
 }
 
 type ToastProviderProps = {
@@ -19,10 +26,15 @@ type ToastProviderProps = {
 export const ToastContext = createContext<ToastProps>({} as ToastProps)
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
-  const emit = (type: ToastType, message: string | JSX.Element) => {
+  const emit = ({
+    type,
+    message,
+    autoClose = true,
+    autoCloseMs = 5000
+  }: EmitParams) => {
     toast[type](message, {
       position: 'top-right',
-      autoClose: 5000,
+      autoClose: autoClose ? autoCloseMs : false,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,

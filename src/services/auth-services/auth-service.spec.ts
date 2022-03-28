@@ -1,4 +1,4 @@
-import { AuthService, AuthorizationProvider } from './auth-service'
+import { AuthService } from './auth-service'
 
 import * as axios from 'axios'
 import { UserType } from '../../enums/user-type.enum'

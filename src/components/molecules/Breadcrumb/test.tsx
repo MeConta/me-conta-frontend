@@ -1,8 +1,8 @@
 import { render, screen } from '../../../utils/tests/helpers'
 import Breadcrumb from './index'
 
-jest.mock('../../../services/auth-services/auth-service', () => {
-  const useAuthService = () => {
+jest.mock('../../../store/auth-context', () => {
+  const useAuthContext = () => {
     return {
       isLoggedIn: true,
       session: {
@@ -10,7 +10,7 @@ jest.mock('../../../services/auth-services/auth-service', () => {
       }
     }
   }
-  return { useAuthService }
+  return { useAuthContext }
 })
 
 jest.mock('next/router', () => ({

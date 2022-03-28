@@ -15,7 +15,7 @@ import * as S from './styles'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useAuthService } from '../../../services/auth-services/auth-service'
+import { useAuthContext } from 'store/auth-context'
 
 const MAX_LENGTH_NAME_VALUE = 100
 const MIN_LENGTH_NAME_VALUE = 2
@@ -71,13 +71,11 @@ export function FormCadastro(props: {
   handleSuccess: (form: SignupUser) => void
   handleError: (error: BackendError) => void
 }) {
-  const authCtx = useAuthService()
+  const authCtx = useAuthContext()
 
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
-  const [, setToken] = useLocalStorage<string>('token', '')
   const [, setNome] = useLocalStorage<string>('nome', '')
   const [, setEmail] = useLocalStorage<string>('email', '')
-  const [, setTipo] = useLocalStorage<UserType>('tipo', UserType.ALUNO)
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -121,12 +119,10 @@ export function FormCadastro(props: {
         senha: password,
         tipo: Number(tipo)
       })
-      setToken(token)
       setNome(name)
       setEmail(email)
-      setTipo(tipo)
 
-      authCtx.storeSessionData({
+      authCtx.handleLogin({
         nome: name,
         tipo: tipo.toString(),
         token

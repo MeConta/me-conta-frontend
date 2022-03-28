@@ -1,28 +1,44 @@
-import { GetServerSideProps, NextComponentType } from 'next'
+import { UserType } from 'enums/user-type.enum'
+import { NextComponentType } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { useAuthService } from 'services/auth-services/auth-service'
+import { useAuthContext } from 'store/auth-context'
+import { redirects } from 'utils/routes/redirects'
 
 type AuthenticatedRouteOptions = {
-  allowedRoles: number[]
+  allowedRoles: UserType[]
 }
 
 export const authenticatedRoute = (
   Component: NextComponentType,
   options: AuthenticatedRouteOptions = {
-    allowedRoles: [0, 1, 2]
+    allowedRoles: []
   }
 ) => {
   const AuthenticatedComponent = () => {
-    const authCtx = useAuthService()
+    const authCtx = useAuthContext()
     const router = useRouter()
 
+    const userRoleIsAuthorized = (params: {
+      userRole: number
+      allowedRoles: number[]
+    }) => {
+      return params.allowedRoles.includes(params.userRole)
+    }
+
     useEffect(() => {
-      if (
-        !authCtx.isLoggedIn &&
-        options.allowedRoles.includes(+authCtx.session.tipo)
-      ) {
+      if (!authCtx.isLoggedIn) {
         authCtx.handleLogout()
+        return
+      }
+      if (
+        !userRoleIsAuthorized({
+          userRole: +authCtx.session.tipo,
+          allowedRoles: options.allowedRoles
+        })
+      ) {
+        const route = redirects[+authCtx.session.tipo]
+        router.push(route)
       }
     }, [authCtx, router])
 

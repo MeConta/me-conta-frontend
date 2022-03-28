@@ -15,7 +15,7 @@ export function Toast() {
         return response
       },
       (error) => {
-        emit(ToastType.ERROR, getErrorMessage(error))
+        emit({ type: ToastType.ERROR, message: getErrorMessage(error) })
         return Promise.reject(error)
       }
     )

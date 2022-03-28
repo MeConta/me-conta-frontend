@@ -11,8 +11,8 @@ import { FormLogin } from '.'
 import router from '../../../../__mocks__/next/router'
 import { IAuthService } from '../../../services/auth-services/auth-service'
 
-jest.mock('services/auth-services/auth-service', () => {
-  const useAuthService = () => {
+jest.mock('store/auth-context', () => {
+  const useAuthContext = () => {
     return {
       handleLogin: jest.fn(),
       session: {
@@ -20,7 +20,7 @@ jest.mock('services/auth-services/auth-service', () => {
       }
     }
   }
-  return { useAuthService }
+  return { useAuthContext }
 })
 
 const fillFormToSubmit = () => {

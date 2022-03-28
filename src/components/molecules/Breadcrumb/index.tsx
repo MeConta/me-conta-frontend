@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import * as S from './styles'
-import { useAuthService } from 'services/auth-services/auth-service'
+import { useAuthContext } from '../../../store/auth-context'
 
 export type BreadCrumbLinks = {
   label: string
@@ -11,7 +11,7 @@ export type BreadCrumbLinks = {
 
 export default function Breadcrumb() {
   const { asPath } = useRouter()
-  const authCtx = useAuthService()
+  const authCtx = useAuthContext()
   const [breadCrumbLinks, setBreadCrumbLinks] = useState<BreadCrumbLinks>([])
 
   useEffect(() => {

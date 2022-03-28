@@ -1,13 +1,13 @@
+import { useAuthContext } from 'store/auth-context'
 import { render, screen } from 'utils/tests/helpers'
 import HeaderDashboard from '.'
-import { useAuthService } from '../../../services/auth-services/auth-service'
 
-jest.mock('services/auth-services/auth-service')
+jest.mock('../../../store/auth-context')
 
 describe('<HeaderDashboard />', () => {
   beforeEach(() => {
     // @ts-ignore
-    useAuthService.mockImplementation(() => ({
+    useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
         nome: 'John Doe',
@@ -30,7 +30,7 @@ describe('<HeaderDashboard />', () => {
 
   it('não deve mostrar links quando não conectado', () => {
     // @ts-ignore
-    useAuthService.mockImplementation(() => ({
+    useAuthContext.mockImplementation(() => ({
       isLoggedIn: false,
       session: {
         nome: 'John Doe',
@@ -54,7 +54,7 @@ describe('<HeaderDashboard />', () => {
 
   it('deve renderizar os links do atendente', () => {
     // @ts-ignore
-    useAuthService.mockImplementation(() => ({
+    useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
         nome: 'John Doe',
@@ -73,7 +73,7 @@ describe('<HeaderDashboard />', () => {
 
   it('deve renderizar os links do administrador', () => {
     // @ts-ignore
-    useAuthService.mockImplementation(() => ({
+    useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
         nome: 'John Doe',
@@ -92,7 +92,7 @@ describe('<HeaderDashboard />', () => {
 
   it('deve renderizar os links do supervisor', () => {
     // @ts-ignore
-    useAuthService.mockImplementation(() => ({
+    useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
         nome: 'John Doe',
