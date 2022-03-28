@@ -27,7 +27,7 @@ type AuthServiceProps = {
   isLoggedIn: boolean
   session: SessionData
   handleLogin: (session: SessionData) => void
-  handleLogout: (autoLogout: boolean) => void
+  handleLogout: (autoLogout?: boolean) => void
 }
 
 enum CookieKeys {
@@ -74,7 +74,7 @@ export const AuthorizationProvider = (
     setIsLoggedIn(true)
   }
 
-  const logoutHandler = (autoLogout: boolean = false) => {
+  const logoutHandler = (autoLogout?: boolean) => {
     destroyCookie(null, CookieKeys.TOKEN)
     destroyCookie(null, CookieKeys.NAME)
     setNome(null)
