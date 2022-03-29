@@ -19,10 +19,10 @@ type NavbarProps = {
 function Navbar({ onPreviousClick, onNextClick, className }: NavbarProps) {
   return (
     <div className={className}>
-      <button onClick={() => onPreviousClick()}>
+      <button onClick={() => onPreviousClick()} data-testid="back-button">
         <ArrowIosBackOutline />
       </button>
-      <button onClick={() => onNextClick()}>
+      <button onClick={() => onNextClick()} data-testid="forward-button">
         <ArrowIosForwardOutline />
       </button>
     </div>
