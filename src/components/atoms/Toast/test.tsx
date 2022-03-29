@@ -9,10 +9,10 @@ describe('<Toast />', () => {
   beforeEach(() => {
     renderResult = render(<Toast />)
   })
-  it('deve renderizar o toastContainer', () => {
+  it('should render TestContainer', () => {
     expect(renderResult.container.firstChild).toHaveClass('Toastify')
   })
-  it('deve exibir o toast', () => {
+  it('should show a Toast', () => {
     act(() => {
       toast('test')
       jest.runAllTimers()

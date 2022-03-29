@@ -1,4 +1,4 @@
-import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+import { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType } from 'react'
 
 import * as S from './styles'
 
@@ -11,7 +11,7 @@ export type ButtonProps = {
   size?: 'medium' | 'large'
   color?: 'primary' | 'secondary' | 'negative'
   radius?: 'round' | 'square'
-  as?: React.ElementType
+  as?: ElementType
 } & ButtonTypes
 
 export function Button({

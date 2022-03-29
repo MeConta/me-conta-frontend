@@ -8,7 +8,7 @@ export type SidebarProps = {
 
 export function Sidebar({ showSidebar, handleCloseButton }: SidebarProps) {
   return (
-    <S.Wrapper showSidebar={showSidebar}>
+    <S.Wrapper showSidebar={showSidebar} data-testid="sidebar-container">
       <a onClick={handleCloseButton}>
         <CgCloseR color="#FFF" />
       </a>
