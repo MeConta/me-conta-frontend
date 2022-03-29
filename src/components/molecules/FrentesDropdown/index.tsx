@@ -37,7 +37,7 @@ export default function FrentesDropdown(props: FrentesProps) {
         <p>Especilidade:</p>
       </S.LabelContainer>
 
-      <S.StyledDropdown onClick={toggle}>
+      <S.StyledDropdown onClick={toggle} data-testid="frentes-dropdown">
         {selectedItem && (
           <S.OptionContainer>
             <S.Option>
