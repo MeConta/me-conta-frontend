@@ -3,6 +3,9 @@ import * as S from '../../styles/pages/dashboards/styles'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import { UserType } from 'enums/user-type.enum'
+import { api } from 'services/api/api'
+import { VolunteerService } from 'services/volunteers-services/volunteer-service'
+import { useEffect, useState } from 'react'
 
 type SelectedFrente = {
   id: number
@@ -11,8 +14,14 @@ type SelectedFrente = {
 }
 
 function DashboardAluno() {
-  const onSelectItemHandler = (item: SelectedFrente) => {
-    console.log(item)
+  const volunteerService = new VolunteerService(api)
+
+  const onSelectItemHandler = async (item: SelectedFrente) => {
+    const res = await volunteerService.findVolunteers({
+      type: UserType.ATENDENTE,
+      sessionType: item.id
+    })
+    console.log(res)
   }
 
   return (

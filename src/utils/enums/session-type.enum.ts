@@ -1,0 +1,5 @@
+export enum SessionType {
+  ORIENTACAO_VOCACIONAL = 0,
+  COACHING_ESTUDOS = 1,
+  ACOLHIMENTO = 2
+}
