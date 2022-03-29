@@ -19,7 +19,7 @@ export const UserActivityContextProvider = (
   const authCtx = useAuthContext()
 
   const onUserIdleHandler = () => {
-    console.log('User is idle', new Date())
+    console.log('User is idle', new Date().toISOString())
     if (authCtx.isLoggedIn) {
       console.log('Logging out the user')
       authCtx.handleLogout(true)
@@ -28,7 +28,7 @@ export const UserActivityContextProvider = (
   }
 
   const onUserActiveHandler = () => {
-    console.log('User is active', new Date())
+    console.log('User is active', new Date().toISOString())
     setUserIsIdle(false)
   }
 

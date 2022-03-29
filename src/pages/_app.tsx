@@ -23,7 +23,7 @@ const HeadersDashboardNoSsr = dynamic(
 )
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const timeoutIdleMs = 1 * 60 * 1000 // 10 minutes
+  const timeoutIdleMs = 10 * 60 * 1000 // 10 minutes
 
   return (
     <ToastProvider>
