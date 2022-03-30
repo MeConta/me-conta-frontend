@@ -13,9 +13,13 @@ RUN npx build-storybook
 
 # STORYBOOK STAGE
 FROM httpd:latest as storybook
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y libcap2-bin procps \
+    && setcap 'cap_net_bind_service=+ep' /usr/local/apache2/bin/httpd \
+    && chown www-data:www-data /usr/local/apache2/logs
 WORKDIR /usr/local/apache2/htdocs/
 COPY --from=builder /usr/src/app/storybook-static ./
-CMD sed -i "s/80/$PORT/g" /etc/apache2/sites-enabled/000-default.conf /etc/apache2/ports.conf && docker-php-entrypoint apache2-foreground
 ARG PORT
 ENV PORT=$PORT
 EXPOSE ${PORT}
