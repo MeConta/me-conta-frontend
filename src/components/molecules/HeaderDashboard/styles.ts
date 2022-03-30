@@ -4,8 +4,6 @@ export const Wrapper = styled.header`
   background-color: #fff;
   border-bottom: 1px solid #e3e3e3;
   padding: 15px;
-  position: absolute;
-  top: 0;
   width: 100%;
 
   @media (max-width: 768px) {
@@ -20,6 +18,10 @@ export const Wrapper = styled.header`
 
     @media (max-width: 768px) {
       justify-content: center;
+    }
+
+    .logo-image {
+      cursor: pointer;
     }
 
     .open-menu-button {
@@ -114,6 +116,7 @@ export const Wrapper = styled.header`
   .userinfo-container {
     display: flex;
     align-items: baseline;
+    margin-left: auto;
 
     @media (max-width: 768px) {
       order: 1;
@@ -132,7 +135,8 @@ export const Wrapper = styled.header`
       font-size: 16px;
     }
 
-    button.logout {
+    button.logout,
+    button.login {
       color: #de3163;
       font-weight: 500;
       background-color: transparent;
@@ -145,7 +149,8 @@ export const Wrapper = styled.header`
       }
     }
 
-    button.logout:hover {
+    button.logout:hover,
+    button.login:hover {
       text-decoration: underline;
     }
   }

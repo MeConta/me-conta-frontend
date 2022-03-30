@@ -29,7 +29,7 @@ export type PasswordFieldProps = {
   required?: boolean
   name: string
   value?: string
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
   showStrengthBar?: boolean
   handleStrength?: (score: any, feedback: any) => void
 } & InputHTMLAttributes<HTMLInputElement>
@@ -91,7 +91,7 @@ export const PasswordField = React.forwardRef(function PasswordField(
           minLength={props.minLength || 8}
           password={value}
           scoreWords={Object.keys(ScoreWordsEnum).map(
-            (key, value) => ScoreWordsEnum[value]
+            (key, valueScore) => ScoreWordsEnum[valueScore]
           )}
           shortScoreWord="muito curta"
           onChangeScore={handleStrength || undefined}

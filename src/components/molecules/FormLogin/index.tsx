@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
-import { UserType } from 'enums/user-type.enum'
-import { useLocalStorage } from 'hooks/localstorage.hook'
 import router from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
+import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
+import { redirects } from 'utils/routes/redirects'
 import * as Yup from 'yup'
 import { IAuthService } from '../../../services/auth-services/auth-service'
 
@@ -28,24 +28,21 @@ const ERRORS = {
   REQUIRED_PASSWORD: `A senha é obrigatório`
 }
 
-const redirects = {
-  [UserType.ALUNO]: '/dashboard-aluno',
-  [UserType.ATENDENTE]: '/dashboard-atendente',
-  [UserType.SUPERVISOR]: '/dashboard-supervisor'
-}
-
 export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
-  const [, setToken] = useLocalStorage<string>('token', '')
-  const [, setTipo] = useLocalStorage<string>('tipo', '')
+  const authCtx = useAuthContext()
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
-      const { token, tipo } = await authService.login({
+      const { token, tipo, nome } = await authService.login({
         email,
         senha: password
       })
-      setToken(token)
-      setTipo(tipo.toString())
+
+      authCtx.handleLogin({
+        nome,
+        tipo: tipo.toString(),
+        token
+      })
 
       const redirect = redirects[tipo]
 

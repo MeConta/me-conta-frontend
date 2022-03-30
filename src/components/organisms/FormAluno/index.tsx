@@ -7,7 +7,7 @@ import { States } from './states'
 import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
 import { Button } from '../../atoms/Button'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import moment from 'moment'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
@@ -111,6 +111,9 @@ const FormAluno = (props: {
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
 
+  const [nameForm, setNameForm] = useState<string>(name)
+  const [emailForm, setEmailForm] = useState<string>(email)
+
   const {
     register,
     formState: { errors, isSubmitting, isSubmitted, isValid },
@@ -137,14 +140,29 @@ const FormAluno = (props: {
       )
       props.handleSuccess()
     } catch (e) {
+      // @ts-ignore
       props.handleError(e)
     }
   }
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <TextField label="Nome Completo" name="name" disabled value={name} />
-      <TextField label="E-mail" name="email" disabled value={email} />
+      <TextField
+        label="Nome Completo"
+        name="name"
+        disabled
+        value={nameForm}
+        required={true}
+        onChange={(e) => setNameForm(e.target.value)}
+      />
+      <TextField
+        label="E-mail"
+        name="email"
+        disabled
+        value={emailForm}
+        required={true}
+        onChange={(e) => setEmailForm(e.target.value)}
+      />
 
       <Controller
         name="telefone"
@@ -154,6 +172,7 @@ const FormAluno = (props: {
             data-testid="phone-number"
             label="Telefone"
             error={errors.telefone?.message}
+            required={true}
             {...field}
           />
         )}
@@ -164,17 +183,20 @@ const FormAluno = (props: {
         type="date"
         error={errors.dataNascimento?.message}
         max={moment().format('YYYY-MM-DD')}
+        required={true}
         {...register('dataNascimento')}
       />
       <SelectField
-        label="Estado"
+        labelField="Estado"
         options={States}
         error={errors.UF?.message}
+        required={true}
         {...register('UF')}
       />
       <TextField
         label="Cidade"
         error={errors.cidade?.message}
+        required={true}
         {...register('cidade')}
       />
 
@@ -186,15 +208,17 @@ const FormAluno = (props: {
             options={GENDER}
             label="Gênero"
             error={errors.genero?.message}
+            required={true}
             {...field}
           />
         )}
       />
 
       <SelectField
-        label="Escolaridade"
+        labelField="Escolaridade"
         options={Scholarity}
         error={errors.escolaridade?.message}
+        required={true}
         {...register('escolaridade')}
       />
 
@@ -209,6 +233,7 @@ const FormAluno = (props: {
             label="Tipo de Escola"
             error={errors.tipoEscola?.message}
             {...field}
+            required={true}
           />
         )}
       />

@@ -14,7 +14,7 @@ export default {
       "Mulish, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
     light: 300,
     normal: 400,
-    bold: 600,
+    bold: 700,
     sizes: {
       'desk-xsmall': '1rem',
       'desk-small': '1.1rem',

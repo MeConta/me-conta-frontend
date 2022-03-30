@@ -13,7 +13,7 @@ export type CheckboxFieldProps = {
   disabled?: boolean
   required?: boolean
   value?: string | number | boolean
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const CheckboxField = React.forwardRef(function CheckboxField(

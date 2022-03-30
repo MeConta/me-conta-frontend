@@ -4,7 +4,7 @@ import { ISignupVoluntarioService } from 'services/signup-voluntario-service/sig
 import * as S from './styles'
 import { Button } from 'components/atoms/Button'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { UserType } from '../../../enums/user-type.enum'
 import { RadioField } from '../../atoms/RadioField'
 
@@ -20,6 +20,7 @@ import validationSchema from './validation'
 import FormVoluntarioValues from './values-type'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { event } from 'next/dist/build/output/log'
 
 type FormVoluntarioProps = {
   signupVoluntarioService: ISignupVoluntarioService
@@ -79,6 +80,16 @@ const frentesCheckbox = (
   })
 }
 
+function alphabeticalSort(a: number, b: number): number {
+  if (a > b) {
+    return 1
+  }
+  if (b > a) {
+    return -1
+  }
+  return 0
+}
+
 export function FormVoluntario({
   signupVoluntarioService,
   handleSuccess,
@@ -88,6 +99,9 @@ export function FormVoluntario({
   const [token] = useLocalStorage<string>('token', '')
   const [email] = useLocalStorage<string>('email', '')
   const [tipo] = useLocalStorage<UserType>('tipo', UserType.ATENDENTE)
+
+  const [nameForm, setNameForm] = useState<string>(name)
+  const [emailForm, setEmailForm] = useState<string>(email)
 
   const initialValues: FormVoluntarioValues = {
     telefone: '',
@@ -152,10 +166,39 @@ export function FormVoluntario({
     )
   }, [tipo, setValue])
 
+  function errorMessageFrente(): (string | undefined)[] | string {
+    // @ts-ignore
+    if (errors.frentes?.message) {
+      // @ts-ignore
+      return errors.frentes.message
+    }
+
+    if (errors.frentes?.length) {
+      return errors.frentes.map((field) => {
+        return field.message
+      })
+    }
+    return ''
+  }
+
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
-      <TextField label="Nome Completo" name="name" disabled value={name} />
-      <TextField label="E-mail" name="email" disabled value={email} />
+      <TextField
+        label="Nome Completo"
+        name="name"
+        disabled
+        value={nameForm}
+        required={true}
+        onChange={(e) => setNameForm(e.target.value)}
+      />
+      <TextField
+        label="E-mail"
+        name="email"
+        disabled
+        value={emailForm}
+        required={true}
+        onChange={(e) => setEmailForm(e.target.value)}
+      />
 
       <Controller
         name="tipo"
@@ -181,6 +224,7 @@ export function FormVoluntario({
             label="Telefone"
             error={errors.telefone?.message}
             {...field}
+            required={true}
           />
         )}
       />
@@ -190,17 +234,20 @@ export function FormVoluntario({
         max={moment().subtract(18, 'years').format('YYYY-MM-DD')}
         error={errors.dataNascimento?.message}
         {...register('dataNascimento')}
+        required={true}
       />
       <SelectField
-        label="Estado"
+        labelField="Estado"
         options={States}
         error={errors.UF?.message}
         {...register('UF')}
+        required={true}
       />
       <TextField
         label="Cidade"
         error={errors.cidade?.message}
         {...register('cidade')}
+        required={true}
       />
       <Controller
         name="genero"
@@ -211,6 +258,7 @@ export function FormVoluntario({
             label="Gênero"
             error={errors.genero?.message}
             {...field}
+            required={true}
           />
         )}
       />
@@ -218,6 +266,7 @@ export function FormVoluntario({
         label="Instituição de ensino"
         error={errors.instituicao?.message}
         {...register('instituicao')}
+        required={true}
       />
       {watch('tipo') === UserType.ATENDENTE && (
         <Controller
@@ -259,6 +308,7 @@ export function FormVoluntario({
             label="CRP"
             error={errors.crp?.message}
             {...register('crp')}
+            required={true}
           />
           <TextAreaField
             label="Possui especialização? Se sim, qual(is)?"
@@ -266,10 +316,11 @@ export function FormVoluntario({
             {...register('especializacoes')}
           />
           <SelectField
-            label="Área de Atuação"
+            labelField="Área de Atuação"
             options={areasAtuacao}
             error={errors.areaAtuacao?.message}
             {...register('areaAtuacao')}
+            required={true}
           />
           <TextField
             label="Abordagem psicoterápica"
@@ -286,20 +337,24 @@ export function FormVoluntario({
         watch('frentes'),
         (e) => {
           if (e.target.checked) {
-            setValue('frentes', [...watch('frentes'), +e.target.value].sort())
+            setValue(
+              'frentes',
+              [...watch('frentes'), +e.target.value].sort(alphabeticalSort)
+            )
             // values.frentes.push(+e.target.value)
           } else {
             const novasFrentes = watch('frentes').filter(
               (value) => +e.target.value !== value
             )
-            setValue('frentes', [...novasFrentes].sort())
+            setValue('frentes', [...novasFrentes].sort(alphabeticalSort))
           }
         },
         'Sessões de acolhimento dos estudantes',
         'Coaching de rotina de estudos',
         'Orientação vocacional'
       )}
-      <S.FrenteError>{errors.frentes}</S.FrenteError>
+
+      <S.FrenteError>{errorMessageFrente()}</S.FrenteError>
 
       {+watch('tipo') === UserType.ATENDENTE && (
         <TextAreaField

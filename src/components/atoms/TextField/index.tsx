@@ -18,7 +18,7 @@ export type TextFieldProps = {
   value?: string | number
   name: string
   required?: boolean
-  onChange?: ChangeEventHandler<any> | undefined
+  onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const TextField = React.forwardRef(function TextField(

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import * as S from './styles'
+import { useAuthContext } from '../../../store/auth-context'
 
 export type BreadCrumbLinks = {
   label: string
@@ -10,6 +11,7 @@ export type BreadCrumbLinks = {
 
 export default function Breadcrumb() {
   const { asPath } = useRouter()
+  const authCtx = useAuthContext()
   const [breadCrumbLinks, setBreadCrumbLinks] = useState<BreadCrumbLinks>([])
 
   useEffect(() => {
@@ -17,12 +19,18 @@ export default function Breadcrumb() {
       const routePaths = asPath.split('/')
       routePaths.shift()
 
-      const breadCrumbLinksObject = routePaths.map((path, i) => {
-        return {
-          label: path,
-          url: '/' + routePaths.slice(0, i + 1).join('/')
+      if (!routePaths[0]) {
+        routePaths.shift()
+      }
+
+      const breadCrumbLinksObject: BreadCrumbLinks = routePaths.map(
+        (path, i) => {
+          return {
+            label: path,
+            url: '/' + routePaths.slice(0, i + 1).join('/')
+          }
         }
-      })
+      )
 
       setBreadCrumbLinks(breadCrumbLinksObject)
     }
@@ -39,26 +47,34 @@ export default function Breadcrumb() {
             <a href={link.url}>{link.label.replace('-', ' ')}</a>
             <span
               className={breadCrumbLinkAtivo ? 'divider-off' : 'divider-on'}
-            ></span>
+            />
           </li>
         )
       })
     }
   }
 
-  return (
-    <S.Wrapper>
-      <div className="content">
-        {breadCrumbLinks.length > 0 ? (
-          <h2 className="title">
-            <a href={breadCrumbLinks[0].url}>{breadCrumbLinks[0].label}</a>
-          </h2>
-        ) : null}
+  if (!breadCrumbLinks.length) {
+    return <></>
+  }
 
-        <div className="breadcrumb-links">
-          <ul>{renderBreadCrumbLlinks()}</ul>
-        </div>
-      </div>
-    </S.Wrapper>
+  return (
+    <>
+      {authCtx.isLoggedIn && (
+        <S.Wrapper>
+          <div className="content">
+            {breadCrumbLinks.length > 0 ? (
+              <h2 className="title">
+                <a href={breadCrumbLinks[0].url}>{breadCrumbLinks[0].label}</a>
+              </h2>
+            ) : null}
+
+            <div className="breadcrumb-links">
+              <ul>{renderBreadCrumbLlinks()}</ul>
+            </div>
+          </div>
+        </S.Wrapper>
+      )}
+    </>
   )
 }

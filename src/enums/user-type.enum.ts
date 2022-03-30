@@ -1,5 +1,6 @@
 export enum UserType {
   ALUNO,
   SUPERVISOR,
-  ATENDENTE
+  ATENDENTE,
+  ADMINISTRADOR
 }

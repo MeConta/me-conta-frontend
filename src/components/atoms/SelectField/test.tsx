@@ -4,13 +4,13 @@ import { fireEvent, render, screen, waitFor } from 'utils/tests/helpers'
 import { SelectField } from '.'
 
 describe('<SelectField/>', () => {
+  const mockChange = jest.fn()
   // Rever Teste
   it('should change value as changed', async () => {
-    const mockChange = jest.fn()
     render(
       <SelectField
         name="select"
-        label="select"
+        labelField="select"
         options={[{ value: 'value', label: 'label' }]}
         onChange={mockChange}
         data-testid="select-id"
@@ -39,8 +39,9 @@ describe('<SelectField/>', () => {
     render(
       <SelectField
         options={[{ value: 'value', label: 'label' }]}
-        label="accessible"
+        labelField="accessible"
         name="accessible"
+        onChange={mockChange}
       />
     )
     const selectElement = screen.getByLabelText('accessible')
@@ -53,8 +54,9 @@ describe('<SelectField/>', () => {
     render(
       <SelectField
         options={[{ value: 'value', label: 'label' }]}
-        label="accessible"
+        labelField="accessible"
         name="accessible"
+        onChange={mockChange}
         disabled
       />
     )

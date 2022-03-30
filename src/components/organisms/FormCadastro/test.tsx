@@ -10,6 +10,15 @@ import {
 } from '../../../services/signup-service/signup-service'
 import { UserType } from 'enums/user-type.enum'
 
+jest.mock('store/auth-context', () => {
+  const useAuthContext = () => {
+    return {
+      handleLogin: jest.fn()
+    }
+  }
+  return { useAuthContext }
+})
+
 describe('<FormCadastro/>', () => {
   const signupServiceMock: ISignupService = {
     initialSignup: jest.fn()
@@ -29,14 +38,14 @@ describe('<FormCadastro/>', () => {
     }
   }
 
-  const fillForm = async () => {
+  const fillForm = () => {
     const { name, email, password, confirm, tipo, button, termsConfirm } =
       elements()
 
-    await userEvent.type(name, 'Nome')
-    await userEvent.type(email, 'teste@teste.com')
-    await userEvent.type(password, '!@#ASD!@#AASASD')
-    await userEvent.type(confirm, '!@#ASD!@#AASASD')
+    userEvent.type(name, 'Nome')
+    userEvent.type(email, 'teste@teste.com')
+    userEvent.type(password, '!@#ASD!@#AASASD')
+    userEvent.type(confirm, '!@#ASD!@#AASASD')
     fireEvent.click(tipo)
     fireEvent.click(termsConfirm)
     fireEvent.click(button)
@@ -75,7 +84,7 @@ describe('<FormCadastro/>', () => {
   })
   it('deve exibir erro de email inválido', async () => {
     const { email, button } = elements()
-    await userEvent.type(email, 'email')
+    userEvent.type(email, 'email')
     fireEvent.click(button)
 
     await waitFor(() => {
@@ -84,7 +93,7 @@ describe('<FormCadastro/>', () => {
   })
   it('deve exibir erro de senha inválido', async () => {
     const { password, button } = elements()
-    await userEvent.type(password, 'senha')
+    userEvent.type(password, 'senha')
     fireEvent.click(button)
 
     await waitFor(() => {
@@ -94,8 +103,8 @@ describe('<FormCadastro/>', () => {
   it('deve exibir erro de senhas diferentes', async () => {
     const { password, confirm, button } = elements()
 
-    await userEvent.type(password, 'senha')
-    await userEvent.type(confirm, 'not-senha')
+    userEvent.type(password, 'senha')
+    userEvent.type(confirm, 'not-senha')
     fireEvent.click(button)
 
     await waitFor(() => {

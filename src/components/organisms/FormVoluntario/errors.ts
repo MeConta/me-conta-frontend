@@ -13,6 +13,7 @@ const ERRORS = {
   MAX_LENGTH_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres.`,
   LENGTH_PHONE: `Telefone deve conter ${LENGTH_PHONE_VALUE} dígitos.`,
   INVALID_PHONE: `Telefone inválido.`,
+  INVALID_BIRTHDAY: `Data de nascimento inválida.`,
   REQUIRED_DATA_NASCIMENTO: 'Data de nascimento é obrigatório.',
   MIN_AGE: `Voluntários devem ter mais de 18 anos.`,
   MAX_BIRTHDATE: `Data de nascimento inválida.`,

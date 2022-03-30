@@ -1,7 +1,5 @@
 import { WrapperForm } from 'components/molecules/WrapperForm'
 import { FormVoluntario } from 'components/organisms/FormVoluntario'
-import { useSignup } from 'services/signup-service/signup-service'
-import * as S from '../../styles/pages/cadastro-voluntario/styles'
 import * as F from '../../styles/form/styles'
 import { SignupVoluntarioService } from '../../services/signup-voluntario-service/signup-voluntario-service'
 import { api } from 'services/api/api'
@@ -10,7 +8,6 @@ import { useRouter } from 'next/router'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
 
 export default function CadastroVoluntario() {
-  const { signupService } = useSignup()
   const router = useRouter()
   const { emit } = useToast()
   return (
@@ -24,10 +21,16 @@ export default function CadastroVoluntario() {
         <FormVoluntario
           handleSuccess={async () => {
             await router.push('/cadastro-voluntario/sucesso')
-            emit(ToastType.SUCCESS, 'Cadastro realizado com sucesso!')
+            emit({
+              type: ToastType.SUCCESS,
+              message: 'Cadastro realizado com sucesso!'
+            })
           }}
           handleError={(error: BackendError) => {
-            emit(ToastType.ERROR, 'Erro ao realizar o cadastro!')
+            emit({
+              type: ToastType.ERROR,
+              message: 'Erro ao realizar o cadastro!'
+            })
             console.log(error)
           }}
           signupVoluntarioService={new SignupVoluntarioService(api)}

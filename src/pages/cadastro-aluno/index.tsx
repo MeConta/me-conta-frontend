@@ -19,11 +19,17 @@ export default function CadastroAluno() {
         <FormAluno
           alunoSignup={new SignupAlunoService(api)}
           handleSuccess={async () => {
-            emit(ToastType.SUCCESS, 'Cadastro realizado com sucesso!')
+            emit({
+              type: ToastType.SUCCESS,
+              message: 'Cadastro realizado com sucesso!'
+            })
             await router.push('/dashboard-aluno')
           }}
           handleError={(error) => {
-            emit(ToastType.ERROR, 'Erro ao realizar o cadastro!')
+            emit({
+              type: ToastType.ERROR,
+              message: 'Erro ao realizar o cadastro!'
+            })
             console.error(error)
           }}
         />

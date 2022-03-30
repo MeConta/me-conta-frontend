@@ -1,9 +1,19 @@
-import * as S from '../../../styles/pages/dashboard-aluno/styles'
+import FrentesDropdown from 'components/molecules/FrentesDropdown'
+import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
+import * as S from '../../../styles/pages/dashboards/styles'
 
-export default function Agenda() {
+function Agenda() {
   return (
     <>
-      <S.WrapperDashboard>Agenda</S.WrapperDashboard>
+      <S.WrapperDashboard>
+        <FrentesDropdown
+          onSelectItem={() => {
+            // empty for now
+          }}
+        />
+      </S.WrapperDashboard>
     </>
   )
 }
+
+export default authenticatedRoute(Agenda)

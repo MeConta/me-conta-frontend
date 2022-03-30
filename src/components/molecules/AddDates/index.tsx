@@ -20,11 +20,11 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   }
 
   useEffect(() => {
-    const filterSlots = (timeList: Date[], alreadySelected: Date[]): Date[] => {
+    const filterSlots = (timeList: Date[], selectedAlready: Date[]): Date[] => {
       return timeList.filter((time) => {
         if (time.getTime() < new Date().getTime()) return false
-        if ([...alreadySelected, ...selectedSlots].length < 1) return true
-        return ![...alreadySelected, ...selectedSlots].some((selected) =>
+        if ([...selectedAlready, ...selectedSlots].length < 1) return true
+        return ![...selectedAlready, ...selectedSlots].some((selected) =>
           verifySlotsOverlap(
             selected,
             addOneHourInDate(selected),
