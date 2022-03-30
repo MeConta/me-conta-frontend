@@ -15,6 +15,7 @@ RUN npx build-storybook
 FROM httpd:latest as storybook
 WORKDIR /usr/local/apache2/htdocs/
 COPY --from=builder /usr/src/app/storybook-static ./
+CMD sed -i "s/80/$PORT/g" /usr/local/apache2/sites-enabled/000-default.conf /usr/local/apache2/ports.conf && docker-php-entrypoint apache2-foreground
 ARG PORT
 ENV PORT=$PORT
 EXPOSE ${PORT}
