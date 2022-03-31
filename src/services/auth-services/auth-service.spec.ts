@@ -31,7 +31,7 @@ describe('AuthService', () => {
     })
     expect(axios.default.post).toBeCalled()
     expect(axios.default.post).toReturn()
-    expect(axios.default.post).toBeCalledWith('/auth/login/', {
+    expect(axios.default.post).toBeCalledWith('/auth/login', {
       password: 's3nh$F0R!3',
       username: 'teste@teste.com'
     })
@@ -57,5 +57,27 @@ describe('AuthService', () => {
       senha: 's3nh$F0R!3',
       hash: 'hash'
     })
+  })
+
+  it('should be able to refresh the token using /auth/refresh endpoint', async () => {
+    const mockedRefreshResponse = {
+      token: 'new-token',
+      refreshToken: 'new-refresh-token',
+      nome: 'John Doe',
+      tipo: 0
+    }
+    jest.spyOn(axios.default, 'post').mockResolvedValue({
+      data: mockedRefreshResponse
+    })
+    const mockedRefreshToken = '1dadawoawkowa'
+
+    const response = await service.refreshToken({
+      refreshToken: mockedRefreshToken
+    })
+
+    expect(axios.default.post).toHaveBeenCalledWith('/auth/refresh', {
+      refreshToken: mockedRefreshToken
+    })
+    expect(response).toEqual(mockedRefreshResponse)
   })
 })

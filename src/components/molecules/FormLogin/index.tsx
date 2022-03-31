@@ -33,7 +33,7 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
-      const { token, tipo, nome } = await authService.login({
+      const { token, tipo, nome, refreshToken } = await authService.login({
         email,
         senha: password
       })
@@ -41,7 +41,8 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
       authCtx.handleLogin({
         nome,
         tipo: tipo.toString(),
-        token
+        token,
+        refreshToken
       })
 
       const redirect = redirects[tipo]
