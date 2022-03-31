@@ -1,11 +1,11 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse, AxiosInstance } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
 import { CookieKeys } from 'store/auth-context'
 import { AuthService } from '../auth-services/auth-service'
 
 const IGNORED_ENDPOINTS = ['/auth/login', '/auth/refresh']
 
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -18,7 +18,6 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
-  config.url?.concat('api/', config.url)
   return config
 })
 
