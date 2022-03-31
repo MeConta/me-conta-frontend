@@ -1,28 +1,33 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
-  width: 100%;
-  background-color: #fbfbfb;
-  padding: 24px;
+  ${({ theme }) => css`
+    width: 400px;
+    height: 180px;
+    background-color: ${theme.colors.white};
+    padding: ${theme.spacings.small};
+    border-radius: ${theme.border['card-radius']};
+    border: solid ${theme.colors.lightGray} 1px;
 
-  @media (max-width: 768px) {
-    padding: 24px 5px;
-  }
+    @media (max-width: 768px) {
+      padding: 24px 5px;
+    }
 
-  .title {
-    font-size: 14px;
-    color: #aaaebd;
-    font-weight: 600;
-    line-height: 21px;
-    margin-left: 22px;
-    margin-top: 11px;
-  }
+    .title {
+      font-size: ${theme.font.sizes['desk-large']};
+      color: ${theme.colors.gray};
+      font-weight: ${theme.font.bold};
+      line-height: 21px;
+      margin-left: ${theme.spacings.xsmall};
+      margin-top: ${theme.spacings.xsmall};
+    }
 
-  .description {
-    font-size: 14px;
-    color: #747474;
-    font-weight: 400;
-    line-height: 21px;
-    margin-left: 22.5px;
-  }
+    .description {
+      font-size: ${theme.font.sizes['desk-large']};
+      color: ${theme.colors.lightGray};
+      font-weight: ${theme.font.normal};
+      line-height: 21px;
+      margin-left: ${theme.spacings.xsmall};
+    }
+  `}
 `

@@ -3,6 +3,13 @@ import * as S from '../../styles/pages/dashboards/styles'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import { UserType } from 'enums/user-type.enum'
+import { CardVoluntario } from 'components/molecules/CardVoluntario'
+import {
+  VolunteerResponse,
+  VolunteerService
+} from 'services/volunteers-service/volunteer-service'
+import { api } from 'services/api/api'
+import { useState } from 'react'
 
 type SelectedFrente = {
   id: number
@@ -11,16 +18,58 @@ type SelectedFrente = {
 }
 
 function DashboardAluno() {
-  const onSelectItemHandler = (item: SelectedFrente) => {
-    console.log(item)
+  const [volunteers, setVolunteers] = useState<VolunteerResponse[]>([])
+
+  const volunteerService = new VolunteerService(api)
+
+  const onSelectItemHandler = async (item: SelectedFrente) => {
+    const volunteers = await volunteerService.findBySessionType({
+      sessionType: item.id
+    })
+    setVolunteers(volunteers)
   }
 
   return (
     <S.WrapperDashboard>
-      <Styled.Title>
-        Escolha uma especialidade e um especialista para sua sessão:
-      </Styled.Title>
-      <FrentesDropdown onSelectItem={onSelectItemHandler} />
+      <Styled.SectionContainer>
+        <Styled.Title>
+          Escolha uma especialidade e um especialista para sua sessão:
+        </Styled.Title>
+        <FrentesDropdown onSelectItem={onSelectItemHandler} />
+      </Styled.SectionContainer>
+
+      <Styled.SectionContainer>
+        <Styled.Title>
+          Selecione o profissional perfeito para você:
+        </Styled.Title>
+
+        <Styled.VolunteersCard>
+          {volunteers.map((volunteer) => {
+            return (
+              <div
+                key={volunteer.usuario.id}
+                style={{
+                  margin: '10px 0'
+                }}
+              >
+                <CardVoluntario
+                  description={volunteer.abordagem}
+                  frentes={volunteer.frentes}
+                  name={volunteer.usuario.nome}
+                  title={volunteer.areaAtuacao}
+                ></CardVoluntario>
+              </div>
+            )
+          })}
+
+          {!volunteers.length && (
+            <p>
+              Desculpe, não possuímos profissionais capacitados para atuar nessa
+              frente no momento. Por favor, tente novamente mais tarde.
+            </p>
+          )}
+        </Styled.VolunteersCard>
+      </Styled.SectionContainer>
     </S.WrapperDashboard>
   )
 }
