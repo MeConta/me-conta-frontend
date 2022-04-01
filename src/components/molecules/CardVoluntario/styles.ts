@@ -2,8 +2,8 @@ import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    width: 400px;
-    height: 180px;
+    width: 100%;
+    height: 20rem;
     background-color: ${theme.colors.white};
     padding: ${theme.spacings.small};
     border-radius: ${theme.border['card-radius']};

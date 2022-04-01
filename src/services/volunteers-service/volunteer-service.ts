@@ -31,10 +31,12 @@ export class VolunteerService implements IVolunteerService {
   async findBySessionType({
     sessionType
   }: {
-    sessionType: number
+    sessionType?: number
   }): Promise<VolunteerResponse[]> {
     const res = await this.service.get(
-      `/voluntarios/listar/2?frente=${sessionType}`
+      `/voluntarios/listar/2${
+        sessionType !== undefined ? `?frente=${sessionType}` : ''
+      }`
     )
     return res.data
   }

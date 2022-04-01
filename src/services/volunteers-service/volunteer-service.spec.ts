@@ -9,9 +9,9 @@ describe('volunteers service', () => {
     return new VolunteerService(fakeAxios)
   }
 
-  it('should list volunteers', async () => {
+  it('should list volunteers filtered by session type', async () => {
     const sut = makeSut()
-    const sessionType = 1
+    const sessionType = 0
     const volunteerType = 2
     jest.spyOn(fakeAxios, 'get').mockResolvedValue({
       data: []
@@ -21,6 +21,21 @@ describe('volunteers service', () => {
 
     expect(fakeAxios.get).toHaveBeenCalledWith(
       `/voluntarios/listar/${volunteerType}?frente=${sessionType}`
+    )
+    expect(res).toEqual([])
+  })
+
+  it('should list all volunteers', async () => {
+    const sut = makeSut()
+    const volunteerType = 2
+    jest.spyOn(fakeAxios, 'get').mockResolvedValue({
+      data: []
+    })
+
+    const res = await sut.findBySessionType({})
+
+    expect(fakeAxios.get).toHaveBeenCalledWith(
+      `/voluntarios/listar/${volunteerType}`
     )
     expect(res).toEqual([])
   })
