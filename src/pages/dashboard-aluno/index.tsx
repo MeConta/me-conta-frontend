@@ -23,10 +23,10 @@ function DashboardAluno() {
   const volunteerService = new VolunteerService(api)
 
   const onSelectItemHandler = async (item: SelectedFrente) => {
-    const volunteers = await volunteerService.findBySessionType({
+    const fetchedVolunteers = await volunteerService.findBySessionType({
       sessionType: item.id
     })
-    setVolunteers(volunteers)
+    setVolunteers(fetchedVolunteers)
   }
 
   return (
@@ -46,12 +46,7 @@ function DashboardAluno() {
         <Styled.VolunteersCard>
           {volunteers.map((volunteer) => {
             return (
-              <div
-                key={volunteer.usuario.id}
-                style={{
-                  margin: '10px 0'
-                }}
-              >
+              <div key={volunteer.usuario.id}>
                 <CardVoluntario
                   description={volunteer.abordagem}
                   frentes={volunteer.frentes}
@@ -63,10 +58,12 @@ function DashboardAluno() {
           })}
 
           {!volunteers.length && (
-            <p>
-              Desculpe, não possuímos profissionais capacitados para atuar nessa
-              frente no momento. Por favor, tente novamente mais tarde.
-            </p>
+            <Styled.MessageContainer>
+              <p>
+                Desculpe, não possuímos profissionais capacitados para atuar
+                nessa frente no momento. Por favor, tente novamente mais tarde.
+              </p>
+            </Styled.MessageContainer>
           )}
         </Styled.VolunteersCard>
       </Styled.SectionContainer>

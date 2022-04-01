@@ -19,12 +19,20 @@ export const VolunteersCard = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: space-around;
+    justify-content: start;
+    gap: ${theme.spacings.xsmall};
     width: 100%;
     padding: ${theme.spacings.medium};
     background-color: ${theme.colors.white};
     border-radius: ${theme.border['card-radius']};
+  `}
+`
+
+export const MessageContainer = styled.div`
+  ${({ theme }) => css`
     text-align: center;
+    color: ${theme.colors.gray};
+    font-size: ${theme.font.sizes['desk-large']};
+    width: 100%;
   `}
 `
