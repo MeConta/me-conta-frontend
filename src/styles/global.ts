@@ -55,7 +55,7 @@ const GlobalStyles = createGlobalStyle`
 export const Main = styled.main`
   margin: 0;
   min-height: 100vh;
-  background-color: #f4f7f9;
+  background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;

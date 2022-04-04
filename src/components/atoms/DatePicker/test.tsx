@@ -8,7 +8,7 @@ import {
 
 describe('<DatePicker />', () => {
   beforeEach(() => {
-    render(<DatePicker defaultMonth={new Date(2022, 3)} locale="en-EN" />)
+    render(<DatePicker month={new Date(2022, 2)} locale="en-EN" />)
   })
   it('should render DayPicker component', () => {
     expect(screen.getByText('March 2022')).toBeInTheDocument()

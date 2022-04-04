@@ -22,6 +22,7 @@ export interface IAuthService {
 
 export class AuthService implements IAuthService {
   constructor(private readonly service: AxiosInstance) {}
+
   async login(form: LoginForm): Promise<LoginResponse> {
     const response = await this.service.post('/auth/login/', {
       username: form.email,

@@ -2,7 +2,7 @@ import '../../../utils/tests/matchMedia.mock'
 
 import React from 'react'
 import { render, screen } from 'utils/tests/helpers'
-import { AvaliableTimes } from './index'
+import { AvailableDates } from './index'
 import { fireEvent, waitFor } from '@testing-library/dom'
 import { act } from '@testing-library/react'
 
@@ -33,11 +33,11 @@ const DATES = [
   }
 ]
 
-describe('<AvaliableTimes />', () => {
+describe('<AvailableDates />', () => {
   const onDelete = jest.fn()
 
   beforeEach(() => {
-    render(<AvaliableTimes dates={DATES} onDelete={onDelete} />)
+    render(<AvailableDates dates={DATES} onDelete={onDelete} />)
   })
 
   const elements = () => {

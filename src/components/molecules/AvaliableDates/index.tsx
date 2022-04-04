@@ -36,12 +36,12 @@ export type DateType = {
   deletable: Boolean
 }
 
-export type AvaliableTimesProps = {
+export type AvailableDatesProps = {
   dates: DateType[]
   onDelete: (date: Date) => void
 }
 
-export function AvaliableTimes({ dates, onDelete }: AvaliableTimesProps) {
+export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
   const settings = {
     dots: false,
     infinite: false,
