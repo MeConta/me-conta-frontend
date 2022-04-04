@@ -15,6 +15,6 @@ RUN npx build-storybook
 FROM httpd:latest as storybook
 WORKDIR /usr/local/apache2/htdocs/
 COPY --from=builder /usr/src/app/storybook-static ./
-ARG PORT
-ENV PORT=$PORT
-EXPOSE ${PORT}
+# ARG PORT
+# ENV PORT=$PORT
+EXPOSE 8080

@@ -10,6 +10,7 @@ describe('<DatePicker />', () => {
   beforeEach(() => {
     render(<DatePicker month={new Date(2022, 2)} locale="en-EN" />)
   })
+
   it('should render DayPicker component', () => {
     expect(screen.getByText('March 2022')).toBeInTheDocument()
   })

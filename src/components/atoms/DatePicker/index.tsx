@@ -31,7 +31,7 @@ function Navbar({ onPreviousClick, onNextClick, className }: NavbarProps) {
 
 export type DatePickerProps = DayPickerProps
 
-export function DatePicker({ ...props }) {
+export function DatePicker(props: DatePickerProps) {
   const modifiersStyles = {
     selected: {
       color: theme.colors.white,
@@ -43,12 +43,11 @@ export function DatePicker({ ...props }) {
   return (
     <S.Wrapper>
       <DayPicker
-        locale="pt-BR"
+        {...props}
         localeUtils={MomentLocaleUtils}
         firstDayOfWeek={1}
         modifiersStyles={modifiersStyles}
         navbarElement={Navbar}
-        {...props}
       />
     </S.Wrapper>
   )

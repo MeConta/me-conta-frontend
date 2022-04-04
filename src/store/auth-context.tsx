@@ -20,6 +20,7 @@ type SessionData = {
   nome: string
   tipo: string
   token: string
+  refreshToken: string
 }
 
 type AuthServiceProps = {
@@ -30,9 +31,10 @@ type AuthServiceProps = {
   handleLogout: (autoLogout?: boolean) => void
 }
 
-enum CookieKeys {
+export enum CookieKeys {
   TOKEN = 'token',
-  NAME = 'name'
+  NAME = 'name',
+  REFRESH_TOKEN = 'refresh_token'
 }
 
 export const AuthorizationProvider = (
@@ -47,8 +49,11 @@ export const AuthorizationProvider = (
 
   const router = useRouter()
   const { emit } = useToast()
-  const { [CookieKeys.NAME]: nomeCookie, [CookieKeys.TOKEN]: tokenCookie } =
-    parseCookies()
+  const {
+    [CookieKeys.NAME]: nomeCookie,
+    [CookieKeys.TOKEN]: tokenCookie,
+    [CookieKeys.REFRESH_TOKEN]: refreshTokenCookie
+  } = parseCookies()
   const decodedToken = parseJwtToObject(tokenCookie)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     isTokenValid(decodedToken)
@@ -71,12 +76,14 @@ export const AuthorizationProvider = (
     setTipo(session.tipo)
     setCookie(undefined, CookieKeys.TOKEN, session.token)
     setCookie(undefined, CookieKeys.NAME, session.nome)
+    setCookie(undefined, CookieKeys.REFRESH_TOKEN, session.refreshToken)
     setIsLoggedIn(true)
   }
 
   const logoutHandler = (autoLogout?: boolean) => {
     destroyCookie(null, CookieKeys.TOKEN)
     destroyCookie(null, CookieKeys.NAME)
+    destroyCookie(null, CookieKeys.REFRESH_TOKEN)
     setNome(null)
     setTipo(null)
     setIsLoggedIn(false)
@@ -94,7 +101,8 @@ export const AuthorizationProvider = (
   const session: SessionData = {
     nome: nome || '',
     tipo: tipo || '',
-    token: tokenCookie || ''
+    token: tokenCookie || '',
+    refreshToken: refreshTokenCookie || ''
   }
 
   return (

@@ -113,7 +113,7 @@ export function FormCadastro(props: {
 
   const onSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
-      const { token } = await props.signupService.initialSignup({
+      const { token, refreshToken } = await props.signupService.initialSignup({
         nome: name,
         email,
         senha: password,
@@ -125,7 +125,8 @@ export function FormCadastro(props: {
       authCtx.handleLogin({
         nome: name,
         tipo: tipo.toString(),
-        token
+        token,
+        refreshToken
       })
 
       props.handleSuccess({ nome: name, email, senha: password, tipo })

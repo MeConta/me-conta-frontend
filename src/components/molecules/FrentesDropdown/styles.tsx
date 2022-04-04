@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   background-color: white;
   padding: 2rem;
   border-radius: 0.7rem;
-  height: 12rem;
+  min-height: 12rem;
   width: 30rem;
 
   .frente {
