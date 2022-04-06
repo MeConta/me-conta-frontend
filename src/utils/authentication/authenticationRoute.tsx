@@ -32,6 +32,7 @@ export const authenticatedRoute = (
         return
       }
       if (
+        authCtx.session.tipo &&
         !userRoleIsAuthorized({
           userRole: +authCtx.session.tipo,
           allowedRoles: options.allowedRoles

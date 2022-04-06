@@ -11,6 +11,17 @@ export const Wrapper = styled.div`
     justify-content: center;
     color: ${theme.colors.white};
 
+    .no-dates-container {
+      width: 100%;
+      height: 50px;
+    }
+
+    .no-dates-container div {
+      text-align: center;
+      color: ${theme.colors.black};
+      font-size: 13px;
+    }
+
     .slider {
       width: calc(100% - 36px);
       padding: 0 20px;

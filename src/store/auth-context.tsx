@@ -49,12 +49,14 @@ export const AuthorizationProvider = (
 
   const router = useRouter()
   const { emit } = useToast()
+
   const {
     [CookieKeys.NAME]: nomeCookie,
     [CookieKeys.TOKEN]: tokenCookie,
     [CookieKeys.REFRESH_TOKEN]: refreshTokenCookie
   } = parseCookies()
   const decodedToken = parseJwtToObject(tokenCookie)
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     isTokenValid(decodedToken)
   )
