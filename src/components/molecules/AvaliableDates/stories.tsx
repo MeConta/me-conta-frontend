@@ -1,17 +1,17 @@
 import { Story, Meta } from '@storybook/react'
 
-import { AvaliableTimes, AvaliableTimesProps } from '.'
+import { AvailableDates, AvailableDatesProps } from '.'
 
 export default {
-  component: AvaliableTimes,
-  title: 'Molecules/AvaliableTimes',
+  component: AvailableDates,
+  title: 'Molecules/AvailableDates',
   argTypes: {
     onDelete: { action: 'deleted' }
   }
 } as Meta
 
-export const Default: Story<AvaliableTimesProps> = (args) => (
-  <AvaliableTimes {...args} />
+export const Default: Story<AvailableDatesProps> = (args) => (
+  <AvailableDates {...args} />
 )
 
 Default.args = {

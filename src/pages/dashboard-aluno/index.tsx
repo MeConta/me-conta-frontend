@@ -66,7 +66,7 @@ function DashboardAluno() {
                         frentes={volunteer.frentes}
                         name={volunteer.usuario.nome}
                         title={volunteer.areaAtuacao}
-                      ></CardVoluntario>
+                      />
                     </div>
                   )
                 })}

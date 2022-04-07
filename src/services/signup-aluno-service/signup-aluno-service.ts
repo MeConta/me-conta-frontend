@@ -14,13 +14,35 @@ type AlunoSignupUser = {
 }
 
 export interface ISignupAlunoService {
-  alunoSignup: (user: AlunoSignupUser, token: string) => Promise<void>
+  alunoSignup: (
+    user: {
+      UF: string
+      telefone: string
+      cidade: string
+      tipoEscola: number
+      genero: string
+      escolaridade: number
+      dataNascimento: string
+    },
+    token: string
+  ) => Promise<void>
 }
 
 export class SignupAlunoService implements ISignupAlunoService {
   constructor(private readonly service: AxiosInstance) {}
 
-  async alunoSignup(user: AlunoSignupUser, token: string) {
+  async alunoSignup(
+    user: {
+      UF: string
+      telefone: string
+      cidade: string
+      tipoEscola: number
+      genero: string
+      escolaridade: number
+      dataNascimento: string
+    },
+    token: string
+  ): Promise<void> {
     await this.service.post('/cadastro-aluno', user, {
       headers: {
         Authorization: `Bearer ${token}`

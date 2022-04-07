@@ -77,6 +77,12 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     setSelectedSlots(newList)
   }
 
+  const handleSaveSlots = () => {
+    handleSave(selectedSlots)
+
+    setSelectedSlots([])
+  }
+
   return (
     <S.Wrapper>
       <div className="card">
@@ -134,7 +140,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         color="primary"
         radius="square"
         size="medium"
-        onClick={() => handleSave(selectedSlots)}
+        onClick={handleSaveSlots}
       >
         Salvar
       </Button>

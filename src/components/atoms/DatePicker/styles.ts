@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
     }
 
     .DayPicker-NavBar button {
-      width: 16px;
+      width: 20px;
       border: none;
       background: none;
       color: ${theme.colors.lightGray};
@@ -31,16 +31,23 @@ export const Wrapper = styled.div`
       border: 1px solid ${theme.colors.xlightGray};
       box-sizing: border-box;
       padding: 0.8em;
+      font-size: 14px;
     }
 
     .DayPicker-Day--today {
       color: ${theme.colors.ceriseRed};
     }
 
+    .DayPicker-Weekday {
+      font-size: 14px;
+      color: ${theme.colors.black};
+    }
+
     .DayPicker-Caption {
       text-transform: capitalize;
       padding: 0;
       font-family: ${theme.font.family};
+      font-size: 16px;
     }
   `}
 `

@@ -8,6 +8,7 @@ import {
 
 import { Button } from '../../atoms/Button'
 import * as S from './styles'
+import { SlotResponseInterface } from '../../../services/agenda-services/agenda-service'
 
 function PrevArrow(props: any) {
   const { className, style, onClick } = props
@@ -36,12 +37,18 @@ export type DateType = {
   deletable: Boolean
 }
 
-export type AvaliableTimesProps = {
-  dates: DateType[]
-  onDelete: (date: Date) => void
+export type AvailableDatesProps = {
+  dates: SlotResponseInterface[]
+  onDelete: (id: number) => void
 }
 
-export function AvaliableTimes({ dates, onDelete }: AvaliableTimesProps) {
+type DatesFormated = {
+  id: number
+  inicio: Date
+  fim: Date
+}
+
+export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
   const settings = {
     dots: false,
     infinite: false,
@@ -75,37 +82,60 @@ export function AvaliableTimes({ dates, onDelete }: AvaliableTimesProps) {
     prevArrow: <PrevArrow />
   }
 
+  const sortDates = (a: DatesFormated, b: DatesFormated) => {
+    return a.inicio.getTime() - b.inicio.getTime()
+  }
+
+  const datesFormated = dates
+    .map((slot: SlotResponseInterface): DatesFormated => {
+      return {
+        id: slot.id,
+        inicio: new Date(slot.inicio),
+        fim: new Date(slot.fim)
+      }
+    })
+    .sort(sortDates)
+
   return (
     <S.Wrapper>
-      <Slider className="slider" {...settings}>
-        {dates.map((item, i) => {
-          return (
-            <div className="slider-item" key={i} data-testid="slider-item">
-              <div className="avaliable-time">
-                <div className="date" data-testid="date">
-                  {item.date.toLocaleDateString()}
+      {datesFormated.length > 0 ? (
+        <Slider className="slider" {...settings}>
+          {datesFormated.map((item) => {
+            return (
+              <div
+                className="slider-item"
+                key={item.id}
+                data-testid="slider-item"
+              >
+                <div className="avaliable-time">
+                  <div className="date" data-testid="date">
+                    {item.inicio.toLocaleDateString()}
+                  </div>
+                  <div className="time" data-testid="time">
+                    {item.inicio.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </div>
+                  <Button
+                    color="secondary"
+                    radius="square"
+                    size="medium"
+                    className="delete"
+                    onClick={() => onDelete(item.id)}
+                  >
+                    Excluir
+                  </Button>
                 </div>
-                <div className="time" data-testid="time">
-                  {item.date.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </div>
-                <Button
-                  color="secondary"
-                  radius="square"
-                  size="medium"
-                  className="delete"
-                  disabled={!item.deletable}
-                  onClick={() => onDelete(item.date)}
-                >
-                  Excluir
-                </Button>
               </div>
-            </div>
-          )
-        })}
-      </Slider>
+            )
+          })}
+        </Slider>
+      ) : (
+        <div className="no-dates-container">
+          <div>Não há marcações registadas, seleccione uma no calendário</div>
+        </div>
+      )}
     </S.Wrapper>
   )
 }
