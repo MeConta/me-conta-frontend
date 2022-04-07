@@ -14,18 +14,7 @@ type AlunoSignupUser = {
 }
 
 export interface ISignupAlunoService {
-  alunoSignup: (
-    user: {
-      UF: string
-      telefone: string
-      cidade: string
-      tipoEscola: number
-      genero: string
-      escolaridade: number
-      dataNascimento: string
-    },
-    token: string
-  ) => Promise<void>
+  alunoSignup: (user: AlunoSignupUser, token: string) => Promise<void>
 }
 
 export class SignupAlunoService implements ISignupAlunoService {
