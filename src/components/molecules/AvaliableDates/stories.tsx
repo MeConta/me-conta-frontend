@@ -17,60 +17,74 @@ export const Default: Story<AvailableDatesProps> = (args) => (
 Default.args = {
   dates: [
     {
-      date: new Date(2021, 11, 17, 13),
-      deletable: true
+      id: 1,
+      inicio: new Date(2021, 11, 17, 13).toISOString(),
+      fim: new Date(2021, 11, 17, 14).toISOString()
     },
     {
-      date: new Date(2021, 11, 18, 14),
-      deletable: true
+      id: 2,
+      inicio: new Date(2021, 11, 18, 14).toISOString(),
+      fim: new Date(2021, 11, 18, 15).toISOString()
     },
     {
-      date: new Date(2021, 11, 19, 9),
-      deletable: true
+      id: 3,
+      inicio: new Date(2021, 11, 19, 9).toISOString(),
+      fim: new Date(2021, 11, 19, 10).toISOString()
     },
     {
-      date: new Date(2021, 11, 20, 13),
-      deletable: true
+      id: 4,
+      inicio: new Date(2021, 11, 20, 13).toISOString(),
+      fim: new Date(2021, 11, 20, 14).toISOString()
     },
     {
-      date: new Date(2021, 11, 21, 14),
-      deletable: false
+      id: 5,
+      inicio: new Date(2021, 11, 21, 14).toISOString(),
+      fim: new Date(2021, 11, 21, 15).toISOString()
     },
     {
-      date: new Date(2021, 11, 22, 8),
-      deletable: true
+      id: 6,
+      inicio: new Date(2021, 11, 22, 8).toISOString(),
+      fim: new Date(2021, 11, 22, 9).toISOString()
     },
     {
-      date: new Date(2021, 11, 23, 13),
-      deletable: true
+      id: 7,
+      inicio: new Date(2021, 11, 23, 13).toISOString(),
+      fim: new Date(2021, 11, 23, 14).toISOString()
     },
     {
-      date: new Date(2021, 11, 24, 14),
-      deletable: false
+      id: 8,
+      inicio: new Date(2021, 11, 24, 14).toISOString(),
+      fim: new Date(2021, 11, 24, 15).toISOString()
     },
     {
-      date: new Date(2021, 11, 25, 8),
-      deletable: true
+      id: 9,
+      inicio: new Date(2021, 11, 25, 8).toISOString(),
+      fim: new Date(2021, 11, 25, 9).toISOString()
     },
     {
-      date: new Date(2021, 11, 26, 13),
-      deletable: true
+      id: 10,
+      inicio: new Date(2021, 11, 26, 13).toISOString(),
+      fim: new Date(2021, 11, 26, 14).toISOString()
     },
     {
-      date: new Date(2021, 11, 27, 17),
-      deletable: true
+      id: 11,
+      inicio: new Date(2021, 11, 27, 17).toISOString(),
+      fim: new Date(2021, 11, 27, 18).toISOString()
     },
     {
-      date: new Date(2021, 11, 28, 14),
-      deletable: true
+      id: 12,
+      inicio: new Date(2021, 11, 28, 14).toISOString(),
+      fim: new Date(2021, 11, 28, 15).toISOString()
     },
     {
-      date: new Date(2021, 11, 29, 13),
-      deletable: true
+      id: 13,
+      inicio: new Date(2021, 11, 29, 13).toISOString(),
+      fim: new Date(2021, 11, 29, 14).toISOString()
     },
     {
-      date: new Date(2021, 11, 30, 14),
-      deletable: true
+      id: 14,
+      inicio: new Date(2021, 11, 30, 14).toISOString(),
+      fim: new Date(2021, 11, 30, 15).toISOString()
     }
   ]
 }
