@@ -1,14 +1,10 @@
 import { render, screen } from '../../../utils/tests/helpers'
 import { DatePicker } from './index'
 import userEvent from '@testing-library/user-event'
-import {
-  ArrowIosBackOutline,
-  ArrowIosForwardOutline
-} from 'styled-icons/evaicons-outline'
 
 describe('<DatePicker />', () => {
   beforeEach(() => {
-    render(<DatePicker month={new Date(2022, 2)} locale="en-EN" />)
+    render(<DatePicker month={new Date(2022, 2)} locale="en" />)
   })
 
   it('should render DayPicker component', () => {

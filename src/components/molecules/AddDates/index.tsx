@@ -89,6 +89,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         <div className="select-day-container">
           <h4 className="card-header">Selecione a data</h4>
           <DatePicker
+            locale="pt-br"
             onDayClick={handleDayClick}
             selectedDays={selectedDay}
             disabledDays={modifiers.past}
@@ -137,7 +138,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
       </div>
       <Button
         className="save"
-        color="primary"
+        color="secondary"
         radius="square"
         size="medium"
         onClick={handleSaveSlots}

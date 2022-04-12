@@ -43,11 +43,15 @@ const DATES: SlotResponseInterface[] = [
 describe('<AvailableDates />', () => {
   const onDelete = jest.fn()
 
+  const excluirBoolean: boolean = false
+
   const elements = () => {
     return {
       date: screen.getAllByTestId('date'),
       time: screen.getAllByTestId('time'),
-      button: screen.getAllByRole('button', { name: /Excluir/i })
+      button: excluirBoolean
+        ? screen.getAllByRole('button', { name: /Excluir/i })
+        : null
     }
   }
 
@@ -79,20 +83,26 @@ describe('<AvailableDates />', () => {
 
       expect(date[i].innerHTML).toBe(localeDate)
       expect(time[i].innerHTML).toBe(localeTime)
-      expect(button[i]).toBeInTheDocument()
+      if (excluirBoolean && button) {
+        expect(button[i]).toBeInTheDocument()
+      }
     })
   })
 
-  it('should call onDelete when clicking Excluir button', async () => {
-    render(<AvailableDates dates={DATES} onDelete={onDelete} />)
-    const { button } = elements()
+  if (excluirBoolean) {
+    it('should call onDelete when clicking Excluir button', async () => {
+      render(<AvailableDates dates={DATES} onDelete={onDelete} />)
+      const { button } = elements()
 
-    await act(async () => {
-      fireEvent.click(button[0])
-    })
+      if (button) {
+        await act(async () => {
+          fireEvent.click(button[0])
+        })
 
-    await waitFor(async () => {
-      expect(onDelete).toBeCalled()
+        await waitFor(async () => {
+          expect(onDelete).toBeCalled()
+        })
+      }
     })
-  })
+  }
 })

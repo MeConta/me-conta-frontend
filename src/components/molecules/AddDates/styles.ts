@@ -73,7 +73,7 @@ export const Wrapper = styled.div`
 
     .save {
       display: block;
-      margin: ${theme.spacings.xsmall} 0 0 auto;
+      margin: ${theme.spacings.xsmall} 0 ${theme.spacings.xsmall} auto;
     }
 
     @media (max-width: 1024px) {

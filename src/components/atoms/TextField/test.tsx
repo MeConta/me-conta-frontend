@@ -6,12 +6,26 @@ import { TextField } from '.'
 
 describe('<TextField/>', () => {
   it('should render the input with placeholder, when provided', () => {
-    render(<TextField name="name" label="label" placeholder="nome completo" />)
+    render(
+      <TextField
+        name="name"
+        label="label"
+        placeholder="nome completo"
+        onChange={() => {}}
+      />
+    )
     expect(screen.getByPlaceholderText('nome completo')).toBeInTheDocument()
   })
 
   it('should forward required attribute, when required flag is true', () => {
-    render(<TextField name="name" label="label" required={true} />)
+    render(
+      <TextField
+        name="name"
+        label="label"
+        required={true}
+        onChange={() => {}}
+      />
+    )
     expect(
       screen.getByTestId('label').getAttribute('aria-required')
     ).toBeTruthy()
@@ -46,7 +60,9 @@ describe('<TextField/>', () => {
   })
 
   it('should accessible by tab', () => {
-    render(<TextField label="accessible" name="accessible" />)
+    render(
+      <TextField label="accessible" name="accessible" onChange={() => {}} />
+    )
     const input = screen.getByLabelText('accessible')
     expect(document.body).toHaveFocus()
     userEvent.tab()
@@ -54,7 +70,14 @@ describe('<TextField/>', () => {
   })
 
   it('should accessible by tab when disabled', () => {
-    render(<TextField label="accessible" name="accessible" disabled />)
+    render(
+      <TextField
+        label="accessible"
+        name="accessible"
+        disabled
+        onChange={() => {}}
+      />
+    )
     const input = screen.getByLabelText('accessible')
     expect(document.body).toHaveFocus()
     userEvent.tab()

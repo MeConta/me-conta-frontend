@@ -47,10 +47,10 @@ export const Wrapper = styled.div`
     .time {
       font-size: ${theme.font.sizes['desk-xlarge']};
       font-weight: ${theme.font.bold};
-      margin-bottom: 16px;
     }
 
     .delete {
+      margin-top: 16px;
       background: ${theme.colors.white};
       color: ${theme.colors.ceriseRed};
     }

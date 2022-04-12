@@ -9,6 +9,7 @@ import {
 import { Button } from '../../atoms/Button'
 import * as S from './styles'
 import { SlotResponseInterface } from '../../../services/agenda-services/agenda-service'
+import { bool } from 'yup'
 
 function PrevArrow(props: any) {
   const { className, style, onClick } = props
@@ -96,6 +97,8 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
     })
     .sort(sortDates)
 
+  const excluirBoolean: boolean = false
+
   return (
     <S.Wrapper>
       {datesFormated.length > 0 ? (
@@ -117,15 +120,19 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
                       minute: '2-digit'
                     })}
                   </div>
-                  <Button
-                    color="secondary"
-                    radius="square"
-                    size="medium"
-                    className="delete"
-                    onClick={() => onDelete(item.id)}
-                  >
-                    Excluir
-                  </Button>
+                  {excluirBoolean ? (
+                    <Button
+                      color="secondary"
+                      radius="square"
+                      size="medium"
+                      className="delete"
+                      onClick={() => onDelete(item.id)}
+                    >
+                      Excluir
+                    </Button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             )
