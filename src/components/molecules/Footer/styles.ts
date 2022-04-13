@@ -1,12 +1,17 @@
 import styled from 'styled-components'
 
-export const FooterWrapper = styled.footer`
+export const FooterContainer = styled.footer`
   width: 100%;
-  align-self: start;
-  padding: 25px 33px;
   background: linear-gradient(183.41deg, #67c3f3 -8.57%, #458ff6 82.96%);
-  color: white;
   margin-top: auto;
+`
+
+export const FooterWrapper = styled.div`
+  max-width: 1360px;
+  margin: auto;
+  align-self: start;
+  padding: 25px 15px;
+  color: white;
 
   h1 {
     font-size: 28px;
