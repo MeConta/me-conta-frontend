@@ -4,6 +4,7 @@ import * as S from '../../styles/pages/dashboards/styles'
 import { AvailableDates } from '../../components/molecules/AvaliableDates'
 import { AddDates } from '../../components/molecules/AddDates'
 import { useEffect, useState } from 'react'
+import { ToastType, useToast } from 'services/toast-service/toast-service'
 import {
   AgendaService,
   SlotResponseInterface
@@ -12,7 +13,9 @@ import { api } from '../../services/api/api'
 import Loader from '../../components/atoms/Loader'
 import { getTokenData } from '../../utils/authentication/getTokenData'
 
-function DashboardAtendente() {
+function VolunteerDashboard() {
+  const { emit } = useToast()
+
   const [isLoadingDates, setIsLoadingDates] = useState<boolean>(true)
   const [slotsReserved, setSlotsReserved] = useState<SlotResponseInterface[]>(
     []
@@ -48,17 +51,22 @@ function DashboardAtendente() {
     setDatesAlreadySelected(datesSelectedAux)
   }, [slotsReserved])
 
-  const handleOnDelete = async (id: number) => {
+  const handleOnDelete = (id: number) => {
     setIsLoadingDates(true)
 
-    await agendaService.deleteSlot(id)
-
-    const newDatesReserved: SlotResponseInterface[] = slotsReserved.filter(
-      (date) => date.id !== id
-    )
-    setSlotsReserved(newDatesReserved)
-
-    setIsLoadingDates(false)
+    agendaService
+      .deleteSlot(id)
+      .then(() => {
+        const newDatesReserved: SlotResponseInterface[] = slotsReserved.filter(
+          (date) => date.id !== id
+        )
+        setSlotsReserved(newDatesReserved)
+        emit({ type: ToastType.INFO, message: 'Slot eliminado com sucesso' })
+        setIsLoadingDates(false)
+      })
+      .catch(() => {
+        setIsLoadingDates(false)
+      })
   }
 
   const handleSaveNewSlots = async (slotsToSave: Date[]) => {
@@ -84,6 +92,6 @@ function DashboardAtendente() {
   )
 }
 
-export default authenticatedRoute(DashboardAtendente, {
+export default authenticatedRoute(VolunteerDashboard, {
   allowedRoles: [UserType.ATENDENTE]
 })

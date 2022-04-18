@@ -97,7 +97,7 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
     })
     .sort(sortDates)
 
-  const excluirBoolean: boolean = false
+  const excluirBoolean: boolean = true
 
   return (
     <S.Wrapper>

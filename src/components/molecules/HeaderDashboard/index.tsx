@@ -38,14 +38,16 @@ export default function HeaderDashboard({
     <S.Wrapper>
       <div className="content">
         <Link href="/" passHref>
-          <Image
-            unoptimized={true}
-            src={logoSrc}
-            alt="Logo Me Conta"
-            width={168}
-            height={56}
-            className="logo-image"
-          />
+          <a>
+            <Image
+              unoptimized={true}
+              src={logoSrc}
+              alt="Logo Me Conta"
+              width={168}
+              height={56}
+              className="logo-image"
+            />
+          </a>
         </Link>
         <FiMenu
           className="open-menu-button"
