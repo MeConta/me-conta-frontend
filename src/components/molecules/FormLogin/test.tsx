@@ -5,7 +5,8 @@ import {
   render,
   RenderResult,
   screen,
-  waitFor
+  waitFor,
+  act
 } from 'utils/tests/helpers'
 import { FormLogin } from '.'
 import router from '../../../../__mocks__/next/router'
@@ -23,13 +24,27 @@ jest.mock('store/auth-context', () => {
   return { useAuthContext }
 })
 
-const fillFormToSubmit = () => {
+const fillFormToSubmit = async () => {
   const email = screen.getByRole('textbox', { name: 'E-mail' })
   const password = screen.getByRole('password', { name: 'Senha' })
-  const submit = screen.getByRole('button')
+  const submit = screen.getByRole('button', { name: 'ENTRAR' })
 
-  userEvent.type(email, 'email@teste.com')
-  userEvent.type(password, 'S3nh@valid@')
+  fireEvent.input(email, {
+    target: {
+      value: 'email@teste.com'
+    }
+  })
+
+  fireEvent.input(password, {
+    target: {
+      value: 'S3nh@valid@'
+    }
+  })
+
+  await waitFor(() => {
+    expect(submit).not.toBeDisabled()
+  })
+
   fireEvent.click(submit)
 }
 
@@ -42,87 +57,113 @@ describe('<FormLogin/>', () => {
   const handleErrorMock = jest.fn()
 
   beforeEach(() => {
-    renderResult = render(
-      <FormLogin authService={authServiceMock} handleError={handleErrorMock} />
-    )
+    renderResult = act(() => {
+      render(
+        <FormLogin
+          authService={authServiceMock}
+          handleError={handleErrorMock}
+        />
+      )
+    })
   })
 
-  it('deve renderizar todos os elementos do formulário', () => {
+  it('should render the login form fields', () => {
     expect(screen.getByRole('textbox', { name: 'E-mail' })).toBeInTheDocument()
     expect(screen.getByRole('password', { name: 'Senha' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
-
-    expect(renderResult.container.parentElement).toMatchSnapshot()
   })
 
-  it('deve exibir error de email inválido', async () => {
+  it('should show an error in the email field', async () => {
     const email = screen.getByRole('textbox', { name: 'E-mail' })
-    const submit = screen.getByRole('button')
 
     userEvent.type(email, 'meuemailcom')
-    fireEvent.click(submit)
 
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
     })
   })
 
-  it('deve chamar o serviço de login', async () => {
-    fillFormToSubmit()
+  it('should show an error in the password field', async () => {
+    const password = screen.getByRole('password', { name: 'Senha' })
 
+    fireEvent.input(password, {
+      target: {
+        value: 'testPassword'
+      }
+    })
+    fireEvent.input(password, {
+      target: {
+        value: ''
+      }
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText(/A senha é obrigatório/)).toBeInTheDocument()
+    })
+  })
+
+  it('should call login service when filling the form', async () => {
     jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
       return Promise.resolve({
         token: 'XPTO',
         tipo: UserType.ALUNO,
-        nome: 'John'
+        nome: 'John',
+        refreshToken: 'XPTO'
       })
     })
 
+    await fillFormToSubmit()
+
     await waitFor(() => {
-      expect(authServiceMock.login).toBeCalled()
+      expect(authServiceMock.login).toBeCalledTimes(1)
     })
   })
 
-  it('deve redirecionar para dashboard de aluno', async () => {
-    fillFormToSubmit()
+  it('should redirect to dashboard-aluno when the user is a student', async () => {
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+      return Promise.resolve({
+        token: 'XPTO',
+        tipo: UserType.ALUNO,
+        nome: 'John',
+        refreshToken: 'XPTO'
+      })
+    })
 
-    jest
-      .spyOn(authServiceMock, 'login')
-      .mockImplementation(() =>
-        Promise.resolve({ token: 'XPTO', tipo: UserType.ALUNO, nome: 'John' })
-      )
+    await fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-aluno')
     })
   })
 
-  it('deve redirecionar para dashboard de atendente', async () => {
-    fillFormToSubmit()
-
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
-      Promise.resolve({
+  it('should redirect to dashboard-atendente when user is a volunteer', async () => {
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+      return Promise.resolve({
         token: 'XPTO',
         tipo: UserType.ATENDENTE,
-        nome: 'John'
+        nome: 'John',
+        refreshToken: 'XPTO'
       })
-    )
+    })
+
+    await fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-atendente')
     })
   })
 
-  it('deve redirecionar para dashboard de supervisor', async () => {
-    fillFormToSubmit()
-
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() =>
-      Promise.resolve({
+  it('should redirect to dashboard-supervisor when user is a supervisor', async () => {
+    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+      return Promise.resolve({
         token: 'XPTO',
         tipo: UserType.SUPERVISOR,
-        nome: 'John'
+        nome: 'John',
+        refreshToken: 'XPTO'
       })
-    )
+    })
+
+    await fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-supervisor')
@@ -130,11 +171,11 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve submeter formulário e chamar callback de error', async () => {
-    fillFormToSubmit()
-
     jest
       .spyOn(authServiceMock, 'login')
       .mockImplementation(() => Promise.reject())
+
+    await fillFormToSubmit()
 
     await waitFor(() => {
       expect(authServiceMock.login).toBeCalled()

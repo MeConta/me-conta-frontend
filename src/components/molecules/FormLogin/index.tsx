@@ -3,7 +3,7 @@ import { Button } from 'components/atoms/Button'
 import { PasswordField } from 'components/atoms/PasswordField'
 import { TextField } from 'components/atoms/TextField'
 import router from 'next/router'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
 import { redirects } from 'utils/routes/redirects'
@@ -48,7 +48,7 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
       const redirect = redirects[tipo]
 
       if (redirect) {
-        router.push(redirect)
+        await router.push(redirect)
       }
     } catch (error) {
       handleError(error as BackendError)
@@ -66,13 +66,15 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
 
   const {
     register,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
-    handleSubmit,
-    control
+    formState: { errors, isSubmitting, isValid },
+    handleSubmit
   } = useForm({
     resolver: yupResolver(SigninSchema),
-    defaultValues: initialValues
+    defaultValues: initialValues,
+    mode: 'onChange'
   })
+
+  const buttonDisabled: boolean = isSubmitting || !isValid
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -81,23 +83,13 @@ export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
         error={errors.email?.message}
         {...register('email')}
       />
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <PasswordField
-            label="Senha"
-            error={errors.password?.message}
-            {...field}
-          />
-        )}
+      <PasswordField
+        label="Senha"
+        error={errors.password?.message}
+        {...register('password')}
       />
       <S.ButtonContainer>
-        <Button
-          radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
-          type="submit"
-        >
+        <Button radius="square" disabled={buttonDisabled} type="submit">
           ENTRAR
         </Button>
       </S.ButtonContainer>

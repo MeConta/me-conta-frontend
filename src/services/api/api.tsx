@@ -27,6 +27,7 @@ api.interceptors.response.use(
   },
   (err: AxiosError) => {
     return new Promise((resolve, reject) => {
+      console.log('error', err.response)
       if (
         err.response?.status === 401 &&
         err.config &&

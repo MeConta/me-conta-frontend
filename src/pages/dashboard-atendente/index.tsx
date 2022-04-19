@@ -33,7 +33,11 @@ function VolunteerDashboard() {
       const fetchAgendaSlots = await agendaService.listSlots(userData.id)
 
       if (fetchAgendaSlots && fetchAgendaSlots.length) {
-        setSlotsReserved(fetchAgendaSlots[0].slots)
+        console.log('fecthed slots', fetchAgendaSlots[0].slots)
+        const validSlots = fetchAgendaSlots[0].slots.filter(
+          (slot) => new Date(slot.inicio) > new Date()
+        )
+        setSlotsReserved(validSlots)
       }
     }
 
@@ -61,7 +65,7 @@ function VolunteerDashboard() {
           (date) => date.id !== id
         )
         setSlotsReserved(newDatesReserved)
-        emit({ type: ToastType.INFO, message: 'Slot eliminado com sucesso' })
+        emit({ type: ToastType.SUCCESS, message: 'Slot eliminado com sucesso' })
         setIsLoadingDates(false)
       })
       .catch(() => {

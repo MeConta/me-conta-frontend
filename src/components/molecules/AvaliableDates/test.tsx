@@ -43,7 +43,7 @@ const DATES: SlotResponseInterface[] = [
 describe('<AvailableDates />', () => {
   const onDelete = jest.fn()
 
-  const excluirBoolean: boolean = false
+  const excluirBoolean: boolean = true
 
   const elements = () => {
     return {
@@ -59,7 +59,7 @@ describe('<AvailableDates />', () => {
     render(<AvailableDates dates={[]} onDelete={onDelete} />)
     expect(
       screen.getByText(
-        'Não há marcações registadas, seleccione uma no calendário'
+        'Não há marcações futuras registadas, seleccione uma no calendário'
       )
     ).toBeInTheDocument()
   })

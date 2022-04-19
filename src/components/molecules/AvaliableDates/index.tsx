@@ -97,7 +97,7 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
     })
     .sort(sortDates)
 
-  const excluirBoolean: boolean = true
+  const deleteButtonBoolean: boolean = true
 
   return (
     <S.Wrapper>
@@ -120,7 +120,7 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
                       minute: '2-digit'
                     })}
                   </div>
-                  {excluirBoolean ? (
+                  {deleteButtonBoolean ? (
                     <Button
                       color="secondary"
                       radius="square"
@@ -140,7 +140,9 @@ export function AvailableDates({ dates, onDelete }: AvailableDatesProps) {
         </Slider>
       ) : (
         <div className="no-dates-container">
-          <div>Não há marcações registadas, seleccione uma no calendário</div>
+          <div>
+            Não há marcações futuras registadas, seleccione uma no calendário
+          </div>
         </div>
       )}
     </S.Wrapper>
