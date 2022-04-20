@@ -63,7 +63,8 @@ describe('<FormCadastro/>', () => {
 
   beforeEach(async () => {
     jest.spyOn(signupServiceMock, 'initialSignup').mockResolvedValue({
-      token: 'MOCKED_TOKEN'
+      token: 'MOCKED_TOKEN',
+      refreshToken: 'REFRESH_TOKEN'
     })
   })
   it('deve renderizar o formulário de cadastro ', async () => {

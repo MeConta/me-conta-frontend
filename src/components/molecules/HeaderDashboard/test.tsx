@@ -10,8 +10,8 @@ describe('<HeaderDashboard />', () => {
     useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
-        nome: 'John Doe',
-        tipo: '0'
+        name: 'John Doe',
+        type: '0'
       }
     }))
   })
@@ -20,7 +20,7 @@ describe('<HeaderDashboard />', () => {
     jest.clearAllMocks()
   })
 
-  it('deve mostrar a logo do meconta', () => {
+  it('should show MeConta logo', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(
@@ -28,13 +28,13 @@ describe('<HeaderDashboard />', () => {
     ).toBeInTheDocument()
   })
 
-  it('não deve mostrar links quando não conectado', () => {
+  it('should not show links when is not connected', () => {
     // @ts-ignore
     useAuthContext.mockImplementation(() => ({
       isLoggedIn: false,
       session: {
-        nome: 'John Doe',
-        tipo: '0'
+        name: 'John Doe',
+        type: '0'
       }
     }))
 
@@ -44,7 +44,7 @@ describe('<HeaderDashboard />', () => {
     expect(screen.getByRole('button', { name: 'Acessar' })).toBeInTheDocument()
   })
 
-  it('deve renderizar os links do aluno', () => {
+  it('should render student links', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(screen.getByRole('link', { name: 'Agenda' })).toBeInTheDocument()
@@ -52,13 +52,13 @@ describe('<HeaderDashboard />', () => {
     expect(screen.queryByText('Meus horários')).toBeNull()
   })
 
-  it('deve renderizar os links do atendente', () => {
+  it('should render volunteer links', () => {
     // @ts-ignore
     useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
-        nome: 'John Doe',
-        tipo: '2'
+        name: 'John Doe',
+        type: '2'
       }
     }))
 
@@ -71,13 +71,13 @@ describe('<HeaderDashboard />', () => {
     ).toBeInTheDocument()
   })
 
-  it('deve renderizar os links do administrador', () => {
+  it('should render administrator links', () => {
     // @ts-ignore
     useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
-        nome: 'John Doe',
-        tipo: '3'
+        name: 'John Doe',
+        type: '3'
       }
     }))
 
@@ -90,13 +90,13 @@ describe('<HeaderDashboard />', () => {
     expect(screen.getByRole('link', { name: 'Alunos' })).toBeInTheDocument()
   })
 
-  it('deve renderizar os links do supervisor', () => {
+  it('should render supervisor links', () => {
     // @ts-ignore
     useAuthContext.mockImplementation(() => ({
       isLoggedIn: true,
       session: {
-        nome: 'John Doe',
-        tipo: '1'
+        name: 'John Doe',
+        type: '1'
       }
     }))
 
@@ -106,14 +106,14 @@ describe('<HeaderDashboard />', () => {
     expect(screen.getByRole('link', { name: 'Meu perfil' })).toBeInTheDocument()
   })
 
-  it('deve renderizar o nome do usuário', () => {
+  it('should render the user name', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(screen.getByText('Olá,')).toBeInTheDocument()
     expect(screen.getByText('John Doe')).toBeInTheDocument()
   })
 
-  it('deve renderizar o botao para fazer logout', () => {
+  it('should render the logout button when the user is logged in', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(screen.getByText('Sair').closest('button')).toBeInTheDocument()

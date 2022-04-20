@@ -123,15 +123,15 @@ export function FormCadastro(props: {
       setEmail(email)
 
       authCtx.handleLogin({
-        nome: name,
-        tipo: tipo.toString(),
+        name: name,
+        type: tipo.toString(),
         token,
         refreshToken
       })
 
       props.handleSuccess({ nome: name, email, senha: password, tipo })
     } catch (e) {
-      props.handleError(e)
+      props.handleError(e as BackendError)
     }
   }
 

@@ -32,13 +32,13 @@ export const authenticatedRoute = (
         return
       }
       if (
-        authCtx.session.tipo &&
+        authCtx.session.type &&
         !userRoleIsAuthorized({
-          userRole: +authCtx.session.tipo,
+          userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
         })
       ) {
-        const route = redirects[+authCtx.session.tipo]
+        const route = redirects[+authCtx.session.type]
         router.push(route)
       }
     }, [authCtx, router])

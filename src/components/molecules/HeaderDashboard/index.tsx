@@ -28,8 +28,8 @@ export default function HeaderDashboard({
     router.push('/login')
   }
 
-  const links = !!authCtx.session.tipo
-    ? headerDashboardLinks[parseInt(authCtx.session.tipo)]
+  const links = !!authCtx.session.type
+    ? headerDashboardLinks[parseInt(authCtx.session.type)]
     : []
 
   const menuToggleClass: string = menuToggle ? 'open' : ''
@@ -71,7 +71,7 @@ export default function HeaderDashboard({
             <div className="userinfo-container">
               <div className="greeting-container">
                 {'Olá, '}
-                <b>{userName || authCtx?.session?.nome}</b>
+                <b>{userName || authCtx?.session?.name}</b>
               </div>
 
               <button className="logout" onClick={logoutHandler}>
