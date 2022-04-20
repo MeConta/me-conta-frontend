@@ -1,7 +1,6 @@
 import { AuthService } from './auth-service'
 
 import * as axios from 'axios'
-import { UserType } from '../../enums/user-type.enum'
 
 describe('AuthService', () => {
   let service: AuthService
@@ -13,32 +12,12 @@ describe('AuthService', () => {
     jest.clearAllMocks()
   })
 
-  it('Deve instanciar o serviço', () => {
+  it('Should instantiate the service', () => {
     expect(service).toBeDefined()
   })
 
-  it('Must do a post request to /auth/login/', async () => {
-    jest.spyOn(axios.default, 'post').mockResolvedValue({
-      data: {
-        token: 'mocked',
-        tipo: UserType.ATENDENTE,
-        nome: 'Jack Tester'
-      }
-    })
-    await service.login({
-      email: 'teste@teste.com',
-      senha: 's3nh$F0R!3'
-    })
-    expect(axios.default.post).toBeCalled()
-    expect(axios.default.post).toReturn()
-    expect(axios.default.post).toBeCalledWith('/auth/login', {
-      password: 's3nh$F0R!3',
-      username: 'teste@teste.com'
-    })
-  })
-
-  it('Must do a post request to /senha/recuperacao/', async () => {
-    jest.spyOn(axios.default, 'post')
+  it('Should do a post request to /senha/recuperacao/', async () => {
+    jest.spyOn(axios.default, 'post').mockResolvedValue({ data: 'data' })
     await service.recuperarSenha('teste@teste.com')
     expect(axios.default.post).toBeCalled()
     expect(axios.default.post).toBeCalledWith('/senha/recuperacao/', {
@@ -46,8 +25,8 @@ describe('AuthService', () => {
     })
   })
 
-  it('Must do a post request to /senha/reset/', async () => {
-    jest.spyOn(axios.default, 'post')
+  it('Should do a post request to /senha/reset/', async () => {
+    jest.spyOn(axios.default, 'post').mockResolvedValue({ data: 'data' })
     await service.resetarSenha({
       hash: 'hash',
       senha: 's3nh$F0R!3'
