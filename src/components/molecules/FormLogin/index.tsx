@@ -8,7 +8,7 @@ import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
 import { redirects } from 'utils/routes/redirects'
 import * as Yup from 'yup'
-import { IAuthService } from '../../../services/auth-services/auth-service'
+import { api } from '../../../services/api/api'
 
 import * as S from './styles'
 
@@ -18,7 +18,6 @@ type FormLoginValues = {
 }
 
 type FormLoginProps = {
-  authService: IAuthService
   handleError: (error: BackendError) => void
 }
 
@@ -28,24 +27,26 @@ const ERRORS = {
   REQUIRED_PASSWORD: `A senha é obrigatório`
 }
 
-export const FormLogin = ({ authService, handleError }: FormLoginProps) => {
-  const authCtx = useAuthContext()
+export const FormLogin = ({ handleError }: FormLoginProps) => {
+  const { handleLogin } = useAuthContext()
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
-      const { token, tipo, nome, refreshToken } = await authService.login({
-        email,
-        senha: password
+      const response = await api.post('/auth/login', {
+        username: email,
+        password: password
       })
 
-      authCtx.handleLogin({
-        nome,
-        tipo: tipo.toString(),
-        token,
-        refreshToken
+      const typeInt = parseInt(response.data.tipo, 10)
+
+      handleLogin({
+        name: response.data.nome,
+        type: response.data.tipo,
+        token: response.data.token,
+        refreshToken: response.data.refreshToken
       })
 
-      const redirect = redirects[tipo]
+      const redirect = redirects[typeInt]
 
       if (redirect) {
         await router.push(redirect)

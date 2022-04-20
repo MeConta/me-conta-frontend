@@ -33,7 +33,6 @@ function VolunteerDashboard() {
       const fetchAgendaSlots = await agendaService.listSlots(userData.id)
 
       if (fetchAgendaSlots && fetchAgendaSlots.length) {
-        console.log('fecthed slots', fetchAgendaSlots[0].slots)
         const validSlots = fetchAgendaSlots[0].slots.filter(
           (slot) => new Date(slot.inicio) > new Date()
         )

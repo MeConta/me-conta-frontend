@@ -17,8 +17,8 @@ const AuthorizationContext = createContext<AuthServiceProps>(
 )
 
 type SessionData = {
-  nome: string
-  tipo: string
+  name: string
+  type: string
   token: string
   refreshToken: string
 }
@@ -60,24 +60,25 @@ export const AuthorizationProvider = (
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     isTokenValid(decodedToken)
   )
-  const [nome, setNome] = useState<string | null>(null)
-  const [tipo, setTipo] = useState<string | null>(null)
+
+  const [name, setName] = useState<string | null>(null)
+  const [type, setType] = useState<string | null>(null)
 
   useEffect(() => {
     if (isTokenValid(decodedToken)) {
       setIsLoggedIn(true)
-      setNome(nomeCookie)
-      setTipo(decodedToken?.roles?.[0].toString() as string)
+      setName(nomeCookie)
+      setType(decodedToken?.roles?.[0].toString() as string)
     } else {
       setIsLoggedIn(false)
     }
-  }, [decodedToken])
+  }, [decodedToken, nomeCookie])
 
   const loginHandler = (session: SessionData) => {
-    setNome(session.nome)
-    setTipo(session.tipo)
+    setName(session.name)
+    setType(session.type.toString())
     setCookie(undefined, CookieKeys.TOKEN, session.token)
-    setCookie(undefined, CookieKeys.NAME, session.nome)
+    setCookie(undefined, CookieKeys.NAME, session.name)
     setCookie(undefined, CookieKeys.REFRESH_TOKEN, session.refreshToken)
     setIsLoggedIn(true)
   }
@@ -86,8 +87,8 @@ export const AuthorizationProvider = (
     destroyCookie(null, CookieKeys.TOKEN)
     destroyCookie(null, CookieKeys.NAME)
     destroyCookie(null, CookieKeys.REFRESH_TOKEN)
-    setNome(null)
-    setTipo(null)
+    setName(null)
+    setType(null)
     setIsLoggedIn(false)
 
     if (autoLogout) {
@@ -101,8 +102,8 @@ export const AuthorizationProvider = (
   }
 
   const session: SessionData = {
-    nome: nome || '',
-    tipo: tipo || '',
+    name: name || '',
+    type: type || '',
     token: tokenCookie || '',
     refreshToken: refreshTokenCookie || ''
   }

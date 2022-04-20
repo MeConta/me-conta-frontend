@@ -1,16 +1,8 @@
 import userEvent from '@testing-library/user-event'
-import { UserType } from 'enums/user-type.enum'
-import {
-  fireEvent,
-  render,
-  RenderResult,
-  screen,
-  waitFor,
-  act
-} from 'utils/tests/helpers'
+import { fireEvent, render, screen, waitFor, act } from 'utils/tests/helpers'
 import { FormLogin } from '.'
 import router from '../../../../__mocks__/next/router'
-import { IAuthService } from '../../../services/auth-services/auth-service'
+import { api } from '../../../services/api/api'
 
 jest.mock('store/auth-context', () => {
   const useAuthContext = () => {
@@ -49,22 +41,16 @@ const fillFormToSubmit = async () => {
 }
 
 describe('<FormLogin/>', () => {
-  let renderResult: RenderResult
-  const authServiceMock: IAuthService = {
-    logout: jest.fn(),
-    login: jest.fn()
-  }
   const handleErrorMock = jest.fn()
 
   beforeEach(() => {
-    renderResult = act(() => {
-      render(
-        <FormLogin
-          authService={authServiceMock}
-          handleError={handleErrorMock}
-        />
-      )
+    act(() => {
+      render(<FormLogin handleError={handleErrorMock} />)
     })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   it('should render the login form fields', () => {
@@ -103,29 +89,33 @@ describe('<FormLogin/>', () => {
   })
 
   it('should call login service when filling the form', async () => {
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+    jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
-        token: 'XPTO',
-        tipo: UserType.ALUNO,
-        nome: 'John',
-        refreshToken: 'XPTO'
+        data: {
+          token: 'XPTO',
+          tipo: '0',
+          nome: 'John',
+          refreshToken: 'XPTO'
+        }
       })
     })
 
     await fillFormToSubmit()
 
     await waitFor(() => {
-      expect(authServiceMock.login).toBeCalledTimes(1)
+      expect(api.post).toBeCalledTimes(1)
     })
   })
 
   it('should redirect to dashboard-aluno when the user is a student', async () => {
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+    jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
-        token: 'XPTO',
-        tipo: UserType.ALUNO,
-        nome: 'John',
-        refreshToken: 'XPTO'
+        data: {
+          token: 'XPTO',
+          tipo: '0',
+          nome: 'John',
+          refreshToken: 'XPTO'
+        }
       })
     })
 
@@ -137,12 +127,14 @@ describe('<FormLogin/>', () => {
   })
 
   it('should redirect to dashboard-atendente when user is a volunteer', async () => {
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+    jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
-        token: 'XPTO',
-        tipo: UserType.ATENDENTE,
-        nome: 'John',
-        refreshToken: 'XPTO'
+        data: {
+          token: 'XPTO',
+          tipo: '2',
+          nome: 'John',
+          refreshToken: 'XPTO'
+        }
       })
     })
 
@@ -154,12 +146,14 @@ describe('<FormLogin/>', () => {
   })
 
   it('should redirect to dashboard-supervisor when user is a supervisor', async () => {
-    jest.spyOn(authServiceMock, 'login').mockImplementation(() => {
+    jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
-        token: 'XPTO',
-        tipo: UserType.SUPERVISOR,
-        nome: 'John',
-        refreshToken: 'XPTO'
+        data: {
+          token: 'XPTO',
+          tipo: '1',
+          nome: 'John',
+          refreshToken: 'XPTO'
+        }
       })
     })
 
@@ -171,14 +165,12 @@ describe('<FormLogin/>', () => {
   })
 
   it('deve submeter formulário e chamar callback de error', async () => {
-    jest
-      .spyOn(authServiceMock, 'login')
-      .mockImplementation(() => Promise.reject())
+    jest.spyOn(api, 'post').mockImplementation(() => Promise.reject())
 
     await fillFormToSubmit()
 
     await waitFor(() => {
-      expect(authServiceMock.login).toBeCalled()
+      expect(api.post).toBeCalledTimes(1)
       expect(handleErrorMock).toBeCalled()
     })
   })
