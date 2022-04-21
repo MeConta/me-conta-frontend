@@ -30,14 +30,22 @@ const ERRORS = {
 export const FormLogin = ({ handleError }: FormLoginProps) => {
   const { handleLogin } = useAuthContext()
 
+  const handleDashboardRedirection = async (userType: string) => {
+    const typeRedirectionIndex = parseInt(userType, 10)
+
+    const redirect = redirects[typeRedirectionIndex]
+
+    if (redirect) {
+      await router.push(redirect)
+    }
+  }
+
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
       const response = await api.post('/auth/login', {
         username: email,
         password: password
       })
-
-      const typeInt = parseInt(response.data.tipo, 10)
 
       handleLogin({
         name: response.data.nome,
@@ -46,11 +54,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         refreshToken: response.data.refreshToken
       })
 
-      const redirect = redirects[typeInt]
-
-      if (redirect) {
-        await router.push(redirect)
-      }
+      await handleDashboardRedirection(response.data.tipo)
     } catch (error) {
       handleError(error as BackendError)
     }

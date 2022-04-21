@@ -21,17 +21,15 @@ const fillFormToSubmit = async () => {
   const password = screen.getByRole('password', { name: 'Senha' })
   const submit = screen.getByRole('button', { name: 'ENTRAR' })
 
-  fireEvent.input(email, {
-    target: {
-      value: 'email@teste.com'
-    }
-  })
+  expect(email).toBeInTheDocument()
+  expect(password).toBeInTheDocument()
+  expect(submit).toBeInTheDocument()
 
-  fireEvent.input(password, {
-    target: {
-      value: 'S3nh@valid@'
-    }
-  })
+  userEvent.type(email, 'email@test.com')
+  userEvent.type(password, 'P4ssw0rd')
+
+  expect(email).toHaveValue('email@test.com')
+  expect(password).toHaveValue('P4ssw0rd')
 
   await waitFor(() => {
     expect(submit).not.toBeDisabled()
@@ -53,10 +51,10 @@ describe('<FormLogin/>', () => {
     jest.clearAllMocks()
   })
 
-  it('should render the login form fields', () => {
-    expect(screen.getByRole('textbox', { name: 'E-mail' })).toBeInTheDocument()
-    expect(screen.getByRole('password', { name: 'Senha' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /entrar/i })).toBeInTheDocument()
+  it('when the button is disabled', () => {
+    const button = screen.getByRole('button', { name: 'ENTRAR' })
+
+    expect(button).toBeDisabled()
   })
 
   it('should show an error in the email field', async () => {
@@ -64,9 +62,7 @@ describe('<FormLogin/>', () => {
 
     userEvent.type(email, 'meuemailcom')
 
-    await waitFor(() => {
-      expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
-    })
+    expect(await screen.findByText(/E-mail inválido/)).toBeInTheDocument()
   })
 
   it('should show an error in the password field', async () => {
@@ -83,9 +79,7 @@ describe('<FormLogin/>', () => {
       }
     })
 
-    await waitFor(() => {
-      expect(screen.getByText(/A senha é obrigatório/)).toBeInTheDocument()
-    })
+    expect(await screen.findByText(/A senha é obrigatório/)).toBeInTheDocument()
   })
 
   it('should call login service when filling the form', async () => {
@@ -100,7 +94,7 @@ describe('<FormLogin/>', () => {
       })
     })
 
-    await fillFormToSubmit()
+    fillFormToSubmit()
 
     await waitFor(() => {
       expect(api.post).toBeCalledTimes(1)
@@ -119,7 +113,7 @@ describe('<FormLogin/>', () => {
       })
     })
 
-    await fillFormToSubmit()
+    fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-aluno')
@@ -138,7 +132,7 @@ describe('<FormLogin/>', () => {
       })
     })
 
-    await fillFormToSubmit()
+    fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-atendente')
@@ -157,7 +151,7 @@ describe('<FormLogin/>', () => {
       })
     })
 
-    await fillFormToSubmit()
+    fillFormToSubmit()
 
     await waitFor(() => {
       expect(router.push).toBeCalledWith('/dashboard-supervisor')
@@ -167,7 +161,7 @@ describe('<FormLogin/>', () => {
   it('deve submeter formulário e chamar callback de error', async () => {
     jest.spyOn(api, 'post').mockImplementation(() => Promise.reject())
 
-    await fillFormToSubmit()
+    fillFormToSubmit()
 
     await waitFor(() => {
       expect(api.post).toBeCalledTimes(1)
