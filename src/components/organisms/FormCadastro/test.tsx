@@ -32,21 +32,29 @@ describe('<FormCadastro/>', () => {
       email: screen.getByRole('textbox', { name: 'E-mail' }),
       password: screen.getByRole('password', { name: 'Senha' }),
       confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
-      tipo: screen.getByLabelText(TYPES.ALUNO.label),
+      studentOption: screen.getByLabelText(TYPES.ALUNO.label),
+      volunteerOption: screen.getByLabelText(TYPES.ATENDENTE.label),
       button: screen.getByRole('button'),
       termsConfirm: screen.getByRole('checkbox')
     }
   }
 
   const fillForm = () => {
-    const { name, email, password, confirm, tipo, button, termsConfirm } =
-      elements()
+    const {
+      name,
+      email,
+      password,
+      confirm,
+      studentOption,
+      button,
+      termsConfirm
+    } = elements()
 
     userEvent.type(name, 'Nome')
     userEvent.type(email, 'teste@teste.com')
     userEvent.type(password, '!@#ASD!@#AASASD')
     userEvent.type(confirm, '!@#ASD!@#AASASD')
-    fireEvent.click(tipo)
+    fireEvent.click(studentOption)
     fireEvent.click(termsConfirm)
     fireEvent.click(button)
   }
@@ -67,23 +75,27 @@ describe('<FormCadastro/>', () => {
       refreshToken: 'REFRESH_TOKEN'
     })
   })
-  it('deve renderizar o formulário de cadastro ', async () => {
-    const { name, email, password, confirm, tipo } = elements()
+
+  it('render the register form', async () => {
+    const { name, email, password, confirm, studentOption, volunteerOption } =
+      elements()
 
     expect(name).toBeInTheDocument()
     expect(email).toBeInTheDocument()
     expect(password).toBeInTheDocument()
     expect(confirm).toBeInTheDocument()
-    expect(tipo).toBeInTheDocument()
+    expect(studentOption).toBeInTheDocument()
+    expect(volunteerOption).toBeInTheDocument()
   })
-  it('deve exibir erro de nome inválido', async () => {
+
+  it('when inserting an empty name', async () => {
     const { button } = elements()
     fireEvent.click(button)
     await waitFor(() => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
     })
   })
-  it('deve exibir erro de email inválido', async () => {
+  it('when inserting an invalid email', async () => {
     const { email, button } = elements()
     userEvent.type(email, 'email')
     fireEvent.click(button)
@@ -92,7 +104,7 @@ describe('<FormCadastro/>', () => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
     })
   })
-  it('deve exibir erro de senha inválido', async () => {
+  it('when inserting a weak password', async () => {
     const { password, button } = elements()
     userEvent.type(password, 'senha')
     fireEvent.click(button)
@@ -101,7 +113,7 @@ describe('<FormCadastro/>', () => {
       expect(screen.getByText(/A senha deve ser forte/)).toBeInTheDocument()
     })
   })
-  it('deve exibir erro de senhas diferentes', async () => {
+  it('when inserting 2 different passwords in the "password" and "repeat password" field', async () => {
     const { password, confirm, button } = elements()
 
     userEvent.type(password, 'senha')
@@ -112,7 +124,7 @@ describe('<FormCadastro/>', () => {
       expect(screen.getByText(/As senhas devem ser iguais/)).toBeInTheDocument()
     })
   })
-  it('deve chamar o signup service com sucesso', async () => {
+  it('when filling correctly the form', async () => {
     await fillForm()
 
     await waitFor(() => {
@@ -125,7 +137,7 @@ describe('<FormCadastro/>', () => {
       expect(handleSuccessMock).toBeCalled()
     })
   })
-  it('deve dar erro ao chamar o signup service', async () => {
+  it('when the call to the service return an error', async () => {
     jest
       .spyOn(signupServiceMock, 'initialSignup')
       .mockImplementation(() =>

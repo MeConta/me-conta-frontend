@@ -49,11 +49,6 @@ export const TYPES = {
     label:
       'Quero oferecer apoio e orientação psicológica (Voluntário Atendente)',
     value: 2
-  },
-  SUPERVISOR: {
-    label:
-      'Quero supervisionar estudantes de psicologia (Voluntário Supervisor)',
-    value: 1
   }
 }
 
