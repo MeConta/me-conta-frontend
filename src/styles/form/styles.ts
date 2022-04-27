@@ -10,6 +10,22 @@ export const WrapperFields = styled.section`
   }
 `
 
+type ButtonProps = {
+  size?: 'desk-large' | 'desk-xlarge'
+}
+
+export const Paragraph = styled.p<Pick<ButtonProps, 'size'>>`
+  ${({ theme, size }) => css`
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    padding: 1rem;
+    color: ${theme.colors.lightGray};
+    font-size: ${theme.font.sizes[size ?? 'desk-large']};
+    font-style: ${theme.font.light};
+  `}
+`
+
 export const Header = styled.p`
   ${({ theme }) => css`
     justify-content: center;

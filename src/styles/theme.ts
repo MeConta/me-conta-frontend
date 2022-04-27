@@ -40,6 +40,7 @@ export default {
     lightGray: '#848A8C',
     xlightGray: '#e6e6e6',
     gray: '#828282',
+    backgroundGray: '#F4F7F9',
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',
     black: '#000000'
@@ -60,5 +61,10 @@ export default {
     overlay: 30,
     modal: 40,
     alwaysOnTop: 50
+  },
+  screen: {
+    small: '768px',
+    medium: '1024px',
+    large: '1260px'
   }
 }

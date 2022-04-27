@@ -9,6 +9,7 @@ import { BackendError } from 'types/backend-error'
 import { redirects } from 'utils/routes/redirects'
 import * as Yup from 'yup'
 import { api } from '../../../services/api/api'
+import Link from 'next/link'
 
 import * as S from './styles'
 
@@ -93,8 +94,18 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         error={errors.password?.message}
         {...register('password')}
       />
+      <S.Link>
+        <Link href="/recuperacao-de-senha">
+          <S.AnchorLink>Esqueceu a senha?</S.AnchorLink>
+        </Link>
+      </S.Link>
       <S.ButtonContainer>
-        <Button radius="square" disabled={buttonDisabled} type="submit">
+        <Button
+          radius="square"
+          disabled={buttonDisabled}
+          type="submit"
+          color="primary"
+        >
           ENTRAR
         </Button>
       </S.ButtonContainer>

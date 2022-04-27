@@ -1,31 +1,49 @@
 import { WrapperForm } from 'components/molecules/WrapperForm'
-import Link from 'next/link'
 import { BackendError } from 'types/backend-error'
 import { FormLogin } from '../../components/molecules/FormLogin'
+import { Button } from 'components/atoms/Button'
 import * as F from '../../styles/form/styles'
-import * as S from '../../styles/pages/login/styles'
+import * as S from '../../styles/pages/styles'
+import { useRouter } from 'next/router'
 
 export default function Login() {
+  const router = useRouter()
+
+  const criarConta = function () {
+    router.push('/criar-conta')
+  }
+
   return (
-    <WrapperForm>
-      <F.WrapperFields>
-        <F.Header>Login</F.Header>
-        <FormLogin
-          handleError={(error: BackendError) => {
-            console.log(error)
-          }}
-        />
-        <S.Link>
-          <Link href="/criar-conta">
-            <a>Criar conta</a>
-          </Link>
-        </S.Link>
-        <S.Link>
-          <Link href="/recuperacao-de-senha">
-            <a>Esqueceu a senha?</a>
-          </Link>
-        </S.Link>
-      </F.WrapperFields>
-    </WrapperForm>
+    <S.ComponentWrapper>
+      <WrapperForm>
+        <F.WrapperFields>
+          <F.Paragraph size="desk-xlarge">
+            Faça seu login e comece seu atendimento!
+          </F.Paragraph>
+          <FormLogin
+            handleError={(error: BackendError) => {
+              console.log(error)
+            }}
+          />
+          <F.Paragraph>Quer fazer parte do Me Conta?</F.Paragraph>
+          <Button
+            radius="square"
+            onClick={criarConta}
+            type="submit"
+            color="secondary"
+            css={`
+              background-color: transparent;
+              border: 1px solid;
+              color: #de3163;
+              &:hover {
+                background-color: transparent;
+              }
+            `}
+          >
+            CRIE SUA CONTA
+          </Button>
+        </F.WrapperFields>
+      </WrapperForm>
+    </S.ComponentWrapper>
   )
 }
