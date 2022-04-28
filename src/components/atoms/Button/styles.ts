@@ -14,9 +14,9 @@ const wrapperModifiers = {
     font-size: ${theme.font.sizes['desk-xlarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
-  mobileLarge: (theme: DefaultTheme) => css`
+  mediumLarge: (theme: DefaultTheme) => css`
     min-height: 6rem;
-    font-size: ${theme.font.sizes['mob-xlarge']};
+    font-size: ${theme.font.sizes['desk-glarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
   `,
   primary: (theme: DefaultTheme) => css`

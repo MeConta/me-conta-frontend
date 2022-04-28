@@ -21,6 +21,7 @@ export default {
       'desk-small': '1.1rem',
       'desk-medium': '1.2rem',
       'desk-large': '1.5rem',
+      'desk-glarge': '1.8rem',
       'desk-xlarge': '2.2rem',
       'desk-xxlarge': '3rem',
       'mob-xsmall': '0.8rem',
@@ -47,7 +48,9 @@ export default {
     venetianRed: '#B2244D'
   },
   spacings: {
+    xxxsmall: '0.3rem',
     xxsmall: '0.8rem',
+    xgsmall: '1.13rem',
     xsmall: '1.6rem',
     small: '2.4rem',
     xmedium: '2.9rem',

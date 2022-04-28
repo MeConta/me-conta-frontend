@@ -15,6 +15,7 @@ export const AnchorLink = styled.a`
 
 export const Link = styled.div`
   ${({ theme }) => css`
+    margin-top: ${theme.spacings.xxxsmall};
     margin-bottom: ${theme.spacings.medium};
     font-size: 1.5rem;
   `}

@@ -25,9 +25,8 @@ export const Wrapper = styled.div<WrapperProps>`
 export const Label = styled.label`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes['desk-large']};
-    font-weight: ${theme.font.light};
+    font-weight: ${theme.font.bold};
     color: ${theme.colors.lightGray};
-    margin-left: ${theme.spacings.xxsmall};
 
     &[aria-required='true']:after {
       content: ' *';
@@ -42,7 +41,7 @@ export const InputWrapper = styled.div`
     align-items: center;
     border-radius: ${theme.border['btn-square-radius']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
-    margin-top: ${theme.spacings.xxsmall};
+    margin-top: ${theme.spacings.xgsmall};
     border: 0.1rem solid;
     border-color: ${theme.colors.lightGray};
 

@@ -87,11 +87,13 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
       <TextField
         label="E-mail"
         error={errors.email?.message}
+        required={true}
         {...register('email')}
       />
       <PasswordField
         label="Senha"
         error={errors.password?.message}
+        required={true}
         {...register('password')}
       />
       <S.Link>
@@ -102,10 +104,9 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
       <S.ButtonContainer>
         <Button
           radius="square"
-          disabled={buttonDisabled}
           type="submit"
           color="primary"
-          size="mobileLarge"
+          size="mediumLarge"
         >
           ENTRAR
         </Button>

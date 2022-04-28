@@ -34,7 +34,7 @@ export default function Login() {
             onClick={criarConta}
             type="submit"
             color="negative"
-            size="mobileLarge"
+            size="mediumLarge"
           >
             CRIE SUA CONTA
           </Button>
