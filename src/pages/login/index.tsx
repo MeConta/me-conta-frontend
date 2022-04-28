@@ -17,8 +17,9 @@ export default function Login() {
     <S.ComponentWrapper>
       <WrapperForm>
         <F.WrapperFields>
-          <F.Paragraph size="desk-xlarge">
-            Faça seu login e comece seu atendimento!
+          <F.Paragraph size="desk-xlarge" color="black">
+            Faça seu <F.BoldParagraph>login</F.BoldParagraph> e comece seu
+            atendimento!
           </F.Paragraph>
           <FormLogin
             handleError={(error: BackendError) => {
@@ -32,16 +33,8 @@ export default function Login() {
             radius="square"
             onClick={criarConta}
             type="submit"
-            color="secondary"
+            color="negative"
             size="mobileLarge"
-            css={`
-              background-color: transparent;
-              border: 1px solid;
-              color: #de3163;
-              &:hover {
-                background-color: transparent;
-              }
-            `}
           >
             CRIE SUA CONTA
           </Button>

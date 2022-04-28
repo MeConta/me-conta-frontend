@@ -31,7 +31,7 @@ const wrapperModifiers = {
     background: ${theme.colors.ceriseRed};
 
     &:hover {
-      background-color: ${theme.colors.maroonFlush};
+      background-color: ${theme.colors.venetianRed};
       transition: background-color 0.2s;
     }
   `,

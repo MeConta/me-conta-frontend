@@ -43,12 +43,14 @@ export default {
     backgroundGray: '#F4F7F9',
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    venetianRed: '#B2244D'
   },
   spacings: {
     xxsmall: '0.8rem',
     xsmall: '1.6rem',
     small: '2.4rem',
+    xmedium: '2.9rem',
     medium: '3.2rem',
     large: '4.0rem',
     xlarge: '4.8rem',
