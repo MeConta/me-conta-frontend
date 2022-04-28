@@ -51,10 +51,13 @@ describe('<FormLogin/>', () => {
     jest.clearAllMocks()
   })
 
-  it('when the button is disabled', () => {
+  it('when click on entrar button without fields filled should show an error', async () => {
     const button = screen.getByRole('button', { name: 'ENTRAR' })
 
-    expect(button).toBeDisabled()
+    userEvent.click(button)
+
+    expect(await screen.findByText(/E-mail é obrigatório/)).toBeInTheDocument()
+    expect(await screen.findByText(/A senha é obrigatório/)).toBeInTheDocument()
   })
 
   it('should show an error in the email field', async () => {

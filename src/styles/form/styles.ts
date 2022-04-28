@@ -10,6 +10,31 @@ export const WrapperFields = styled.section`
   }
 `
 
+type ButtonProps = {
+  size?: 'desk-large' | 'desk-xlarge'
+  margin?: 'xsmall'
+  color?: 'lightGray' | 'black'
+}
+
+export const BoldParagraph = styled.b`
+  ${({ theme }) => css`
+    font-weight: ${theme.font.bold};
+  `}
+`
+
+export const Paragraph = styled.p<
+  Pick<ButtonProps, 'size' | 'margin' | 'color'>
+>`
+  ${({ theme, size, margin, color }) => css`
+    text-align: center;
+    padding: 1rem;
+    color: ${theme.colors[color ?? 'lightGray']};
+    margin: ${margin ? theme.spacings[margin] : theme.zero};
+    font-size: ${theme.font.sizes[size ?? 'desk-large']};
+    font-weight: ${theme.font.normal};
+  `}
+`
+
 export const Header = styled.p`
   ${({ theme }) => css`
     justify-content: center;

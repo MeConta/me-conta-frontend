@@ -8,7 +8,7 @@ type ButtonTypes =
 
 export type ButtonProps = {
   children: React.ReactNode
-  size?: 'medium' | 'large'
+  size?: 'medium' | 'mediumLarge' | 'large'
   color?: 'primary' | 'secondary' | 'negative'
   radius?: 'round' | 'square'
   as?: ElementType

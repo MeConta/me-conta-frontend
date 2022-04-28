@@ -14,6 +14,11 @@ const wrapperModifiers = {
     font-size: ${theme.font.sizes['desk-xlarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
+  mediumLarge: (theme: DefaultTheme) => css`
+    min-height: 6rem;
+    font-size: ${theme.font.sizes['desk-glarge']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
+  `,
   primary: (theme: DefaultTheme) => css`
     background: ${theme.colors.cornflowerBlue};
 
@@ -26,7 +31,7 @@ const wrapperModifiers = {
     background: ${theme.colors.ceriseRed};
 
     &:hover {
-      background-color: ${theme.colors.maroonFlush};
+      background-color: ${theme.colors.venetianRed};
       transition: background-color 0.2s;
     }
   `,
@@ -64,6 +69,8 @@ export const Wrapper = styled.button<WrapperProps>`
     text-decoration: none;
     cursor: pointer;
     text-align: center;
+    font-family: Mulish;
+    font-weight: ${theme.font.bold};
 
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};

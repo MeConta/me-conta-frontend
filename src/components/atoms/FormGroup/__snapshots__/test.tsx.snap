@@ -15,9 +15,8 @@ exports[`<FormGroup/> should render error input 1`] = `
 
 .c2 {
   font-size: 1.5rem;
-  font-weight: 300;
+  font-weight: 700;
   color: #848A8C;
-  margin-left: 0.8rem;
 }
 
 .c2[aria-required='true']:after {
@@ -36,7 +35,7 @@ exports[`<FormGroup/> should render error input 1`] = `
   align-items: center;
   border-radius: 0.7rem;
   padding: 0.8rem 1.6rem;
-  margin-top: 0.8rem;
+  margin-top: 1.13rem;
   border: 0.1rem solid;
   border-color: #848A8C;
 }

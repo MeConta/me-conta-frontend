@@ -21,6 +21,7 @@ export default {
       'desk-small': '1.1rem',
       'desk-medium': '1.2rem',
       'desk-large': '1.5rem',
+      'desk-glarge': '1.8rem',
       'desk-xlarge': '2.2rem',
       'desk-xxlarge': '3rem',
       'mob-xsmall': '0.8rem',
@@ -40,14 +41,19 @@ export default {
     lightGray: '#848A8C',
     xlightGray: '#e6e6e6',
     gray: '#828282',
+    backgroundGray: '#F4F7F9',
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    venetianRed: '#B2244D'
   },
   spacings: {
+    xxxsmall: '0.3rem',
     xxsmall: '0.8rem',
+    xgsmall: '1.13rem',
     xsmall: '1.6rem',
     small: '2.4rem',
+    xmedium: '2.9rem',
     medium: '3.2rem',
     large: '4.0rem',
     xlarge: '4.8rem',
@@ -60,5 +66,11 @@ export default {
     overlay: 30,
     modal: 40,
     alwaysOnTop: 50
-  }
+  },
+  screen: {
+    small: '768px',
+    medium: '1024px',
+    large: '1260px'
+  },
+  zero: '0'
 }

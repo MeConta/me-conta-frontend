@@ -1,7 +1,24 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
 export const Form = styled.form`
   width: 100%;
+`
+
+export const AnchorLink = styled.a`
+  color: #de3163;
+  cursor: pointer;
+  text-decoration: underline;
+  &:visited {
+    color: #de3163;
+  }
+`
+
+export const Link = styled.div`
+  ${({ theme }) => css`
+    margin-top: ${theme.spacings.xxxsmall};
+    margin-bottom: ${theme.spacings.medium};
+    font-size: 1.5rem;
+  `}
 `
 
 export const ButtonContainer = styled.div`
@@ -10,9 +27,6 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   button {
-    width: 50%;
-    @media only screen and (max-width: 600px) {
-      width: 100%;
-    }
+    width: 100%;
   }
 `
