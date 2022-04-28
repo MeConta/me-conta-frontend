@@ -14,6 +14,11 @@ const wrapperModifiers = {
     font-size: ${theme.font.sizes['desk-xlarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
+  mobileLarge: (theme: DefaultTheme) => css`
+    min-height: 6rem;
+    font-size: ${theme.font.sizes['mob-xlarge']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
+  `,
   primary: (theme: DefaultTheme) => css`
     background: ${theme.colors.cornflowerBlue};
 
@@ -64,6 +69,8 @@ export const Wrapper = styled.button<WrapperProps>`
     text-decoration: none;
     cursor: pointer;
     text-align: center;
+    font-family: Mulish;
+    font-weight: ${theme.font.bold};
 
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};

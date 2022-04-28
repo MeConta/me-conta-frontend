@@ -25,12 +25,15 @@ export default function Login() {
               console.log(error)
             }}
           />
-          <F.Paragraph>Quer fazer parte do Me Conta?</F.Paragraph>
+          <F.Paragraph margin="xsmall">
+            Quer fazer parte do Me Conta?
+          </F.Paragraph>
           <Button
             radius="square"
             onClick={criarConta}
             type="submit"
             color="secondary"
+            size="mobileLarge"
             css={`
               background-color: transparent;
               border: 1px solid;

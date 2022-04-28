@@ -105,6 +105,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
           disabled={buttonDisabled}
           type="submit"
           color="primary"
+          size="mobileLarge"
         >
           ENTRAR
         </Button>

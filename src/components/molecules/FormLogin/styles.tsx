@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme, css } from 'styled-components'
 
 export const Form = styled.form`
   width: 100%;
@@ -14,8 +14,10 @@ export const AnchorLink = styled.a`
 `
 
 export const Link = styled.div`
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  ${({ theme }) => css`
+    margin-bottom: ${theme.spacings.medium};
+    font-size: 1.5rem;
+  `}
 `
 
 export const ButtonContainer = styled.div`

@@ -12,15 +12,17 @@ export const WrapperFields = styled.section`
 
 type ButtonProps = {
   size?: 'desk-large' | 'desk-xlarge'
+  margin?: 'xsmall'
 }
 
-export const Paragraph = styled.p<Pick<ButtonProps, 'size'>>`
-  ${({ theme, size }) => css`
+export const Paragraph = styled.p<Pick<ButtonProps, 'size' | 'margin'>>`
+  ${({ theme, size, margin }) => css`
     justify-content: center;
     text-align: center;
     display: flex;
     padding: 1rem;
     color: ${theme.colors.lightGray};
+    margin: ${margin ? theme.spacings[margin] : theme.zero};
     font-size: ${theme.font.sizes[size ?? 'desk-large']};
     font-style: ${theme.font.light};
   `}

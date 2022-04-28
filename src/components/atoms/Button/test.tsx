@@ -49,6 +49,14 @@ describe('<Button/>', () => {
     })
   })
 
+  it('should render the button with a mobile large size', () => {
+    render(<Button size="mobileLarge">button</Button>)
+    expect(screen.getByRole('button')).toHaveStyle({
+      'min-height': '6rem',
+      'font-size': '1.8rem'
+    })
+  })
+
   it('should render a button with secondary color', () => {
     render(<Button color="secondary">button</Button>)
     expect(screen.getByRole('button')).toHaveStyle({
