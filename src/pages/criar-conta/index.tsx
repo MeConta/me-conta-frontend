@@ -10,6 +10,15 @@ import Link from 'next/link'
 export default function CriarConta() {
   const { signupService } = useSignup()
   const router = useRouter()
+
+  const handleSuccess = async (type: UserType) => {
+    if (type === UserType.ALUNO) {
+      await router.push('/cadastro-aluno')
+    } else {
+      await router.push('/cadastro-voluntario')
+    }
+  }
+
   return (
     <WrapperForm>
       <F.WrapperFields>
@@ -17,11 +26,7 @@ export default function CriarConta() {
         <FormCadastro
           signupService={signupService}
           handleSuccess={async (form) => {
-            if (+form.tipo === UserType.ALUNO) {
-              await router.push('/cadastro-aluno')
-            } else {
-              await router.push('/cadastro-voluntario')
-            }
+            await handleSuccess(form.tipo)
           }}
           handleError={(error) => {
             console.error(error)
