@@ -38,9 +38,8 @@ export const Wrapper = styled.div<WrapperProps>`
 export const Label = styled.label`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes['desk-large']};
-    font-weight: ${theme.font.light};
+    font-weight: ${theme.font.bold};
     color: ${theme.colors.lightGray};
-    margin-left: ${theme.spacings.medium};
     padding-bottom: 2px;
 
     &[aria-required='true']:after {

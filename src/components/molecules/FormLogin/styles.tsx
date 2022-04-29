@@ -4,15 +4,6 @@ export const Form = styled.form`
   width: 100%;
 `
 
-export const AnchorLink = styled.a`
-  color: #de3163;
-  cursor: pointer;
-  text-decoration: underline;
-  &:visited {
-    color: #de3163;
-  }
-`
-
 export const Link = styled.div`
   ${({ theme }) => css`
     margin-top: ${theme.spacings.xxxsmall};

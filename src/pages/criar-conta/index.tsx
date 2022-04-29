@@ -3,9 +3,9 @@ import { FormCadastro } from 'components/organisms/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
 import { useSignup } from 'services/signup-service/signup-service'
 import { WrapperForm } from '../../components/molecules/WrapperForm'
-import * as S from '../../styles/pages/criar-conta/styles'
+import * as P from '../../styles/pages/styles'
 import * as F from '../../styles/form/styles'
-import Link from 'next/link'
+import { Button } from 'components/atoms/Button'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
@@ -19,31 +19,38 @@ export default function CriarConta() {
     }
   }
 
-  return (
-    <WrapperForm>
-      <F.WrapperFields>
-        <F.Header>Criar Conta</F.Header>
-        <FormCadastro
-          signupService={signupService}
-          handleSuccess={async (form) => {
-            await handleSuccess(form.tipo)
-          }}
-          handleError={(error) => {
-            console.error(error)
-          }}
-        />
-        <S.Link>
-          Já possui uma conta? &nbsp;
-          <Link href="/login">
-            <a>Entrar</a>
-          </Link>
-          .
-        </S.Link>
+  const redirectToLogin = function () {
+    router.push('/login')
+  }
 
-        <S.RequiredFieldsLabelContainer>
-          <p>*Os campos com asteristico são de preenchimento obrigatório</p>
-        </S.RequiredFieldsLabelContainer>
-      </F.WrapperFields>
-    </WrapperForm>
+  return (
+    <P.ComponentWrapper>
+      <WrapperForm>
+        <F.WrapperFields>
+          <F.Paragraph size="desk-xlarge" color="black">
+            <F.BoldParagraph>Criar Conta</F.BoldParagraph>
+          </F.Paragraph>
+          <FormCadastro
+            signupService={signupService}
+            handleSuccess={async (form) => {
+              await handleSuccess(form.tipo)
+            }}
+            handleError={(error) => {
+              console.error(error)
+            }}
+          />
+          <F.Paragraph margin="xsmall">Já possui uma conta?</F.Paragraph>
+          <Button
+            radius="square"
+            type="submit"
+            color="negative"
+            size="mediumLarge"
+            onClick={redirectToLogin}
+          >
+            ENTRAR
+          </Button>
+        </F.WrapperFields>
+      </WrapperForm>
+    </P.ComponentWrapper>
   )
 }

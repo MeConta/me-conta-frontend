@@ -9,6 +9,8 @@ describe('<RadioField/>', () => {
     { label: 'test-3', value: 3 }
   ]
 
+  const mockChange = jest.fn()
+
   it('should not change value with text input', async () => {
     render(
       <RadioField
@@ -17,6 +19,7 @@ describe('<RadioField/>', () => {
         data-testid="radio"
         label="radio-label"
         readOnly
+        onChange={mockChange}
       />
     )
     expect(screen.getByTestId('radio')).toBeInTheDocument()
@@ -30,14 +33,38 @@ describe('<RadioField/>', () => {
         data-testid="radio"
         label="radio-label"
         readOnly
+        onChange={mockChange}
       />
     )
     const elements = screen.getAllByTestId('radio')
     expect(elements.length).toBe(options.length)
   })
 
+  it('should render option label with text between parentheses in bold', async () => {
+    const boldOptions = [
+      { label: 'teste (aluno)', value: 0 },
+      { label: 'teste (atendente voluntário)', value: 1 },
+      { label: 'teste 3', value: 1 }
+    ]
+
+    const { container } = render(
+      <RadioField
+        name="name"
+        options={boldOptions}
+        data-testid="radio"
+        label="radio-label"
+        readOnly
+        onChange={mockChange}
+      />
+    )
+
+    const boldTexts = container.querySelectorAll('b')
+    expect(boldTexts).toHaveLength(2)
+    expect(boldTexts[0]).toHaveTextContent('(aluno)')
+    expect(boldTexts[1]).toHaveTextContent('(atendente voluntário)')
+  })
+
   it('should disable input with disabled propriety', async () => {
-    const mockChange = jest.fn()
     render(
       <RadioField
         name="name"
@@ -66,6 +93,7 @@ describe('<RadioField/>', () => {
         options={options}
         error={errorMessage}
         readOnly
+        onChange={mockChange}
       />
     )
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
@@ -80,6 +108,7 @@ describe('<RadioField/>', () => {
         options={options}
         required
         role="radio"
+        onChange={mockChange}
       />
     )
     expect(screen.getByTestId('label')).toHaveAttribute('aria-required', 'true')

@@ -52,9 +52,29 @@ export const RadioField = React.forwardRef(function RadioField(
           {...(!!label ? { id: option.label } : {})}
           {...props}
         />
-        {<S.RadioValue htmlFor={option.label}>{option.label}</S.RadioValue>}
+        {
+          <S.RadioValue htmlFor={option.label}>
+            {setBoldTextInParentheses(option.label)}
+          </S.RadioValue>
+        }
       </S.InputWrapper>
     ))
+
+  const setBoldTextInParentheses = (label: string) => {
+    if (!label.includes('(')) return label
+
+    const labelText = label?.split('(')
+    labelText[1] = '(' + labelText[1]
+
+    return (
+      labelText && (
+        <>
+          {labelText[0]}
+          <b>{labelText[1]}</b>
+        </>
+      )
+    )
+  }
 
   return (
     <S.Wrapper disabled={disabled} error={!!error}>

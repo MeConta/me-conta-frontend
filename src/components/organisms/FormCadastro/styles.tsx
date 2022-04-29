@@ -10,7 +10,7 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   button {
-    width: 50%;
+    width: 100%;
     @media only screen and (max-width: 600px) {
       width: 100%;
     }
