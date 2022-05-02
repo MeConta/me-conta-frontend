@@ -66,6 +66,7 @@ export function FormCadastro(props: {
   signupService: ISignupService
   handleSuccess: (form: SignupUser) => void
   handleError: (error: BackendError) => void
+  setTipoDeUsuario: (usuario: UserType) => void
 }) {
   const authCtx = useAuthContext()
 
@@ -189,6 +190,10 @@ export function FormCadastro(props: {
             error={errors.tipo?.message}
             required={true}
             {...field}
+            onChange={(event) => {
+              field.onChange(event)
+              props.setTipoDeUsuario(+event.target.value)
+            }}
           />
         )}
       />

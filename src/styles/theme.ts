@@ -45,7 +45,9 @@ export default {
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',
     black: '#000000',
-    venetianRed: '#B2244D'
+    venetianRed: '#B2244D',
+    spanishGray: '#A39C9C',
+    transparent: 'transparent'
   },
   spacings: {
     xxxsmall: '0.3rem',

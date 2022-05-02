@@ -110,10 +110,6 @@ const FormDadosPessoais = ({
 
   return (
     <F.WrapperFields>
-      <F.Paragraph size="desk-xlarge" color="black">
-        Complete seus <F.BoldParagraph>Dados Pessoais</F.BoldParagraph>
-      </F.Paragraph>
-
       <F.Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Controller
           name="telefone"

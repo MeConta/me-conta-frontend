@@ -2,6 +2,9 @@ import styled from 'styled-components'
 
 export const ComponentContainer = styled.div`
   display: flex;
+  max-width: 100%;
+  padding: ${(p) => p.theme.zero} ${(p) => p.theme.spacings.xxsmall};
+  margin: ${(p) => p.theme.spacings.xsmall} ${(p) => p.theme.zero};
 `
 
 interface LineProp {
@@ -11,9 +14,17 @@ interface LineProp {
 export const Line = styled.div<LineProp>`
   width: 60px;
   height: 1px;
-  border: 1px solid ${(p) => (p.active ? '#458ff6' : '#a39c9c')};
-  background-color: ${(p) => (p.active ? '#458ff6' : '#a39c9c')};
-  margin: 55px 4px 0;
+  border: 1px solid
+    ${(p) =>
+      p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
+  background-color: ${(p) =>
+    p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
+  margin: ${(p) =>
+    p.theme.spacings.large +
+    ' ' +
+    p.theme.spacings.xxxsmall +
+    ' ' +
+    p.theme.zero};
   border-radius: 50%;
   transition: all 1.5s;
 `

@@ -4,6 +4,8 @@ export const CircleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 11rem;
+  max-width: 11rem;
 `
 
 interface CircleLineProp {
@@ -16,21 +18,23 @@ const transitionTime = 'all 1s'
 export const Circle = styled.div<CircleLineProp>`
   display: flex;
   justify-content: center;
-  width: 100px;
-  height: 100px;
-  background-color: ${(p) => (p.active ? '#458ff6' : 'transparent')};
+  width: 7rem;
+  height: 7rem;
+  background-color: ${(p) =>
+    p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.transparent};
   border-radius: 50%;
   transition: ${transitionTime};
 `
 
 export const CircleLine = styled.div<CircleLineProp>`
   display: flex;
-  width: 110px;
-  height: 110px;
-  background-color: transparent;
+  width: 8rem;
+  height: 8rem;
+  background-color: ${(p) => p.theme.colors.transparent};
   border-radius: 50%;
   border: ${(p) => (p.displayLine ? '1px solid ' : '')};
-  border-color: ${(p) => (p.active ? '#458ff6' : '#a39c9c')};
+  border-color: ${(p) =>
+    p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
   justify-content: center;
   align-items: center;
   transition: ${transitionTime};
@@ -38,10 +42,14 @@ export const CircleLine = styled.div<CircleLineProp>`
 
 export const CircleSubtitle = styled.p<CircleLineProp>`
   width: inherit;
-  color: ${(p) => (p.active ? '#458ff6' : '#a39c9c')};
-  font-weight: ${(p) => p.active && p.displayLine && 'bold'};
+  color: ${(p) =>
+    p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
+  font-weight: ${(p) => p.active && p.displayLine && p.theme.font.bold};
+  font-size: ${(p) => p.theme.font.sizes['desk-large']};
+  text-align: center;
   transition: ${transitionTime};
 `
+
 interface IconProp {
   active?: boolean
   paddingLeft?: string
@@ -50,12 +58,13 @@ interface IconProp {
 export const Icon = styled.div<IconProp>`
   display: flex;
   order: 1;
-  padding-left: ${(p) => p.paddingLeft || '0'};
+  padding-left: ${(p) => p.paddingLeft || p.theme.zero};
 
   & > svg {
-    width: 5rem;
+    width: 4rem;
     height: 100%;
-    color: ${(p) => (p.active ? 'white' : '#a39c9c')};
+    color: ${(p) =>
+      p.active ? p.theme.colors.white : p.theme.colors.spanishGray};
     transition: ${transitionTime};
   }
 `
