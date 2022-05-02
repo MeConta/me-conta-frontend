@@ -42,6 +42,7 @@ export const PhoneField = React.forwardRef(function PhoneField(
     <FormGroup label={label} name={name} required={required} error={error}>
       <S.InputWrapper>
         <InputMask
+          placeholder="(DDD) + número"
           mask={maskBuilder(value)}
           onBlur={props.onBlur}
           onChange={handleChange}

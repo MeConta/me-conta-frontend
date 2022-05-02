@@ -1,6 +1,7 @@
 import FormAluno from '../../components/organisms/FormAluno'
 import { WrapperForm } from '../../components/molecules/WrapperForm'
 import * as F from '../../styles/form/styles'
+
 import { SignupAlunoService } from '../../services/signup-aluno-service/signup-aluno-service'
 import { useRouter } from 'next/router'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'

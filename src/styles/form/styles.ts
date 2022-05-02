@@ -9,11 +9,24 @@ export const WrapperFields = styled.section`
     width: 1280px;
   }
 `
+export const Form = styled.form`
+  width: 100%;
+`
 
-type ButtonProps = {
+export const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    width: 100%;
+  }
+`
+
+type TextProps = {
   size?: 'desk-large' | 'desk-xlarge'
   margin?: 'xsmall'
-  color?: 'lightGray' | 'black'
+  color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft'
 }
 
 export const BoldParagraph = styled.b`
@@ -22,9 +35,7 @@ export const BoldParagraph = styled.b`
   `}
 `
 
-export const Paragraph = styled.p<
-  Pick<ButtonProps, 'size' | 'margin' | 'color'>
->`
+export const Paragraph = styled.p<Pick<TextProps, 'size' | 'margin' | 'color'>>`
   ${({ theme, size, margin, color }) => css`
     text-align: center;
     padding: 1rem;
@@ -32,6 +43,17 @@ export const Paragraph = styled.p<
     margin: ${margin ? theme.spacings[margin] : theme.zero};
     font-size: ${theme.font.sizes[size ?? 'desk-large']};
     font-weight: ${theme.font.normal};
+  `}
+`
+
+export const AnchorLink = styled.a<Pick<TextProps, 'color'>>`
+  ${({ theme, color }) => css`
+    color: ${theme.colors[color ?? 'lightGray']};
+    cursor: pointer;
+    text-decoration: underline;
+    &:visited {
+      color: ${theme.colors[color ?? 'lightGray']};
+    }
   `}
 `
 

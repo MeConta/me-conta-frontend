@@ -12,6 +12,7 @@ import {
 } from '../../../services/signup-service/signup-service'
 import { BackendError } from '../../../types/backend-error'
 import * as S from './styles'
+import * as F from '../../../styles/form/styles'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -196,13 +197,21 @@ export function FormCadastro(props: {
         label={
           <span>
             Eu li e concordo com os{' '}
-            <a href="/static/termosDeUso.pdf" target="_blank">
+            <F.AnchorLink
+              color="mineShaft"
+              href="/static/termosDeUso.pdf"
+              target="_blank"
+            >
               Termos de uso
-            </a>{' '}
+            </F.AnchorLink>{' '}
             e{' '}
-            <a href="/static/politicaPrivacidade.pdf" target="_blank">
+            <F.AnchorLink
+              color="mineShaft"
+              href="/static/politicaPrivacidade.pdf"
+              target="_blank"
+            >
               Políticas de Privacidade
-            </a>
+            </F.AnchorLink>
           </span>
         }
         {...register('termsConfirm')}
@@ -215,6 +224,7 @@ export function FormCadastro(props: {
           radius="square"
           disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
+          size="mediumLarge"
         >
           CADASTRAR
         </Button>

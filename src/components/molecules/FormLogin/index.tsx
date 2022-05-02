@@ -12,6 +12,7 @@ import { api } from '../../../services/api/api'
 import Link from 'next/link'
 
 import * as S from './styles'
+import * as F from '../../../styles/form/styles'
 
 type FormLoginValues = {
   email: string
@@ -98,7 +99,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
       />
       <S.Link>
         <Link href="/recuperacao-de-senha">
-          <S.AnchorLink>Esqueceu a senha?</S.AnchorLink>
+          <F.AnchorLink color="ceriseRed">Esqueceu a senha?</F.AnchorLink>
         </Link>
       </S.Link>
       <S.ButtonContainer>
