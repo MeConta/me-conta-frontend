@@ -9,6 +9,19 @@ export const WrapperFields = styled.section`
     width: 1280px;
   }
 `
+export const Form = styled.form`
+  width: 100%;
+`
+
+export const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    width: 100%;
+  }
+`
 
 type TextProps = {
   size?: 'desk-large' | 'desk-xlarge'

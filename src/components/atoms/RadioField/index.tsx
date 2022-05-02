@@ -10,6 +10,7 @@ export type RadioFieldProps = {
   label?: string
   initialValue?: string | number
   error?: string
+  display?: 'two-columns'
   disabled?: boolean
   required?: boolean
   options: {
@@ -26,6 +27,7 @@ export const RadioField = React.forwardRef(function RadioField(
   {
     label,
     name,
+    display,
     value,
     onChange,
     options,
@@ -83,7 +85,9 @@ export const RadioField = React.forwardRef(function RadioField(
           {label}
         </S.Label>
       )}
-      <S.RadioGroup id={name}>{renderRadioInput()}</S.RadioGroup>
+      <S.RadioGroup id={name} display={display}>
+        {renderRadioInput()}
+      </S.RadioGroup>
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )

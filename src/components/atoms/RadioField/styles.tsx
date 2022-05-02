@@ -1,7 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { RadioFieldProps } from '.'
 
-type WrapperProps = Pick<RadioFieldProps, 'disabled'> & { error?: boolean }
+type WrapperProps = Pick<RadioFieldProps, 'disabled' | 'display'> & {
+  error?: boolean
+}
 
 const wrapperModifiers = {
   error: (theme: DefaultTheme) => css`
@@ -23,6 +25,11 @@ const wrapperModifiers = {
         color: currentColor;
       }
     }
+  `,
+  'two-columns': (theme: DefaultTheme) => css`
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-bottom: ${theme.spacings.large};
   `
 }
 
@@ -68,9 +75,13 @@ export const InputWrapper = styled.div`
   `}
 `
 
-export const RadioGroup = styled.fieldset`
-  margin-top: 0.8rem;
-  border: none;
+export const RadioGroup = styled.fieldset<Pick<WrapperProps, 'display'>>`
+  ${({ theme, display }) => css`
+    margin-top: 0.8rem;
+    border: none;
+
+    ${!!display && wrapperModifiers[display](theme)}
+  `}
 `
 
 export const Input = styled.input`
