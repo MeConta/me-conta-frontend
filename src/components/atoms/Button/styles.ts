@@ -1,7 +1,10 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { ButtonProps } from '.'
 
-type WrapperProps = Pick<ButtonProps, 'size' | 'color' | 'radius'>
+type WrapperProps = Pick<
+  ButtonProps,
+  'size' | 'color' | 'radius' | 'textTransform' | 'btnStyle'
+>
 
 const wrapperModifiers = {
   medium: (theme: DefaultTheme) => css`
@@ -56,11 +59,23 @@ const wrapperModifiers = {
       cursor: not-allowed;
       filter: saturate(30%);
     }
+  `,
+  uppercase: () => css`
+    text-transform: uppercase;
+  `,
+  link: (theme: DefaultTheme) => css`
+    background-color: transparent;
+    color: ${theme.colors.venetianRed};
+    font-size: 1.5rem;
+    text-decoration: underline;
+    &:hover {
+      background-color: transparent;
+    }
   `
 }
 
 export const Wrapper = styled.button<WrapperProps>`
-  ${({ theme, size, color, radius, disabled }) => css`
+  ${({ theme, size, color, radius, disabled, textTransform, btnStyle }) => css`
     align-items: center;
     border: 0;
     color: ${theme.colors.white};
@@ -71,10 +86,17 @@ export const Wrapper = styled.button<WrapperProps>`
     text-align: center;
     font-family: Mulish;
     font-weight: ${theme.font.bold};
+    > svg {
+      width: ${theme.font.sizes['desk-large']};
+      height: ${theme.font.sizes['desk-large']};
+      margin-right: ${theme.spacings.xxxsmall};
+    }
 
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};
     ${!!radius && wrapperModifiers[radius](theme)};
     ${disabled && wrapperModifiers.disabled};
+    ${!!textTransform && wrapperModifiers[textTransform]}
+    ${!!btnStyle && wrapperModifiers[btnStyle](theme)}
   `}
 `

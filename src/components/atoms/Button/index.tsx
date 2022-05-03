@@ -11,6 +11,9 @@ export type ButtonProps = {
   size?: 'medium' | 'mediumLarge' | 'large'
   color?: 'primary' | 'secondary' | 'negative'
   radius?: 'round' | 'square'
+  textTransform?: 'uppercase'
+  btnStyle?: 'link'
+  prefixIcon?: React.ReactNode
   as?: ElementType
 } & ButtonTypes
 
@@ -19,10 +22,22 @@ export function Button({
   size = 'large',
   color = 'primary',
   radius = 'round',
+  textTransform,
+  btnStyle,
+  prefixIcon,
   ...props
 }: ButtonProps) {
   return (
-    <S.Wrapper size={size} color={color} radius={radius} {...props}>
+    <S.Wrapper
+      size={size}
+      color={color}
+      radius={radius}
+      textTransform={textTransform}
+      btnStyle={btnStyle}
+      prefixIcon={prefixIcon}
+      {...props}
+    >
+      {prefixIcon}
       {children}
     </S.Wrapper>
   )

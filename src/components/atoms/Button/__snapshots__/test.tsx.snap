@@ -29,6 +29,12 @@ exports[`<Button/> should render large size by default 1`] = `
   border-radius: 3.4rem;
 }
 
+.c0 > svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.3rem;
+}
+
 .c0:hover {
   background-color: #0545AB;
   -webkit-transition: background-color 0.2s;
