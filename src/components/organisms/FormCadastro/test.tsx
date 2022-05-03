@@ -25,6 +25,7 @@ describe('<FormCadastro/>', () => {
   }
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
+  const setTipoDeUsuarioMock = jest.fn()
 
   const elements = () => {
     return {
@@ -34,7 +35,7 @@ describe('<FormCadastro/>', () => {
       confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
       studentOption: screen.getByLabelText(TYPES.ALUNO.label),
       volunteerOption: screen.getByLabelText(TYPES.ATENDENTE.label),
-      button: screen.getByRole('button'),
+      buttonCadastrar: screen.getByRole('button', { name: 'Cadastrar' }),
       termsConfirm: screen.getByRole('checkbox')
     }
   }
@@ -46,7 +47,7 @@ describe('<FormCadastro/>', () => {
       password,
       confirm,
       studentOption,
-      button,
+      buttonCadastrar,
       termsConfirm
     } = elements()
 
@@ -56,7 +57,7 @@ describe('<FormCadastro/>', () => {
     userEvent.type(confirm, '!@#ASD!@#AASASD')
     fireEvent.click(studentOption)
     fireEvent.click(termsConfirm)
-    fireEvent.click(button)
+    fireEvent.click(buttonCadastrar)
   }
 
   beforeEach(() => {
@@ -65,6 +66,7 @@ describe('<FormCadastro/>', () => {
         signupService={signupServiceMock}
         handleSuccess={handleSuccessMock}
         handleError={handleErrorMock}
+        setTipoDeUsuario={setTipoDeUsuarioMock}
       />
     )
   })
@@ -89,36 +91,36 @@ describe('<FormCadastro/>', () => {
   })
 
   it('when inserting an empty name', async () => {
-    const { button } = elements()
-    fireEvent.click(button)
+    const { buttonCadastrar } = elements()
+    fireEvent.click(buttonCadastrar)
     await waitFor(() => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
     })
   })
   it('when inserting an invalid email', async () => {
-    const { email, button } = elements()
+    const { email, buttonCadastrar } = elements()
     userEvent.type(email, 'email')
-    fireEvent.click(button)
+    fireEvent.click(buttonCadastrar)
 
     await waitFor(() => {
       expect(screen.getByText(/E-mail inválido/)).toBeInTheDocument()
     })
   })
   it('when inserting a weak password', async () => {
-    const { password, button } = elements()
+    const { password, buttonCadastrar } = elements()
     userEvent.type(password, 'senha')
-    fireEvent.click(button)
+    fireEvent.click(buttonCadastrar)
 
     await waitFor(() => {
       expect(screen.getByText(/A senha deve ser forte/)).toBeInTheDocument()
     })
   })
   it('when inserting 2 different passwords in the "password" and "repeat password" field', async () => {
-    const { password, confirm, button } = elements()
+    const { password, confirm, buttonCadastrar } = elements()
 
     userEvent.type(password, 'senha')
     userEvent.type(confirm, 'not-senha')
-    fireEvent.click(button)
+    fireEvent.click(buttonCadastrar)
 
     await waitFor(() => {
       expect(screen.getByText(/As senhas devem ser iguais/)).toBeInTheDocument()

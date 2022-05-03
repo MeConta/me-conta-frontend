@@ -230,8 +230,9 @@ export function FormCadastro(props: {
           disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
           size="mediumLarge"
+          textTransform="uppercase"
         >
-          CADASTRAR
+          Cadastrar
         </Button>
       </S.ButtonContainer>
     </S.Form>

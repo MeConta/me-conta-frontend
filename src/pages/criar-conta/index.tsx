@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormCadastro } from 'components/organisms/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
@@ -8,17 +8,25 @@ import * as P from '../../styles/pages/styles'
 import * as F from '../../styles/form/styles'
 import { Button } from 'components/atoms/Button'
 import FormDadosPessoais from 'components/organisms/FormDadosPessoais'
+import FormDadosEscolares from 'components/organisms/FormDadosEscolares'
 import { PassosCadastro } from '../../enums/passos-cadastro.enum'
-import NavigationLocation from 'components/molecules/NavigationLocation'
+import { DadosPessoaisValues } from 'types/dados-cadastro'
+import { SignupAlunoService } from 'services/signup-aluno-service/signup-aluno-service'
+import { api } from '../../services/api/api'
+import { ToastType, useToast } from '../../services/toast-service/toast-service'
+import { BackendError } from 'types/backend-error'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
+  const { emit } = useToast()
   const router = useRouter()
 
+  const [tipoDeUsuario, setTipoDeUsuario] = useState(UserType.ALUNO)
   const [currentStep, setCurrentStep] = useState<PassosCadastro>(
     PassosCadastro.CRIAR_CONTA
   )
-  const [, setDadosPessoais] = useState<Object>({})
+  const [dadosPessoais, setDadosPessoais] =
+    useState<DadosPessoaisValues | null>(null)
   const toggleFormSteps = true
 
   const redirectAccordingToUserType = async (type: UserType) => {
@@ -29,17 +37,31 @@ export default function CriarConta() {
     }
   }
 
-  const handleSuccess = async (type: UserType) => {
+  const handleSuccessCriarConta = async (type: UserType) => {
     if (!toggleFormSteps) {
       await redirectAccordingToUserType(type)
     } else setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
 
+  const handleSuccessCadastroAluno = async () => {
+    emit({
+      type: ToastType.SUCCESS,
+      message: 'Cadastro realizado com sucesso!'
+    })
+    await router.push('/dashboard-aluno')
+  }
+
+  const handleError = (error: BackendError) => {
+    emit({
+      type: ToastType.ERROR,
+      message: 'Erro ao realizar o cadastro!'
+    })
+    console.error(error)
+  }
+
   const redirectToLogin = function () {
     router.push('/login')
   }
-
-  const [tipoDeUsuario, setTipoDeUsuario] = useState(UserType.ALUNO)
 
   const renderTitleAccordingToStep = () => {
     switch (currentStep) {
@@ -77,7 +99,7 @@ export default function CriarConta() {
               setTipoDeUsuario={setTipoDeUsuario}
               signupService={signupService}
               handleSuccess={async (form) => {
-                await handleSuccess(form.tipo)
+                await handleSuccessCriarConta(form.tipo)
               }}
               handleError={(error) => {
                 console.error(error)
@@ -90,17 +112,31 @@ export default function CriarConta() {
               color="negative"
               size="mediumLarge"
               onClick={redirectToLogin}
+              textTransform="uppercase"
             >
-              ENTRAR
+              Entrar
             </Button>
           </F.WrapperFields>
         )
       case PassosCadastro.DADOS_PESSOAIS:
         return (
           <FormDadosPessoais
+            valoresIniciais={dadosPessoais}
             setDadosRegistro={setDadosPessoais}
             setNextStep={setCurrentStep}
           />
+        )
+      case PassosCadastro.DADOS_ACADEMICOS:
+        return tipoDeUsuario === UserType.ALUNO ? (
+          <FormDadosEscolares
+            alunoSignup={new SignupAlunoService(api)}
+            dadosPessoais={dadosPessoais}
+            handleSuccess={handleSuccessCadastroAluno}
+            handleError={handleError}
+            setPreviousStep={setCurrentStep}
+          />
+        ) : (
+          <></>
         )
     }
   }

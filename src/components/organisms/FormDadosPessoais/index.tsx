@@ -60,8 +60,11 @@ export const dadosPessoaisInitialValues: DadosPessoaisValues = {
 }
 
 type FormDadosPessoaisProps = {
-  setDadosRegistro: React.Dispatch<React.SetStateAction<DadosPessoaisValues>>
+  setDadosRegistro: React.Dispatch<
+    React.SetStateAction<DadosPessoaisValues | null>
+  >
   setNextStep: React.Dispatch<React.SetStateAction<number>>
+  valoresIniciais: DadosPessoaisValues | null
 }
 
 const validationSchema = Yup.object({
@@ -85,7 +88,8 @@ const validationSchema = Yup.object({
 
 const FormDadosPessoais = ({
   setDadosRegistro,
-  setNextStep
+  setNextStep,
+  valoresIniciais
 }: FormDadosPessoaisProps) => {
   const onSubmit = (values: DadosPessoaisValues) => {
     setDadosRegistro({
@@ -101,7 +105,7 @@ const FormDadosPessoais = ({
     handleSubmit
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: dadosPessoaisInitialValues
+    defaultValues: valoresIniciais ?? dadosPessoaisInitialValues
   })
 
   const moveToNextStep = () => {

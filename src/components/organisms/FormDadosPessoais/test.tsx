@@ -1,4 +1,5 @@
 import { render, screen } from 'utils/tests/helpers'
+import { cleanup } from '@testing-library/react'
 import FormDadosPessoais from './index'
 import { fireEvent } from '@testing-library/dom'
 import React from 'react'
@@ -12,6 +13,13 @@ describe('<FormDadosPessoais />', () => {
   const mockSetNextStep = jest.fn()
   const signupServiceMock: ISignupAlunoService = {
     alunoSignup: jest.fn()
+  }
+  const valoresIniciais = {
+    telefone: '4645646456',
+    dataNascimento: '2000-12-05',
+    cidade: 'Recife',
+    UF: 'PE',
+    genero: 'NB'
   }
 
   const elements = () => {
@@ -51,6 +59,7 @@ describe('<FormDadosPessoais />', () => {
       <FormDadosPessoais
         setDadosRegistro={mockSetDados}
         setNextStep={mockSetNextStep}
+        valoresIniciais={null}
       />
     )
   })
@@ -62,7 +71,26 @@ describe('<FormDadosPessoais />', () => {
   it('deve renderizar o formulário de dados pessoais', () => {
     const { telefone, dataNascimento, cidade, UF, genero } = elements()
 
-    expect(screen.getByText(/dados pessoais/i)).toBeInTheDocument()
+    expect(telefone).toBeInTheDocument()
+    expect(dataNascimento).toBeInTheDocument()
+
+    expect(cidade).toBeInTheDocument()
+    expect(UF).toBeInTheDocument()
+    expect(genero).toBeInTheDocument()
+  })
+
+  it('deve renderizar o formulário de dados pessoais com os dados iniciais pré preenchidos', () => {
+    cleanup()
+
+    render(
+      <FormDadosPessoais
+        setDadosRegistro={mockSetDados}
+        setNextStep={mockSetNextStep}
+        valoresIniciais={valoresIniciais}
+      />
+    )
+    const { telefone, dataNascimento, cidade, UF, genero } = elements()
+
     expect(telefone).toBeInTheDocument()
     expect(dataNascimento).toBeInTheDocument()
 
@@ -86,7 +114,7 @@ describe('<FormDadosPessoais />', () => {
     expect(await screen.findByText(/Cidade é obrigatório/)).toBeInTheDocument()
   })
 
-  it('deve chamar armazenar os valores dados preenchidos, chamando setDadosRegistro', async () => {
+  it('deve armazenar os valores preenchidos, chamando setDadosRegistro', async () => {
     const { buttonProximoPasso } = elements()
     const { telefone, dataNascimento, cidade, UF } = await fillForm()
 
@@ -108,7 +136,7 @@ describe('<FormDadosPessoais />', () => {
     })
   })
 
-  it('deve chamar o passo seguinte ao clicar no botão próximo passo', () => {
+  it('deve chamar o passo seguinte do cadastro ao clicar no botão próximo passo', () => {
     const { buttonProximoPasso } = elements()
     userEvent.click(buttonProximoPasso)
 
