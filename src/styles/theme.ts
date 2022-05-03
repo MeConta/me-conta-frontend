@@ -53,6 +53,7 @@ export default {
     xxxsmall: '0.3rem',
     xxsmall: '0.8rem',
     xgsmall: '1.13rem',
+    xmsmall: '1.4rem',
     xsmall: '1.6rem',
     small: '2.4rem',
     xmedium: '2.9rem',

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ComponentContainer = styled.div`
   display: flex;
   max-width: 100%;
-  padding: ${(p) => p.theme.zero} ${(p) => p.theme.spacings.xxsmall};
+  padding: ${(p) => p.theme.zero} ${(p) => p.theme.spacings.small};
   margin: ${(p) => p.theme.spacings.xsmall} ${(p) => p.theme.zero};
 `
 
@@ -19,12 +19,7 @@ export const Line = styled.div<LineProp>`
       p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
   background-color: ${(p) =>
     p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
-  margin: ${(p) =>
-    p.theme.spacings.large +
-    ' ' +
-    p.theme.spacings.xxxsmall +
-    ' ' +
-    p.theme.zero};
+  margin-top: ${(p) => p.theme.spacings.large};
   border-radius: 50%;
   transition: all 1.5s;
 `

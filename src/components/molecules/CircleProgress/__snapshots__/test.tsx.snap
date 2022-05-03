@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CircleProgress/> should render the component on screen 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-width: 11rem;
+  max-width: 11rem;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 7rem;
+  height: 7rem;
+  background-color: transparent;
+  border-radius: 50%;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 8rem;
+  height: 8rem;
+  background-color: transparent;
+  border-radius: 50%;
+  border-color: #A39C9C;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+.c4 {
+  width: inherit;
+  color: #A39C9C;
+  font-size: 1.5rem;
+  text-align: center;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+  padding-left: 0;
+}
+
+.c3 > svg {
+  width: 4rem;
+  height: 100%;
+  color: #A39C9C;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
+
+<div
+  class="c0"
+  data-testid="circleContainer"
+>
+  <div
+    class="c1"
+    data-testid="circleLine"
+  >
+    <div
+      class="c2"
+      data-testid="circle"
+    >
+      <div
+        class="c3"
+        data-testid="circleIcon"
+      />
+    </div>
+  </div>
+  <p
+    class="c4"
+    data-testid="circleSubtitle"
+  />
+</div>
+`;

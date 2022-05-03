@@ -2,12 +2,9 @@ import styled, { css, DefaultTheme } from 'styled-components'
 
 export const WrapperFields = styled.section`
   display: flex;
-  max-width: 80%;
   justify-content: center;
   flex-direction: column;
-  @media only screen and (min-width: 1440px) {
-    width: 1280px;
-  }
+  padding: 0 ${(p) => p.theme.spacings.xmsmall};
 `
 export const Form = styled.form`
   width: 100%;

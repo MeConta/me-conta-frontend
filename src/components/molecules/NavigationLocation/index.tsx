@@ -16,7 +16,7 @@ export default function NavigationLocation({
   tipoDeUsuario
 }: NavigationProp) {
   return (
-    <S.ComponentContainer>
+    <S.ComponentContainer data-testid="navigationContainer">
       <CircleProgress
         active={true}
         displayLine={passo === PassosCadastro.CRIAR_CONTA}
@@ -25,7 +25,10 @@ export default function NavigationLocation({
       >
         Dados da conta
       </CircleProgress>
-      <S.Line active={passo >= PassosCadastro.DADOS_PESSOAIS}></S.Line>
+      <S.Line
+        active={passo >= PassosCadastro.DADOS_PESSOAIS}
+        data-testid="lineDadosPessoais"
+      ></S.Line>
       <CircleProgress
         active={passo >= PassosCadastro.DADOS_PESSOAIS}
         displayLine={passo <= PassosCadastro.DADOS_PESSOAIS}
@@ -33,7 +36,10 @@ export default function NavigationLocation({
       >
         Dados pessoais
       </CircleProgress>
-      <S.Line active={passo === PassosCadastro.DADOS_ACADEMICOS}></S.Line>
+      <S.Line
+        active={passo === PassosCadastro.DADOS_ACADEMICOS}
+        data-testid="lineDadosAcademicos"
+      ></S.Line>
       <CircleProgress
         active={passo === PassosCadastro.DADOS_ACADEMICOS}
         displayLine={true}

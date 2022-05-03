@@ -16,15 +16,27 @@ export default function CircleProgress({
   children
 }: CircleProp) {
   return (
-    <S.CircleContainer>
-      <S.CircleLine active={active} displayLine={displayLine}>
-        <S.Circle active={active}>
-          <S.Icon active={active} paddingLeft={paddingLeft}>
+    <S.CircleContainer data-testid="circleContainer">
+      <S.CircleLine
+        active={active}
+        displayLine={displayLine}
+        data-testid="circleLine"
+      >
+        <S.Circle active={active} data-testid="circle">
+          <S.Icon
+            active={active}
+            paddingLeft={paddingLeft}
+            data-testid="circleIcon"
+          >
             {icon}
           </S.Icon>
         </S.Circle>
       </S.CircleLine>
-      <S.CircleSubtitle active={active} displayLine={displayLine}>
+      <S.CircleSubtitle
+        active={active}
+        displayLine={displayLine}
+        data-testid="circleSubtitle"
+      >
         {children}
       </S.CircleSubtitle>
     </S.CircleContainer>
