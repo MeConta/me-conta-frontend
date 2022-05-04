@@ -10,6 +10,7 @@ import { PassosCadastro } from 'enums/passos-cadastro.enum'
 
 type WrapperFormProps = {
   title?: ReactNode
+  logoSrc?: string | StaticImageData
   tipoDeUsuario?: UserType
   passoCadastro?: PassosCadastro
   children: ReactNode
@@ -17,6 +18,7 @@ type WrapperFormProps = {
 
 export const WrapperForm = ({
   title,
+  logoSrc = Logo,
   tipoDeUsuario,
   passoCadastro,
   children
@@ -25,7 +27,7 @@ export const WrapperForm = ({
     <S.Wrapper>
       <Link href="/">
         <a>
-          <Image src={Logo} alt="Logo Me Conta" width={300} height={110} />
+          <Image src={logoSrc} alt="Logo Me Conta" width={300} height={110} />
         </a>
       </Link>
       {title}

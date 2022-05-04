@@ -73,7 +73,6 @@ describe('<FormDadosPessoais />', () => {
 
     expect(telefone).toBeInTheDocument()
     expect(dataNascimento).toBeInTheDocument()
-
     expect(cidade).toBeInTheDocument()
     expect(UF).toBeInTheDocument()
     expect(genero).toBeInTheDocument()
@@ -89,14 +88,16 @@ describe('<FormDadosPessoais />', () => {
         valoresIniciais={valoresIniciais}
       />
     )
-    const { telefone, dataNascimento, cidade, UF, genero } = elements()
+    const { telefone, dataNascimento, cidade, UF } = elements()
+    const radioGeneroNaoBinario = screen.getByRole('radio', {
+      name: /Não Binário/
+    })
 
-    expect(telefone).toBeInTheDocument()
-    expect(dataNascimento).toBeInTheDocument()
-
-    expect(cidade).toBeInTheDocument()
-    expect(UF).toBeInTheDocument()
-    expect(genero).toBeInTheDocument()
+    expect(telefone).toHaveValue('(46) 4564-6456')
+    expect(dataNascimento).toHaveValue(valoresIniciais.dataNascimento)
+    expect(cidade).toHaveValue(valoresIniciais.cidade)
+    expect(UF).toHaveValue(valoresIniciais.UF)
+    expect(radioGeneroNaoBinario).toBeChecked()
   })
 
   it('deve exibir mensagens de erro ao tentar submeter campos obrigatórios vazios', async () => {
@@ -136,9 +137,11 @@ describe('<FormDadosPessoais />', () => {
     })
   })
 
-  it('deve chamar o passo seguinte do cadastro ao clicar no botão próximo passo', () => {
+  it('deve chamar o passo seguinte do cadastro ao clicar no botão próximo passo', async () => {
     const { buttonProximoPasso } = elements()
-    userEvent.click(buttonProximoPasso)
+    await act(async () => {
+      userEvent.click(buttonProximoPasso)
+    })
 
     expect(mockSetNextStep).toHaveBeenCalledWith(
       PassosCadastro.DADOS_ACADEMICOS
