@@ -10,7 +10,7 @@ import { Button } from 'components/atoms/Button'
 import FormDadosPessoais from 'components/organisms/FormDadosPessoais'
 import FormDadosEscolares from 'components/organisms/FormDadosEscolares'
 import { PassosCadastro } from '../../enums/passos-cadastro.enum'
-import { DadosPessoaisValues } from 'types/dados-cadastro'
+import { DadosPessoaisValues, DadosEscolaresValues } from 'types/dados-cadastro'
 import { SignupAlunoService } from 'services/signup-aluno-service/signup-aluno-service'
 import { api } from '../../services/api/api'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
@@ -21,13 +21,17 @@ export default function CriarConta() {
   const { emit } = useToast()
   const router = useRouter()
 
+  const toggleFormSteps = true
+
   const [tipoDeUsuario, setTipoDeUsuario] = useState(UserType.ALUNO)
   const [currentStep, setCurrentStep] = useState<PassosCadastro>(
     PassosCadastro.CRIAR_CONTA
   )
   const [dadosPessoais, setDadosPessoais] =
     useState<DadosPessoaisValues | null>(null)
-  const toggleFormSteps = true
+  const [dadosEscolares, setDadosEscolares] = useState<
+    DadosEscolaresValues | undefined
+  >()
 
   const redirectAccordingToUserType = async (type: UserType) => {
     if (type === UserType.ALUNO) {
@@ -133,7 +137,9 @@ export default function CriarConta() {
             dadosPessoais={dadosPessoais}
             handleSuccess={handleSuccessCadastroAluno}
             handleError={handleError}
-            setPreviousStep={setCurrentStep}
+            setCurrentStep={setCurrentStep}
+            previousValues={dadosEscolares}
+            setPreviousValues={setDadosEscolares}
           />
         ) : (
           <></>

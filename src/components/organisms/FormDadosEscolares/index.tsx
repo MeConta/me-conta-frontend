@@ -12,7 +12,7 @@ import { useLocalStorage } from '../../../hooks/localstorage.hook'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
-  DadosEscolares,
+  DadosEscolaresValues,
   CadastroAlunoValues,
   DadosPessoaisValues
 } from '../../../types/dados-cadastro'
@@ -34,7 +34,7 @@ const TIPOESCOLA = {
   PARTICULAR: 'Escola Particular'
 }
 
-const initialValues: DadosEscolares = {
+const initialValues: DadosEscolaresValues = {
   escolaridade: '',
   tipoEscola: '0',
   necessidades: '',
@@ -42,31 +42,38 @@ const initialValues: DadosEscolares = {
   tratamentos: ''
 }
 
-type FormAlunoProps = {
+type FormDadosEscolaresProps = {
   alunoSignup: ISignupAlunoService
   handleSuccess: () => void
   handleError: (error: BackendError) => void
   dadosPessoais: DadosPessoaisValues | null
-  setPreviousStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
+  setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
+  previousValues?: DadosEscolaresValues | undefined
+  setPreviousValues: React.Dispatch<
+    React.SetStateAction<DadosEscolaresValues | undefined>
+  >
 }
 
-const FormAluno = ({
+const FormDadosEscolares = ({
   alunoSignup,
   handleSuccess,
   handleError,
   dadosPessoais,
-  setPreviousStep
-}: FormAlunoProps) => {
+  setCurrentStep,
+  previousValues,
+  setPreviousValues
+}: FormDadosEscolaresProps) => {
   const [token] = useLocalStorage<string>('token', '')
 
   const {
     register,
+    watch,
     formState: { errors, isSubmitting, isSubmitted, isValid },
     handleSubmit,
     control
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: initialValues
+    defaultValues: previousValues ?? initialValues
   })
 
   async function onSubmit(values: CadastroAlunoValues) {
@@ -89,6 +96,17 @@ const FormAluno = ({
       // @ts-ignore
       handleError(e)
     }
+  }
+
+  function handleGoingBack() {
+    setPreviousValues({
+      escolaridade: watch('escolaridade'),
+      tipoEscola: watch('tipoEscola'),
+      necessidades: watch('necessidades'),
+      expectativas: watch('expectativas'),
+      tratamentos: watch('tratamentos')
+    })
+    setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
 
   return (
@@ -147,7 +165,7 @@ const FormAluno = ({
         </F.ButtonContainer>
         <F.ButtonContainer>
           <Button
-            onClick={() => setPreviousStep(PassosCadastro.DADOS_PESSOAIS)}
+            onClick={handleGoingBack}
             btnStyle="link"
             prefixIcon={<ArrowLeft />}
           >
@@ -159,4 +177,4 @@ const FormAluno = ({
   )
 }
 
-export default FormAluno
+export default FormDadosEscolares

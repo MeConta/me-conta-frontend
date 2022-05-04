@@ -16,7 +16,7 @@ export type DadosPessoaisValues = Pick<
   'telefone' | 'dataNascimento' | 'UF' | 'cidade' | 'genero'
 >
 
-export type DadosEscolares = Pick<
+export type DadosEscolaresValues = Pick<
   CadastroAlunoValues,
   | 'tipoEscola'
   | 'escolaridade'

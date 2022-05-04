@@ -3,7 +3,7 @@ import FormDadosEscolares from './index'
 import { fireEvent } from '@testing-library/dom'
 import React from 'react'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
-import { act } from '@testing-library/react'
+import { act, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
@@ -14,7 +14,17 @@ describe('<FormDadosEscolares />', () => {
   }
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
-  const setPreviousStepMock = jest.fn()
+  const setCurrentStepMock = jest.fn()
+  const previousValuesMock = {
+    escolaridade: '1',
+    necessidades: 'Necessidades do Aluno',
+    expectativas: 'Expectativas do Aluno',
+    tratamentos: 'Tratamentos do Aluno',
+    tipoEscola: '1'
+  }
+
+  const setPreviousValuesMock = jest.fn()
+
   const dadosPessoais: DadosPessoaisValues = {
     telefone: '1554845456',
     dataNascimento: '2022-10-10',
@@ -80,7 +90,8 @@ describe('<FormDadosEscolares />', () => {
         handleError={handleErrorMock}
         handleSuccess={handleSuccessMock}
         dadosPessoais={dadosPessoais}
-        setPreviousStep={setPreviousStepMock}
+        setCurrentStep={setCurrentStepMock}
+        setPreviousValues={setPreviousValuesMock}
       />
     )
   })
@@ -152,12 +163,62 @@ describe('<FormDadosEscolares />', () => {
     })
   })
 
-  it('deve chamar o passo anterior do cadastro ao clicar no botão Voltar', () => {
+  it('deve chamar o passo anterior do cadastro ao clicar no botão Voltar', async () => {
     const { buttonVoltar } = elements()
-    userEvent.click(buttonVoltar)
 
-    expect(setPreviousStepMock).toHaveBeenCalledWith(
+    await act(async () => {
+      userEvent.click(buttonVoltar)
+    })
+
+    expect(setCurrentStepMock).toHaveBeenCalledWith(
       PassosCadastro.DADOS_PESSOAIS
     )
+  })
+
+  it('deve salvar informações já preenchidas, ao clicar no botão Voltar', async () => {
+    const { buttonVoltar } = elements()
+    await fillForm()
+
+    await act(async () => {
+      userEvent.click(buttonVoltar)
+    })
+
+    expect(setPreviousValuesMock).toHaveBeenCalledWith({
+      escolaridade: '1',
+      tipoEscola: '0',
+      necessidades: 'Necessidades do aluno',
+      expectativas: 'Expectativas do aluno',
+      tratamentos: 'Tratamentos do aluno'
+    })
+  })
+
+  it('deve exibir campos pré preenchidos caso hajam valores preenchidos anteriormente', async () => {
+    cleanup()
+
+    await act(async () => {
+      render(
+        <FormDadosEscolares
+          alunoSignup={signupServiceMock}
+          handleError={handleErrorMock}
+          handleSuccess={handleSuccessMock}
+          dadosPessoais={dadosPessoais}
+          setCurrentStep={setCurrentStepMock}
+          previousValues={previousValuesMock}
+          setPreviousValues={setPreviousValuesMock}
+        />
+      )
+    })
+
+    const { escolaridade, necessidades, expectativas, tratamentos } = elements()
+
+    const radioEscolaParticular = screen.getByRole('radio', {
+      name: 'Escola Particular'
+    })
+
+    expect(escolaridade).toHaveValue(previousValuesMock.escolaridade)
+    expect(radioEscolaParticular).toBeChecked()
+    expect(necessidades).toHaveValue(previousValuesMock.necessidades)
+    expect(expectativas).toHaveValue(previousValuesMock.expectativas)
+    expect(tratamentos).toHaveValue(previousValuesMock.tratamentos)
   })
 })
