@@ -98,7 +98,6 @@ describe('<FormDadosEscolares />', () => {
       tipoEscola
     } = elements()
 
-    expect(screen.getByText(/dados escolares/i)).toBeInTheDocument()
     expect(escolaridade).toBeInTheDocument()
     expect(necessidades).toBeInTheDocument()
 

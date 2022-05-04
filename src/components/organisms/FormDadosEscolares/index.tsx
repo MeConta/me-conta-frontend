@@ -93,10 +93,6 @@ const FormAluno = ({
 
   return (
     <F.WrapperFields>
-      <F.Paragraph size="desk-xlarge" color="black">
-        Complete seus <F.BoldParagraph>Dados Escolares</F.BoldParagraph>
-      </F.Paragraph>
-
       <F.Form onSubmit={handleSubmit(onSubmit)} noValidate>
         <SelectField
           labelField="Escolaridade"

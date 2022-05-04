@@ -5,6 +5,7 @@ export const WrapperFields = styled.section`
   justify-content: center;
   flex-direction: column;
   padding: 0 ${(p) => p.theme.spacings.xmsmall};
+  width: 100%;
 `
 export const Form = styled.form`
   width: 100%;
