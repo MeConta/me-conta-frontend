@@ -15,7 +15,7 @@ const ERRORS = {
 }
 
 const validationSchema = Yup.object({
-  instituicaoDeEnsino: Yup.string().required(ERRORS.REQUIRED_EDUCATION),
+  instituicao: Yup.string().required(ERRORS.REQUIRED_EDUCATION),
   anoFormacao: Yup.number().when('nivelDeFormacao', {
     is: ESituacaoCurso.COMPLETO,
     then: Yup.number()

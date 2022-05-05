@@ -1,35 +1,32 @@
 import * as F from '../../../styles/form/styles'
-import * as Yup from 'yup'
 import * as S from './styles'
 import { TextField } from '../../atoms/TextField'
 import { RadioField } from '../../atoms/RadioField'
-import {
-  ISignupVoluntarioService,
-  VoluntarioSignupUser
-} from 'services/signup-voluntario-service/signup-voluntario-service'
+import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 import { BackendError } from '../../../types/backend-error'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import moment from 'moment'
-import { CheckboxField } from 'components/atoms/CheckboxField'
 import { TextAreaField } from 'components/atoms/TextAreaField'
 import { Button } from 'components/atoms/Button'
 import { ArrowLeft } from '@styled-icons/bootstrap'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
-import { Select } from 'components/atoms/SelectField/styles'
 import { SelectField } from 'components/atoms/SelectField'
 import validationSchema from './validation'
-import { useEffect } from 'react'
 import React from 'react'
 import { CheckboxGroup } from 'components/molecules/CheckboxGroup'
 import ESituacaoCurso from './situacao-curso'
+import { FormVoluntarioValues, DadosAcademicosValues } from './values-type'
+import { UserType } from 'enums/user-type.enum'
 
 interface DadosAcademicosProp {
-  setPreviousStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
+  setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
   signupVoluntarioService: ISignupVoluntarioService
   handleSuccess: () => void
   handleError: (err: BackendError) => void
+  setPreviousValues: Function
+  previousValues: DadosAcademicosValues | undefined
 }
 
 const NIVELFORMACAO = {
@@ -57,10 +54,12 @@ const values = {
 }
 
 export default function FormDadosAcademicos({
-  setPreviousStep,
+  setCurrentStep,
   signupVoluntarioService,
   handleSuccess,
-  handleError
+  handleError,
+  previousValues,
+  setPreviousValues
 }: DadosAcademicosProp) {
   const {
     register,
@@ -71,17 +70,18 @@ export default function FormDadosAcademicos({
     control
   } = useForm({
     resolver: yupResolver(validationSchema),
-    defaultValues: values
+    defaultValues: previousValues ?? values
   })
 
   const [token] = useLocalStorage<string>('token', '')
 
-  const onSubmit = async (form: VoluntarioSignupUser) => {
+  const onSubmit = async (form: FormVoluntarioValues) => {
     try {
       await signupVoluntarioService.voluntarioSignUp(
         {
           ...form,
-          formado: watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO,
+          tipo: UserType.ATENDENTE,
+          formado: possuiSuperiorCompleto(),
           areaAtuacao: form.areaAtuacao || null,
           especializacoes: form.especializacoes || null,
           crp: form.crp || null,
@@ -95,11 +95,13 @@ export default function FormDadosAcademicos({
     }
   }
 
+  const possuiSuperiorCompleto = () => {
+    return +watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
+  }
+
   const renderizarSuperiorCompleto = () => {
     return (
-      <S.SuperiorCompleto
-        ativo={watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO}
-      >
+      <S.SuperiorCompleto ativo={possuiSuperiorCompleto()}>
         <TextField
           label="CRP"
           {...register('crp')}
@@ -130,10 +132,26 @@ export default function FormDadosAcademicos({
     )
   }
 
+  function handleGoingBack() {
+    setPreviousValues({
+      instituicao: watch('instituicao'),
+      anoFormacao: watch('anoFormacao'),
+      semestre: watch('semestre'),
+      nivelDeFormacao: watch('nivelDeFormacao'),
+      especializacoes: watch('especializacoes'),
+      bio: watch('bio'),
+      crp: watch('crp'),
+      areaAtuacao: watch('areaAtuacao'),
+      abordagem: watch('abordagem'),
+      frenteAtuacao: watch('frenteAtuacao')
+    })
+    setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
+  }
+
   return (
     <F.WrapperFields>
       <F.Form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <S.TextSplit>
+        <S.TextSplit errorActive={!!errors.instituicao?.message}>
           <TextField
             label="Instituição de Ensino"
             {...register('instituicao')}
@@ -142,18 +160,10 @@ export default function FormDadosAcademicos({
           />
           <TextField
             type="number"
-            label={
-              watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
-                ? 'Ano de conclusão'
-                : 'Semestre'
-            }
-            {...register(
-              watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
-                ? 'anoFormacao'
-                : 'semestre'
-            )}
+            label={possuiSuperiorCompleto() ? 'Ano de conclusão' : 'Semestre'}
+            {...register(possuiSuperiorCompleto() ? 'anoFormacao' : 'semestre')}
             error={
-              watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
+              possuiSuperiorCompleto()
                 ? errors.anoFormacao?.message
                 : errors.semestre?.message
             }
@@ -193,8 +203,8 @@ export default function FormDadosAcademicos({
               })}
               {...field}
               required
-              //error={errors.frenteAtuacao?.message}
-            ></CheckboxGroup>
+              error={(errors.frenteAtuacao as any)?.message}
+            />
           )}
         />
         <TextAreaField
@@ -215,7 +225,7 @@ export default function FormDadosAcademicos({
         </F.ButtonContainer>
         <F.ButtonContainer>
           <Button
-            onClick={() => setPreviousStep(PassosCadastro.DADOS_PESSOAIS)}
+            onClick={handleGoingBack}
             btnStyle="link"
             prefixIcon={<ArrowLeft />}
           >

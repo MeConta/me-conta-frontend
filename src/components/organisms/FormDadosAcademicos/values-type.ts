@@ -1,7 +1,7 @@
 import { UserType } from 'enums/user-type.enum'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
-type FormVoluntarioValues = {
+export type FormVoluntarioValues = {
   telefone: string
   dataNascimento: string
   cidade: string
@@ -20,4 +20,17 @@ type FormVoluntarioValues = {
   abordagem: string
 }
 
-export default FormVoluntarioValues
+export type DadosAcademicosValues = Pick<
+  FormVoluntarioValues,
+  | 'instituicao'
+  | 'abordagem'
+  | 'anoFormacao'
+  | 'semestre'
+  | 'especializacoes'
+  | 'areaAtuacao'
+  | 'crp'
+  | 'bio'
+  | 'abordagem'
+> & { nivelDeFormacao: string | number } & {
+  frenteAtuacao: Array<number | string>
+}

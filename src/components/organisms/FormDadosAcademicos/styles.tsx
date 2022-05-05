@@ -1,7 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 interface SuperiorCompletoProps {
   ativo?: boolean
+  errorActive?: boolean
 }
 
 export const SuperiorCompleto = styled.div<SuperiorCompletoProps>`
@@ -11,10 +12,17 @@ export const SuperiorCompleto = styled.div<SuperiorCompletoProps>`
   transition: all 0.3s ease-in-out;
 `
 
-export const TextSplit = styled.div`
-  display: flex;
-  gap: 42px;
-  & > div:first-child {
-    flex: 1;
-  }
+export const TextSplit = styled.div<Pick<SuperiorCompletoProps, 'errorActive'>>`
+  ${({ errorActive }) => css`
+    display: flex;
+    align-items: ${errorActive ? 'baseline' : 'flex-end'};
+    gap: 2rem;
+    & > div:first-child {
+      flex: 2;
+    }
+
+    & > div:nth-child(2) {
+      flex: 1;
+    }
+  `}
 `

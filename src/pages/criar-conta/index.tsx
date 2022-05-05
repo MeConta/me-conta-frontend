@@ -9,12 +9,15 @@ import * as F from '../../styles/form/styles'
 import { Button } from 'components/atoms/Button'
 import FormDadosPessoais from 'components/organisms/FormDadosPessoais'
 import FormDadosEscolares from 'components/organisms/FormDadosEscolares'
+import FormDadosAcademicos from 'components/organisms/FormDadosAcademicos'
 import { PassosCadastro } from '../../enums/passos-cadastro.enum'
 import { DadosPessoaisValues, DadosEscolaresValues } from 'types/dados-cadastro'
 import { SignupAlunoService } from 'services/signup-aluno-service/signup-aluno-service'
 import { api } from '../../services/api/api'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
 import { BackendError } from 'types/backend-error'
+import { DadosAcademicosValues } from 'components/organisms/FormDadosAcademicos/values-type'
+import { SignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
@@ -31,6 +34,9 @@ export default function CriarConta() {
     useState<DadosPessoaisValues | null>(null)
   const [dadosEscolares, setDadosEscolares] = useState<
     DadosEscolaresValues | undefined
+  >()
+  const [dadosAcademicos, setDadosAcademicos] = useState<
+    DadosAcademicosValues | undefined
   >()
 
   const redirectAccordingToUserType = async (type: UserType) => {
@@ -142,7 +148,14 @@ export default function CriarConta() {
             setPreviousValues={setDadosEscolares}
           />
         ) : (
-          <></>
+          <FormDadosAcademicos
+            signupVoluntarioService={new SignupVoluntarioService(api)}
+            handleSuccess={() => {}}
+            handleError={() => {}}
+            setCurrentStep={setCurrentStep}
+            previousValues={dadosAcademicos}
+            setPreviousValues={setDadosAcademicos}
+          />
         )
     }
   }

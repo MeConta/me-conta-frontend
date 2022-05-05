@@ -1,6 +1,6 @@
 enum ESituacaoCurso {
-  COMPLETO = `COMPLETO`,
-  ANDAMENTO = `ANDAMENTO`
+  COMPLETO,
+  ANDAMENTO
 }
 
 export default ESituacaoCurso
