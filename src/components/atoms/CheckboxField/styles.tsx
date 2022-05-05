@@ -19,7 +19,10 @@ const wrapperModifiers = {
 
 export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, disabled, margin }) => css`
-    margin-bottom: ${theme.spacings[margin ?? 'xsmall']};
+    margin: ${margin === 'zero'
+        ? theme.zero
+        : theme.spacings[margin ?? 'xsmall']}
+      0;
 
     ${disabled && wrapperModifiers.disabled(theme)}
   `}
@@ -45,7 +48,7 @@ export const InputWrapper = styled.div<WrapperProps>`
     vertical-align: center;
     align-items: center;
     border-radius: ${theme.border['btn-square-radius']};
-    padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
+    padding: ${theme.zero} ${theme.spacings.xsmall};
   `}
 `
 

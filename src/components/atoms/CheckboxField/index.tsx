@@ -12,7 +12,7 @@ export type CheckboxFieldProps = {
   error?: string
   disabled?: boolean
   required?: boolean
-  margin?: 'xsmall' | 'xxsmall' | 'xxxsmall'
+  margin?: 'small' | 'xsmall' | 'xxsmall' | 'xxxsmall' | 'zero'
   value?: string | number | boolean
   onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>

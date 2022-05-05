@@ -82,7 +82,7 @@ describe('<CheckboxGroup />', () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  it('should pass onChange function to children', () => {
+  it('should create array from selected options', () => {
     render(
       <CheckboxGroup
         name="checkbox"
@@ -95,6 +95,31 @@ describe('<CheckboxGroup />', () => {
     )
 
     userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
-    expect(onChangeMock).toHaveBeenCalled()
+    expect(onChangeMock).toHaveBeenCalledWith([0])
+
+    userEvent.click(screen.getByRole('checkbox', { name: 'Segunda Opção' }))
+    expect(onChangeMock).toHaveBeenCalledWith([0, 1])
+  })
+
+  it('should remove option from the array after unchecking', () => {
+    render(
+      <CheckboxGroup
+        name="checkbox"
+        options={options}
+        required
+        error={errorMessage}
+        label="checkbox-label"
+        onChange={onChangeMock}
+      />
+    )
+
+    userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
+    expect(onChangeMock).toHaveBeenCalledWith([0])
+
+    userEvent.click(screen.getByRole('checkbox', { name: 'Segunda Opção' }))
+    expect(onChangeMock).toHaveBeenCalledWith([0, 1])
+
+    userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
+    expect(onChangeMock).toHaveBeenCalledWith([1])
   })
 })
