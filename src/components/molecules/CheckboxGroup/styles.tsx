@@ -22,7 +22,7 @@ export const Label = styled.legend`
 
 export const CheckboxGroup = styled.fieldset`
   ${({ theme }) => css`
-    margin-top: ${theme.spacings.xxsmall};
+    margin: ${theme.spacings.xxsmall} 0;
     border: none;
   `}
 `

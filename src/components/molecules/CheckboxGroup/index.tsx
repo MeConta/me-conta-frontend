@@ -1,6 +1,6 @@
 import { CheckboxField } from '../../atoms/CheckboxField'
 import * as S from './styles'
-import { useState } from 'react'
+import React, { useState, ForwardedRef } from 'react'
 
 export type CheckboxGroupProps = {
   required?: boolean
@@ -15,15 +15,18 @@ export type CheckboxGroupProps = {
   onChange: Function
 }
 
-export function CheckboxGroup({
-  required,
-  label,
-  options,
-  name,
-  error,
-  subtitle,
-  onChange
-}: CheckboxGroupProps) {
+export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
+  {
+    required,
+    label,
+    options,
+    name,
+    error,
+    subtitle,
+    onChange
+  }: CheckboxGroupProps,
+  ref?: ForwardedRef<HTMLInputElement>
+) {
   const [checkedValues, setCheckedValues] = useState<Array<number | string>>([])
 
   const updateCheckedValuesArray = (
@@ -50,6 +53,7 @@ export function CheckboxGroup({
         label={option.label}
         value={option.value}
         name={name}
+        ref={ref}
         required={false}
         onChange={() => {
           handleCheckboxChange(option.value)
@@ -70,4 +74,4 @@ export function CheckboxGroup({
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )
-}
+})
