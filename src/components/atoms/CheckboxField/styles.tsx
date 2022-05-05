@@ -1,7 +1,7 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { CheckboxFieldProps } from '.'
 
-type WrapperProps = Pick<CheckboxFieldProps, 'disabled'>
+type WrapperProps = Pick<CheckboxFieldProps, 'disabled' | 'margin'>
 
 const wrapperModifiers = {
   disabled: (theme: DefaultTheme) => css`
@@ -18,8 +18,8 @@ const wrapperModifiers = {
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, disabled }) => css`
-    margin-bottom: ${theme.spacings.xsmall};
+  ${({ theme, disabled, margin }) => css`
+    margin-bottom: ${theme.spacings[margin ?? 'xsmall']};
 
     ${disabled && wrapperModifiers.disabled(theme)}
   `}
@@ -39,14 +39,13 @@ export const Label = styled.label`
   `}
 `
 
-export const InputWrapper = styled.div`
+export const InputWrapper = styled.div<WrapperProps>`
   ${({ theme }) => css`
     display: flex;
     vertical-align: center;
     align-items: center;
     border-radius: ${theme.border['btn-square-radius']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
-    margin-top: ${theme.spacings.xxsmall};
   `}
 `
 

@@ -17,7 +17,6 @@ exports[`<CheckboxField/> should render error the input 1`] = `
   align-items: center;
   border-radius: 0.7rem;
   padding: 0.8rem 1.6rem;
-  margin-top: 0.8rem;
 }
 
 .c3 {
