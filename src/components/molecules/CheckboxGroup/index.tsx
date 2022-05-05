@@ -12,7 +12,7 @@ export type CheckboxGroupProps = {
   name: string
   error?: string
   subtitle?: string
-  onChange: (values: Array<number | string>) => {}
+  onChange: Function
 }
 
 export function CheckboxGroup({
