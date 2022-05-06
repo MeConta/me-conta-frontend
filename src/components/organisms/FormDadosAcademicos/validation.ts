@@ -3,15 +3,15 @@ import * as Yup from 'yup'
 import ESituacaoCurso from './situacao-curso'
 
 const ERRORS = {
-  REQUIRED_EDUCATION: `Instituição de ensino é obrigatória.`,
+  REQUIRED_EDUCATION: `Instituição de ensino é obrigatória`,
   REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
   REQUIRED_CRP: `CRP é obrigatório`,
   REQUIRED_FIELD: `Área de atuação é obrigatória`,
-  REQUIRED_BIO: `A Apresentação é obrigatória`,
+  REQUIRED_BIO: `A descrição sobre você é obrigatória`,
   INVALID_YEAR: 'Ano de formação inválido',
-  REQUIRED_FRONTS: 'Frentes de atuação é obrigatório',
-  REQUIRED_FORMATION_SEMESTER: `Semestre de formação é obrigatório.`,
-  MIN_SEMESTER: 'Semestre deve ser no mínimo 1.'
+  REQUIRED_FRONTS: 'É obrigatório selecionar, ao menos, uma frente de formação',
+  REQUIRED_FORMATION_SEMESTER: `Semestre de formação é obrigatório`,
+  MIN_SEMESTER: 'Semestre deve ser no mínimo 1'
 }
 
 const validationSchema = Yup.object({
