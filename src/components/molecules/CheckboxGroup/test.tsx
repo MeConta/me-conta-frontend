@@ -6,20 +6,29 @@ describe('<CheckboxGroup />', () => {
   const onChangeMock = jest.fn()
   const errorMessage = 'Este campo é obrigatório'
 
+  const optionLabels = {
+    FIRST_OPTION: 'Primeira Opção',
+    SECOND_OPTION: 'Segunda Opção',
+    THIRD_OPTION: 'Terceira Opção'
+  }
+
   const options = [
     {
-      label: 'Primeira Opção',
+      label: optionLabels.FIRST_OPTION,
       value: 0
     },
     {
-      label: 'Segunda Opção',
+      label: optionLabels.SECOND_OPTION,
       value: 1
     },
     {
-      label: 'Terceira Opção',
+      label: optionLabels.THIRD_OPTION,
       value: 2
     }
   ]
+
+  const getCheckboxByLabel = (label: string) =>
+    screen.getByRole('checkbox', { name: label })
 
   it('should render CheckboxGroup with a label', () => {
     render(
@@ -82,7 +91,7 @@ describe('<CheckboxGroup />', () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
   })
 
-  it('should create array from selected options', () => {
+  it('should create array from selected options and pass it to onChange', () => {
     render(
       <CheckboxGroup
         name="checkbox"
@@ -94,10 +103,10 @@ describe('<CheckboxGroup />', () => {
       />
     )
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
+    userEvent.click(getCheckboxByLabel(optionLabels.FIRST_OPTION))
     expect(onChangeMock).toHaveBeenCalledWith([0])
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Segunda Opção' }))
+    userEvent.click(getCheckboxByLabel(optionLabels.SECOND_OPTION))
     expect(onChangeMock).toHaveBeenCalledWith([0, 1])
   })
 
@@ -113,13 +122,31 @@ describe('<CheckboxGroup />', () => {
       />
     )
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
+    userEvent.click(getCheckboxByLabel(optionLabels.FIRST_OPTION))
     expect(onChangeMock).toHaveBeenCalledWith([0])
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Segunda Opção' }))
+    userEvent.click(getCheckboxByLabel(optionLabels.SECOND_OPTION))
     expect(onChangeMock).toHaveBeenCalledWith([0, 1])
 
-    userEvent.click(screen.getByRole('checkbox', { name: 'Primeira Opção' }))
+    userEvent.click(getCheckboxByLabel(optionLabels.FIRST_OPTION))
     expect(onChangeMock).toHaveBeenCalledWith([1])
+  })
+
+  it('should render fields already checked according to default values', () => {
+    render(
+      <CheckboxGroup
+        name="checkbox"
+        value={[0, 2]}
+        options={options}
+        required
+        error={errorMessage}
+        label="checkbox-label"
+        onChange={onChangeMock}
+      />
+    )
+
+    expect(getCheckboxByLabel(optionLabels.FIRST_OPTION)).toBeChecked()
+    expect(getCheckboxByLabel(optionLabels.SECOND_OPTION)).not.toBeChecked()
+    expect(getCheckboxByLabel(optionLabels.THIRD_OPTION)).toBeChecked()
   })
 })

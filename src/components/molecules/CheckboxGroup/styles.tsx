@@ -1,8 +1,17 @@
 import styled, { css } from 'styled-components'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+type WrapperProps = {
+  errorActive: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ theme, errorActive }) => css`
     margin-bottom: ${theme.spacings.xsmall};
+
+    > legend,
+    p {
+      ${!!errorActive && `color: ${theme.colors.ceriseRed}`}
+    }
   `}
 `
 

@@ -13,6 +13,7 @@ export type CheckboxGroupProps = {
   error?: string
   subtitle?: string
   onChange: Function
+  value?: Array<string | number>
 }
 
 export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
@@ -23,11 +24,21 @@ export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
     name,
     error,
     subtitle,
-    onChange
+    onChange,
+    value: defaultValues
   }: CheckboxGroupProps,
   ref?: ForwardedRef<HTMLInputElement>
 ) {
-  const [checkedValues, setCheckedValues] = useState<Array<number | string>>([])
+  const [checkedValues, setCheckedValues] = useState<Array<number | string>>(
+    defaultValues ?? []
+  )
+
+  const isAlreadyChecked = (
+    previousValues: Array<number | string> | undefined,
+    checkboxValue: number | string
+  ) => {
+    return previousValues?.includes(checkboxValue)
+  }
 
   const updateCheckedValuesArray = (
     previousValues: Array<string | number>,
@@ -35,7 +46,7 @@ export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
   ) => {
     if (previousValues?.length === 0) return [checkboxValue]
 
-    if (previousValues?.includes(checkboxValue))
+    if (isAlreadyChecked(previousValues, checkboxValue))
       return previousValues?.filter((value) => value !== checkboxValue)
     else return [...previousValues, checkboxValue]
   }
@@ -46,7 +57,7 @@ export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
     onChange(updatedValues)
   }
 
-  const renderCheckboxInput = () =>
+  const renderCheckboxInputs = () =>
     options.map((option, index) => (
       <CheckboxField
         key={index}
@@ -54,6 +65,7 @@ export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
         value={option.value}
         name={name}
         ref={ref}
+        checked={isAlreadyChecked(defaultValues, option.value)}
         required={false}
         onChange={() => {
           handleCheckboxChange(option.value)
@@ -63,14 +75,14 @@ export const CheckboxGroup = React.forwardRef(function CheckboxGroup(
     ))
 
   return (
-    <S.Wrapper>
+    <S.Wrapper errorActive={!!error}>
       {!!label && (
         <S.Label aria-required={required} data-testid={label}>
           {label}
         </S.Label>
       )}
       {!!subtitle && <S.Subtitle> {subtitle} </S.Subtitle>}
-      <S.CheckboxGroup id={name}>{renderCheckboxInput()}</S.CheckboxGroup>
+      <S.CheckboxGroup id={name}>{renderCheckboxInputs()}</S.CheckboxGroup>
       {!!error && <S.Error> {error} </S.Error>}
     </S.Wrapper>
   )
