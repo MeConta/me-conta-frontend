@@ -96,7 +96,7 @@ export default function FormDadosAcademicos({
   }
 
   const possuiSuperiorCompleto = () => {
-    return +watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
+    return watch('nivelDeFormacao') === ESituacaoCurso.COMPLETO
   }
 
   const renderizarSuperiorCompleto = () => {

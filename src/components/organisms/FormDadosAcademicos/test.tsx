@@ -20,7 +20,7 @@ describe('<FormDadosAcademicos />', () => {
     instituicao: '',
     anoFormacao: +moment().format('YYYY'),
     semestre: 1,
-    nivelDeFormacao: 1,
+    nivelDeFormacao: '1',
     especializacoes: '',
     bio: '',
     crp: '',
