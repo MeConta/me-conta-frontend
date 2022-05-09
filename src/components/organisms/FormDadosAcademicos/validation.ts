@@ -2,7 +2,7 @@ import moment from 'moment'
 import * as Yup from 'yup'
 import ESituacaoCurso from './situacao-curso'
 
-const ERRORS = {
+export const ERRORS = {
   REQUIRED_EDUCATION: `Instituição de ensino é obrigatória`,
   REQUIRED_FORMATION_YEAR: `Ano de formação é obrigatório`,
   REQUIRED_CRP: `CRP é obrigatório`,
@@ -11,22 +11,31 @@ const ERRORS = {
   INVALID_YEAR: 'Ano de formação inválido',
   REQUIRED_FRONTS: 'É obrigatório selecionar, ao menos, uma frente de formação',
   REQUIRED_FORMATION_SEMESTER: `Semestre de formação é obrigatório`,
-  MIN_SEMESTER: 'Semestre deve ser no mínimo 1'
+  MIN_SEMESTER: 'Semestre deve ser no mínimo 1',
+  MAX_SEMESTER: 'Semestre deve ser no máximo 10',
+  INVALID_SEMESTER: 'Semestre inválido'
 }
+
+const allowNumberOrEmptyString = (value: number, originalValue: number) =>
+  String(originalValue).trim() === '' ? null : value
 
 const validationSchema = Yup.object({
   instituicao: Yup.string().required(ERRORS.REQUIRED_EDUCATION),
   anoFormacao: Yup.number().when('nivelDeFormacao', {
     is: ESituacaoCurso.COMPLETO,
     then: Yup.number()
-      .required(ERRORS.REQUIRED_FORMATION_YEAR)
       .max(+moment().format('YYYY'), ERRORS.INVALID_YEAR)
+      .nullable()
+      .transform(allowNumberOrEmptyString)
   }),
   semestre: Yup.number().when('nivelDeFormacao', {
     is: ESituacaoCurso.ANDAMENTO,
     then: Yup.number()
-      .required(ERRORS.REQUIRED_FORMATION_SEMESTER)
+      .typeError(ERRORS.INVALID_SEMESTER)
       .min(1, ERRORS.MIN_SEMESTER)
+      .max(10, ERRORS.MAX_SEMESTER)
+      .nullable()
+      .transform(allowNumberOrEmptyString)
   }),
   crp: Yup.string().when('nivelDeFormacao', {
     is: ESituacaoCurso.COMPLETO,
@@ -36,7 +45,7 @@ const validationSchema = Yup.object({
     is: ESituacaoCurso.COMPLETO,
     then: Yup.string().required(ERRORS.REQUIRED_FIELD)
   }),
-  frenteAtuacao: Yup.array().min(1, ERRORS.REQUIRED_FRONTS).required(),
+  frentes: Yup.array().min(1, ERRORS.REQUIRED_FRONTS).required(),
   bio: Yup.string().required(ERRORS.REQUIRED_BIO)
 })
 

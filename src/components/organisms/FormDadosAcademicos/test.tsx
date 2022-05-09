@@ -1,16 +1,28 @@
-import { render, act, screen } from '../../../utils/tests/helpers'
+import { render, act, screen, waitFor } from '../../../utils/tests/helpers'
 import FormDadosAcademicos from '.'
 import userEvent from '@testing-library/user-event'
 import { fireEvent } from '@testing-library/dom'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import moment from 'moment'
 import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
+import { ERRORS } from './validation'
+import { UserType } from 'enums/user-type.enum'
+import { DadosPessoaisValues } from 'types/dados-cadastro'
+import ESituacaoCurso from './situacao-curso'
+import { AreaAtuacao } from './area-atuacao.enum'
 
 describe('<FormDadosAcademicos />', () => {
   const setCurrentStepMock = jest.fn()
   const handleError = jest.fn()
-  const handleSuccess = jest.fn()
+  const handleSuccessMock = jest.fn()
   const setPreviousValuesMock = jest.fn()
+  const dadosPessoais: DadosPessoaisValues = {
+    telefone: '1554845456',
+    dataNascimento: '2022-10-10',
+    UF: 'RS',
+    cidade: 'Cidade',
+    genero: 'M'
+  }
 
   const signupServiceMock: ISignupVoluntarioService = {
     voluntarioSignUp: jest.fn()
@@ -26,44 +38,84 @@ describe('<FormDadosAcademicos />', () => {
     crp: '',
     areaAtuacao: '',
     abordagem: '',
-    frenteAtuacao: []
+    frentes: []
   }
 
   const elements = () => {
     return {
-      instituicaoEnsino: screen.getByLabelText('Instituição de Ensino'),
-      superiorEmAndamento: screen.getByText('Superior em Andamento'),
-      superiorCompleto: screen.getByText('Superior Completo'),
+      instituicao: screen.getByLabelText('Instituição de Ensino'),
+      superiorEmAndamento: screen.getByRole('radio', {
+        name: 'Superior em Andamento'
+      }),
+      superiorCompleto: screen.getByRole('radio', {
+        name: 'Superior Completo'
+      }),
       semestre: screen.getByRole('spinbutton', { name: /semestre/i }),
+
       frentesAtuacao: screen.getByText('Sessões de acolhimento dos estudantes'),
       descricao: screen.getByRole('textbox', {
         name: /breve descrição sobre você/i
+      }),
+      crp: screen.getByLabelText('CRP'),
+      especializacoes: screen.getByLabelText(/Possui especialização\?/),
+      areaAtuacao: screen.getByLabelText('Área de Atuação'),
+      abordagem: screen.getByLabelText('Abordagem psicoterápica'),
+      buttonFinalizarCadastro: screen.getByRole('button', {
+        name: /Finalizar Cadastro/i
       }),
       buttonVoltar: screen.getByRole('button', { name: /Voltar/ })
     }
   }
 
-  const fillForm = async () => {
+  const fillForm = async (situacaoCurso: ESituacaoCurso) => {
     const {
-      instituicaoEnsino,
+      instituicao,
       semestre,
       frentesAtuacao,
       descricao,
       superiorEmAndamento,
-      superiorCompleto
+      superiorCompleto,
+      crp,
+      areaAtuacao,
+      especializacoes,
+      abordagem
     } = elements()
+    if (situacaoCurso === ESituacaoCurso.COMPLETO) {
+      await act(async () =>
+        userEvent.click(
+          screen.getByRole('radio', { name: 'Superior Completo' })
+        )
+      )
+    }
 
     await act(async () => {
-      fireEvent.change(instituicaoEnsino, { target: { value: 'UFRJ' } })
-      fireEvent.change(semestre, { target: { value: 1 } })
-      fireEvent.change(descricao, { target: { value: 'Teste' } })
+      fireEvent.change(instituicao, { target: { value: 'UFRJ' } })
+      userEvent.type(descricao, 'Teste')
+      fireEvent.change(semestre, { target: { value: 8 } })
     })
+
+    if (situacaoCurso === ESituacaoCurso.COMPLETO) {
+      await act(async () => {
+        fireEvent.change(crp, { target: { value: '78987987' } })
+        userEvent.type(especializacoes, 'terapia')
+        userEvent.type(abordagem, 'abordagem')
+        fireEvent.change(areaAtuacao, {
+          target: { value: AreaAtuacao.PSICOLOGO }
+        })
+        fireEvent.change(
+          screen.getByRole('spinbutton', {
+            name: /Ano de Conclusão/i
+          }),
+          { target: { value: 2015 } }
+        )
+      })
+    }
 
     userEvent.click(screen.getByRole('checkbox', { name: /acolhimento/ }))
     userEvent.click(screen.getByRole('checkbox', { name: /rotina/ }))
 
     return {
-      instituicaoEnsino,
+      instituicao,
       semestre,
       frentesAtuacao,
       descricao,
@@ -77,12 +129,58 @@ describe('<FormDadosAcademicos />', () => {
       <FormDadosAcademicos
         signupVoluntarioService={signupServiceMock}
         setCurrentStep={setCurrentStepMock}
-        handleSuccess={handleSuccess}
+        handleSuccess={handleSuccessMock}
         handleError={handleError}
         setPreviousValues={setPreviousValuesMock}
         previousValues={undefined}
+        dadosPessoais={dadosPessoais}
       />
     )
+  })
+
+  it('deve renderizar FormDadosAcademicos, com a opção de Superior em Andamento selecionada por padrão', () => {
+    const {
+      instituicao,
+      semestre,
+      superiorCompleto,
+      superiorEmAndamento,
+      frentesAtuacao,
+      descricao
+    } = elements()
+
+    expect(instituicao).toBeInTheDocument()
+    expect(semestre).toBeInTheDocument()
+    expect(superiorCompleto).toBeInTheDocument()
+    expect(superiorEmAndamento).toBeChecked()
+    expect(frentesAtuacao).toBeInTheDocument()
+    expect(descricao).toBeInTheDocument()
+  })
+
+  it('deve exibir campos para nível de formação Superior Completo', () => {
+    const { superiorCompleto, crp, especializacoes, areaAtuacao, abordagem } =
+      elements()
+
+    userEvent.click(superiorCompleto)
+    expect(crp).toBeVisible()
+    expect(especializacoes).toBeVisible()
+    expect(areaAtuacao).toBeVisible()
+    expect(abordagem).toBeVisible()
+  })
+
+  it('deve exibir erros ao tentar submeter campos obrigatórios vazios', async () => {
+    const { buttonFinalizarCadastro, superiorCompleto } = elements()
+
+    userEvent.click(superiorCompleto)
+
+    await act(async () => {
+      userEvent.click(buttonFinalizarCadastro)
+    })
+
+    expect(screen.getByText(ERRORS.REQUIRED_BIO))
+    expect(screen.getByText(ERRORS.REQUIRED_CRP))
+    expect(screen.getByText(ERRORS.REQUIRED_EDUCATION))
+    expect(screen.getByText(ERRORS.REQUIRED_FIELD))
+    expect(screen.getByText(ERRORS.REQUIRED_FRONTS))
   })
 
   it('deve chamar o passo anterior do cadastro ao clicar no botão Voltar', async () => {
@@ -99,7 +197,7 @@ describe('<FormDadosAcademicos />', () => {
 
   it('deve salvar informações já preenchidas, ao clicar no botão Voltar', async () => {
     const { buttonVoltar } = elements()
-    await fillForm()
+    await fillForm(ESituacaoCurso.ANDAMENTO)
 
     await act(async () => {
       userEvent.click(buttonVoltar)
@@ -108,9 +206,65 @@ describe('<FormDadosAcademicos />', () => {
     expect(setPreviousValuesMock).toHaveBeenCalledWith({
       ...initialValues,
       instituicao: 'UFRJ',
-      semestre: 1,
-      frenteAtuacao: [0, 1],
+      semestre: '8',
+      frentes: [0, 1],
       bio: 'Teste'
+    })
+  })
+
+  describe('deve submeter o formulário com os dados preenchidos', () => {
+    it('atendente com curso superior em andamento', async () => {
+      const { buttonFinalizarCadastro } = elements()
+
+      await act(async () => {
+        userEvent.click(buttonFinalizarCadastro)
+      })
+
+      await waitFor(async () => {
+        expect(signupServiceMock.voluntarioSignUp).toHaveBeenCalledWith(
+          {
+            ...dadosPessoais,
+            semestre: 8,
+            instituicao: 'UFRJ',
+            frentes: [0, 1],
+            formado: false,
+            bio: 'Teste',
+            tipo: UserType.ATENDENTE
+          },
+          expect.any(String)
+        )
+        expect(handleSuccessMock).toBeCalled()
+      })
+    })
+
+    it('atendente com curso superior completo', async () => {
+      const { buttonFinalizarCadastro } = elements()
+
+      await fillForm(ESituacaoCurso.COMPLETO)
+
+      await act(async () => {
+        userEvent.click(buttonFinalizarCadastro)
+      })
+
+      await waitFor(async () => {
+        expect(signupServiceMock.voluntarioSignUp).toHaveBeenCalledWith(
+          {
+            ...dadosPessoais,
+            especializacoes: 'terapia',
+            crp: '78987987',
+            instituicao: 'UFRJ',
+            frentes: [0, 1],
+            formado: true,
+            anoFormacao: 2015,
+            areaAtuacao: AreaAtuacao.PSICOLOGO,
+            bio: 'Teste',
+            tipo: UserType.ATENDENTE,
+            abordagem: 'abordagem'
+          },
+          expect.any(String)
+        )
+        expect(handleSuccessMock).toBeCalled()
+      })
     })
   })
 })

@@ -41,6 +41,7 @@ export const CircleLine = styled.div<CircleLineProp>`
 `
 
 export const CircleSubtitle = styled.p<CircleLineProp>`
+  inline-size: 10ch;
   width: inherit;
   color: ${(p) =>
     p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};

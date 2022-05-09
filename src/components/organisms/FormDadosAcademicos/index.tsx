@@ -17,8 +17,10 @@ import validationSchema from './validation'
 import React from 'react'
 import { CheckboxGroup } from 'components/molecules/CheckboxGroup'
 import ESituacaoCurso from './situacao-curso'
-import { FormVoluntarioValues, DadosAcademicosValues } from './values-type'
+import { DadosAcademicosValues } from './values-type'
 import { UserType } from 'enums/user-type.enum'
+import { DadosPessoaisValues } from 'types/dados-cadastro'
+import { AreaAtuacao } from './area-atuacao.enum'
 
 interface DadosAcademicosProp {
   setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
@@ -27,6 +29,7 @@ interface DadosAcademicosProp {
   handleError: (err: BackendError) => void
   setPreviousValues: Function
   previousValues: DadosAcademicosValues | undefined
+  dadosPessoais: DadosPessoaisValues
 }
 
 const NIVELFORMACAO = {
@@ -50,7 +53,7 @@ const values = {
   crp: '',
   areaAtuacao: '',
   abordagem: '',
-  frenteAtuacao: []
+  frentes: []
 }
 
 export default function FormDadosAcademicos({
@@ -59,7 +62,8 @@ export default function FormDadosAcademicos({
   handleSuccess,
   handleError,
   previousValues,
-  setPreviousValues
+  setPreviousValues,
+  dadosPessoais
 }: DadosAcademicosProp) {
   const {
     register,
@@ -75,17 +79,29 @@ export default function FormDadosAcademicos({
 
   const [token] = useLocalStorage<string>('token', '')
 
-  const onSubmit = async (form: FormVoluntarioValues) => {
-    try {
-      await signupVoluntarioService.voluntarioSignUp(
-        {
-          ...form,
-          tipo: UserType.ATENDENTE,
-          formado: possuiSuperiorCompleto(),
+  const onSubmit = async (form: DadosAcademicosValues) => {
+    const dadosVoluntario = possuiSuperiorCompleto()
+      ? {
           areaAtuacao: form.areaAtuacao || null,
           especializacoes: form.especializacoes || null,
           crp: form.crp || null,
-          abordagem: form.abordagem || null
+          abordagem: form.abordagem || null,
+          anoFormacao: form.anoFormacao || null
+        }
+      : {
+          semestre: form.semestre || null
+        }
+
+    try {
+      await signupVoluntarioService.voluntarioSignUp(
+        {
+          ...dadosPessoais,
+          ...dadosVoluntario,
+          instituicao: form.instituicao,
+          bio: form.bio,
+          frentes: form.frentes,
+          tipo: UserType.ATENDENTE,
+          formado: possuiSuperiorCompleto()
         },
         token
       )
@@ -116,8 +132,11 @@ export default function FormDadosAcademicos({
         <SelectField
           labelField={'Área de Atuação'}
           options={[
-            { value: 0, label: 'Professor(a) de psicologia' },
-            { value: 1, label: 'Psicólogo(a)' }
+            {
+              value: AreaAtuacao.PROFESSOR,
+              label: 'Professor(a) de psicologia'
+            },
+            { value: AreaAtuacao.PSICOLOGO, label: 'Psicólogo(a)' }
           ]}
           {...register('areaAtuacao')}
           required
@@ -143,7 +162,7 @@ export default function FormDadosAcademicos({
       crp: watch('crp'),
       areaAtuacao: watch('areaAtuacao'),
       abordagem: watch('abordagem'),
-      frenteAtuacao: watch('frenteAtuacao')
+      frentes: watch('frentes')
     })
     setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
@@ -151,7 +170,13 @@ export default function FormDadosAcademicos({
   return (
     <F.WrapperFields>
       <F.Form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <S.TextSplit errorActive={!!errors.instituicao?.message}>
+        <S.TextSplit
+          errorActive={
+            !!errors.instituicao?.message ||
+            !!errors[possuiSuperiorCompleto() ? 'anoFormacao' : 'semestre']
+              ?.message
+          }
+        >
           <TextField
             label="Instituição de Ensino"
             {...register('instituicao')}
@@ -167,6 +192,8 @@ export default function FormDadosAcademicos({
                 ? errors.anoFormacao?.message
                 : errors.semestre?.message
             }
+            min={1}
+            max={possuiSuperiorCompleto() ? +moment().format('YYYY') : 10}
           />
         </S.TextSplit>
         <Controller
@@ -192,7 +219,7 @@ export default function FormDadosAcademicos({
         />
         {renderizarSuperiorCompleto()}
         <Controller
-          name="frenteAtuacao"
+          name="frentes"
           control={control}
           render={({ field }) => (
             <CheckboxGroup
@@ -203,13 +230,14 @@ export default function FormDadosAcademicos({
               })}
               {...field}
               required
-              error={(errors.frenteAtuacao as any)?.message}
+              error={(errors.frentes as any)?.message}
             />
           )}
         />
         <TextAreaField
           label="Breve descrição sobre você"
           {...register('bio')}
+          required
           error={errors.bio?.message}
         />
         <F.ButtonContainer>

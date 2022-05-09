@@ -10,14 +10,14 @@ export type FormVoluntarioValues = {
   instituicao: string
   frentes: number[]
   formado: string
-  anoFormacao: number
-  semestre: number
-  especializacoes: string
-  areaAtuacao: string
-  crp: string
+  anoFormacao?: number
+  semestre?: number
+  especializacoes?: string
+  areaAtuacao?: string
+  crp?: string
   bio: string
   tipo: UserType | ''
-  abordagem: string
+  abordagem?: string
 }
 
 export type DadosAcademicosValues = Pick<
@@ -31,6 +31,5 @@ export type DadosAcademicosValues = Pick<
   | 'crp'
   | 'bio'
   | 'abordagem'
-> & { nivelDeFormacao: string | number } & {
-  frenteAtuacao: Array<number | string>
-}
+  | 'frentes'
+> & { nivelDeFormacao: string | number }

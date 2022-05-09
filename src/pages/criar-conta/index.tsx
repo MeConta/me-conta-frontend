@@ -150,6 +150,7 @@ export default function CriarConta() {
         ) : (
           <FormDadosAcademicos
             signupVoluntarioService={new SignupVoluntarioService(api)}
+            dadosPessoais={dadosPessoais}
             handleSuccess={() => {}}
             handleError={() => {}}
             setCurrentStep={setCurrentStep}
