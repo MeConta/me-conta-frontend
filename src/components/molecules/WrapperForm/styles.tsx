@@ -18,7 +18,6 @@ export const Wrapper = styled.div<WrapperProp>`
       ? padding
       : theme.spacings.large + ' ' + theme.spacings.xxsmall};
     max-width: 30%;
-    margin: 1.5rem 0;
     a {
       margin: 0 0 2rem 0;
     }

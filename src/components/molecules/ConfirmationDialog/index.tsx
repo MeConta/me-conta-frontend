@@ -36,8 +36,8 @@ export default function ConfirmationDialog({
       boldText?: string
       posText?: string
     },
-    size?: 'desk-large' | 'desk-xlarge' | undefined,
-    color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft' | undefined
+    size?: F.TextProps['size'],
+    color?: F.TextProps['color']
   ) => {
     return (
       <F.Paragraph color={color} size={size}>

@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const WrapperFields = styled.section`
   display: flex;
@@ -21,7 +21,7 @@ export const ButtonContainer = styled.div`
   }
 `
 
-type TextProps = {
+export type TextProps = {
   size?: 'desk-large' | 'desk-xlarge'
   margin?: 'xsmall'
   color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft'

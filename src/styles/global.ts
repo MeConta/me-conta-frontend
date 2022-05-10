@@ -55,11 +55,16 @@ const GlobalStyles = createGlobalStyle`
 export const Main = styled.main`
   margin: 0;
   min-height: 100vh;
-  background-color: white;
+  background-color: ${(p) => p.theme.colors.backgroundGray};
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
+  gap: ${(p) => p.theme.spacings.xsmall};
+  @media only screen and (max-width: 768px) {
+    background-color: ${(p) => p.theme.colors.white};
+  }
   @media only screen and (max-width: 480px) {
     margin: 0;
   }
