@@ -20,7 +20,7 @@ export default function CadastroVoluntario() {
       <F.WrapperFields>
         <FormVoluntario
           handleSuccess={async () => {
-            await router.push('/cadastro-voluntario/sucesso')
+            await router.push('/cadastro-pendente')
             emit({
               type: ToastType.SUCCESS,
               message: 'Cadastro realizado com sucesso!'

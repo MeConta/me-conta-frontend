@@ -62,6 +62,9 @@ export const Main = styled.main`
   align-items: center;
   box-sizing: border-box;
   gap: ${(p) => p.theme.spacings.xsmall};
+  & > #headCrumb {
+    margin-top: -${(p) => p.theme.spacings.xsmall};
+  }
   @media only screen and (max-width: 768px) {
     background-color: ${(p) => p.theme.colors.white};
   }
