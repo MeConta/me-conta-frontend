@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormCadastro } from 'components/organisms/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
@@ -18,6 +18,8 @@ import { ToastType, useToast } from '../../services/toast-service/toast-service'
 import { BackendError } from 'types/backend-error'
 import { DadosAcademicosValues } from 'components/organisms/FormDadosAcademicos/values-type'
 import { SignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
+import { useAuthContext } from '../../store/auth-context'
+import { redirects } from 'utils/routes/redirects'
 
 export default function CriarConta() {
   const { signupService } = useSignup()
@@ -38,6 +40,23 @@ export default function CriarConta() {
   const [dadosAcademicos, setDadosAcademicos] = useState<
     DadosAcademicosValues | undefined
   >()
+
+  const authCtx = useAuthContext()
+
+  useEffect(() => {
+    if (currentStep === PassosCadastro.CRIAR_CONTA && authCtx.isLoggedIn) {
+      const route = redirects[+authCtx.session.type]
+      router.push(route)
+    }
+    if (currentStep !== PassosCadastro.CRIAR_CONTA && !authCtx.isLoggedIn) {
+      emit({
+        type: ToastType.WARNING,
+        message: 'Sessão expirada. Realize login para concluir o cadastro!',
+        autoClose: false
+      })
+      router.push('/login')
+    }
+  }, [authCtx, currentStep, emit, router])
 
   const redirectAccordingToUserType = async (type: UserType) => {
     if (type === UserType.ALUNO) {
