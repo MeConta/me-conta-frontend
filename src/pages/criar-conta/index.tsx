@@ -26,12 +26,12 @@ export default function CriarConta() {
   const { emit } = useToast()
   const router = useRouter()
 
-  const dadosPessoaisVazios: DadosPessoaisValues = {
+  const dadosPessoaisDefault: DadosPessoaisValues = {
     telefone: '',
-    genero: '',
-    UF: '',
     dataNascimento: '',
-    cidade: ''
+    UF: '',
+    cidade: '',
+    genero: 'ND'
   }
 
   const toggleFormSteps = true
@@ -41,7 +41,7 @@ export default function CriarConta() {
     PassosCadastro.CRIAR_CONTA
   )
   const [dadosPessoais, setDadosPessoais] =
-    useState<DadosPessoaisValues | null>(null)
+    useState<DadosPessoaisValues>(dadosPessoaisDefault)
   const [dadosEscolares, setDadosEscolares] = useState<
     DadosEscolaresValues | undefined
   >()
@@ -165,7 +165,7 @@ export default function CriarConta() {
         return (
           <FormDadosPessoais
             valoresIniciais={dadosPessoais}
-            setDadosRegistro={setDadosPessoais}
+            setDadosPessoais={setDadosPessoais}
             setNextStep={setCurrentStep}
           />
         )
@@ -183,7 +183,7 @@ export default function CriarConta() {
         ) : (
           <FormDadosAcademicos
             signupVoluntarioService={new SignupVoluntarioService(api)}
-            dadosPessoais={dadosPessoais ?? dadosPessoaisVazios}
+            dadosPessoais={dadosPessoais}
             handleSuccess={() => handleSuccessCadastro(UserType.ATENDENTE)}
             handleError={handleError}
             setCurrentStep={setCurrentStep}

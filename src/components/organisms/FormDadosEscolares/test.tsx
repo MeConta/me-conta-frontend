@@ -7,6 +7,7 @@ import { act, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
+import { BackendError } from 'types/backend-error'
 
 describe('<FormDadosEscolares />', () => {
   const signupServiceMock: ISignupAlunoService = {
@@ -220,5 +221,25 @@ describe('<FormDadosEscolares />', () => {
     expect(necessidades).toHaveValue(previousValuesMock.necessidades)
     expect(expectativas).toHaveValue(previousValuesMock.expectativas)
     expect(tratamentos).toHaveValue(previousValuesMock.tratamentos)
+  })
+
+  it('deve chamar função que lida com um erro após falha na requisição', async () => {
+    const error = {
+      code: 0,
+      message: 'MOCKED ERROR'
+    } as BackendError
+
+    jest.spyOn(signupServiceMock, 'alunoSignup').mockRejectedValue(error)
+    const { buttonConcluirCadastro } = elements()
+
+    await fillForm()
+
+    await act(async () => {
+      userEvent.click(buttonConcluirCadastro)
+    })
+
+    await waitFor(async () => {
+      expect(handleErrorMock).toBeCalledWith(error)
+    })
   })
 })

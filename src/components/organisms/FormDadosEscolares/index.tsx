@@ -93,8 +93,7 @@ const FormDadosEscolares = ({
 
       handleSuccess()
     } catch (e) {
-      // @ts-ignore
-      handleError(e)
+      handleError(e as BackendError)
     }
   }
 
