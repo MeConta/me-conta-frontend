@@ -10,10 +10,11 @@ import { UserType } from 'enums/user-type.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import ESituacaoCurso from './situacao-curso'
 import { AreaAtuacao } from './area-atuacao.enum'
+import { BackendError } from 'types/backend-error'
 
 describe('<FormDadosAcademicos />', () => {
   const setCurrentStepMock = jest.fn()
-  const handleError = jest.fn()
+  const handleErrorMock = jest.fn()
   const handleSuccessMock = jest.fn()
   const setPreviousValuesMock = jest.fn()
   const dadosPessoais: DadosPessoaisValues = {
@@ -130,7 +131,7 @@ describe('<FormDadosAcademicos />', () => {
         signupVoluntarioService={signupServiceMock}
         setCurrentStep={setCurrentStepMock}
         handleSuccess={handleSuccessMock}
-        handleError={handleError}
+        handleError={handleErrorMock}
         setPreviousValues={setPreviousValuesMock}
         previousValues={undefined}
         dadosPessoais={dadosPessoais}
@@ -172,6 +173,12 @@ describe('<FormDadosAcademicos />', () => {
 
     userEvent.click(superiorCompleto)
 
+    const anoFormacao = screen.getByRole('spinbutton', {
+      name: /Ano de Conclusão/i
+    })
+
+    userEvent.type(anoFormacao, '{selectall}{backspace}')
+
     await act(async () => {
       userEvent.click(buttonFinalizarCadastro)
     })
@@ -181,6 +188,7 @@ describe('<FormDadosAcademicos />', () => {
     expect(screen.getByText(ERRORS.REQUIRED_EDUCATION))
     expect(screen.getByText(ERRORS.REQUIRED_FIELD))
     expect(screen.getByText(ERRORS.REQUIRED_FRONTS))
+    expect(screen.getByText(ERRORS.REQUIRED_GRADUATION_YEAR))
   })
 
   it('deve chamar o passo anterior do cadastro ao clicar no botão Voltar', async () => {
@@ -264,6 +272,26 @@ describe('<FormDadosAcademicos />', () => {
           expect.any(String)
         )
         expect(handleSuccessMock).toBeCalled()
+      })
+    })
+
+    it('deve chamar função que lida com um erro após falha na requisição', async () => {
+      const error = {
+        code: 0,
+        message: 'MOCKED ERROR'
+      } as BackendError
+
+      jest.spyOn(signupServiceMock, 'voluntarioSignUp').mockRejectedValue(error)
+      const { buttonFinalizarCadastro } = elements()
+
+      await fillForm(ESituacaoCurso.COMPLETO)
+
+      await act(async () => {
+        fireEvent.click(buttonFinalizarCadastro)
+      })
+
+      await waitFor(async () => {
+        expect(handleErrorMock).toBeCalledWith(error)
       })
     })
   })

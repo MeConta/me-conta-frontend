@@ -29,7 +29,7 @@ interface DadosAcademicosProp {
   handleError: (err: BackendError) => void
   setPreviousValues: Function
   previousValues: DadosAcademicosValues | undefined
-  dadosPessoais: DadosPessoaisValues
+  dadosPessoais: DadosPessoaisValues | null
 }
 
 const NIVELFORMACAO = {
@@ -82,20 +82,20 @@ export default function FormDadosAcademicos({
   const onSubmit = async (form: DadosAcademicosValues) => {
     const dadosVoluntario = possuiSuperiorCompleto()
       ? {
-          areaAtuacao: form.areaAtuacao || null,
+          areaAtuacao: form.areaAtuacao,
           especializacoes: form.especializacoes || null,
-          crp: form.crp || null,
+          crp: form.crp,
           abordagem: form.abordagem || null,
-          anoFormacao: form.anoFormacao || null
+          anoFormacao: form.anoFormacao
         }
       : {
-          semestre: form.semestre || null
+          semestre: form.semestre
         }
 
     try {
       await signupVoluntarioService.voluntarioSignUp(
         {
-          ...dadosPessoais,
+          ...dadosPessoais!,
           ...dadosVoluntario,
           instituicao: form.instituicao,
           bio: form.bio,
@@ -185,6 +185,7 @@ export default function FormDadosAcademicos({
           />
           <TextField
             type="number"
+            required
             label={possuiSuperiorCompleto() ? 'Ano de conclusão' : 'Semestre'}
             {...register(possuiSuperiorCompleto() ? 'anoFormacao' : 'semestre')}
             error={

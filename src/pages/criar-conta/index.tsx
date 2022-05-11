@@ -26,6 +26,14 @@ export default function CriarConta() {
   const { emit } = useToast()
   const router = useRouter()
 
+  const dadosPessoaisVazios: DadosPessoaisValues = {
+    telefone: '',
+    genero: '',
+    UF: '',
+    dataNascimento: '',
+    cidade: ''
+  }
+
   const toggleFormSteps = true
 
   const [tipoDeUsuario, setTipoDeUsuario] = useState(UserType.ALUNO)
@@ -72,12 +80,18 @@ export default function CriarConta() {
     } else setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
 
-  const handleSuccessCadastroAluno = async () => {
+  const handleSuccessCadastro = async (tipoDeUsuario: UserType) => {
+    const redirectRoute =
+      tipoDeUsuario === UserType.ALUNO
+        ? '/dashboard-aluno'
+        : '/cadastro-pendente'
+
+    await router.push(redirectRoute)
+
     emit({
       type: ToastType.SUCCESS,
       message: 'Cadastro realizado com sucesso!'
     })
-    await router.push('/dashboard-aluno')
   }
 
   const handleError = (error: BackendError) => {
@@ -160,7 +174,7 @@ export default function CriarConta() {
           <FormDadosEscolares
             alunoSignup={new SignupAlunoService(api)}
             dadosPessoais={dadosPessoais}
-            handleSuccess={handleSuccessCadastroAluno}
+            handleSuccess={() => handleSuccessCadastro(UserType.ALUNO)}
             handleError={handleError}
             setCurrentStep={setCurrentStep}
             previousValues={dadosEscolares}
@@ -169,15 +183,9 @@ export default function CriarConta() {
         ) : (
           <FormDadosAcademicos
             signupVoluntarioService={new SignupVoluntarioService(api)}
-            dadosPessoais={dadosPessoais}
-            handleSuccess={async () => {
-              await router.push('/cadastro-pendente')
-              emit({
-                type: ToastType.SUCCESS,
-                message: 'Cadastro realizado com sucesso!'
-              })
-            }}
-            handleError={() => {}}
+            dadosPessoais={dadosPessoais ?? dadosPessoaisVazios}
+            handleSuccess={() => handleSuccessCadastro(UserType.ATENDENTE)}
+            handleError={handleError}
             setCurrentStep={setCurrentStep}
             previousValues={dadosAcademicos}
             setPreviousValues={setDadosAcademicos}

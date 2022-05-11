@@ -98,7 +98,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         {...register('password')}
       />
       <S.Link>
-        <Link href="/recuperacao-de-senha">
+        <Link passHref href="/recuperacao-de-senha">
           <F.AnchorLink color="ceriseRed">Esqueceu a senha?</F.AnchorLink>
         </Link>
       </S.Link>
