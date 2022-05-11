@@ -3,10 +3,21 @@ import styled, { css } from 'styled-components'
 interface WrapperProp {
   borderPresent?: boolean
   padding?: string
+  shape?: 'square'
+}
+
+const wrapperModifiers = {
+  square: () => css`
+    width: 40rem;
+    height: 40rem;
+    & > div {
+      margin-top: 4rem;
+    }
+  `
 }
 
 export const Wrapper = styled.div<WrapperProp>`
-  ${({ theme, borderPresent = true, padding }) => css`
+  ${({ theme, borderPresent = true, padding, shape }) => css`
     background-color: ${theme.colors.white};
     display: flex;
     justify-content: center;
@@ -22,8 +33,10 @@ export const Wrapper = styled.div<WrapperProp>`
       margin: 0 0 2rem 0;
     }
 
+    ${!!shape && wrapperModifiers[shape]()}
+
     @media only screen and (min-width: ${theme.screen
-        .small}) and (max-width: ${theme.screen.large}) {
+      .small}) and (max-width: ${theme.screen.large}) {
       max-width: 50%;
     }
 

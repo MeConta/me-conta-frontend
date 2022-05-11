@@ -2,8 +2,9 @@ import * as S from './styles'
 import * as F from '../../../styles/form/styles'
 import { ReactNode } from 'react'
 import { Button } from 'components/atoms/Button'
-import { useRouter } from 'next/router'
 import { WrapperForm } from '../WrapperForm'
+import Logo from '../../../../public/assets/logo.png'
+import router from 'next/router'
 
 interface ConfirmationDialogProps {
   title?: ReactNode
@@ -20,6 +21,7 @@ interface ConfirmationDialogProps {
   }
   buttonText: string
   buttonLink?: string
+  logoSrc?: string | StaticImageData
 }
 
 export default function ConfirmationDialog({
@@ -28,7 +30,8 @@ export default function ConfirmationDialog({
   titleInfo,
   subtitleInfo,
   buttonText,
-  buttonLink
+  buttonLink,
+  logoSrc = Logo
 }: ConfirmationDialogProps) {
   const renderText = (
     text: {
@@ -47,11 +50,15 @@ export default function ConfirmationDialog({
     )
   }
 
-  const router = useRouter()
-
   return (
     <S.DivContainer>
-      <WrapperForm borderPresent={false} padding="4rem 4.8rem">
+      <WrapperForm
+        borderPresent={false}
+        padding="4rem 4.8rem"
+        logoSize="small"
+        shape="square"
+        logoSrc={logoSrc}
+      >
         {titleInfo ? (
           renderText(titleInfo, 'desk-xlarge', 'black')
         ) : (
