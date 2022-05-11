@@ -52,6 +52,10 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
+export const HeaderDiv = styled.div`
+  width: 100%;
+`
+
 export const Main = styled.main`
   margin: 0;
   min-height: 100vh;

@@ -151,7 +151,13 @@ export default function CriarConta() {
           <FormDadosAcademicos
             signupVoluntarioService={new SignupVoluntarioService(api)}
             dadosPessoais={dadosPessoais}
-            handleSuccess={() => {}}
+            handleSuccess={async () => {
+              await router.push('/cadastro-pendente')
+              emit({
+                type: ToastType.SUCCESS,
+                message: 'Cadastro realizado com sucesso!'
+              })
+            }}
             handleError={() => {}}
             setCurrentStep={setCurrentStep}
             previousValues={dadosAcademicos}

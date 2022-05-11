@@ -16,6 +16,7 @@ import dynamic from 'next/dynamic'
 import Footer from '../components/molecules/Footer'
 import { AuthorizationProvider } from 'store/auth-context'
 import { UserActivityContextProvider } from 'store/user-activity-context'
+import * as S from '../styles/global'
 
 const HeadersDashboardNoSsr = dynamic(
   () => import('../components/molecules/HeaderDashboard'),
@@ -48,8 +49,10 @@ function MyApp({ Component, pageProps }: AppProps) {
               </Head>
               <GlobalStyle />
               <Main>
-                <HeadersDashboardNoSsr />
-                <Breadcrumb />
+                <S.HeaderDiv>
+                  <HeadersDashboardNoSsr />
+                  <Breadcrumb />
+                </S.HeaderDiv>
                 <Component {...pageProps} />
                 <Footer />
               </Main>
