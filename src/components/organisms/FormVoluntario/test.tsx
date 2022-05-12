@@ -217,6 +217,7 @@ describe('<FormVoluntario/>', () => {
     })
 
     it('Deve enviar o formulario com sucesso', async () => {
+      jest.setTimeout(20000)
       const { button } = await fillForm()
 
       await act(async () => {
