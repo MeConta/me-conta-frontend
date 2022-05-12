@@ -65,6 +65,7 @@ export function FormRecuperacaoSenha(props: {
           radius="square"
           disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
+          size="mediumLarge"
         >
           ENVIAR
         </Button>

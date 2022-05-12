@@ -76,7 +76,8 @@ export function FormResetSenha(props: MyProps) {
         name="password"
         render={({ field }) => (
           <PasswordField
-            label="Senha"
+            label="Nova senha"
+            required={true}
             showStrengthBar
             handleStrength={(score) => {
               setPasswordScore(score)
@@ -91,7 +92,8 @@ export function FormResetSenha(props: MyProps) {
         name="passwordConfirm"
         render={({ field }) => (
           <PasswordField
-            label="Confirmar Senha"
+            required={true}
+            label="Confirmar nova senha"
             error={errors.passwordConfirm?.message}
             {...field}
           />
@@ -102,8 +104,9 @@ export function FormResetSenha(props: MyProps) {
           radius="square"
           disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
+          size="mediumLarge"
         >
-          ENVIAR
+          REDEFINIR MINHA SENHA
         </Button>
       </S.ButtonContainer>
     </S.Form>
