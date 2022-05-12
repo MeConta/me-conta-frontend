@@ -55,6 +55,7 @@ export default {
     xgsmall: '1.13rem',
     xmsmall: '1.4rem',
     xsmall: '1.6rem',
+    gsmall: '2.0rem',
     small: '2.4rem',
     xmedium: '2.9rem',
     medium: '3.2rem',

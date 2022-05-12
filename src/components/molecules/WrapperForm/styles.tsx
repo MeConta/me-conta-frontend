@@ -27,7 +27,7 @@ export const Wrapper = styled.div<WrapperProp>`
     border-radius: ${borderPresent && theme.border['btn-square-radius']};
     padding: ${padding
       ? padding
-      : theme.spacings.large + ' ' + theme.spacings.xxsmall};
+      : theme.spacings.large + ' ' + theme.spacings.gsmall};
     max-width: 30%;
     a {
       margin: 0 0 2rem 0;
@@ -42,7 +42,7 @@ export const Wrapper = styled.div<WrapperProp>`
 
     @media only screen and (max-width: ${theme.screen.small}) {
       border: 0;
-      max-width: 100%;
+      max-width: 500px;
     }
   `}
 `

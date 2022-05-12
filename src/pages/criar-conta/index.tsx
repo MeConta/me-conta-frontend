@@ -64,7 +64,8 @@ export default function CriarConta() {
       })
       router.push('/login')
     }
-  }, [authCtx, currentStep, emit, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStep])
 
   const redirectAccordingToUserType = async (type: UserType) => {
     if (type === UserType.ALUNO) {
