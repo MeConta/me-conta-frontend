@@ -55,6 +55,7 @@ export function FormRecuperacaoSenha(props: {
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
       <TextField
+        required={true}
         label="E-mail"
         error={errors.email?.message}
         {...register('email')}
