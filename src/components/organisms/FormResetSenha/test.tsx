@@ -15,8 +15,8 @@ describe('<FormResetSenha />', () => {
 
   const elements = () => {
     return {
-      password: screen.getByRole('password', { name: 'Senha' }),
-      confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
+      password: screen.getByRole('password', { name: 'Nova senha' }),
+      confirm: screen.getByRole('password', { name: 'Confirmar nova senha' }),
       button: screen.getByRole('button')
     }
   }

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const FooterContainer = styled.footer`
   width: 100%;
   background: linear-gradient(183.41deg, #67c3f3 -8.57%, #458ff6 82.96%);
-  margin-top: auto;
 `
 
 export const FooterWrapper = styled.div`

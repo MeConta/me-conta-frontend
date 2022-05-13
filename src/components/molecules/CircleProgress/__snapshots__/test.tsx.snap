@@ -13,7 +13,7 @@ exports[`<CircleProgress/> should render the component on screen 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  min-width: 11rem;
+  min-width: 9rem;
   max-width: 11rem;
 }
 
@@ -57,6 +57,7 @@ exports[`<CircleProgress/> should render the component on screen 1`] = `
 }
 
 .c4 {
+  inline-size: 10ch;
   width: inherit;
   color: #A39C9C;
   font-size: 1.5rem;

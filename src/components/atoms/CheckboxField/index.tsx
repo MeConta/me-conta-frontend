@@ -12,6 +12,7 @@ export type CheckboxFieldProps = {
   error?: string
   disabled?: boolean
   required?: boolean
+  margin?: 'small' | 'xsmall' | 'xxsmall' | 'xxxsmall' | 'zero'
   value?: string | number | boolean
   onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
@@ -21,6 +22,7 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
     label,
     name,
     onChange,
+    margin,
     value,
     error,
     disabled,
@@ -30,8 +32,8 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
   ref?: ForwardedRef<HTMLInputElement>
 ) {
   return (
-    <S.Wrapper disabled={disabled}>
-      <S.InputWrapper>
+    <S.Wrapper disabled={disabled} margin={margin}>
+      <S.InputWrapper margin={margin}>
         <S.Input
           value={value}
           onChange={onChange}
@@ -39,11 +41,11 @@ export const CheckboxField = React.forwardRef(function CheckboxField(
           disabled={disabled}
           type="checkbox"
           ref={ref}
-          {...(!!label ? { id: name } : {})}
+          {...(!!label ? { id: label } : {})}
           {...props}
         />
         {!!label && (
-          <S.Label htmlFor={name} aria-required={required} data-testid={label}>
+          <S.Label htmlFor={label} aria-required={required} data-testid={label}>
             {label}
           </S.Label>
         )}

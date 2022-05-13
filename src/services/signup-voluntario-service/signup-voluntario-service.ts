@@ -11,12 +11,12 @@ type VoluntarioSignupUser = {
   instituicao: string
   frentes: number[]
   formado: boolean
-  anoFormacao: number
-  semestre: number
-  especializacoes: string | null
-  areaAtuacao: string | null
-  crp: string | null
-  abordagem: string | null
+  anoFormacao?: number | null
+  semestre?: number | null
+  especializacoes?: string | null
+  areaAtuacao?: string | null
+  crp?: string | null
+  abordagem?: string | null
   bio: string
   tipo: UserType
 }

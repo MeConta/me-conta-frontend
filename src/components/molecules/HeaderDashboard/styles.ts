@@ -30,7 +30,7 @@ export const Wrapper = styled.header`
       width: 2rem;
       height: 2rem;
 
-      @media (min-width: 768px) {
+      @media (min-width: 769px) {
         display: none;
       }
     }
@@ -71,7 +71,7 @@ export const Wrapper = styled.header`
       }
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 769px) {
       .close-menu-button {
         display: none;
       }

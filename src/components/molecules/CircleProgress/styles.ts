@@ -4,7 +4,7 @@ export const CircleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 11rem;
+  min-width: 9rem;
   max-width: 11rem;
 `
 
@@ -41,6 +41,7 @@ export const CircleLine = styled.div<CircleLineProp>`
 `
 
 export const CircleSubtitle = styled.p<CircleLineProp>`
+  inline-size: 10ch;
   width: inherit;
   color: ${(p) =>
     p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};

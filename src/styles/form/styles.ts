@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const WrapperFields = styled.section`
   display: flex;
@@ -21,10 +21,11 @@ export const ButtonContainer = styled.div`
   }
 `
 
-type TextProps = {
-  size?: 'desk-large' | 'desk-xlarge'
+export type TextProps = {
+  size?: 'desk-large' | 'desk-xlarge' | 'desk-xxlarge'
   margin?: 'xsmall'
   color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft'
+  weight?: 'bold'
 }
 
 export const BoldParagraph = styled.b`
@@ -33,14 +34,16 @@ export const BoldParagraph = styled.b`
   `}
 `
 
-export const Paragraph = styled.p<Pick<TextProps, 'size' | 'margin' | 'color'>>`
-  ${({ theme, size, margin, color }) => css`
+export const Paragraph = styled.p<
+  Pick<TextProps, 'size' | 'margin' | 'color' | 'weight'>
+>`
+  ${({ theme, size, margin, color, weight }) => css`
     text-align: center;
     padding: 1rem;
     color: ${theme.colors[color ?? 'lightGray']};
     margin: ${margin ? theme.spacings[margin] : theme.zero};
     font-size: ${theme.font.sizes[size ?? 'desk-large']};
-    font-weight: ${theme.font.normal};
+    font-weight: ${weight ?? theme.font.normal};
   `}
 `
 

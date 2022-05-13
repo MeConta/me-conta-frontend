@@ -222,6 +222,7 @@ export function FormCadastro(props: {
         {...register('termsConfirm')}
         error={errors.termsConfirm?.message}
         required={true}
+        margin="small"
       />
 
       <S.ButtonContainer>

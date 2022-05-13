@@ -5,15 +5,29 @@ import { Button } from 'components/atoms/Button'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/styles'
 import { useRouter } from 'next/router'
+import { useAuthContext } from 'store/auth-context'
+import { useEffect, useState } from 'react'
+import { redirects } from 'utils/routes/redirects'
 
 export default function Login() {
   const router = useRouter()
+  const authCtx = useAuthContext()
+  const [renderLogin, setRenderLogin] = useState<boolean>(false)
 
   const criarConta = function () {
     router.push('/criar-conta')
   }
 
-  return (
+  useEffect(() => {
+    if (authCtx.isLoggedIn) {
+      const route = redirects[+authCtx.session.type]
+      router.push(route)
+    } else {
+      setRenderLogin(true)
+    }
+  }, [authCtx, router])
+
+  return renderLogin ? (
     <S.ComponentWrapper>
       <WrapperForm>
         <F.WrapperFields>
@@ -41,5 +55,7 @@ export default function Login() {
         </F.WrapperFields>
       </WrapperForm>
     </S.ComponentWrapper>
+  ) : (
+    <></>
   )
 }

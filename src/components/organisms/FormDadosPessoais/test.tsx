@@ -22,6 +22,14 @@ describe('<FormDadosPessoais />', () => {
     genero: 'NB'
   }
 
+  const dadosPessoaisDefault = {
+    telefone: '',
+    genero: 'ND',
+    UF: '',
+    dataNascimento: '',
+    cidade: ''
+  }
+
   const elements = () => {
     return {
       telefone: screen.getByTestId('phone-number'),
@@ -29,6 +37,7 @@ describe('<FormDadosPessoais />', () => {
       cidade: screen.getByLabelText('Cidade'),
       UF: screen.getByLabelText('Estado'),
       genero: screen.getByLabelText('Masculino'),
+      generoNaoDeclarado: screen.getByLabelText(/Prefiro não Declarar/i),
       buttonProximoPasso: screen.getByRole('button', {
         name: /próximo passo/i
       })
@@ -57,9 +66,9 @@ describe('<FormDadosPessoais />', () => {
   beforeEach(() => {
     render(
       <FormDadosPessoais
-        setDadosRegistro={mockSetDados}
+        setDadosPessoais={mockSetDados}
         setNextStep={mockSetNextStep}
-        valoresIniciais={null}
+        valoresIniciais={dadosPessoaisDefault}
       />
     )
   })
@@ -69,13 +78,14 @@ describe('<FormDadosPessoais />', () => {
   })
 
   it('deve renderizar o formulário de dados pessoais', () => {
-    const { telefone, dataNascimento, cidade, UF, genero } = elements()
+    const { telefone, dataNascimento, cidade, UF, generoNaoDeclarado } =
+      elements()
 
     expect(telefone).toBeInTheDocument()
     expect(dataNascimento).toBeInTheDocument()
     expect(cidade).toBeInTheDocument()
     expect(UF).toBeInTheDocument()
-    expect(genero).toBeInTheDocument()
+    expect(generoNaoDeclarado).toBeChecked()
   })
 
   it('deve renderizar o formulário de dados pessoais com os dados iniciais pré preenchidos', () => {
@@ -83,7 +93,7 @@ describe('<FormDadosPessoais />', () => {
 
     render(
       <FormDadosPessoais
-        setDadosRegistro={mockSetDados}
+        setDadosPessoais={mockSetDados}
         setNextStep={mockSetNextStep}
         valoresIniciais={valoresIniciais}
       />
@@ -115,7 +125,7 @@ describe('<FormDadosPessoais />', () => {
     expect(await screen.findByText(/Cidade é obrigatório/)).toBeInTheDocument()
   })
 
-  it('deve armazenar os valores preenchidos, chamando setDadosRegistro', async () => {
+  it('deve armazenar os valores preenchidos, chamando setDadosPessoais', async () => {
     const { buttonProximoPasso } = elements()
     const { telefone, dataNascimento, cidade, UF } = await fillForm()
 

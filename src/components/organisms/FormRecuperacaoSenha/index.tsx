@@ -55,6 +55,7 @@ export function FormRecuperacaoSenha(props: {
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
       <TextField
+        required={true}
         label="E-mail"
         error={errors.email?.message}
         {...register('email')}
@@ -64,8 +65,9 @@ export function FormRecuperacaoSenha(props: {
           radius="square"
           disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
+          size="mediumLarge"
         >
-          ENVIAR
+          RECUPERAR MINHA SENHA
         </Button>
       </S.ButtonContainer>
     </S.Form>
