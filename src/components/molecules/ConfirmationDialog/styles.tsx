@@ -1,14 +1,31 @@
-import styled from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 
-export const DivContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
+type ContainerProps = {
+  isModal?: boolean
+}
 
-  @media screen and (max-width: 425px) {
-    padding: 0;
-    & > div {
-      margin: 0;
+const modalStyles = (theme: DefaultTheme) => css`
+  background-color: rgba(0, 0, 0, 0.25);
+  position: fixed;
+  top: 0;
+  z-index: ${theme.layers.modal};
+  height: 100%;
+`
+
+export const DivContainer = styled.div<ContainerProps>`
+  ${({ isModal, theme }) => css`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ${!!isModal && modalStyles(theme)}
+
+    @media screen and (max-width: 425px) {
+      padding: 0;
+      & > div {
+        margin: 0;
+      }
     }
-  }
+  `}
 `

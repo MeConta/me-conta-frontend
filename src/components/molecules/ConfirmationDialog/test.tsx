@@ -75,4 +75,32 @@ describe('<ConfirmationDialog />', () => {
 
     expect(router.push).toHaveBeenCalledWith('/rota-teste')
   })
+
+  it('should redirect to home when clicking on button if no buttonLink is provided', () => {
+    render(<ConfirmationDialog logoSrc="/teste.png" buttonText={buttonText} />)
+
+    userEvent.click(screen.getByRole('button', { name: buttonText }))
+
+    expect(router.push).toHaveBeenCalledWith('/')
+  })
+
+  it('should apply modal styles when isModal prop is true', () => {
+    render(
+      <ConfirmationDialog
+        logoSrc="/teste.png"
+        buttonText={buttonText}
+        buttonLink="/rota-teste"
+        isModal={true}
+      />
+    )
+
+    expect(screen.getByTestId('confirmation-dialog')).toHaveStyle(
+      ` background-color: rgba(0, 0, 0, 0.25);
+        position: fixed;
+        top: 0;
+        z-index: 40;
+        height: 100%;
+        `
+    )
+  })
 })

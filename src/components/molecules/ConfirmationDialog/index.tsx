@@ -22,6 +22,7 @@ interface ConfirmationDialogProps {
   buttonText: string
   buttonLink?: string
   logoSrc?: string | StaticImageData
+  isModal?: boolean
 }
 
 export default function ConfirmationDialog({
@@ -31,7 +32,8 @@ export default function ConfirmationDialog({
   subtitleInfo,
   buttonText,
   buttonLink,
-  logoSrc = Logo
+  logoSrc = Logo,
+  isModal
 }: ConfirmationDialogProps) {
   const renderText = (
     text: {
@@ -51,7 +53,7 @@ export default function ConfirmationDialog({
   }
 
   return (
-    <S.DivContainer>
+    <S.DivContainer data-testid="confirmation-dialog" isModal={isModal}>
       <WrapperForm
         borderPresent={false}
         padding="4rem 4.8rem"
