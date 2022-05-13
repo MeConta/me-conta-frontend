@@ -67,7 +67,7 @@ export function FormRecuperacaoSenha(props: {
           type="submit"
           size="mediumLarge"
         >
-          ENVIAR
+          RECUPERAR MINHA SENHA
         </Button>
       </S.ButtonContainer>
     </S.Form>
