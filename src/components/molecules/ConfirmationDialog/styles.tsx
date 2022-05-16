@@ -27,5 +27,11 @@ export const DivContainer = styled.div<ContainerProps>`
         margin: 0;
       }
     }
+
+    @media screen and (max-width: 280px) {
+      > div {
+        padding: ${theme.spacings.gsmall};
+      }
+    }
   `}
 `
