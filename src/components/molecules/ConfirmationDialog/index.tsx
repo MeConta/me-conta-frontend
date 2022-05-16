@@ -56,7 +56,7 @@ export default function ConfirmationDialog({
     <S.DivContainer data-testid="confirmation-dialog" isModal={isModal}>
       <WrapperForm
         borderPresent={false}
-        padding="4rem 4.8rem"
+        padding="4rem 2.8rem"
         logoSize="small"
         shape="square"
         logoSrc={logoSrc}
@@ -76,7 +76,6 @@ export default function ConfirmationDialog({
         <F.ButtonContainer>
           <Button
             radius="square"
-            color="secondary"
             size="mediumLarge"
             onClick={() => router.push(buttonLink ?? '/')}
           >

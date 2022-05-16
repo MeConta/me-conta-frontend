@@ -31,7 +31,7 @@ export default function RecuperacaoDeSenha() {
           <FormRecuperacaoSenha
             authService={authService}
             handleSuccess={() => {
-              router.push('/login')
+              router.push('/recuperacao-de-senha-email')
             }}
             handleError={(error: BackendError) => {
               console.log(error)

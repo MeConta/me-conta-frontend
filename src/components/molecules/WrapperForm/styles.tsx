@@ -8,8 +8,8 @@ interface WrapperProp {
 
 const wrapperModifiers = {
   square: () => css`
-    width: 40rem;
-    height: 40rem;
+    width: 42rem;
+    height: auto;
     & > div {
       margin-top: 4rem;
     }
