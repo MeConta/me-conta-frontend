@@ -7,9 +7,12 @@ import { BackendError } from 'types/backend-error'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/styles'
 import * as B from '../../components/organisms/FormRecuperacaoSenha/styles'
-
+import { useState } from 'react'
+import ConfirmationDialog from '../../components/molecules/ConfirmationDialog'
 export default function RecuperacaoDeSenha() {
   const { authService } = useAuthContext()
+
+  const [showModal, setShowModal] = useState(false)
 
   const router = useRouter()
 
@@ -19,6 +22,19 @@ export default function RecuperacaoDeSenha() {
 
   return (
     <S.ComponentWrapper>
+      {showModal && (
+        <ConfirmationDialog
+          isModal={true}
+          titleInfo={{ boldText: 'E-mail não enviado' }}
+          buttonColor="secondary"
+          buttonLink={'/recuperacao-de-senha'}
+          subtitleInfo={{
+            preText:
+              'Ocorreu um problem ao fazer o envio do e-mail. Por favor, atualize o navegador e tente novamente.'
+          }}
+          buttonText={'TENTAR NOVAMENTE'}
+        />
+      )}
       <WrapperForm>
         <F.WrapperFields>
           <F.Paragraph size="desk-xxlarge" color="black" weight="bold">
@@ -35,6 +51,7 @@ export default function RecuperacaoDeSenha() {
             }}
             handleError={(error: BackendError) => {
               console.log(error)
+              setShowModal(true)
             }}
           />
           <F.Paragraph margin="xsmall" color="lightGray">

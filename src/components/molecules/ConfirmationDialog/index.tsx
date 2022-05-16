@@ -21,6 +21,7 @@ interface ConfirmationDialogProps {
   }
   buttonText: string
   buttonLink?: string
+  buttonColor?: 'primary' | 'secondary'
   logoSrc?: string | StaticImageData
   isModal?: boolean
 }
@@ -33,7 +34,8 @@ export default function ConfirmationDialog({
   buttonText,
   buttonLink,
   logoSrc = Logo,
-  isModal
+  isModal,
+  buttonColor
 }: ConfirmationDialogProps) {
   const renderText = (
     text: {
@@ -77,6 +79,7 @@ export default function ConfirmationDialog({
           <Button
             radius="square"
             size="mediumLarge"
+            color={buttonColor}
             onClick={() => router.push(buttonLink ?? '/')}
           >
             {buttonText}
