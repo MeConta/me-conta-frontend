@@ -20,6 +20,10 @@ export default function RecuperacaoDeSenha() {
     router.push('/login')
   }
 
+  const fazerReload = () => {
+    router.reload()
+  }
+
   return (
     <S.ComponentWrapper>
       {showModal && (
@@ -27,7 +31,7 @@ export default function RecuperacaoDeSenha() {
           isModal={true}
           titleInfo={{ boldText: 'E-mail não enviado' }}
           buttonColor="secondary"
-          buttonLink={'/recuperacao-de-senha'}
+          reload={fazerReload}
           subtitleInfo={{
             preText:
               'Ocorreu um problem ao fazer o envio do e-mail. Por favor, atualize o navegador e tente novamente.'

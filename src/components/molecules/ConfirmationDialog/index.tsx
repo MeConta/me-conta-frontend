@@ -21,6 +21,7 @@ interface ConfirmationDialogProps {
   }
   buttonText: string
   buttonLink?: string
+  reload?: () => void
   buttonColor?: 'primary' | 'secondary'
   logoSrc?: string | StaticImageData
   isModal?: boolean
@@ -35,7 +36,8 @@ export default function ConfirmationDialog({
   buttonLink,
   logoSrc = Logo,
   isModal,
-  buttonColor
+  buttonColor,
+  reload
 }: ConfirmationDialogProps) {
   const renderText = (
     text: {
@@ -80,7 +82,7 @@ export default function ConfirmationDialog({
             radius="square"
             size="mediumLarge"
             color={buttonColor}
-            onClick={() => router.push(buttonLink ?? '/')}
+            onClick={() => (reload ? reload() : router.push(buttonLink ?? '/'))}
           >
             {buttonText}
           </Button>
