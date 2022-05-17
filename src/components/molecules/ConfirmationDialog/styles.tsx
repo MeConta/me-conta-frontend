@@ -18,6 +18,7 @@ export const DivContainer = styled.div<ContainerProps>`
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: ${isModal && 'blur(5px)'};
 
     ${!!isModal && modalStyles(theme)}
 
