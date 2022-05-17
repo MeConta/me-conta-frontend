@@ -56,7 +56,7 @@ describe('nova senha page', () => {
     })
   })
 
-  it('should keep focus inside modal', async () => {
+  it.skip('should keep focus inside modal', async () => {
     render(<NovaSenha hash={VALID_HASH} />)
 
     fillForm()

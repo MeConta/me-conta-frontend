@@ -19,6 +19,7 @@ type WrapperFormProps = {
   passoCadastro?: PassosCadastro
   children: ReactNode
   role?: AriaRole
+  id?: string
 }
 
 export const WrapperForm = ({
@@ -32,6 +33,7 @@ export const WrapperForm = ({
   passoCadastro,
   children,
   role,
+  id,
   ...props
 }: WrapperFormProps) => {
   const logoSizes = {
@@ -50,6 +52,7 @@ export const WrapperForm = ({
       borderPresent={borderPresent}
       padding={padding}
       shape={shape}
+      id={id}
       role={role}
       {...props}
     >

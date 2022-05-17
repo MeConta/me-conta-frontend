@@ -1,5 +1,5 @@
 const toggles = {
-  enablePasswordResetModal: false
+  enablePasswordResetModal: true
 }
 
 export default toggles

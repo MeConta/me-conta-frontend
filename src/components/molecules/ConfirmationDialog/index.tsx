@@ -57,15 +57,35 @@ export default function ConfirmationDialog({
     )
   }
 
-  useEffect(() => {
-    document.getElementById('dialog-button')?.focus()
-  }, [])
-
-  const keepFocusInsideDialog = (e: any) => {
-    if (e.code === 'Tab' && isModal) {
-      e.preventDefault()
-    }
+  const trapFocus = (element: HTMLElement) => {
+    const firstFocusableEl = element.querySelector(
+      'a[href]:not([disabled])'
+    ) as HTMLElement
+    const lastFocusableEl = element.querySelector(
+      'button:not([disabled])'
+    ) as HTMLElement
+    firstFocusableEl?.focus()
+    element.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableEl) {
+            lastFocusableEl?.focus()
+            e.preventDefault()
+          }
+        } else {
+          if (document.activeElement === lastFocusableEl) {
+            firstFocusableEl?.focus()
+            e.preventDefault()
+          }
+        }
+      }
+    })
   }
+
+  useEffect(() => {
+    const modal = document.getElementById('modal') as HTMLElement
+    if (modal !== null) trapFocus(modal)
+  }, [])
 
   const modalProps = {
     role: 'dialog',
@@ -77,16 +97,13 @@ export default function ConfirmationDialog({
   const extraProps = () => (isModal ? modalProps : {})
 
   return (
-    <S.DivContainer
-      data-testid="confirmation-dialog"
-      isModal={isModal}
-      onKeyDown={keepFocusInsideDialog}
-    >
+    <S.DivContainer data-testid="confirmation-dialog" isModal={isModal}>
       <WrapperForm
         borderPresent={false}
         padding="4rem 2.8rem"
         logoSize="small"
         shape="square"
+        id={isModal ? 'modal' : ''}
         logoSrc={logoSrc}
         {...extraProps()}
       >

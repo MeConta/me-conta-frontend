@@ -1,4 +1,4 @@
-import { render, screen } from '../../../utils/tests/helpers'
+import { render, screen, waitFor } from '../../../utils/tests/helpers'
 import ConfirmationDialog from '.'
 import userEvent from '@testing-library/user-event'
 import router from '../../../../__mocks__/next/router'
@@ -107,10 +107,13 @@ describe('<ConfirmationDialog />', () => {
       )
     })
 
-    it('should keep focus on dialog button', () => {
-      expect(screen.getByRole('button')).toHaveFocus()
+    it('should focus on button after perform two sequencial tab clicks', () => {
       userEvent.keyboard('Tab')
-      expect(screen.getByRole('button')).toHaveFocus()
+      expect(screen.getByRole('link')).toHaveFocus()
+      userEvent.keyboard('Tab')
+      waitFor(() => {
+        expect(screen.getByRole('button')).toHaveFocus()
+      })
     })
 
     it('should have necessary aria attributes', () => {
