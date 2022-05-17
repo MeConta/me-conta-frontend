@@ -66,13 +66,39 @@ describe('<FormRecuperacaoSenha />', () => {
     userEvent.type(email, 'meuemail@email.com')
     fireEvent.click(button)
 
-    jest
-      .spyOn(authServiceMock, 'recuperarSenha')
-      .mockImplementation(() => Promise.reject())
+    jest.spyOn(authServiceMock, 'recuperarSenha').mockImplementation(() =>
+      Promise.reject({
+        code: 500,
+        message: 'mensagem de erro'
+      })
+    )
 
     await waitFor(() => {
       expect(authServiceMock.recuperarSenha).toBeCalled()
       expect(handleErrorMock).toBeCalled()
+    })
+  })
+
+  it('deve exibir erro quando o email enviado não é encontrado no sistema', async () => {
+    const email = screen.getByRole('textbox', { name: 'E-mail' })
+    userEvent.type(email, 'emailnaoexistente@gmail.com')
+    const button = screen.getByRole('button')
+
+    jest.spyOn(authServiceMock, 'recuperarSenha').mockImplementation(() =>
+      Promise.reject({
+        response: {
+          data: {
+            code: 404,
+            message: 'mensagem de erro'
+          }
+        }
+      })
+    )
+
+    fireEvent.click(button)
+
+    await waitFor(() => {
+      expect(screen.getByText('E-mail inválido')).toBeInTheDocument()
     })
   })
 })

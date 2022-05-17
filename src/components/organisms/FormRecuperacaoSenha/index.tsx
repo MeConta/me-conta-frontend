@@ -1,7 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
 import { TextField } from 'components/atoms/TextField'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IAuthService } from 'services/auth-services/auth-service'
 import * as Yup from 'yup'
@@ -22,6 +22,8 @@ export function FormRecuperacaoSenha(props: {
   handleSuccess: () => void
   handleError: (error: BackendError) => void
 }) {
+  const [backendError, setBackendError] = useState('')
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email(ERRORS.INVALID_EMAIL)
@@ -32,10 +34,14 @@ export function FormRecuperacaoSenha(props: {
     try {
       if (props.authService.recuperarSenha) {
         await props.authService.recuperarSenha(email)
+        setBackendError('')
         props.handleSuccess()
       }
     } catch (e) {
-      props.handleError(e)
+      if (e?.response?.data?.code === 404) {
+        setBackendError(ERRORS.INVALID_EMAIL)
+      }
+      props.handleError(e?.response?.data as BackendError)
     }
   }
 
@@ -57,7 +63,7 @@ export function FormRecuperacaoSenha(props: {
       <TextField
         required={true}
         label="E-mail"
-        error={errors.email?.message}
+        error={errors.email?.message || backendError}
         {...register('email')}
       />
       <S.ButtonContainer>

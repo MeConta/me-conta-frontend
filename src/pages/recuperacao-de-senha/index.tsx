@@ -55,7 +55,7 @@ export default function RecuperacaoDeSenha() {
             }}
             handleError={(error: BackendError) => {
               console.log(error)
-              setShowModal(true)
+              if (error.code === 500) setShowModal(true)
             }}
           />
           <F.Paragraph margin="xsmall" color="lightGray">
