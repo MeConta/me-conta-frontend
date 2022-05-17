@@ -84,23 +84,41 @@ describe('<ConfirmationDialog />', () => {
     expect(router.push).toHaveBeenCalledWith('/')
   })
 
-  it('should apply modal styles when isModal prop is true', () => {
-    render(
-      <ConfirmationDialog
-        logoSrc="/teste.png"
-        buttonText={buttonText}
-        buttonLink="/rota-teste"
-        isModal={true}
-      />
-    )
+  describe('when isModal prop is true', () => {
+    beforeEach(() => {
+      render(
+        <ConfirmationDialog
+          logoSrc="/teste.png"
+          buttonText={buttonText}
+          buttonLink="/rota-teste"
+          isModal={true}
+        />
+      )
+    })
 
-    expect(screen.getByTestId('confirmation-dialog')).toHaveStyle(
-      ` background-color: rgba(0, 0, 0, 0.25);
-        position: fixed;
-        top: 0;
-        z-index: 40;
-        height: 100%;
-        `
-    )
+    it('should apply modal styles', () => {
+      expect(screen.getByTestId('confirmation-dialog')).toHaveStyle(
+        ` background-color: rgba(0, 0, 0, 0.25);
+          position: fixed;
+          top: 0;
+          z-index: 40;
+          height: 100%;
+          `
+      )
+    })
+
+    it('should keep focus on dialog button', () => {
+      expect(screen.getByRole('button')).toHaveFocus()
+      userEvent.keyboard('Tab')
+      expect(screen.getByRole('button')).toHaveFocus()
+    })
+
+    it('should have necessary aria attributes', () => {
+      const dialog = screen.getByRole('dialog')
+      expect(dialog).toBeInTheDocument()
+      expect(dialog).toHaveAttribute('aria-modal')
+      expect(dialog).toHaveAttribute('aria-labelledby')
+      expect(dialog).toHaveAttribute('aria-describedby')
+    })
   })
 })

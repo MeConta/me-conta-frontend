@@ -35,6 +35,7 @@ function NovaSenha({ hash }: InitialProps) {
           buttonText="ACESSAR MINHA CONTA"
           buttonLink="/login"
           isModal
+          buttonColor="secondary"
         />
       )}
       <S.ComponentWrapper>

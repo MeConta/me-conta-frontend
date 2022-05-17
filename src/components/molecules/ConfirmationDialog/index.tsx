@@ -1,6 +1,6 @@
 import * as S from './styles'
 import * as F from '../../../styles/form/styles'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Button } from 'components/atoms/Button'
 import { WrapperForm } from '../WrapperForm'
 import Logo from '../../../../public/assets/logo.png'
@@ -45,35 +45,62 @@ export default function ConfirmationDialog({
       boldText?: string
       posText?: string
     },
+    type: 'title' | 'subtitle',
     size?: F.TextProps['size'],
     color?: F.TextProps['color']
   ) => {
     return (
-      <F.Paragraph color={color} size={size}>
+      <F.Paragraph color={color} size={size} id={`dialog-${type}`}>
         {text.preText} <F.BoldParagraph>{text.boldText}</F.BoldParagraph>{' '}
         {text.posText}
       </F.Paragraph>
     )
   }
 
+  useEffect(() => {
+    document.getElementById('dialog-button')?.focus()
+  }, [])
+
+  const keepFocusInsideDialog = (e: any) => {
+    if (e.code === 'Tab' && isModal) {
+      e.preventDefault()
+    }
+  }
+
+  const modalProps = {
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-labelledby': 'dialog-title',
+    'aria-describedby': 'dialog-subtitle'
+  }
+
+  const extraProps = () => (isModal ? modalProps : {})
+
   return (
-    <S.DivContainer data-testid="confirmation-dialog" isModal={isModal}>
+    <S.DivContainer
+      data-testid="confirmation-dialog"
+      isModal={isModal}
+      onKeyDown={keepFocusInsideDialog}
+    >
       <WrapperForm
         borderPresent={false}
         padding="4rem 2.8rem"
         logoSize="small"
         shape="square"
         logoSrc={logoSrc}
+        {...extraProps()}
       >
         {titleInfo ? (
-          renderText(titleInfo, 'desk-xlarge', 'black')
+          renderText(titleInfo, 'title', 'desk-xlarge', 'black')
         ) : (
-          <F.Paragraph size="desk-xlarge">{title}</F.Paragraph>
+          <F.Paragraph size="desk-xlarge" id="dialog-title">
+            {title}
+          </F.Paragraph>
         )}
         {subtitleInfo ? (
-          renderText(subtitleInfo, undefined, 'black')
+          renderText(subtitleInfo, 'subtitle', undefined, 'black')
         ) : (
-          <F.Paragraph color="black" size="desk-large">
+          <F.Paragraph color="black" size="desk-large" id="dialog-subtitle">
             {subtitle}
           </F.Paragraph>
         )}
@@ -83,6 +110,7 @@ export default function ConfirmationDialog({
             size="mediumLarge"
             color={buttonColor}
             onClick={() => (reload ? reload() : router.push(buttonLink ?? '/'))}
+            id="dialog-button"
           >
             {buttonText}
           </Button>

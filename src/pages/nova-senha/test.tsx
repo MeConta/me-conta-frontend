@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import { IAuthService } from 'services/auth-services/auth-service'
-import { render, screen, waitFor } from '../../utils/tests/helpers'
+import { render, screen, waitFor, within } from '../../utils/tests/helpers'
 import NovaSenha from './[hash]'
 
 jest.mock('store/auth-context', () => {
@@ -54,5 +54,25 @@ describe('nova senha page', () => {
     await waitFor(() => {
       expect(screen.getByText(/Sua senha foi redefinida/i)).toBeInTheDocument()
     })
+  })
+
+  it('should keep focus inside modal', async () => {
+    render(<NovaSenha hash={VALID_HASH} />)
+
+    fillForm()
+
+    userEvent.click(
+      screen.getByRole('button', { name: /Redefinir minha senha/i })
+    )
+
+    await waitFor(() => {
+      expect(screen.getByText(/Sua senha foi redefinida/i)).toBeInTheDocument()
+    })
+
+    const modal = screen.getByRole('dialog')
+
+    expect(within(modal).getByRole('button')).toHaveFocus()
+    userEvent.keyboard('Tab')
+    expect(within(modal).getByRole('button')).toHaveFocus()
   })
 })

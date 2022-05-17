@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { AriaRole } from 'react'
 import Logo from '../../../../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -18,6 +18,7 @@ type WrapperFormProps = {
   tipoDeUsuario?: UserType
   passoCadastro?: PassosCadastro
   children: ReactNode
+  role?: AriaRole
 }
 
 export const WrapperForm = ({
@@ -29,7 +30,9 @@ export const WrapperForm = ({
   shape,
   tipoDeUsuario,
   passoCadastro,
-  children
+  children,
+  role,
+  ...props
 }: WrapperFormProps) => {
   const logoSizes = {
     small: {
@@ -43,7 +46,13 @@ export const WrapperForm = ({
   }
 
   return (
-    <S.Wrapper borderPresent={borderPresent} padding={padding} shape={shape}>
+    <S.Wrapper
+      borderPresent={borderPresent}
+      padding={padding}
+      shape={shape}
+      role={role}
+      {...props}
+    >
       <Link href="/">
         <a>
           <Image
