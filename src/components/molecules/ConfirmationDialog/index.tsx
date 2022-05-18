@@ -21,7 +21,7 @@ interface ConfirmationDialogProps {
   }
   buttonText: string
   buttonLink?: string
-  reload?: () => void
+  buttonAction?: () => void
   buttonColor?: 'primary' | 'secondary'
   logoSrc?: string | StaticImageData
   isModal?: boolean
@@ -37,26 +37,8 @@ export default function ConfirmationDialog({
   logoSrc = Logo,
   isModal,
   buttonColor,
-  reload
+  buttonAction
 }: ConfirmationDialogProps) {
-  const renderText = (
-    text: {
-      preText?: string
-      boldText?: string
-      posText?: string
-    },
-    type: 'title' | 'subtitle',
-    size?: F.TextProps['size'],
-    color?: F.TextProps['color']
-  ) => {
-    return (
-      <F.Paragraph color={color} size={size} id={`dialog-${type}`}>
-        {text.preText} <F.BoldParagraph>{text.boldText}</F.BoldParagraph>{' '}
-        {text.posText}
-      </F.Paragraph>
-    )
-  }
-
   const trapFocus = (element: HTMLElement) => {
     const firstFocusableEl = element.querySelector(
       'a[href]:not([disabled])'
@@ -126,7 +108,9 @@ export default function ConfirmationDialog({
             radius="square"
             size="mediumLarge"
             color={buttonColor}
-            onClick={() => (reload ? reload() : router.push(buttonLink ?? '/'))}
+            onClick={() =>
+              buttonAction ? buttonAction() : router.push(buttonLink ?? '/')
+            }
             id="dialog-button"
           >
             {buttonText}
@@ -134,5 +118,23 @@ export default function ConfirmationDialog({
         </F.ButtonContainer>
       </WrapperForm>
     </S.DivContainer>
+  )
+}
+
+const renderText = (
+  text: {
+    preText?: string
+    boldText?: string
+    posText?: string
+  },
+  type: 'title' | 'subtitle',
+  size?: F.TextProps['size'],
+  color?: F.TextProps['color']
+) => {
+  return (
+    <F.Paragraph color={color} size={size} id={`dialog-${type}`}>
+      {text.preText} <F.BoldParagraph>{text.boldText}</F.BoldParagraph>{' '}
+      {text.posText}
+    </F.Paragraph>
   )
 }
