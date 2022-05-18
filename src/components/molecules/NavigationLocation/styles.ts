@@ -5,6 +5,9 @@ export const ComponentContainer = styled.div`
   max-width: 100%;
   padding: ${(p) => p.theme.zero} ${(p) => p.theme.spacings.small};
   margin: ${(p) => p.theme.spacings.xsmall} ${(p) => p.theme.zero};
+  @media (max-width: 768px) {
+    padding: ${(p) => p.theme.zero};
+  }
 `
 
 interface LineProp {
@@ -20,6 +23,8 @@ export const Line = styled.div<LineProp>`
   background-color: ${(p) =>
     p.active ? p.theme.colors.cornflowerBlue : p.theme.colors.spanishGray};
   margin-top: ${(p) => p.theme.spacings.large};
-  border-radius: 50%;
   transition: all 1.5s;
+  @media (max-width: 768px) {
+    max-width: 5vw;
+  }
 `

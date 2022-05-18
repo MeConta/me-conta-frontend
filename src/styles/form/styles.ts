@@ -47,6 +47,15 @@ export const Paragraph = styled.p<
   `}
 `
 
+export const BulletMenu = styled.ul<Pick<TextProps, 'color'>>`
+  ${({ theme, color }) => css`
+    color: ${theme.colors[color ?? 'lightGray']};
+    & > li {
+      list-style: inside;
+    }
+  `}
+`
+
 export const AnchorLink = styled.a<Pick<TextProps, 'color'>>`
   ${({ theme, color }) => css`
     color: ${theme.colors[color ?? 'lightGray']};

@@ -28,7 +28,7 @@ export const Wrapper = styled.div<WrapperProp>`
     padding: ${padding
       ? padding
       : theme.spacings.large + ' ' + theme.spacings.gsmall};
-    max-width: 30%;
+    max-width: 40%;
     a {
       margin: 0 0 2rem 0;
     }
@@ -43,6 +43,7 @@ export const Wrapper = styled.div<WrapperProp>`
     @media only screen and (max-width: ${theme.screen.small}) {
       border: 0;
       max-width: 500px;
+      padding: 0;
     }
   `}
 `

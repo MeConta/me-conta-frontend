@@ -4,7 +4,6 @@ export const CircleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 9rem;
   max-width: 11rem;
 `
 

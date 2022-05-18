@@ -2,7 +2,7 @@ import ConfirmationDialog from 'components/molecules/ConfirmationDialog'
 import { WrapperForm } from 'components/molecules/WrapperForm'
 import { FormResetSenha } from 'components/organisms/FormResetSenha'
 import router from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthContext } from 'store/auth-context'
 import { BackendError } from 'types/backend-error'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
@@ -20,8 +20,53 @@ function NovaSenha({ hash }: InitialProps) {
   const { authService } = useAuthContext()
   const { emit } = useToast()
   const [successModalVisible, setSuccessModalVisible] = useState(false)
+  const [validHash, setValidHash] = useState(false)
+  const [error, setError] = useState(false)
 
-  return (
+  useEffect(() => {
+    validarHash()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const validarHash = async () => {
+    try {
+      await authService.validarHash(hash)
+      setValidHash(true)
+    } catch (e: any) {
+      setError(true)
+    }
+  }
+
+  const renderError = () => {
+    return (
+      <ConfirmationDialog
+        titleInfo={{
+          boldText: 'Link expirado'
+        }}
+        subtitle={
+          <>
+            <F.Paragraph color="mineShaft">
+              Esse link expirou e não pode ser utilizado.
+              <br />
+              Por favor, verifique se:
+            </F.Paragraph>
+            <F.BulletMenu color="mineShaft">
+              <li>O link já foi utilizado para redefinir a senha</li>
+              <li>
+                Você demorou mais de 24hrs para redefinir a senha e por
+                segurança o link expirou
+              </li>
+            </F.BulletMenu>
+          </>
+        }
+        buttonText="RECUPERAR SENHA NOVAMENTE"
+        buttonLink="/recuperacao-de-senha"
+        buttonColor="primary"
+      />
+    )
+  }
+
+  return validHash ? (
     <>
       {enablePasswordResetModal && successModalVisible && (
         <ConfirmationDialog
@@ -69,6 +114,8 @@ function NovaSenha({ hash }: InitialProps) {
         </WrapperForm>
       </S.ComponentWrapper>
     </>
+  ) : (
+    error && renderError()
   )
 }
 

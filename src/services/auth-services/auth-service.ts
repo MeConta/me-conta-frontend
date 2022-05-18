@@ -13,30 +13,42 @@ type LoginResponse = {
   refreshToken: string
 }
 
+enum Routes {
+  LOGOUT = '/auth/logout',
+  RECUPERAR_SENHA = '/senha/recuperacao/',
+  RESETAR_SENHA = '/senha/reset/',
+  RECARREGAR_TOKEN = '/auth/refresh'
+}
+
 export interface IAuthService {
   logout(): Promise<void>
   recuperarSenha?(email: string): Promise<void>
   resetarSenha?(form: ResetSenhaForm): Promise<void>
+  validarHash(hash: string): Promise<void>
 }
 
 export class AuthService implements IAuthService {
   constructor(private readonly service: AxiosInstance) {}
 
   async logout() {
-    await this.service.post('/auth/logout', {})
+    await this.service.post(Routes.LOGOUT, {})
   }
 
   async recuperarSenha(email: string): Promise<void> {
-    await this.service.post('/senha/recuperacao/', {
+    await this.service.post(Routes.RECUPERAR_SENHA, {
       email
     })
   }
 
   async resetarSenha(form: ResetSenhaForm): Promise<void> {
-    await this.service.post('/senha/reset/', {
+    await this.service.post(Routes.RESETAR_SENHA, {
       hash: form.hash,
       senha: form.senha
     })
+  }
+
+  async validarHash(hash: string): Promise<void> {
+    await this.service.get(`${Routes.RESETAR_SENHA}${hash}`)
   }
 
   async refreshToken({
@@ -44,7 +56,9 @@ export class AuthService implements IAuthService {
   }: {
     refreshToken: string
   }): Promise<LoginResponse> {
-    const response = await this.service.post('/auth/refresh', { refreshToken })
+    const response = await this.service.post(Routes.RECARREGAR_TOKEN, {
+      refreshToken
+    })
     return {
       refreshToken: response.data.refreshToken,
       token: response.data.token,
