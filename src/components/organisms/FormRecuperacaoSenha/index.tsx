@@ -51,7 +51,7 @@ export function FormRecuperacaoSenha(props: {
 
   const {
     register,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
+    formState: { errors, isSubmitting, isValid },
     handleSubmit
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -69,7 +69,7 @@ export function FormRecuperacaoSenha(props: {
       <S.ButtonContainer>
         <Button
           radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
+          disabled={isSubmitting || isValid}
           type="submit"
           size="mediumLarge"
         >

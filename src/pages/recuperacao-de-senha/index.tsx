@@ -31,7 +31,7 @@ export default function RecuperacaoDeSenha() {
           isModal={true}
           titleInfo={{ boldText: 'E-mail não enviado' }}
           buttonColor="secondary"
-          reload={fazerReload}
+          buttonAction={fazerReload}
           subtitleInfo={{
             preText:
               'Ocorreu um problem ao fazer o envio do e-mail. Por favor, atualize o navegador e tente novamente.'
