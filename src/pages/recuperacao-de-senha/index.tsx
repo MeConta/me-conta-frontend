@@ -34,7 +34,7 @@ export default function RecuperacaoDeSenha() {
           buttonAction={fazerReload}
           subtitleInfo={{
             preText:
-              'Ocorreu um problem ao fazer o envio do e-mail. Por favor, atualize o navegador e tente novamente.'
+              'Ocorreu um problema ao fazer o envio do e-mail. Por favor, atualize o navegador e tente novamente.'
           }}
           buttonText={'TENTAR NOVAMENTE'}
         />
