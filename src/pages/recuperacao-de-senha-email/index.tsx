@@ -10,7 +10,7 @@ export default function EmailDeRecuperacaoDeSenha() {
           color="black"
           style={{ lineHeight: '2.5rem', padding: '0 1rem' }}
         >
-          Verifique sua caixa de entrada e siga os passos informados para
+          <b>Verifique sua caixa de entrada</b> e siga os passos informados para
           recuperar sua senha. <br /> <br />
           Este link só estará disponível por <b>24 horas.</b> <br />
           Após esse prazo, será necessário realizar outra solicitação para a
