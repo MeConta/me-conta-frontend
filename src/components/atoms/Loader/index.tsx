@@ -1,11 +1,18 @@
 import * as S from './styles'
 
-export function Loader() {
+export interface LoaderProps {
+  size?: string
+  borderSize?: string
+}
+
+export default function Loader(props: LoaderProps) {
   return (
-    <S.Container data-testid="loader-container">
-      <S.Loader data-testid="loader" />
+    <S.Container id="loader" data-testid="loader-container">
+      <S.Loader
+        size={props.size}
+        borderSize={props.borderSize}
+        data-testid="loader"
+      />
     </S.Container>
   )
 }
-
-export default Loader

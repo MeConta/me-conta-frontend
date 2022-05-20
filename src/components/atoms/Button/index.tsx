@@ -1,4 +1,6 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType } from 'react'
+import useDelayUnmount from 'utils/animations/unmountHelper'
+import Loader from '../Loader'
 
 import * as S from './styles'
 
@@ -14,6 +16,8 @@ export type ButtonProps = {
   textTransform?: 'uppercase'
   btnStyle?: 'link'
   prefixIcon?: React.ReactNode
+  isLoading?: boolean
+  disabled?: boolean
   as?: ElementType
 } & ButtonTypes
 
@@ -25,6 +29,8 @@ export function Button({
   textTransform,
   btnStyle,
   prefixIcon,
+  isLoading,
+  disabled,
   ...props
 }: ButtonProps) {
   return (
@@ -35,10 +41,13 @@ export function Button({
       textTransform={textTransform}
       btnStyle={btnStyle}
       prefixIcon={prefixIcon}
+      isLoading={isLoading}
+      disabled={disabled || isLoading}
       {...props}
     >
       {prefixIcon}
       {children}
+      {useDelayUnmount(isLoading) && <Loader size="30px" borderSize="5px" />}
     </S.Wrapper>
   )
 }

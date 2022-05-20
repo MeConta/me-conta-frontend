@@ -35,6 +35,11 @@ exports[`<Button/> should render large size by default 1`] = `
   margin-right: 0.3rem;
 }
 
+.c0 > #loader {
+  -webkit-animation: translateLeftOut 500ms ease-in forwards;
+  animation: translateLeftOut 500ms ease-in forwards;
+}
+
 .c0:hover {
   background-color: #0545AB;
   -webkit-transition: background-color 0.2s;

@@ -1,9 +1,10 @@
 import styled, { css, DefaultTheme } from 'styled-components'
+import { animation } from 'utils/animations/unmountHelper'
 import { ButtonProps } from '.'
 
 type WrapperProps = Pick<
   ButtonProps,
-  'size' | 'color' | 'radius' | 'textTransform' | 'btnStyle'
+  'size' | 'color' | 'radius' | 'textTransform' | 'btnStyle' | 'isLoading'
 >
 
 const wrapperModifiers = {
@@ -75,7 +76,16 @@ const wrapperModifiers = {
 }
 
 export const Wrapper = styled.button<WrapperProps>`
-  ${({ theme, size, color, radius, disabled, textTransform, btnStyle }) => css`
+  ${({
+    theme,
+    size,
+    color,
+    radius,
+    disabled,
+    textTransform,
+    btnStyle,
+    isLoading
+  }) => css`
     align-items: center;
     border: 0;
     color: ${theme.colors.white};
@@ -90,6 +100,11 @@ export const Wrapper = styled.button<WrapperProps>`
       width: ${theme.font.sizes['desk-large']};
       height: ${theme.font.sizes['desk-large']};
       margin-right: ${theme.spacings.xxxsmall};
+    }
+    > #loader {
+      ${isLoading
+        ? animation['translateRightIn']()
+        : animation['translateLeftOut']()}
     }
 
     ${!!size && wrapperModifiers[size](theme)};
