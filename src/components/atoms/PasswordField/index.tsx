@@ -4,7 +4,9 @@ import React, {
   InputHTMLAttributes,
   useState
 } from 'react'
-import PasswordStrengthBar from 'react-password-strength-bar'
+import PasswordStrengthBar, {
+  PasswordFeedback
+} from 'react-password-strength-bar'
 
 import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
 import { TextField } from '../TextField'
@@ -31,7 +33,7 @@ export type PasswordFieldProps = {
   value?: string
   onChange: ChangeEventHandler<any> | undefined
   showStrengthBar?: boolean
-  handleStrength?: (score: any, feedback: any) => void
+  handleStrength?: (score: number, feedback: PasswordFeedback) => void
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const PasswordField = React.forwardRef(function PasswordField(

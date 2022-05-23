@@ -14,4 +14,17 @@ describe('<Loader />', () => {
       border: '10px solid #e6e6e6'
     })
   })
+
+  it('should render loader with props', () => {
+    const size = '30px',
+      borderSize = '3px'
+    const solid = 'solid'
+    render(<Loader size={size} borderSize={borderSize} />)
+    expect(screen.getByTestId('loader')).toHaveStyle({
+      width: size,
+      height: size,
+      border: `${borderSize} ${solid} #E6E6E6`,
+      borderTop: `${borderSize} ${solid} #DE3163`
+    })
+  })
 })

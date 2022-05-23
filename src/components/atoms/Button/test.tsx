@@ -90,4 +90,29 @@ describe('<Button/>', () => {
       modifier: ':disabled'
     })
   })
+
+  it('should render Button disabled with loader', () => {
+    render(<Button isLoading>button</Button>)
+    const buttonElement = screen.getByRole('button')
+    expect(buttonElement).toBeDisabled()
+    expect(buttonElement).toHaveStyleRule('cursor', 'not-allowed', {
+      modifier: ':disabled'
+    })
+    const loader = screen.getByTestId('loader')
+    expect(buttonElement).toContainElement(loader)
+    const defaultLoaderSizeForButton = '30px',
+      defaultLoaderBorderForButton = '5px'
+    const solid = 'solid'
+    expect(loader).toHaveStyle({
+      width: defaultLoaderSizeForButton,
+      height: defaultLoaderSizeForButton,
+      border: `${defaultLoaderBorderForButton} ${solid} #E6E6E6`,
+      borderTop: `${defaultLoaderBorderForButton} ${solid} #DE3163`
+    })
+  })
+
+  it('should not to render Button with loader when isLoading is false', () => {
+    render(<Button isLoading={false}>button</Button>)
+    expect(screen.findByTestId('loader')).toMatchObject({})
+  })
 })
