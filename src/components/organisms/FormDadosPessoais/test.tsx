@@ -125,6 +125,35 @@ describe('<FormDadosPessoais />', () => {
     expect(await screen.findByText(/Cidade é obrigatório/)).toBeInTheDocument()
   })
 
+  describe('número de telefone inválido', () => {
+    it('deve exibir mensagem de erro para telefone celular inválido', async () => {
+      const { buttonProximoPasso, telefone } = elements()
+      userEvent.type(telefone, '110123456789')
+
+      userEvent.click(buttonProximoPasso)
+
+      expect(await screen.findByText(/Telefone inválido/)).toBeInTheDocument()
+    })
+
+    it('deve exibir mensagem de erro para telefone celular correto, com DDD inválido', async () => {
+      const { buttonProximoPasso, telefone } = elements()
+      userEvent.type(telefone, '02984562356')
+
+      userEvent.click(buttonProximoPasso)
+
+      expect(await screen.findByText(/Telefone inválido/)).toBeInTheDocument()
+    })
+
+    it('deve exibir mensagem de erro para telefone residencial com DDD inválido', async () => {
+      const { buttonProximoPasso, telefone } = elements()
+      userEvent.type(telefone, '0133122626')
+
+      userEvent.click(buttonProximoPasso)
+
+      expect(await screen.findByText(/Telefone inválido/)).toBeInTheDocument()
+    })
+  })
+
   it('deve armazenar os valores preenchidos, chamando setDadosPessoais', async () => {
     const { buttonProximoPasso } = elements()
     const { telefone, dataNascimento, cidade, UF } = await fillForm()
