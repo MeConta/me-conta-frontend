@@ -31,7 +31,7 @@ export const Wrapper = styled.div<WrapperProp>`
     max-width: 40%;
     width: 500px;
     a {
-      margin: 0 0 2rem 0;
+      margin: 0 0 1rem 0;
     }
 
     ${!!shape && wrapperModifiers[shape]()}

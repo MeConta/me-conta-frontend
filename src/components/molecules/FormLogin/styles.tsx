@@ -6,9 +6,10 @@ export const Form = styled.form`
 
 export const Link = styled.div`
   ${({ theme }) => css`
-    margin-top: ${theme.spacings.xxxsmall};
-    margin-bottom: ${theme.spacings.medium};
+    margin-top: ${theme.spacings.gsmall};
     font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
   `}
 `
 

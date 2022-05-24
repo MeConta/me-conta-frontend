@@ -97,11 +97,6 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         required={true}
         {...register('password')}
       />
-      <S.Link>
-        <Link passHref href="/recuperacao-de-senha">
-          <F.AnchorLink color="ceriseRed">Esqueceu a senha?</F.AnchorLink>
-        </Link>
-      </S.Link>
       <S.ButtonContainer>
         <Button
           radius="square"
@@ -112,6 +107,11 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
           ENTRAR
         </Button>
       </S.ButtonContainer>
+      <S.Link>
+        <Link passHref href="/recuperacao-de-senha">
+          <F.AnchorLink color="cornflowerBlue">Esqueceu a senha?</F.AnchorLink>
+        </Link>
+      </S.Link>
     </S.Form>
   )
 }

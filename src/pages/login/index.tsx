@@ -31,7 +31,7 @@ export default function Login() {
     <S.ComponentWrapper>
       <WrapperForm>
         <F.WrapperFields>
-          <F.Paragraph size="desk-xlarge" color="black">
+          <F.Paragraph size="desk-xlarge" color="black" margin="xsmall">
             Faça seu <F.BoldParagraph>login</F.BoldParagraph> e comece seu
             atendimento!
           </F.Paragraph>

@@ -24,7 +24,7 @@ export const ButtonContainer = styled.div`
 export type TextProps = {
   size?: 'desk-large' | 'desk-xlarge' | 'desk-xxlarge'
   margin?: 'xsmall'
-  color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft'
+  color?: 'lightGray' | 'black' | 'ceriseRed' | 'mineShaft' | 'cornflowerBlue'
   weight?: 'bold'
 }
 
