@@ -2,6 +2,7 @@
 
 exports[`<FormGroup/> should render error input 1`] = `
 .c0 {
+  position: relative;
   margin-bottom: 1.6rem;
 }
 
@@ -11,6 +12,11 @@ exports[`<FormGroup/> should render error input 1`] = `
 
 .c0 .c1 {
   color: #DE3163;
+}
+
+.c0 > #popover {
+  -webkit-animation: fadeOut 0.3s ease-out forwards;
+  animation: fadeOut 0.3s ease-out forwards;
 }
 
 .c2 {

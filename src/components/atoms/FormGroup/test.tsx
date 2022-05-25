@@ -1,8 +1,9 @@
 import userEvent from '@testing-library/user-event'
 
-import { render, screen, waitFor } from 'utils/tests/helpers'
+import { act, render, screen, waitFor } from 'utils/tests/helpers'
 
 import { FormGroup } from '.'
+import Popover from '../Popover'
 
 describe('<FormGroup/>', () => {
   it('should render the input with a label, when provided', () => {
@@ -23,6 +24,22 @@ describe('<FormGroup/>', () => {
     )
     expect(screen.getByText(errorMessage)).toBeInTheDocument()
     expect(container.firstChild).toMatchSnapshot()
+  })
+
+  it('should render popover when it is set', () => {
+    render(
+      <FormGroup
+        label="accessible"
+        name="accessible"
+        error="accessible"
+        popover={<Popover title="Test title" items={['Item 1', 'Item 2']} />}
+        showPopover
+      >
+        <input id="nome" data-testid="inputField" />
+      </FormGroup>
+    )
+    act(() => userEvent.click(screen.getByTestId('inputField')))
+    expect(screen.getByTestId('popoverContainer')).toBeInTheDocument()
   })
 
   // it('should accessible by tab', () => {

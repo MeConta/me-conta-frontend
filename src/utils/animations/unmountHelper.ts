@@ -61,5 +61,29 @@ export const animation = {
         margin-left: ${props?.marginLeftBefore ?? '-30px'};
       }
     }
+  `,
+  fadeIn: (props?: AnimationProp) => css`
+    animation: fadeIn ${props?.duration ?? `${DEFAULT_DURATION}ms`} ease-in
+      forwards;
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+  `,
+  fadeOut: (props?: AnimationProp) => css`
+    animation: fadeOut ${props?.duration ?? `${DEFAULT_DURATION}ms`} ease-out
+      forwards;
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
   `
 }

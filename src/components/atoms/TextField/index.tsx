@@ -18,6 +18,8 @@ export type TextFieldProps = {
   value?: string | number
   name: string
   required?: boolean
+  showPopover?: boolean
+  popover?: ReactNode
   onChange: ChangeEventHandler<any> | undefined
 } & InputHTMLAttributes<HTMLInputElement>
 
@@ -31,15 +33,25 @@ export const TextField = React.forwardRef(function TextField(
     disabled,
     required,
     type = 'text',
+    showPopover,
+    popover,
     children,
     ...props
   }: TextFieldProps,
   ref?: ForwardedRef<HTMLInputElement>
 ) {
   return (
-    <FormGroup label={label} name={name} error={error} required={required}>
+    <FormGroup
+      label={label}
+      name={name}
+      error={error}
+      required={required}
+      showPopover={showPopover}
+      popover={popover}
+    >
       {children}
       <S.Input
+        data-testid="textField"
         value={value}
         onChange={onChange}
         name={name}

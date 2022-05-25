@@ -83,6 +83,7 @@ export function FormResetSenha(props: MyProps) {
               setPasswordScore(score)
             }}
             error={errors.password?.message}
+            showPopover
             {...field}
           />
         )}

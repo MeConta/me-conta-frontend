@@ -1,6 +1,7 @@
 import styled, { css, DefaultTheme } from 'styled-components'
+import { animation } from 'utils/animations/unmountHelper'
 
-type WrapperProps = { error: string | undefined }
+type WrapperProps = { error: string | undefined; showPopover?: boolean }
 
 const wrapperModifiers = {
   error: (theme: DefaultTheme) => css`
@@ -15,10 +16,16 @@ const wrapperModifiers = {
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, error }) => css`
+  ${({ theme, error, showPopover }) => css`
+    position: relative;
     margin-bottom: ${theme.spacings.xsmall};
 
     ${!!error && wrapperModifiers.error(theme)}
+    > #popover {
+      ${showPopover
+        ? animation['fadeIn']({ duration: '0.3s' })
+        : animation['fadeOut']({ duration: '0.3s' })};
+    }
   `}
 `
 

@@ -12,6 +12,7 @@ import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
 import { TextField } from '../TextField'
 
 import * as S from './styles'
+import Popover, { PopoverProps } from '../Popover'
 
 type ToggleType = 'text' | 'password'
 
@@ -34,6 +35,8 @@ export type PasswordFieldProps = {
   onChange: ChangeEventHandler<any> | undefined
   showStrengthBar?: boolean
   handleStrength?: (score: number, feedback: PasswordFeedback) => void
+  showPopover?: boolean
+  popoverProps?: PopoverProps
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const PasswordField = React.forwardRef(function PasswordField(
@@ -46,6 +49,8 @@ export const PasswordField = React.forwardRef(function PasswordField(
     error,
     disabled,
     required,
+    showPopover,
+    popoverProps,
     showStrengthBar = false,
     handleStrength,
     ...props
@@ -70,6 +75,7 @@ export const PasswordField = React.forwardRef(function PasswordField(
   return (
     <>
       <TextField
+        data-testid="passwordField"
         label={label}
         value={value}
         name={name}
@@ -81,6 +87,21 @@ export const PasswordField = React.forwardRef(function PasswordField(
         required={required}
         type={toggleType}
         ref={ref}
+        showPopover={showPopover}
+        popover={
+          <Popover
+            title={popoverProps?.title ?? 'A senha deve conter pelo menos:'}
+            items={
+              popoverProps?.items ?? [
+                '8-20 caracteres',
+                '1 número',
+                '1 letra maiúscula',
+                '1 letra minúscula',
+                '1 caracter especial (ex: !, @, #, $)'
+              ]
+            }
+          ></Popover>
+        }
         {...props}
       >
         <S.Icon data-testid="icon" onClick={toggleIcon}>

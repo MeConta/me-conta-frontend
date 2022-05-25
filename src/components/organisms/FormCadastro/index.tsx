@@ -164,6 +164,7 @@ export function FormCadastro(props: {
             }}
             error={errors.password?.message}
             required={true}
+            showPopover
             {...field}
           />
         )}
