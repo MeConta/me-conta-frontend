@@ -79,7 +79,11 @@ export function FormCadastro(props: {
       .required(ERRORS.REQUIRED_NAME)
       .trim()
       .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
-      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME),
+      .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME)
+      .matches(
+        /\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi,
+        'Por favor, informe seu nome completo'
+      ),
     email: Yup.string()
       .email(ERRORS.INVALID_EMAIL)
       .required(ERRORS.REQUIRED_EMAIL),
@@ -135,7 +139,7 @@ export function FormCadastro(props: {
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
       <TextField
-        label="Nome"
+        label="Nome Completo"
         maxLength={MAX_LENGTH_NAME_VALUE}
         error={errors.name?.message}
         required={true}

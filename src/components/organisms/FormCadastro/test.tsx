@@ -29,7 +29,7 @@ describe('<FormCadastro/>', () => {
 
   const elements = () => {
     return {
-      name: screen.getByRole('textbox', { name: 'Nome' }),
+      name: screen.getByRole('textbox', { name: 'Nome Completo' }),
       email: screen.getByRole('textbox', { name: 'E-mail' }),
       password: screen.getByRole('password', { name: 'Senha' }),
       confirm: screen.getByRole('password', { name: 'Confirmar Senha' }),
@@ -51,7 +51,7 @@ describe('<FormCadastro/>', () => {
       termsConfirm
     } = elements()
 
-    userEvent.type(name, 'Nome')
+    userEvent.type(name, 'Nome Completo')
     userEvent.type(email, 'teste@teste.com')
     userEvent.type(password, '!@#ASD!@#AASASD')
     userEvent.type(confirm, '!@#ASD!@#AASASD')
@@ -97,6 +97,16 @@ describe('<FormCadastro/>', () => {
       expect(screen.getByText(/Nome é obrigatório/)).toBeInTheDocument()
     })
   })
+  it('when inserting an incomplete name', async () => {
+    const { name, buttonCadastrar } = elements()
+    userEvent.type(name, 'Nome')
+    fireEvent.click(buttonCadastrar)
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Por favor, informe seu nome completo/)
+      ).toBeInTheDocument()
+    })
+  })
   it('when inserting an invalid email', async () => {
     const { email, buttonCadastrar } = elements()
     userEvent.type(email, 'email')
@@ -131,7 +141,7 @@ describe('<FormCadastro/>', () => {
 
     await waitFor(() => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
-        nome: 'Nome',
+        nome: 'Nome Completo',
         email: 'teste@teste.com',
         senha: '!@#ASD!@#AASASD',
         tipo: UserType.ALUNO
