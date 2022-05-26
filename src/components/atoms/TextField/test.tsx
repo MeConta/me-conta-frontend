@@ -1,8 +1,9 @@
 import userEvent from '@testing-library/user-event'
 
-import { render, screen, waitFor } from 'utils/tests/helpers'
+import { act, render, screen, waitFor } from 'utils/tests/helpers'
 
 import { TextField } from '.'
+import Popover from '../Popover'
 
 describe('<TextField/>', () => {
   it('should render the input with placeholder, when provided', () => {
@@ -82,5 +83,19 @@ describe('<TextField/>', () => {
     expect(document.body).toHaveFocus()
     userEvent.tab()
     expect(input).not.toHaveFocus()
+  })
+
+  it('should render popover when it is set', () => {
+    render(
+      <TextField
+        label="accessible"
+        name="accessible"
+        onChange={() => {}}
+        showPopover
+        popover={<Popover title="Test title" items={['Item 1', 'Item 2']} />}
+      />
+    )
+    act(() => userEvent.click(screen.getByTestId('textField')))
+    expect(screen.getByTestId('popoverContainer')).toBeInTheDocument()
   })
 })

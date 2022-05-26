@@ -41,6 +41,7 @@ export default {
     lightGray: '#848A8C',
     xlightGray: '#e6e6e6',
     gray: '#828282',
+    silverChalice: '#ABABAB',
     backgroundGray: '#F4F7F9',
     powderAsh: '#BBC7C3',
     white: '#FFFFFF',

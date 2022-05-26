@@ -92,7 +92,8 @@ describe('<FormLogin/>', () => {
           token: 'XPTO',
           tipo: '0',
           nome: 'John',
-          refreshToken: 'XPTO'
+          refreshToken: 'XPTO',
+          perfilCompleto: true
         }
       })
     })
@@ -104,14 +105,15 @@ describe('<FormLogin/>', () => {
     })
   })
 
-  it('should redirect to dashboard-aluno when the user is a student', async () => {
+  it('should redirect to dashboard-aluno when the user is a student who has finished registration', async () => {
     jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
         data: {
           token: 'XPTO',
           tipo: '0',
           nome: 'John',
-          refreshToken: 'XPTO'
+          refreshToken: 'XPTO',
+          perfilCompleto: true
         }
       })
     })
@@ -123,14 +125,35 @@ describe('<FormLogin/>', () => {
     })
   })
 
-  it('should redirect to dashboard-atendente when user is a volunteer', async () => {
+  it('should redirect to criar conta when the user has not finished registration', async () => {
+    jest.spyOn(api, 'post').mockImplementation(() => {
+      return Promise.resolve({
+        data: {
+          token: 'XPTO',
+          tipo: '0',
+          nome: 'John',
+          refreshToken: 'XPTO',
+          perfilCompleto: false
+        }
+      })
+    })
+
+    fillFormToSubmit()
+
+    await waitFor(() => {
+      expect(router.push).toBeCalledWith('/criar-conta')
+    })
+  })
+
+  it('should redirect to dashboard-atendente when user is a volunteer who has finished registration', async () => {
     jest.spyOn(api, 'post').mockImplementation(() => {
       return Promise.resolve({
         data: {
           token: 'XPTO',
           tipo: '2',
           nome: 'John',
-          refreshToken: 'XPTO'
+          refreshToken: 'XPTO',
+          perfilCompleto: true
         }
       })
     })
@@ -149,7 +172,8 @@ describe('<FormLogin/>', () => {
           token: 'XPTO',
           tipo: '1',
           nome: 'John',
-          refreshToken: 'XPTO'
+          refreshToken: 'XPTO',
+          perfilCompleto: true
         }
       })
     })

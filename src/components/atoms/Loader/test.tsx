@@ -5,7 +5,6 @@ describe('<Loader />', () => {
   it('should render loader', () => {
     render(<Loader />)
     expect(screen.getByTestId('loader-container')).toHaveStyle({
-      width: '100%',
       display: 'flex',
       'align-items': 'center',
       'justify-content': 'center'

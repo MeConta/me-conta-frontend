@@ -16,6 +16,8 @@ describe('<FormDadosEscolares />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const setCurrentStepMock = jest.fn()
+  const authContextMock = { setCompleteProfile: jest.fn() }
+
   const previousValuesMock = {
     escolaridade: '1',
     necessidades: 'Necessidades do Aluno',
@@ -93,6 +95,7 @@ describe('<FormDadosEscolares />', () => {
         dadosPessoais={dadosPessoais}
         setCurrentStep={setCurrentStepMock}
         setPreviousValues={setPreviousValuesMock}
+        authContext={authContextMock}
       />
     )
   })
@@ -206,6 +209,7 @@ describe('<FormDadosEscolares />', () => {
           setCurrentStep={setCurrentStepMock}
           previousValues={previousValuesMock}
           setPreviousValues={setPreviousValuesMock}
+          authContext={authContextMock}
         />
       )
     })
@@ -240,6 +244,31 @@ describe('<FormDadosEscolares />', () => {
 
     await waitFor(async () => {
       expect(handleErrorMock).toBeCalledWith(error)
+    })
+  })
+
+  it('deve setar flag de perfil completo, ao concluir o cadastro', async () => {
+    const { buttonConcluirCadastro } = elements()
+    const {
+      escolaridade,
+      necessidades,
+      expectativas,
+      tratamentos,
+      tipoEscola
+    } = await fillForm()
+
+    await act(async () => {
+      fireEvent.click(buttonConcluirCadastro)
+    })
+
+    expect(escolaridade).toHaveValue('1')
+    expect(tipoEscola).toBeChecked()
+    expect(necessidades).toHaveValue('Necessidades do aluno')
+    expect(expectativas).toHaveValue('Expectativas do aluno')
+    expect(tratamentos).toHaveValue('Tratamentos do aluno')
+
+    await waitFor(async () => {
+      expect(authContextMock.setCompleteProfile).toHaveBeenCalledWith(true)
     })
   })
 })

@@ -18,6 +18,7 @@ import {
 } from '../../../types/dados-cadastro'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { ArrowLeft } from '@styled-icons/bootstrap'
+import { AuthServiceProps } from '../../../store/auth-context'
 
 const ERRORS = {
   REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
@@ -52,6 +53,7 @@ type FormDadosEscolaresProps = {
   setPreviousValues: React.Dispatch<
     React.SetStateAction<DadosEscolaresValues | undefined>
   >
+  authContext: AuthServiceProps
 }
 
 const FormDadosEscolares = ({
@@ -61,7 +63,8 @@ const FormDadosEscolares = ({
   dadosPessoais,
   setCurrentStep,
   previousValues,
-  setPreviousValues
+  setPreviousValues,
+  authContext
 }: FormDadosEscolaresProps) => {
   const [token] = useLocalStorage<string>('token', '')
 
@@ -90,6 +93,8 @@ const FormDadosEscolares = ({
         },
         token
       )
+
+      authContext.setCompleteProfile(true)
 
       handleSuccess()
     } catch (e) {
