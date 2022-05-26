@@ -1,5 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { animation } from 'utils/animations/unmountHelper'
+import Animation from '../../../utils/animations/animation'
 import { ButtonProps } from '.'
 
 type WrapperProps = Pick<
@@ -75,6 +75,21 @@ const wrapperModifiers = {
   `
 }
 
+const [fadeIn, fadeOut] = [
+  new Animation()
+    .absolute()
+    .setProperties({
+      right: { initialPosition: '50px', finalPosition: '8px' }
+    })
+    .fadeIn(),
+  new Animation()
+    .absolute()
+    .setProperties({
+      right: { initialPosition: '8px', finalPosition: '50px' }
+    })
+    .fadeOut()
+]
+
 export const Wrapper = styled.button<WrapperProps>`
   ${({
     theme,
@@ -96,22 +111,21 @@ export const Wrapper = styled.button<WrapperProps>`
     text-align: center;
     font-family: Mulish;
     font-weight: ${theme.font.bold};
+    position: relative;
     > svg {
       width: ${theme.font.sizes['desk-large']};
       height: ${theme.font.sizes['desk-large']};
       margin-right: ${theme.spacings.xxxsmall};
     }
     > #loader {
-      ${isLoading
-        ? animation['translateRightIn']()
-        : animation['translateLeftOut']()}
+      ${isLoading ? fadeIn : fadeOut}
     }
 
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};
     ${!!radius && wrapperModifiers[radius](theme)};
     ${disabled && wrapperModifiers.disabled};
-    ${!!textTransform && wrapperModifiers[textTransform]}
-    ${!!btnStyle && wrapperModifiers[btnStyle](theme)}
+    ${!!textTransform && wrapperModifiers[textTransform]};
+    ${!!btnStyle && wrapperModifiers[btnStyle](theme)};
   `}
 `

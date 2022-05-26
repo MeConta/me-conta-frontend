@@ -1,5 +1,5 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType } from 'react'
-import useDelayUnmount from 'utils/animations/unmountHelper'
+import useDelayUnmount from '../../../utils/animations/unmountHelper'
 import Loader from '../Loader'
 
 import * as S from './styles'
