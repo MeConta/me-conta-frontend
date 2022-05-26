@@ -19,7 +19,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (authCtx.isLoggedIn) {
+    if (authCtx.isLoggedIn && authCtx.session.completeProfile) {
       const route = redirects[+authCtx.session.type]
       router.push(route)
     } else {
