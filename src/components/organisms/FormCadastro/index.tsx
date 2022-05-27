@@ -3,7 +3,7 @@ import { CheckboxField } from 'components/atoms/CheckboxField'
 import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
 import { RadioField } from 'components/atoms/RadioField'
 import { TextField } from 'components/atoms/TextField'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { UserType } from '../../../enums/user-type.enum'
 import {
@@ -112,6 +112,16 @@ export function FormCadastro(props: {
     defaultValues: initialValues
   })
 
+  const [isLoading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (isSubmitting) {
+      setTimeout(() => setLoading(isSubmitting && isValid), 100)
+    } else {
+      setLoading(false)
+    }
+  }, [isSubmitting, isValid])
+
   const onSubmit = async ({ name, email, password, tipo }: MyFormValues) => {
     try {
       const { token, refreshToken } = await props.signupService.initialSignup({
@@ -127,7 +137,8 @@ export function FormCadastro(props: {
         name: name,
         type: tipo.toString(),
         token,
-        refreshToken
+        refreshToken,
+        completeProfile: false
       })
 
       props.handleSuccess({ nome: name, email, senha: password, tipo })
@@ -233,10 +244,10 @@ export function FormCadastro(props: {
       <S.ButtonContainer>
         <Button
           radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
           size="mediumLarge"
           textTransform="uppercase"
+          isLoading={isLoading}
         >
           Cadastrar
         </Button>

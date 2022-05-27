@@ -36,7 +36,11 @@ export default function CriarConta() {
 
   const toggleFormSteps = true
 
-  const [tipoDeUsuario, setTipoDeUsuario] = useState(UserType.ALUNO)
+  const authCtx = useAuthContext()
+
+  const [tipoDeUsuario, setTipoDeUsuario] = useState(
+    +authCtx.session.type ?? UserType.ALUNO
+  )
   const [currentStep, setCurrentStep] = useState<PassosCadastro>(
     PassosCadastro.CRIAR_CONTA
   )
@@ -49,12 +53,25 @@ export default function CriarConta() {
     DadosAcademicosValues | undefined
   >()
 
-  const authCtx = useAuthContext()
+  const redirectToDashboard = () => {
+    const route = redirects[+authCtx.session.type]
+    router.push(route)
+  }
 
   useEffect(() => {
-    if (currentStep === PassosCadastro.CRIAR_CONTA && authCtx.isLoggedIn) {
-      const route = redirects[+authCtx.session.type]
-      router.push(route)
+    if (authCtx.isLoggedIn && !authCtx.session.completeProfile) {
+      setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
+      setTipoDeUsuario(+authCtx.session.type)
+    }
+  }, [
+    authCtx.session.completeProfile,
+    authCtx.isLoggedIn,
+    authCtx.session.type
+  ])
+
+  useEffect(() => {
+    if (authCtx.isLoggedIn && authCtx.session.completeProfile) {
+      redirectToDashboard()
     }
     if (currentStep !== PassosCadastro.CRIAR_CONTA && !authCtx.isLoggedIn) {
       emit({
@@ -180,6 +197,7 @@ export default function CriarConta() {
             setCurrentStep={setCurrentStep}
             previousValues={dadosEscolares}
             setPreviousValues={setDadosEscolares}
+            authContext={authCtx}
           />
         ) : (
           <FormDadosAcademicos

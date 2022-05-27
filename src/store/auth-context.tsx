@@ -21,12 +21,14 @@ type SessionData = {
   type: string
   token: string
   refreshToken: string
+  completeProfile: boolean
 }
 
-type AuthServiceProps = {
+export type AuthServiceProps = {
   authService: IAuthService
   isLoggedIn: boolean
   session: SessionData
+  setCompleteProfile: (value: boolean) => void
   handleLogin: (session: SessionData) => void
   handleLogout: (autoLogout?: boolean) => void
 }
@@ -34,8 +36,12 @@ type AuthServiceProps = {
 export enum CookieKeys {
   TOKEN = 'token',
   NAME = 'name',
-  REFRESH_TOKEN = 'refresh_token'
+  REFRESH_TOKEN = 'refresh_token',
+  COMPLETE_PROFILE = 'complete_profile'
 }
+
+export const booleanToString = (value: boolean) => (value ? 'true' : 'false')
+export const stringToBoolean = (value: string) => value === 'true'
 
 export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: IAuthService }>
@@ -52,6 +58,7 @@ export const AuthorizationProvider = (
 
   const {
     [CookieKeys.NAME]: nomeCookie,
+    [CookieKeys.COMPLETE_PROFILE]: completeProfileCookie,
     [CookieKeys.TOKEN]: tokenCookie,
     [CookieKeys.REFRESH_TOKEN]: refreshTokenCookie
   } = parseCookies()
@@ -60,6 +67,7 @@ export const AuthorizationProvider = (
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
     isTokenValid(decodedToken)
   )
+  const [completeProfile, setCompletedProfile] = useState<boolean>(false)
 
   const [name, setName] = useState<string | null>(null)
   const [type, setType] = useState<string | null>(null)
@@ -68,28 +76,37 @@ export const AuthorizationProvider = (
     if (isTokenValid(decodedToken)) {
       setIsLoggedIn(true)
       setName(nomeCookie)
+      setCompletedProfile(stringToBoolean(completeProfileCookie))
       setType(decodedToken?.roles?.[0].toString() as string)
     } else {
       setIsLoggedIn(false)
     }
-  }, [decodedToken, nomeCookie])
+  }, [completeProfileCookie, decodedToken, nomeCookie])
 
   const loginHandler = (session: SessionData) => {
     setName(session.name)
     setType(session.type.toString())
     setCookie(undefined, CookieKeys.TOKEN, session.token)
     setCookie(undefined, CookieKeys.NAME, session.name)
+    setCompleteProfile(session.completeProfile)
     setCookie(undefined, CookieKeys.REFRESH_TOKEN, session.refreshToken)
     setIsLoggedIn(true)
+  }
+
+  const setCompleteProfile = (value: boolean) => {
+    setCompletedProfile(value)
+    setCookie(undefined, CookieKeys.COMPLETE_PROFILE, booleanToString(value))
   }
 
   const logoutHandler = (autoLogout?: boolean) => {
     destroyCookie(null, CookieKeys.TOKEN)
     destroyCookie(null, CookieKeys.NAME)
+    destroyCookie(null, CookieKeys.COMPLETE_PROFILE)
     destroyCookie(null, CookieKeys.REFRESH_TOKEN)
     setName(null)
     setType(null)
     setIsLoggedIn(false)
+    setCompletedProfile(false)
 
     if (autoLogout) {
       emit({
@@ -105,7 +122,8 @@ export const AuthorizationProvider = (
     name: name || '',
     type: type || '',
     token: tokenCookie || '',
-    refreshToken: refreshTokenCookie || ''
+    refreshToken: refreshTokenCookie || '',
+    completeProfile: completeProfile || false
   }
 
   return (
@@ -113,6 +131,7 @@ export const AuthorizationProvider = (
       value={{
         authService: props.authService,
         isLoggedIn: isLoggedIn,
+        setCompleteProfile,
         session,
         handleLogin: loginHandler,
         handleLogout: logoutHandler

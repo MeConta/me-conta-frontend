@@ -22,6 +22,7 @@ exports[`<Button/> should render large size by default 1`] = `
   text-align: center;
   font-family: Mulish;
   font-weight: 700;
+  position: relative;
   min-height: 5rem;
   font-size: 2.2rem;
   padding: 0.8rem 4.8rem;
@@ -36,8 +37,10 @@ exports[`<Button/> should render large size by default 1`] = `
 }
 
 .c0 > #loader {
-  -webkit-animation: translateLeftOut 500ms ease-in forwards;
-  animation: translateLeftOut 500ms ease-in forwards;
+  position: absolute;
+  right: 8px;
+  -webkit-animation: fadeOut 500ms ease-out forwards;
+  animation: fadeOut 500ms ease-out forwards;
 }
 
 .c0:hover {

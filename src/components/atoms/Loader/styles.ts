@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { LoaderProps } from '.'
 
 export const Container = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

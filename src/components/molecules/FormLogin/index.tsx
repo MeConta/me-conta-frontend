@@ -53,10 +53,13 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         name: response.data.nome,
         type: response.data.tipo,
         token: response.data.token,
-        refreshToken: response.data.refreshToken
+        refreshToken: response.data.refreshToken,
+        completeProfile: response.data.perfilCompleto
       })
 
-      await handleDashboardRedirection(response.data.tipo)
+      if (response.data.perfilCompleto)
+        await handleDashboardRedirection(response.data.tipo)
+      else await router.push('/criar-conta')
     } catch (error) {
       handleError(error as BackendError)
     }

@@ -170,6 +170,27 @@ export default function FormDadosAcademicos({
   return (
     <F.WrapperFields>
       <F.Form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Controller
+          name="nivelDeFormacao"
+          control={control}
+          render={({ field }) => (
+            <RadioField
+              options={Object.values(NIVELFORMACAO).map((type, index) => {
+                return { label: type, value: index }
+              })}
+              label="Nível de Formação"
+              {...field}
+              required
+              onChange={(e) => {
+                field.onChange(e)
+                e.target.value === '0'
+                  ? setValue('anoFormacao', +moment().format('YYYY'))
+                  : setValue('semestre', 1)
+              }}
+              error={errors.nivelDeFormacao?.message}
+            />
+          )}
+        />
         <S.TextSplit
           errorActive={
             !!errors.instituicao?.message ||
@@ -197,27 +218,6 @@ export default function FormDadosAcademicos({
             max={possuiSuperiorCompleto() ? +moment().format('YYYY') : 10}
           />
         </S.TextSplit>
-        <Controller
-          name="nivelDeFormacao"
-          control={control}
-          render={({ field }) => (
-            <RadioField
-              options={Object.values(NIVELFORMACAO).map((type, index) => {
-                return { label: type, value: index }
-              })}
-              label="Nível de Formação"
-              {...field}
-              required
-              onChange={(e) => {
-                field.onChange(e)
-                e.target.value === '0'
-                  ? setValue('anoFormacao', +moment().format('YYYY'))
-                  : setValue('semestre', 1)
-              }}
-              error={errors.nivelDeFormacao?.message}
-            />
-          )}
-        />
         {renderizarSuperiorCompleto()}
         <Controller
           name="frentes"
