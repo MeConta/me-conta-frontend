@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event'
 import { render, screen, waitFor } from 'utils/tests/helpers'
 
 import { TextAreaField } from '.'
-import { RadioField } from '../RadioField'
 
 describe('<TextAreaField/>', () => {
   it('should change value as changed', async () => {
@@ -53,5 +52,22 @@ describe('<TextAreaField/>', () => {
   it('should forward the required flag to the label', () => {
     render(<TextAreaField label="label" name="accessible" required />)
     expect(screen.getByTestId('label')).toHaveAttribute('aria-required', 'true')
+  })
+
+  it('should show character counter when showCharCounter and maxLength props are passed', () => {
+    const description = 'uma breve descrição'
+
+    render(
+      <TextAreaField
+        label={'label'}
+        name={'name'}
+        value={description}
+        onChange={undefined}
+        maxLength={250}
+        showCharCounter
+      />
+    )
+
+    expect(screen.getByText(`${description.length}/250`)).toBeInTheDocument()
   })
 })

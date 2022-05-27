@@ -61,11 +61,19 @@ export const InputWrapper = styled.div`
   `}
 `
 
+export const ExtraContentWrapper = styled.div<WrapperProps>`
+  ${({ error }) => css`
+    display: ${error ? 'flex' : 'flex-end'};
+    justify-content: space-between;
+    margin-top: 0.6rem;
+    align-items: baseline;
+  `}
+`
+
 export const Error = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.ceriseRed};
     display: block;
     font-size: ${theme.font.sizes['desk-xsmall']};
-    margin-top: 1rem;
   `}
 `

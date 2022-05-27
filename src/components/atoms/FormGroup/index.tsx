@@ -10,15 +10,17 @@ export type FormGroupProps = {
   name: string
   showPopover?: boolean
   popover?: ReactNode
+  extraContent?: ReactNode
 }
 
 export function FormGroup({
   label,
   name,
   required,
-  error,
+  error = '',
   showPopover,
   popover,
+  extraContent,
   children
 }: FormGroupProps) {
   const [displayPopover, setDisplayPopover] = useState(false)
@@ -35,7 +37,10 @@ export function FormGroup({
       >
         {children}
       </S.InputWrapper>
-      {!!error && <S.Error> {error} </S.Error>}
+      <S.ExtraContentWrapper error={error}>
+        {!!error && <S.Error id="error-message">{error}</S.Error>}
+        {!!extraContent && extraContent}
+      </S.ExtraContentWrapper>
       {useDelayUnmount(showPopover && displayPopover, 300) && popover}
     </S.Wrapper>
   )

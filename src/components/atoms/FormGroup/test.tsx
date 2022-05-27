@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 
-import { act, render, screen, waitFor } from 'utils/tests/helpers'
+import { act, render, screen } from 'utils/tests/helpers'
 
 import { FormGroup } from '.'
 import Popover from '../Popover'
@@ -40,6 +40,20 @@ describe('<FormGroup/>', () => {
     )
     act(() => userEvent.click(screen.getByTestId('inputField')))
     expect(screen.getByTestId('popoverContainer')).toBeInTheDocument()
+  })
+
+  it('should render extraContent when it is set', () => {
+    render(
+      <FormGroup
+        label="accessible"
+        name="accessible"
+        extraContent={<p>10/200</p>}
+        showPopover
+      >
+        <input id="nome" data-testid="inputField" />
+      </FormGroup>
+    )
+    expect(screen.getByText('10/200')).toBeInTheDocument()
   })
 
   // it('should accessible by tab', () => {

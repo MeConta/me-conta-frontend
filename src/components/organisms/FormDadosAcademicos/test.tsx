@@ -90,10 +90,11 @@ describe('<FormDadosAcademicos />', () => {
     }
 
     await act(async () => {
-      fireEvent.change(instituicao, { target: { value: 'UFRJ' } })
-      userEvent.type(descricao, 'Teste')
       fireEvent.change(semestre, { target: { value: 8 } })
     })
+
+    userEvent.type(instituicao, 'UFRJ')
+    userEvent.type(descricao, 'Teste')
 
     if (situacaoCurso === ESituacaoCurso.COMPLETO) {
       await act(async () => {
