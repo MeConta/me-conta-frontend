@@ -57,10 +57,25 @@ exports[`<FormGroup/> should render error input 1`] = `
 }
 
 .c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+}
+
+.c6 {
   color: #DE3163;
   display: block;
   font-size: 1rem;
-  margin-top: 1rem;
 }
 
 <div
@@ -80,12 +95,15 @@ exports[`<FormGroup/> should render error input 1`] = `
       id="nome"
     />
   </div>
-  <p
+  <div
     class="c5"
   >
-     
-    Error message
-     
-  </p>
+    <p
+      class="c6"
+      id="error-message"
+    >
+      Error message
+    </p>
+  </div>
 </div>
 `;
