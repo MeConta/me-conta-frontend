@@ -1,35 +1,19 @@
-import { render, screen, waitFor } from '../../../utils/tests/helpers'
-import LogoutDialog from '.'
-import router from '../../../../__mocks__/next/router'
-import { jest } from '@jest/globals'
+import { render, screen } from '../../../utils/tests/helpers'
+import Dialog from '.'
 
-describe('<LogoutDialog />', () => {
-  const redirect = jest.fn()
-
-  it('should render with correct texts', () => {
-    render(<LogoutDialog />)
-
-    expect(
-      screen.getByText('Você desconectou da nossa plataforma')
-    ).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'Em instantes você será redirecionado para a página principal'
-      )
-    ).toBeInTheDocument()
-  })
-  //Espero que após 3 segundos a rota tenha sido chamada
-  it('should redirect to link after 3 seconds', () => {
-    jest.useFakeTimers()
-    jest.spyOn(global, 'setTimeout')
-    render(<LogoutDialog />)
-
-    expect(setTimeout).toHaveBeenCalledTimes(1)
-    //jest.runAllTimers()
-    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 3000)
+describe('<Dialog />', () => {
+  it('should render with a title and logo', () => {
+    render(<Dialog title={'Título'} />)
+    expect(screen.getByText('Título')).toBeInTheDocument()
+    expect(screen.getByRole('img')).toBeInTheDocument()
   })
 
-  // it('expect to redirect to home page', () => {
+  it('should render with a decorated title', () => {
+    const { container } = render(
+      <Dialog titleInfo={{ preText: 'Título', boldText: 'em destaque' }} />
+    )
 
-  // })
+    expect(screen.getByText('Título')).toBeInTheDocument()
+    expect(container.querySelector('b')).toHaveTextContent('em destaque')
+  })
 })
