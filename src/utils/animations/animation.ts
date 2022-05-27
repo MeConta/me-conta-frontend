@@ -1,9 +1,8 @@
-import { css, FlattenSimpleInterpolation } from 'styled-components'
+import { css, FlattenSimpleInterpolation, keyframes } from 'styled-components'
 
-export default class Animation {
-  constructor() {}
-  normal = () => new NormalAnimation()
-  absolute = () => new AbsoluteAnimation()
+export default abstract class Animation {
+  static normal = () => NormalAnimation.instance
+  static absolute = () => AbsoluteAnimation.instance
 }
 
 type AnimationProgress = {
@@ -22,7 +21,14 @@ class AbsoluteAnimation implements IAnimation {
   _left?: AnimationProgress
   _top?: AnimationProgress
   _bottom?: AnimationProgress
+  static _instance: AbsoluteAnimation
   constructor() {}
+  static get instance(): AbsoluteAnimation {
+    if (!AbsoluteAnimation._instance) {
+      AbsoluteAnimation._instance = new AbsoluteAnimation()
+    }
+    return AbsoluteAnimation._instance
+  }
   setProperties = (
     properties: {
       right?: AnimationProgress
@@ -32,10 +38,10 @@ class AbsoluteAnimation implements IAnimation {
     },
     duration?: string
   ): FinalAnimation => {
-    this._right = properties.right ?? this._right
-    this._left = properties.left ?? this._left
-    this._top = properties.top ?? this._top
-    this._bottom = properties.bottom ?? this._bottom
+    this._right = properties.right
+    this._left = properties.left
+    this._top = properties.top
+    this._bottom = properties.bottom
     return this.setAnimation(duration)
   }
   right = (value: AnimationProgress): AbsoluteAnimation => {
@@ -57,23 +63,35 @@ class AbsoluteAnimation implements IAnimation {
   setAnimation = (duration?: string): FinalAnimation => {
     return new FinalAnimation(
       css`
-        position: absolute;
-        ${this._right?.initialPosition &&
-        `right: ${this._right?.initialPosition}`};
-        ${this._left?.initialPosition &&
-        `left: ${this._left?.initialPosition}`};
-        ${this._top?.initialPosition && `top: ${this._top?.initialPosition}`};
-        ${this._bottom?.initialPosition &&
-        `bottom: ${this._bottom?.initialPosition}`};
+        ${this._right?.initialPosition && {
+          right: this._right?.initialPosition
+        }};
+        ${this._left?.initialPosition && {
+          left: this._left?.initialPosition
+        }};
+        ${this._top?.initialPosition && {
+          top: this._top?.initialPosition
+        }};
+        ${this._bottom?.initialPosition && {
+          bottom: this._bottom?.initialPosition
+        }};
       `,
       css`
-        ${this._right?.finalPosition && `right: ${this._right?.finalPosition}`};
-        ${this._left?.finalPosition && `left: ${this._left?.finalPosition}`};
-        ${this._top?.finalPosition && `top: ${this._top?.finalPosition}`};
-        ${this._bottom?.finalPosition &&
-        `bottom: ${this._bottom?.finalPosition}`};
+        ${this._right?.finalPosition && {
+          right: this._right?.finalPosition
+        }};
+        ${this._left?.finalPosition && {
+          left: this._left?.finalPosition
+        }};
+        ${this._top?.finalPosition && {
+          top: this._top?.finalPosition
+        }};
+        ${this._bottom?.finalPosition && {
+          bottom: this._bottom?.finalPosition
+        }};
       `,
-      duration
+      duration,
+      'absolute'
     )
   }
 }
@@ -81,7 +99,14 @@ class AbsoluteAnimation implements IAnimation {
 class NormalAnimation implements IAnimation {
   _margin?: AnimationProgress
   _padding?: AnimationProgress
+  static _instance: NormalAnimation
   constructor() {}
+  static get instance(): NormalAnimation {
+    if (!NormalAnimation._instance) {
+      NormalAnimation._instance = new NormalAnimation()
+    }
+    return NormalAnimation._instance
+  }
   setProperties = (
     properties: {
       margin?: AnimationProgress
@@ -89,8 +114,8 @@ class NormalAnimation implements IAnimation {
     },
     duration?: string
   ) => {
-    this._margin = properties.margin ?? this._margin
-    this._padding = properties.padding ?? this._padding
+    this._margin = properties.margin
+    this._padding = properties.padding
     return this.setAnimation(duration)
   }
   margin = (value: AnimationProgress): NormalAnimation => {
@@ -104,69 +129,104 @@ class NormalAnimation implements IAnimation {
   setAnimation = (duration?: string): FinalAnimation => {
     return new FinalAnimation(
       css`
-        ${this._margin?.initialPosition &&
-        `margin: ${this._margin?.initialPosition}`};
-        ${this._padding?.initialPosition &&
-        `padding: ${this._padding?.initialPosition}`};
+        ${this._margin?.initialPosition && {
+          margin: this._margin?.initialPosition
+        }};
+        ${this._padding?.initialPosition && {
+          padding: this._padding?.initialPosition
+        }};
       `,
       css`
-        ${this._margin?.finalPosition &&
-        `margin: ${this._margin?.finalPosition}`};
-        ${this._padding?.finalPosition &&
-        `padding: ${this._padding?.finalPosition}`};
+        ${this._margin?.finalPosition && {
+          margin: this._margin?.finalPosition
+        }};
+        ${this._padding?.finalPosition && {
+          padding: this._padding?.finalPosition
+        }};
       `,
       duration
     )
   }
 }
 
+const fade = (
+  opacity: {
+    initial: number
+    final: number
+  },
+  position: {
+    initialPosition: FlattenSimpleInterpolation
+    finalPosition: FlattenSimpleInterpolation
+  }
+) => keyframes`
+  0% {
+    opacity: ${opacity.initial};
+    ${position.initialPosition};
+  }
+  30% {
+    opacity: ${opacity.initial};
+  }
+  100% {
+    opacity: ${opacity.final};
+    ${position.finalPosition};
+  }
+`
+
 class FinalAnimation {
   readonly _initialPosition: FlattenSimpleInterpolation
   readonly _finalPosition: FlattenSimpleInterpolation
   readonly _duration: string
+  readonly _position?: string
   constructor(
     initialPosition: FlattenSimpleInterpolation,
     finalPosition: FlattenSimpleInterpolation,
-    duration: string = '500ms'
+    duration: string = '500ms',
+    position?: string
   ) {
     this._initialPosition = initialPosition
     this._finalPosition = finalPosition
     this._duration = duration
+    this._position = position
   }
+
+  get finalPosition(): FlattenSimpleInterpolation {
+    return this._finalPosition
+  }
+
+  get initialPosition(): FlattenSimpleInterpolation {
+    return this._initialPosition
+  }
+
   fadeIn = (): FlattenSimpleInterpolation => {
     return css`
-      ${this._initialPosition}
-      animation: fadeIn ${this._duration} ease-in forwards;
-      @keyframes fadeIn {
-        0% {
-          opacity: 0;
+      ${this._position && `position: ${this._position}`};
+      ${this.initialPosition};
+      animation-name: ${fade(
+        { initial: 0, final: 1 },
+        {
+          initialPosition: this.initialPosition,
+          finalPosition: this.finalPosition
         }
-        30% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-          ${this._finalPosition}
-        }
-      }
+      )};
+      animation-duration: ${this._duration};
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in;
     `
   }
   fadeOut = (): FlattenSimpleInterpolation => {
     return css`
-      ${this._initialPosition}
-      animation: fadeOut ${this._duration} ease-out forwards;
-      @keyframes fadeOut {
-        0% {
-          opacity: 1;
+      ${this._position && `position: ${this._position}`};
+      ${this.initialPosition};
+      animation-name: ${fade(
+        { initial: 1, final: 0 },
+        {
+          initialPosition: this.initialPosition,
+          finalPosition: this.finalPosition
         }
-        70% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 0;
-          ${this._finalPosition}
-        }
-      }
+      )};
+      animation-duration: ${this._duration};
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-out;
     `
   }
 }

@@ -16,8 +16,8 @@ const wrapperModifiers = {
 }
 
 const [fadeIn, fadeOut] = [
-  new Animation().normal().setAnimation('0.3s').fadeIn(),
-  new Animation().normal().setAnimation('0.3s').fadeOut()
+  Animation.normal().setAnimation('0.3s').fadeIn(),
+  Animation.normal().setAnimation('0.3s').fadeOut()
 ]
 
 export const Wrapper = styled.div<WrapperProps>`

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-const DEFAULT_DURATION: number = 500
+// This DEFAULT_DURATION is measured in seconds
+const DEFAULT_DURATION: number = 0.5
 
 export default function useDelayUnmount(
   isMounted: boolean | undefined,
@@ -13,7 +14,7 @@ export default function useDelayUnmount(
     if (isMounted && !shouldRender) {
       setShouldRender(true)
     } else if (!isMounted && shouldRender) {
-      timeoutId = setTimeout(() => setShouldRender(false), delayTime)
+      timeoutId = setTimeout(() => setShouldRender(false), delayTime * 1000)
     }
     return () => clearTimeout(timeoutId)
   }, [isMounted, delayTime, shouldRender])

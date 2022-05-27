@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { TextField } from 'components/atoms/TextField'
 import { ISignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 
@@ -103,6 +104,8 @@ export function FormVoluntario({
   const [nameForm, setNameForm] = useState<string>(name)
   const [emailForm, setEmailForm] = useState<string>(email)
 
+  const [isLoading, setLoading] = useState(false)
+
   const initialValues: FormVoluntarioValues = {
     telefone: '',
     dataNascimento: '',
@@ -124,6 +127,7 @@ export function FormVoluntario({
 
   const onSubmit = async (form: FormVoluntarioValues) => {
     try {
+      setLoading(true)
       await signupVoluntarioService.voluntarioSignUp(
         {
           ...form,
@@ -140,13 +144,14 @@ export function FormVoluntario({
       )
       handleSuccess()
     } catch (e) {
+      setLoading(false)
       handleError(e as BackendError)
     }
   }
 
   const {
     register,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
+    formState: { errors },
     handleSubmit,
     control,
     watch,
@@ -365,11 +370,7 @@ export function FormVoluntario({
       )}
 
       <S.ButtonContainer>
-        <Button
-          radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
-          type="submit"
-        >
+        <Button radius="square" type="submit" isLoading={isLoading}>
           CADASTRAR
         </Button>
       </S.ButtonContainer>

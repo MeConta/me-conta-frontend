@@ -23,6 +23,7 @@ export function FormRecuperacaoSenha(props: {
   handleError: (error: BackendError) => void
 }) {
   const [backendError, setBackendError] = useState('')
+  const [isLoading, setLoading] = useState(false)
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -32,12 +33,14 @@ export function FormRecuperacaoSenha(props: {
 
   const onSubmit = async ({ email }: MyFormValues) => {
     try {
+      setLoading(true)
       if (props.authService.recuperarSenha) {
         await props.authService.recuperarSenha(email)
         setBackendError('')
         props.handleSuccess()
       }
-    } catch (e) {
+    } catch (e: any) {
+      setLoading(false)
       if (e?.response?.data?.code === 404) {
         setBackendError(ERRORS.INVALID_EMAIL)
       }
@@ -69,9 +72,9 @@ export function FormRecuperacaoSenha(props: {
       <S.ButtonContainer>
         <Button
           radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
           size="mediumLarge"
+          isLoading={isLoading}
         >
           RECUPERAR MINHA SENHA
         </Button>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as F from '../../../styles/form/styles'
 import * as S from './styles'
 import { TextField } from '../../atoms/TextField'
@@ -14,7 +15,7 @@ import { ArrowLeft } from '@styled-icons/bootstrap'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { SelectField } from 'components/atoms/SelectField'
 import validationSchema from './validation'
-import React from 'react'
+import React, { useState } from 'react'
 import { CheckboxGroup } from 'components/molecules/CheckboxGroup'
 import ESituacaoCurso from './situacao-curso'
 import { DadosAcademicosValues } from './values-type'
@@ -78,6 +79,7 @@ export default function FormDadosAcademicos({
   })
 
   const [token] = useLocalStorage<string>('token', '')
+  const [isLoading, setLoading] = useState(false)
 
   const onSubmit = async (form: DadosAcademicosValues) => {
     const dadosVoluntario = possuiSuperiorCompleto()
@@ -93,6 +95,7 @@ export default function FormDadosAcademicos({
         }
 
     try {
+      setLoading(true)
       await signupVoluntarioService.voluntarioSignUp(
         {
           ...dadosPessoais!,
@@ -107,6 +110,7 @@ export default function FormDadosAcademicos({
       )
       handleSuccess()
     } catch (e) {
+      setLoading(false)
       handleError(e as BackendError)
     }
   }
@@ -248,6 +252,7 @@ export default function FormDadosAcademicos({
             color="primary"
             size="mediumLarge"
             textTransform="uppercase"
+            isLoading={isLoading}
           >
             Finalizar cadastro
           </Button>

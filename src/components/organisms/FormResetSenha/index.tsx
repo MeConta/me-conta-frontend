@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
 import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
@@ -29,6 +30,7 @@ const ERRORS = {
 
 export function FormResetSenha(props: MyProps) {
   const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
+  const [isLoading, setLoading] = useState(false)
 
   const validationSchema = Yup.object({
     password: Yup.string()
@@ -43,6 +45,7 @@ export function FormResetSenha(props: MyProps) {
 
   const onSubmit = async ({ password }: MyFormValues) => {
     try {
+      setLoading(true)
       if (props.authService.resetarSenha && props.hash) {
         await props.authService.resetarSenha({
           senha: password,
@@ -51,7 +54,8 @@ export function FormResetSenha(props: MyProps) {
         props.handleSuccess()
       }
     } catch (e) {
-      props.handleError(e)
+      setLoading(false)
+      props.handleError(e as BackendError)
     }
   }
 
@@ -62,7 +66,7 @@ export function FormResetSenha(props: MyProps) {
 
   const {
     control,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
+    formState: { errors },
     handleSubmit
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -103,9 +107,9 @@ export function FormResetSenha(props: MyProps) {
       <S.ButtonContainer>
         <Button
           radius="square"
-          disabled={isSubmitting || (isSubmitted && !isValid)}
           type="submit"
           size="mediumLarge"
+          isLoading={isLoading}
         >
           REDEFINIR MINHA SENHA
         </Button>

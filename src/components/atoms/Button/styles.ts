@@ -59,6 +59,7 @@ const wrapperModifiers = {
     &:disabled {
       cursor: not-allowed;
       filter: saturate(30%);
+      transition: filter 0.2s;
     }
   `,
   uppercase: () => css`
@@ -76,17 +77,13 @@ const wrapperModifiers = {
 }
 
 const [fadeIn, fadeOut] = [
-  new Animation()
-    .absolute()
-    .setProperties({
-      right: { initialPosition: '50px', finalPosition: '8px' }
-    })
+  Animation.absolute()
+    .right({ initialPosition: '50px', finalPosition: '8px' })
+    .setAnimation()
     .fadeIn(),
-  new Animation()
-    .absolute()
-    .setProperties({
-      right: { initialPosition: '8px', finalPosition: '50px' }
-    })
+  Animation.absolute()
+    .right({ initialPosition: '8px', finalPosition: '50px' })
+    .setAnimation()
     .fadeOut()
 ]
 

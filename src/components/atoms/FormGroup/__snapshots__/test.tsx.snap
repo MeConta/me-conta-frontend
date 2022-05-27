@@ -15,8 +15,14 @@ exports[`<FormGroup/> should render error input 1`] = `
 }
 
 .c0 > #popover {
-  -webkit-animation: fadeOut 0.3s ease-out forwards;
-  animation: fadeOut 0.3s ease-out forwards;
+  -webkit-animation-name: fHbZyC;
+  animation-name: fHbZyC;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
 }
 
 .c2 {

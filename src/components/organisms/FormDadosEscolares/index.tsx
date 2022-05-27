@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as Yup from 'yup'
 import * as F from '../../../styles/form/styles'
 import { TextField } from '../../atoms/TextField'
@@ -5,7 +6,7 @@ import { SelectField } from '../../atoms/SelectField'
 import { Scholarity } from './scholarity'
 import { RadioField } from '../../atoms/RadioField'
 import { Button } from '../../atoms/Button'
-import React from 'react'
+import React, { useState } from 'react'
 import { ISignupAlunoService } from '../../../services/signup-aluno-service/signup-aluno-service'
 import { BackendError } from '../../../types/backend-error'
 import { useLocalStorage } from '../../../hooks/localstorage.hook'
@@ -67,11 +68,12 @@ const FormDadosEscolares = ({
   authContext
 }: FormDadosEscolaresProps) => {
   const [token] = useLocalStorage<string>('token', '')
+  const [isLoading, setLoading] = useState(false)
 
   const {
     register,
     watch,
-    formState: { errors, isSubmitting, isSubmitted, isValid },
+    formState: { errors },
     handleSubmit,
     control
   } = useForm({
@@ -81,6 +83,7 @@ const FormDadosEscolares = ({
 
   async function onSubmit(values: CadastroAlunoValues) {
     try {
+      setLoading(true)
       await alunoSignup.alunoSignup(
         {
           ...dadosPessoais,
@@ -98,6 +101,7 @@ const FormDadosEscolares = ({
 
       handleSuccess()
     } catch (e) {
+      setLoading(false)
       handleError(e as BackendError)
     }
   }
@@ -160,7 +164,7 @@ const FormDadosEscolares = ({
             radius="square"
             type="submit"
             color="primary"
-            disabled={isSubmitting || (isSubmitted && !isValid)}
+            isLoading={isLoading}
             size="mediumLarge"
             textTransform="uppercase"
           >
