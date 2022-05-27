@@ -242,6 +242,9 @@ export default function FormDadosAcademicos({
         <TextAreaField
           label="Breve descrição sobre você"
           {...register('bio')}
+          value={watch('bio')}
+          maxLength={255}
+          showCharCounter
           required
           error={errors.bio?.message}
         />

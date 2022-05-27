@@ -14,6 +14,7 @@ export type TextAreaFieldProps = {
   value?: string
   name: string
   onChange: ChangeEventHandler<any> | undefined
+  showCharCounter?: boolean
 } & TextareaHTMLAttributes<HTMLTextAreaElement>
 
 export const TextAreaField = React.forwardRef(function TextAreaField(
@@ -25,12 +26,26 @@ export const TextAreaField = React.forwardRef(function TextAreaField(
     error,
     disabled,
     required,
+    showCharCounter,
     ...props
   }: TextAreaFieldProps,
   ref?: ForwardedRef<HTMLTextAreaElement>
 ) {
   return (
-    <FormGroup label={label} name={name} error={error} required={required}>
+    <FormGroup
+      label={label}
+      name={name}
+      error={error}
+      required={required}
+      extraContent={
+        !!showCharCounter &&
+        !!props.maxLength && (
+          <S.CharCounter error={error}>
+            {value?.length || 0}/{props?.maxLength}
+          </S.CharCounter>
+        )
+      }
+    >
       <S.TextArea
         value={value}
         onChange={onChange}
@@ -38,6 +53,7 @@ export const TextAreaField = React.forwardRef(function TextAreaField(
         disabled={disabled}
         required={required}
         id={name}
+        aria-describedby="error-message"
         ref={ref}
         {...props}
       />
