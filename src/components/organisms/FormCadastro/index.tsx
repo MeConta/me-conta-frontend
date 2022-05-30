@@ -83,7 +83,7 @@ export function FormCadastro(props: {
       .min(MIN_LENGTH_NAME_VALUE, ERRORS.MIN_LENGHT_NAME)
       .max(MAX_LENGTH_NAME_VALUE, ERRORS.MAX_LENGHT_NAME)
       .matches(
-        /^(([a-zA-Zà-úÀ-Ú][',.-áãàâéêèēeëíîìïóõôòúüùûū]*){2,})+\s+(([a-zA-Zà-úÀ-Ú\s][',.-áãàâéêèēeëíîìïóõôòúüùûū]*){2,})+$/,
+        new RegExp(/^((\w|[à-ú]){3,} (\w|[à-ú]|'){3,})/, 'si'),
         'Por favor, informe seu nome completo'
       ),
     email: Yup.string()
