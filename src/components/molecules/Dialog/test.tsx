@@ -10,10 +10,18 @@ describe('<Dialog />', () => {
 
   it('should render with a decorated title', () => {
     const { container } = render(
-      <Dialog titleInfo={{ preText: 'Título', boldText: 'em destaque' }} />
+      <Dialog
+        titleInfo={{
+          preText: 'Título',
+          boldText: 'em destaque',
+          posText: 'pós text'
+        }}
+      />
     )
 
-    expect(screen.getByText('Título')).toBeInTheDocument()
+    expect(container.querySelector('p')).toHaveTextContent(
+      'Título em destaque pós text'
+    )
     expect(container.querySelector('b')).toHaveTextContent('em destaque')
   })
 })
