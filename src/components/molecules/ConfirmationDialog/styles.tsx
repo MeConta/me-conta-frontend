@@ -1,18 +1,10 @@
-import styled, { css, DefaultTheme, keyframes } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
+import Animation from '../../../utils/animations/animation'
 
 type ContainerProps = {
   isModal?: boolean
+  isVisible: boolean
 }
-
-const fadeIn = keyframes`
-  0% {opacity: 0}
-  100% {opacity: 1}
-`
-
-const fadeInFromTop = keyframes`
-  0% {opacity: 0; top: -50px}
-  100% {opacity: 1; top: 0}
-`
 
 const modalStyles = (theme: DefaultTheme) => css`
   background-color: rgba(0, 0, 0, 0.25);
@@ -22,24 +14,33 @@ const modalStyles = (theme: DefaultTheme) => css`
   height: 100%;
 `
 
-const modalAnimation = () => css`
-  position: relative;
-  opacity: 0;
-  animation: ${fadeInFromTop} 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-  animation-delay: 0.35s;
-`
-
 export const DivContainer = styled.div<ContainerProps>`
-  ${({ isModal, theme }) => css`
+  ${({ isModal, theme, isVisible }) => css`
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     backdrop-filter: ${isModal && 'blur(5px)'};
-    animation: ${isModal && fadeIn} 0.5s;
+
+    ${isModal
+      ? isVisible
+        ? Animation.normal().setAnimation().fadeIn()
+        : Animation.normal().setAnimation().fadeOut()
+      : null}
 
     & > div {
-      ${isModal && modalAnimation()}
+      ${isModal && { opacity: 0 }}
+      ${isModal &&
+      Animation.absolute()
+        .setProperties({
+          top: { initialPosition: '-50px', finalPosition: '0' },
+          animation: {
+            delay: '0.35s',
+            timingFunction: 'cubic-bezier(0.22, 0.61, 0.36, 1)'
+          },
+          isRelative: true
+        })
+        .fadeIn()}
     }
 
     ${!!isModal && modalStyles(theme)}
@@ -57,4 +58,23 @@ export const DivContainer = styled.div<ContainerProps>`
       }
     }
   `}
+`
+
+export const CloseButton = styled.button`
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    animation: zoomIn 0.3s forwards;
+
+    @keyframes zoomIn {
+      100% {
+        transform: scale(1.2);
+      }
+    }
+  }
 `

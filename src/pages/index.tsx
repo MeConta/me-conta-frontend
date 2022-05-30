@@ -1,7 +1,12 @@
+import ConfirmationDialog from 'components/molecules/ConfirmationDialog'
+
 export default function Home() {
   return (
-    <>
-      <h1>Index</h1>
-    </>
+    <ConfirmationDialog
+      titleInfo={{ preText: 'Test' }}
+      buttonText="Test"
+      isClosable
+      isModal
+    ></ConfirmationDialog>
   )
 }

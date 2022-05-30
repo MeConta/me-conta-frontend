@@ -1,4 +1,9 @@
-import { render, screen, waitFor } from '../../../utils/tests/helpers'
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved
+} from '../../../utils/tests/helpers'
 import ConfirmationDialog from '.'
 import userEvent from '@testing-library/user-event'
 import router from '../../../../__mocks__/next/router'
@@ -84,7 +89,22 @@ describe('<ConfirmationDialog />', () => {
     expect(router.push).toHaveBeenCalledWith('/')
   })
 
-  describe('when isModal prop is true', () => {
+  it.skip('should close the dialog after clicking in close button', () => {
+    render(
+      <ConfirmationDialog
+        logoSrc="/teste.png"
+        buttonText={buttonText}
+        buttonLink="/rota-teste"
+        isModal={true}
+        isClosable={true}
+      />
+    )
+    userEvent.click(screen.getByTestId(/close/))
+    waitForElementToBeRemoved(() => screen.getByRole('dialog'))
+    expect(screen.getByRole('dialog')).toBeFalsy()
+  })
+
+  describe.skip('when isModal prop is true', () => {
     beforeEach(() => {
       render(
         <ConfirmationDialog

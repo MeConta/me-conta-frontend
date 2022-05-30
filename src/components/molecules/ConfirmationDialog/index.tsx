@@ -1,10 +1,12 @@
 import * as S from './styles'
 import * as F from '../../../styles/form/styles'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Button } from 'components/atoms/Button'
 import { WrapperForm } from '../WrapperForm'
+import { Close } from '@styled-icons/material'
 import Logo from '../../../../public/assets/logo.png'
 import router from 'next/router'
+import useDelayUnmount from 'utils/animations/unmountHelper'
 
 interface ConfirmationDialogProps {
   title?: ReactNode
@@ -25,6 +27,7 @@ interface ConfirmationDialogProps {
   buttonColor?: 'primary' | 'secondary'
   logoSrc?: string | StaticImageData
   isModal?: boolean
+  isClosable?: boolean
 }
 
 export default function ConfirmationDialog({
@@ -36,16 +39,21 @@ export default function ConfirmationDialog({
   buttonLink,
   logoSrc = Logo,
   isModal,
+  isClosable,
   buttonColor,
   buttonAction
 }: ConfirmationDialogProps) {
+  const [isVisible, setVisible] = useState(true)
+
   const trapFocus = (element: HTMLElement) => {
     const firstFocusableEl = element.querySelector(
       'a[href]:not([disabled])'
     ) as HTMLElement
     const lastFocusableEl = element.querySelector(
-      'button:not([disabled])'
+      '#dialog-button'
     ) as HTMLElement
+    console.log('first element', firstFocusableEl)
+    console.log('last element', lastFocusableEl)
     firstFocusableEl?.focus()
     element.addEventListener('keydown', (e) => {
       if (e.key === 'Tab') {
@@ -76,10 +84,14 @@ export default function ConfirmationDialog({
     'aria-describedby': 'dialog-subtitle'
   }
 
-  const extraProps = () => (isModal ? modalProps : {})
+  const extraProps = () => isModal && modalProps
 
-  return (
-    <S.DivContainer data-testid="confirmation-dialog" isModal={isModal}>
+  return useDelayUnmount(isVisible) ? (
+    <S.DivContainer
+      data-testid="confirmation-dialog"
+      isModal={isModal}
+      isVisible={isVisible}
+    >
       <WrapperForm
         borderPresent={false}
         padding="4rem 2.8rem"
@@ -89,6 +101,15 @@ export default function ConfirmationDialog({
         logoSrc={logoSrc}
         {...extraProps()}
       >
+        {isModal && isClosable && (
+          <S.CloseButton id="close-button" data-testid="close">
+            <Close
+              size={'24'}
+              color={'#5f5f5f'}
+              onClick={() => setVisible(false)}
+            />
+          </S.CloseButton>
+        )}
         {titleInfo ? (
           renderText(titleInfo, 'title', 'desk-xlarge', 'black')
         ) : (
@@ -118,6 +139,8 @@ export default function ConfirmationDialog({
         </F.ButtonContainer>
       </WrapperForm>
     </S.DivContainer>
+  ) : (
+    <></>
   )
 }
 
@@ -137,4 +160,7 @@ const renderText = (
       {text.posText}
     </F.Paragraph>
   )
+}
+function sleep(arg0: number) {
+  throw new Error('Function not implemented.')
 }

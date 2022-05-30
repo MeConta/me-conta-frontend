@@ -10,6 +10,11 @@ type AnimationProgress = {
   finalPosition?: string
 }
 
+type AnimationProperties = {
+  delay?: string
+  timingFunction?: string
+}
+
 interface IAnimation {
   // eslint-disable-next-line no-unused-vars
   setProperties: (properties: {}, duration?: string) => FinalAnimation
@@ -35,6 +40,8 @@ class AbsoluteAnimation implements IAnimation {
       left?: AnimationProgress
       top?: AnimationProgress
       bottom?: AnimationProgress
+      animation?: AnimationProperties
+      isRelative?: boolean
     },
     duration?: string
   ): FinalAnimation => {
@@ -42,7 +49,11 @@ class AbsoluteAnimation implements IAnimation {
     this._left = properties.left
     this._top = properties.top
     this._bottom = properties.bottom
-    return this.setAnimation(duration)
+    return this.setAnimation(
+      duration,
+      properties.animation,
+      properties.isRelative
+    )
   }
   right = (value: AnimationProgress): AbsoluteAnimation => {
     this._right = value
@@ -60,7 +71,11 @@ class AbsoluteAnimation implements IAnimation {
     this._bottom = value
     return this
   }
-  setAnimation = (duration?: string): FinalAnimation => {
+  setAnimation = (
+    duration?: string,
+    animation?: AnimationProperties,
+    isRelative?: boolean
+  ): FinalAnimation => {
     return new FinalAnimation(
       css`
         ${this._right?.initialPosition && {
@@ -91,7 +106,8 @@ class AbsoluteAnimation implements IAnimation {
         }};
       `,
       duration,
-      'absolute'
+      animation,
+      isRelative ? 'relative' : 'absolute'
     )
   }
 }
@@ -111,12 +127,13 @@ class NormalAnimation implements IAnimation {
     properties: {
       margin?: AnimationProgress
       padding?: AnimationProgress
+      animation?: AnimationProperties
     },
     duration?: string
   ) => {
     this._margin = properties.margin
     this._padding = properties.padding
-    return this.setAnimation(duration)
+    return this.setAnimation(duration, properties.animation)
   }
   margin = (value: AnimationProgress): NormalAnimation => {
     this._margin = value
@@ -126,7 +143,10 @@ class NormalAnimation implements IAnimation {
     this._padding = value
     return this
   }
-  setAnimation = (duration?: string): FinalAnimation => {
+  setAnimation = (
+    duration?: string,
+    animation?: AnimationProperties
+  ): FinalAnimation => {
     return new FinalAnimation(
       css`
         ${this._margin?.initialPosition && {
@@ -144,7 +164,8 @@ class NormalAnimation implements IAnimation {
           padding: this._padding?.finalPosition
         }};
       `,
-      duration
+      duration,
+      animation
     )
   }
 }
@@ -176,16 +197,19 @@ class FinalAnimation {
   readonly _initialPosition: FlattenSimpleInterpolation
   readonly _finalPosition: FlattenSimpleInterpolation
   readonly _duration: string
+  readonly _animation?: AnimationProperties
   readonly _position?: string
   constructor(
     initialPosition: FlattenSimpleInterpolation,
     finalPosition: FlattenSimpleInterpolation,
     duration: string = '500ms',
+    animation?: AnimationProperties,
     position?: string
   ) {
     this._initialPosition = initialPosition
     this._finalPosition = finalPosition
     this._duration = duration
+    this._animation = animation
     this._position = position
   }
 
@@ -210,7 +234,9 @@ class FinalAnimation {
       )};
       animation-duration: ${this._duration};
       animation-fill-mode: forwards;
-      animation-timing-function: ease-in;
+      animation-timing-function: ${this._animation?.timingFunction ??
+      'ease-in'};
+      ${this._animation?.delay && { animationDelay: this._animation?.delay }};
     `
   }
   fadeOut = (): FlattenSimpleInterpolation => {
@@ -226,7 +252,9 @@ class FinalAnimation {
       )};
       animation-duration: ${this._duration};
       animation-fill-mode: forwards;
-      animation-timing-function: ease-out;
+      animation-timing-function: ${this._animation?.timingFunction ??
+      'ease-out'};
+      ${this._animation?.delay && { animationDelay: this._animation?.delay }};
     `
   }
 }
