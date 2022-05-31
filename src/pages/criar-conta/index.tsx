@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { FormCadastro } from 'components/organisms/FormCadastro'
 import { UserType } from 'enums/user-type.enum'
@@ -19,9 +19,21 @@ import { BackendError } from 'types/backend-error'
 import { DadosAcademicosValues } from 'components/organisms/FormDadosAcademicos/values-type'
 import { SignupVoluntarioService } from 'services/signup-voluntario-service/signup-voluntario-service'
 import { useAuthContext } from '../../store/auth-context'
-import { redirects } from 'utils/routes/redirects'
+import { criarContaRouter } from '../../utils/routes/criarContaRouter'
 
-export default function CriarConta() {
+type CriarContaProps = {
+  setCurrentStep: any
+  setTipoDeUsuario: any
+  currentStep: PassosCadastro
+  tipoDeUsuario: UserType
+}
+
+function CriarConta({
+  currentStep,
+  setCurrentStep,
+  tipoDeUsuario,
+  setTipoDeUsuario
+}: CriarContaProps) {
   const { signupService } = useSignup()
   const { emit } = useToast()
   const router = useRouter()
@@ -34,16 +46,8 @@ export default function CriarConta() {
     genero: 'ND'
   }
 
-  const toggleFormSteps = true
-
   const authCtx = useAuthContext()
 
-  const [tipoDeUsuario, setTipoDeUsuario] = useState(
-    +authCtx.session.type ?? UserType.ALUNO
-  )
-  const [currentStep, setCurrentStep] = useState<PassosCadastro>(
-    PassosCadastro.CRIAR_CONTA
-  )
   const [dadosPessoais, setDadosPessoais] =
     useState<DadosPessoaisValues>(dadosPessoaisDefault)
   const [dadosEscolares, setDadosEscolares] = useState<
@@ -53,49 +57,8 @@ export default function CriarConta() {
     DadosAcademicosValues | undefined
   >()
 
-  const redirectToDashboard = () => {
-    const route = redirects[+authCtx.session.type]
-    router.push(route)
-  }
-
-  useEffect(() => {
-    if (authCtx.isLoggedIn && !authCtx.session.completeProfile) {
-      setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
-      setTipoDeUsuario(+authCtx.session.type)
-    }
-  }, [
-    authCtx.session.completeProfile,
-    authCtx.isLoggedIn,
-    authCtx.session.type
-  ])
-
-  useEffect(() => {
-    if (authCtx.isLoggedIn && authCtx.session.completeProfile) {
-      redirectToDashboard()
-    }
-    if (currentStep !== PassosCadastro.CRIAR_CONTA && !authCtx.isLoggedIn) {
-      emit({
-        type: ToastType.WARNING,
-        message: 'Sessão expirada. Realize login para concluir o cadastro!',
-        autoClose: false
-      })
-      router.push('/login')
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep])
-
-  const redirectAccordingToUserType = async (type: UserType) => {
-    if (type === UserType.ALUNO) {
-      await router.push('/cadastro-aluno')
-    } else {
-      await router.push('/cadastro-voluntario')
-    }
-  }
-
-  const handleSuccessCriarConta = async (type: UserType) => {
-    if (!toggleFormSteps) {
-      await redirectAccordingToUserType(type)
-    } else setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
+  const handleSuccessCriarConta = () => {
+    setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
 
   const handleSuccessCadastro = async (tipoDeUsuario: UserType) => {
@@ -159,9 +122,7 @@ export default function CriarConta() {
             <FormCadastro
               setTipoDeUsuario={setTipoDeUsuario}
               signupService={signupService}
-              handleSuccess={async (form) => {
-                await handleSuccessCriarConta(form.tipo)
-              }}
+              handleSuccess={handleSuccessCriarConta}
               handleError={(error) => {
                 console.error(error)
               }}
@@ -226,3 +187,5 @@ export default function CriarConta() {
     </P.ComponentWrapper>
   )
 }
+
+export default criarContaRouter(CriarConta)

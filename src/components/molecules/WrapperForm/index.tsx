@@ -19,7 +19,7 @@ type WrapperFormProps = {
   passoCadastro?: PassosCadastro
   children: ReactNode
   role?: AriaRole
-  actionItems?: Array<ReactNode>
+  actionItems?: Array<ReactNode | HTMLElement>
   id?: string
 }
 
@@ -60,7 +60,7 @@ export const WrapperForm = ({
     >
       {actionItems && (
         <S.ActionItemsWrapper id="action-items-wrapper">
-          {actionItems.map((action) => action)}
+          {actionItems}
         </S.ActionItemsWrapper>
       )}
       <Link href="/">

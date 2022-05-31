@@ -8,9 +8,6 @@ import { BackendError } from 'types/backend-error'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/styles'
-import toggles from '../../utils/toggles/toggles'
-
-const { enablePasswordResetModal } = toggles
 
 type InitialProps = {
   hash: string
@@ -68,7 +65,7 @@ function NovaSenha({ hash }: InitialProps) {
 
   return validHash ? (
     <>
-      {enablePasswordResetModal && successModalVisible && (
+      {successModalVisible && (
         <ConfirmationDialog
           titleInfo={{
             preText: 'SUA SENHA FOI REDEFINIDA COM ',
@@ -102,8 +99,7 @@ function NovaSenha({ hash }: InitialProps) {
                   type: ToastType.SUCCESS,
                   message: 'Senha alterada com sucesso'
                 })
-                if (enablePasswordResetModal) setSuccessModalVisible(true)
-                else router.push('/login')
+                setSuccessModalVisible(true)
               }}
               handleError={(error: BackendError) => {
                 console.log(error)
