@@ -61,9 +61,6 @@ export const DivContainer = styled.div<ContainerProps>`
 `
 
 export const CloseButton = styled.button`
-  position: absolute;
-  top: 22px;
-  right: 22px;
   background-color: transparent;
   border: none;
   cursor: pointer;

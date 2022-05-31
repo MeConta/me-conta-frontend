@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved
-} from '../../../utils/tests/helpers'
+import { render, screen, waitFor } from '../../../utils/tests/helpers'
 import ConfirmationDialog from '.'
 import userEvent from '@testing-library/user-event'
 import router from '../../../../__mocks__/next/router'
@@ -89,7 +84,7 @@ describe('<ConfirmationDialog />', () => {
     expect(router.push).toHaveBeenCalledWith('/')
   })
 
-  it.skip('should close the dialog after clicking in close button', () => {
+  it('should close the dialog after clicking in close button', async () => {
     render(
       <ConfirmationDialog
         logoSrc="/teste.png"
@@ -99,12 +94,13 @@ describe('<ConfirmationDialog />', () => {
         isClosable={true}
       />
     )
-    userEvent.click(screen.getByTestId(/close/))
-    waitForElementToBeRemoved(() => screen.getByRole('dialog'))
-    expect(screen.getByRole('dialog')).toBeFalsy()
+    userEvent.click(screen.getByTestId('close'))
+
+    expect(await screen.findByTestId('empty')).toBeInTheDocument()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
-  describe.skip('when isModal prop is true', () => {
+  describe('when isModal prop is true', () => {
     beforeEach(() => {
       render(
         <ConfirmationDialog
@@ -112,6 +108,7 @@ describe('<ConfirmationDialog />', () => {
           buttonText={buttonText}
           buttonLink="/rota-teste"
           isModal={true}
+          isClosable
         />
       )
     })
@@ -127,16 +124,21 @@ describe('<ConfirmationDialog />', () => {
       )
     })
 
-    it('should focus on button after perform two sequencial tab clicks', () => {
+    it('should focus on action button after performing two sequencial tab clicks, when the modal is closable', () => {
       userEvent.keyboard('Tab')
-      expect(screen.getByRole('link')).toHaveFocus()
+      expect(screen.getByTestId('close')).toHaveFocus()
       userEvent.keyboard('Tab')
       waitFor(() => {
-        expect(screen.getByRole('button')).toHaveFocus()
+        expect(screen.getByRole('link')).toHaveFocus()
+      })
+      userEvent.keyboard('Tab')
+      waitFor(() => {
+        expect(screen.getByRole('button', { name: buttonText })).toHaveFocus()
       })
     })
 
-    it('should have necessary aria attributes', () => {
+    it('should have necessary aria attributes', async () => {
+      expect(await screen.findByRole('dialog')).toBeInTheDocument()
       const dialog = screen.getByRole('dialog')
       expect(dialog).toBeInTheDocument()
       expect(dialog).toHaveAttribute('aria-modal')

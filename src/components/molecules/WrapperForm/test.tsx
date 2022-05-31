@@ -66,4 +66,23 @@ describe('<WrapperForm />', () => {
 
     expect(screen.getByTestId('navigationContainer')).toBeInTheDocument()
   })
+
+  it('should render action items when they are passed', () => {
+    render(
+      <WrapperForm
+        passoCadastro={PassosCadastro.CRIAR_CONTA}
+        tipoDeUsuario={UserType.ALUNO}
+        logoSrc="/mockimage.png"
+        actionItems={[
+          <button key="0">edit</button>,
+          <button key="1">close</button>
+        ]}
+      >
+        {content}
+      </WrapperForm>
+    )
+
+    expect(screen.getByRole('button', { name: 'edit' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'close' })).toBeInTheDocument()
+  })
 })

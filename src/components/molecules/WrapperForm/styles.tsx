@@ -13,6 +13,9 @@ const wrapperModifiers = {
     & > div {
       margin-top: 4rem;
     }
+    #action-items-wrapper {
+      margin-top: 0;
+    }
   `
 }
 
@@ -47,4 +50,10 @@ export const Wrapper = styled.div<WrapperProp>`
       padding: 0;
     }
   `}
+`
+
+export const ActionItemsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `

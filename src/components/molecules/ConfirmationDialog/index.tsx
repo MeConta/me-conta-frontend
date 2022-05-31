@@ -44,38 +44,39 @@ export default function ConfirmationDialog({
   buttonAction
 }: ConfirmationDialogProps) {
   const [isVisible, setVisible] = useState(true)
-
-  const trapFocus = (element: HTMLElement) => {
-    const firstFocusableEl = element.querySelector(
-      'a[href]:not([disabled])'
-    ) as HTMLElement
-    const lastFocusableEl = element.querySelector(
-      '#dialog-button'
-    ) as HTMLElement
-    console.log('first element', firstFocusableEl)
-    console.log('last element', lastFocusableEl)
-    firstFocusableEl?.focus()
-    element.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          if (document.activeElement === firstFocusableEl) {
-            lastFocusableEl?.focus()
-            e.preventDefault()
-          }
-        } else {
-          if (document.activeElement === lastFocusableEl) {
-            firstFocusableEl?.focus()
-            e.preventDefault()
-          }
-        }
-      }
-    })
-  }
+  const [modalElement, setModalElement] = useState<any>()
 
   useEffect(() => {
+    const trapFocus = (element: HTMLElement) => {
+      const firstFocusableEl = element.querySelector(
+        '#close-button, a[href]:not([disabled])'
+      ) as HTMLElement
+      const lastFocusableEl = element.querySelector(
+        '#dialog-button'
+      ) as HTMLElement
+      firstFocusableEl?.focus()
+      element.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === firstFocusableEl) {
+              lastFocusableEl?.focus()
+              e.preventDefault()
+            }
+          } else {
+            if (document.activeElement === lastFocusableEl) {
+              firstFocusableEl?.focus()
+              e.preventDefault()
+            }
+          }
+        }
+      })
+    }
+
     const modal = document.getElementById('modal') as HTMLElement
+    setModalElement(modal)
+
     if (modal !== null) trapFocus(modal)
-  }, [])
+  }, [isModal, modalElement])
 
   const modalProps = {
     role: 'dialog',
@@ -99,17 +100,22 @@ export default function ConfirmationDialog({
         shape="square"
         id={isModal ? 'modal' : ''}
         logoSrc={logoSrc}
+        actionItems={
+          isModal && isClosable
+            ? [
+                <S.CloseButton
+                  id="close-button"
+                  data-testid="close"
+                  onClick={() => setVisible(false)}
+                  key="close"
+                >
+                  <Close size={'24'} color={'#5f5f5f'} />
+                </S.CloseButton>
+              ]
+            : []
+        }
         {...extraProps()}
       >
-        {isModal && isClosable && (
-          <S.CloseButton id="close-button" data-testid="close">
-            <Close
-              size={'24'}
-              color={'#5f5f5f'}
-              onClick={() => setVisible(false)}
-            />
-          </S.CloseButton>
-        )}
         {titleInfo ? (
           renderText(titleInfo, 'title', 'desk-xlarge', 'black')
         ) : (
@@ -140,7 +146,7 @@ export default function ConfirmationDialog({
       </WrapperForm>
     </S.DivContainer>
   ) : (
-    <></>
+    <div data-testid="empty"></div>
   )
 }
 
@@ -160,7 +166,4 @@ const renderText = (
       {text.posText}
     </F.Paragraph>
   )
-}
-function sleep(arg0: number) {
-  throw new Error('Function not implemented.')
 }

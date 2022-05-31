@@ -19,6 +19,7 @@ type WrapperFormProps = {
   passoCadastro?: PassosCadastro
   children: ReactNode
   role?: AriaRole
+  actionItems?: Array<ReactNode>
   id?: string
 }
 
@@ -34,6 +35,7 @@ export const WrapperForm = ({
   children,
   role,
   id,
+  actionItems,
   ...props
 }: WrapperFormProps) => {
   const logoSizes = {
@@ -56,6 +58,11 @@ export const WrapperForm = ({
       role={role}
       {...props}
     >
+      {actionItems && (
+        <S.ActionItemsWrapper id="action-items-wrapper">
+          {actionItems.map((action) => action)}
+        </S.ActionItemsWrapper>
+      )}
       <Link href="/">
         <a>
           <Image
