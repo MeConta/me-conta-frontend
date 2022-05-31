@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import { BackendError } from 'types/backend-error'
+import { AuthServiceProps } from 'store/auth-context'
 
 describe('<FormDadosEscolares />', () => {
   const signupServiceMock: ISignupAlunoService = {
@@ -16,7 +17,20 @@ describe('<FormDadosEscolares />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const setCurrentStepMock = jest.fn()
-  const authContextMock = { setCompleteProfile: jest.fn() }
+  const authContextMock: AuthServiceProps = {
+    setCompleteProfile: jest.fn(),
+    authService: { validarHash: jest.fn(), logout: jest.fn() },
+    isLoggedIn: false,
+    session: {
+      name: '',
+      type: '',
+      token: '',
+      refreshToken: '',
+      completeProfile: false
+    },
+    handleLogin: jest.fn(),
+    handleLogout: jest.fn()
+  }
 
   const previousValuesMock = {
     escolaridade: '1',
@@ -249,23 +263,11 @@ describe('<FormDadosEscolares />', () => {
 
   it('deve setar flag de perfil completo, ao concluir o cadastro', async () => {
     const { buttonConcluirCadastro } = elements()
-    const {
-      escolaridade,
-      necessidades,
-      expectativas,
-      tratamentos,
-      tipoEscola
-    } = await fillForm()
+    await fillForm()
 
     await act(async () => {
       fireEvent.click(buttonConcluirCadastro)
     })
-
-    expect(escolaridade).toHaveValue('1')
-    expect(tipoEscola).toBeChecked()
-    expect(necessidades).toHaveValue('Necessidades do aluno')
-    expect(expectativas).toHaveValue('Expectativas do aluno')
-    expect(tratamentos).toHaveValue('Tratamentos do aluno')
 
     await waitFor(async () => {
       expect(authContextMock.setCompleteProfile).toHaveBeenCalledWith(true)

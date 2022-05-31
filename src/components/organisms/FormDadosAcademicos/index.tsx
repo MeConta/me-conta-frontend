@@ -22,6 +22,7 @@ import { DadosAcademicosValues } from './values-type'
 import { UserType } from 'enums/user-type.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import { AreaAtuacao } from './area-atuacao.enum'
+import { AuthServiceProps } from 'store/auth-context'
 
 interface DadosAcademicosProp {
   setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
@@ -31,6 +32,7 @@ interface DadosAcademicosProp {
   setPreviousValues: Function
   previousValues: DadosAcademicosValues | undefined
   dadosPessoais: DadosPessoaisValues | null
+  authContext: AuthServiceProps
 }
 
 const NIVELFORMACAO = {
@@ -64,7 +66,8 @@ export default function FormDadosAcademicos({
   handleError,
   previousValues,
   setPreviousValues,
-  dadosPessoais
+  dadosPessoais,
+  authContext
 }: DadosAcademicosProp) {
   const {
     register,
@@ -108,6 +111,9 @@ export default function FormDadosAcademicos({
         },
         token
       )
+
+      authContext.setCompleteProfile(true)
+
       handleSuccess()
     } catch (e) {
       setLoading(false)

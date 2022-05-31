@@ -208,6 +208,7 @@ export default function CriarConta() {
             setCurrentStep={setCurrentStep}
             previousValues={dadosAcademicos}
             setPreviousValues={setDadosAcademicos}
+            authContext={authCtx}
           />
         )
     }

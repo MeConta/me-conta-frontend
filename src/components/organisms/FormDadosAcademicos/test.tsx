@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { render, act, screen, waitFor } from '../../../utils/tests/helpers'
 import FormDadosAcademicos from '.'
 import userEvent from '@testing-library/user-event'
@@ -11,12 +12,28 @@ import { DadosPessoaisValues } from 'types/dados-cadastro'
 import ESituacaoCurso from './situacao-curso'
 import { AreaAtuacao } from './area-atuacao.enum'
 import { BackendError } from 'types/backend-error'
+import { AuthServiceProps } from 'store/auth-context'
 
 describe('<FormDadosAcademicos />', () => {
   const setCurrentStepMock = jest.fn()
   const handleErrorMock = jest.fn()
   const handleSuccessMock = jest.fn()
   const setPreviousValuesMock = jest.fn()
+  const authContextMock: AuthServiceProps = {
+    setCompleteProfile: jest.fn(),
+    authService: { validarHash: jest.fn(), logout: jest.fn() },
+    isLoggedIn: false,
+    session: {
+      name: '',
+      type: '',
+      token: '',
+      refreshToken: '',
+      completeProfile: false
+    },
+    handleLogin: jest.fn(),
+    handleLogout: jest.fn()
+  }
+
   const dadosPessoais: DadosPessoaisValues = {
     telefone: '1554845456',
     dataNascimento: '2022-10-10',
@@ -136,6 +153,7 @@ describe('<FormDadosAcademicos />', () => {
         setPreviousValues={setPreviousValuesMock}
         previousValues={undefined}
         dadosPessoais={dadosPessoais}
+        authContext={authContextMock}
       />
     )
   })
@@ -293,6 +311,19 @@ describe('<FormDadosAcademicos />', () => {
 
       await waitFor(async () => {
         expect(handleErrorMock).toBeCalledWith(error)
+      })
+    })
+
+    it('deve setar flag de perfil completo, ao concluir o cadastro', async () => {
+      const { buttonFinalizarCadastro } = elements()
+      await fillForm(ESituacaoCurso.COMPLETO)
+
+      await act(async () => {
+        fireEvent.click(buttonFinalizarCadastro)
+      })
+
+      await waitFor(async () => {
+        expect(authContextMock.setCompleteProfile).toHaveBeenCalledWith(true)
       })
     })
   })
