@@ -12,27 +12,14 @@ import { DadosPessoaisValues } from 'types/dados-cadastro'
 import ESituacaoCurso from './situacao-curso'
 import { AreaAtuacao } from './area-atuacao.enum'
 import { BackendError } from 'types/backend-error'
-import { AuthServiceProps } from 'store/auth-context'
+import createAuthContextObject from 'utils/tests/createAuthContextObject'
 
 describe('<FormDadosAcademicos />', () => {
   const setCurrentStepMock = jest.fn()
   const handleErrorMock = jest.fn()
   const handleSuccessMock = jest.fn()
   const setPreviousValuesMock = jest.fn()
-  const authContextMock: AuthServiceProps = {
-    setCompleteProfile: jest.fn(),
-    authService: { validarHash: jest.fn(), logout: jest.fn() },
-    isLoggedIn: false,
-    session: {
-      name: '',
-      type: '',
-      token: '',
-      refreshToken: '',
-      completeProfile: false
-    },
-    handleLogin: jest.fn(),
-    handleLogout: jest.fn()
-  }
+  const authContextMock = createAuthContextObject()
 
   const dadosPessoais: DadosPessoaisValues = {
     telefone: '1554845456',

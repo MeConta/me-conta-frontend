@@ -1,27 +1,8 @@
-import { render, screen } from '../../helpers'
-import CriarConta from '../../../../pages/criar-conta/index'
+import { render, screen } from '../../../utils/tests/helpers'
+import CriarConta from '../../../pages/criar-conta/index'
 import React from 'react'
-import * as AuthorizationContext from '../../../../store/auth-context'
-
-const createAuthContextObject = (
-  isLoggedIn: boolean = false,
-  userType: string = '0',
-  completeProfile: boolean = false
-) => {
-  return {
-    isLoggedIn,
-    authService: { validarHash: jest.fn(), logout: jest.fn() },
-    session: {
-      name: 'teste',
-      type: userType,
-      completeProfile,
-      token: '',
-      refreshToken: ''
-    },
-    handleLogin: jest.fn(),
-    handleLogout: jest.fn()
-  }
-}
+import * as AuthorizationContext from '../../../store/auth-context'
+import createAuthContextObject from '../../../utils/tests/createAuthContextObject'
 
 jest.mock('store/auth-context')
 
