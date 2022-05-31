@@ -8,19 +8,17 @@ import Logo from '../../../../public/assets/logo.png'
 import router from 'next/router'
 import useDelayUnmount from 'utils/animations/unmountHelper'
 
+type InfoHeader = {
+  preText?: string
+  boldText?: string
+  posText?: string
+}
+
 interface ConfirmationDialogProps {
   title?: ReactNode
-  titleInfo?: {
-    preText?: string
-    boldText?: string
-    posText?: string
-  }
+  titleInfo?: InfoHeader
   subtitle?: ReactNode
-  subtitleInfo?: {
-    preText?: string
-    boldText?: string
-    posText?: string
-  }
+  subtitleInfo?: InfoHeader
   buttonText: string
   buttonLink?: string
   buttonAction?: () => void
@@ -119,18 +117,22 @@ export default function ConfirmationDialog({
         {titleInfo ? (
           renderText(titleInfo, 'title', 'desk-xlarge', 'black')
         ) : (
-          <F.Paragraph size="desk-xlarge" id="dialog-title">
+          <F.ParagraphContainer size="desk-xlarge" id="dialog-title">
             {title}
-          </F.Paragraph>
+          </F.ParagraphContainer>
         )}
         {subtitleInfo ? (
           renderText(subtitleInfo, 'subtitle', undefined, 'black')
         ) : (
-          <F.Paragraph color="black" size="desk-large" id="dialog-subtitle">
+          <F.ParagraphContainer
+            color="black"
+            size="desk-large"
+            id="dialog-subtitle"
+          >
             {subtitle}
-          </F.Paragraph>
+          </F.ParagraphContainer>
         )}
-        <F.ButtonContainer>
+        <F.ButtonContainer marginTop="4rem">
           <Button
             radius="square"
             size="mediumLarge"
@@ -161,9 +163,11 @@ const renderText = (
   color?: F.TextProps['color']
 ) => {
   return (
-    <F.Paragraph color={color} size={size} id={`dialog-${type}`}>
-      {text.preText} <F.BoldParagraph>{text.boldText}</F.BoldParagraph>{' '}
-      {text.posText}
-    </F.Paragraph>
+    <F.ParagraphContainer id={`dialog-${type}`}>
+      <F.Paragraph color={color} size={size}>
+        {text.preText} <F.BoldParagraph>{text.boldText}</F.BoldParagraph>{' '}
+        {text.posText}
+      </F.Paragraph>
+    </F.ParagraphContainer>
   )
 }

@@ -10,11 +10,8 @@ const wrapperModifiers = {
   square: () => css`
     width: 42rem;
     height: auto;
-    & > div {
-      margin-top: 4rem;
-    }
-    #action-items-wrapper {
-      margin-top: 0;
+    #dialog-subtitle {
+      padding: 1rem;
     }
   `
 }

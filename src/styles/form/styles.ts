@@ -11,11 +11,12 @@ export const Form = styled.form`
   width: 100%;
 `
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div<{ marginTop?: string }>`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  ${(p) => p.marginTop && { marginTop: p.marginTop }}
   button {
     width: 100%;
   }
@@ -34,9 +35,18 @@ export const BoldParagraph = styled.b`
   `}
 `
 
-export const Paragraph = styled.p<
-  Pick<TextProps, 'size' | 'margin' | 'color' | 'weight'>
->`
+type ParagraphProps = Pick<TextProps, 'size' | 'margin' | 'color' | 'weight'>
+
+export const ParagraphContainer = styled.div<ParagraphProps>`
+  width: 100%;
+  text-align: center;
+  color: ${(p) => p.theme.colors[p.color ?? 'lightGray']};
+  margin: ${(p) => (p.margin ? p.theme.spacings[p.margin] : p.theme.zero)};
+  font-size: ${(p) => p.theme.font.sizes[p.size ?? 'desk-large']};
+  font-weight: ${(p) => p.weight ?? p.theme.font.normal};
+`
+
+export const Paragraph = styled.p<ParagraphProps>`
   ${({ theme, size, margin, color, weight }) => css`
     text-align: center;
     padding: 1rem;
