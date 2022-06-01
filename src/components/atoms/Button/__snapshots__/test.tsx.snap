@@ -2,6 +2,7 @@
 
 exports[`<Button/> should render large size by default 1`] = `
 .c0 {
+  overflow-x: hidden;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -55,11 +56,19 @@ exports[`<Button/> should render large size by default 1`] = `
   transition: background-color 0.2s;
 }
 
+.c1 {
+  position: relative;
+}
+
 <button
   class="c0"
   color="primary"
   radius="round"
 >
-  button
+  <div
+    class="c1"
+  >
+    button
+  </div>
 </button>
 `;

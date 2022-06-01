@@ -62,7 +62,7 @@ describe('<PasswordField/>', () => {
     const popoverPropsDefault = {
       title: 'A senha deve conter pelo menos:',
       items: [
-        '8-20 caracteres',
+        'mínimo 8 caracteres',
         '1 número',
         '1 letra maiúscula',
         '1 letra minúscula',

@@ -1,4 +1,4 @@
-import { render, screen } from 'utils/tests/helpers'
+import { render, screen, waitFor } from 'utils/tests/helpers'
 
 import { Button } from '.'
 
@@ -108,6 +108,18 @@ describe('<Button/>', () => {
       height: defaultLoaderSizeForButton,
       border: `${defaultLoaderBorderForButton} ${solid} #E6E6E6`,
       borderTop: `${defaultLoaderBorderForButton} ${solid} #DE3163`
+    })
+  })
+
+  it('should call onFillDone when the fillOver is done', async () => {
+    const fillDone = jest.fn()
+    render(
+      <Button fillOver onFillDone={fillDone} fillOverDuration={2000}>
+        button
+      </Button>
+    )
+    await waitFor(() => expect(fillDone).toHaveBeenCalled(), {
+      timeout: 4000
     })
   })
 

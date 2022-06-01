@@ -1,4 +1,10 @@
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, ElementType } from 'react'
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ElementType,
+  useEffect,
+  useState
+} from 'react'
 import useDelayUnmount from '../../../utils/animations/unmountHelper'
 import Loader from '../Loader'
 
@@ -18,6 +24,9 @@ export type ButtonProps = {
   prefixIcon?: React.ReactNode
   isLoading?: boolean
   disabled?: boolean
+  fillOver?: boolean
+  fillOverDuration?: number
+  onFillDone?: Function
   as?: ElementType
 } & ButtonTypes
 
@@ -31,8 +40,26 @@ export function Button({
   prefixIcon,
   isLoading,
   disabled,
+  fillOver,
+  fillOverDuration = 5000,
+  onFillDone,
   ...props
 }: ButtonProps) {
+  const [isFillDone, setFillDone] = useState(false)
+  useEffect(() => {
+    setFillDone(false)
+    let timeout: NodeJS.Timeout
+    if (fillOver) {
+      timeout = setTimeout(() => setFillDone(fillOver), fillOverDuration)
+    }
+    return () => clearTimeout(timeout)
+  }, [fillOver, fillOverDuration])
+  useEffect(() => {
+    if (onFillDone && isFillDone && fillOver) {
+      onFillDone()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFillDone])
   return (
     <S.Wrapper
       size={size}
@@ -43,10 +70,12 @@ export function Button({
       prefixIcon={prefixIcon}
       isLoading={isLoading}
       disabled={disabled || isLoading}
+      fillOver={fillOver}
+      fillOverDuration={fillOverDuration}
       {...props}
     >
       {prefixIcon}
-      {children}
+      <S.TextWrapper>{children}</S.TextWrapper>
       {useDelayUnmount(isLoading) && <Loader size="30px" borderSize="5px" />}
     </S.Wrapper>
   )

@@ -4,7 +4,14 @@ import { ButtonProps } from '.'
 
 type WrapperProps = Pick<
   ButtonProps,
-  'size' | 'color' | 'radius' | 'textTransform' | 'btnStyle' | 'isLoading'
+  | 'size'
+  | 'color'
+  | 'radius'
+  | 'textTransform'
+  | 'btnStyle'
+  | 'isLoading'
+  | 'fillOver'
+  | 'fillOverDuration'
 >
 
 const wrapperModifiers = {
@@ -73,6 +80,22 @@ const wrapperModifiers = {
     &:hover {
       background-color: transparent;
     }
+  `,
+  fillOver: (duration: number) => css`
+    ::before {
+      content: '';
+      background-color: rgba(0, 0, 0, 0.2);
+      position: absolute;
+      right: 100%;
+      width: 100%;
+      height: 100%;
+      animation: slideIn ${duration}ms linear forwards;
+      @keyframes slideIn {
+        100% {
+          right: 0;
+        }
+      }
+    }
   `
 }
 
@@ -96,8 +119,11 @@ export const Wrapper = styled.button<WrapperProps>`
     disabled,
     textTransform,
     btnStyle,
-    isLoading
+    isLoading,
+    fillOver,
+    fillOverDuration
   }) => css`
+    overflow-x: hidden;
     align-items: center;
     border: 0;
     color: ${theme.colors.white};
@@ -121,8 +147,12 @@ export const Wrapper = styled.button<WrapperProps>`
     ${!!size && wrapperModifiers[size](theme)};
     ${!!color && wrapperModifiers[color](theme)};
     ${!!radius && wrapperModifiers[radius](theme)};
-    ${disabled && wrapperModifiers.disabled};
+    ${disabled && wrapperModifiers.disabled()};
     ${!!textTransform && wrapperModifiers[textTransform]};
     ${!!btnStyle && wrapperModifiers[btnStyle](theme)};
+    ${fillOver && wrapperModifiers.fillOver(fillOverDuration!)};
   `}
+`
+export const TextWrapper = styled.div`
+  position: relative;
 `
