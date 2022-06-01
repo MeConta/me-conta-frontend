@@ -10,7 +10,9 @@ import {
 } from 'services/volunteers-service/volunteer-service'
 import { api } from 'services/api/api'
 import { useState, useEffect } from 'react'
-
+import { Button } from 'components/atoms/Button'
+import illustration from '../../assets/illustrations/illustration_1.svg'
+import Image from 'next/image'
 type SelectedFrente = {
   id: number
   text: string
@@ -42,6 +44,29 @@ function DashboardAluno() {
 
   return (
     <S.WrapperDashboard>
+      <Styled.SectionContainer>
+        <S.NewUserCard>
+          <S.NewUserCardContent>
+            <S.NewUserCardTitle>
+              Bem vindo(a), ao<strong>&nbsp;Me Conta</strong>!
+            </S.NewUserCardTitle>
+            <S.NewUserCardText>
+              Você ainda não tem consultas agendadas.
+            </S.NewUserCardText>
+            <Button color="secondary" radius="square" size="mediumLarge">
+              Agende uma sessão agora
+            </Button>
+          </S.NewUserCardContent>
+          <S.NewUserCardIllustration>
+            <Image
+              alt="Illustration"
+              src={illustration}
+              width={488}
+              height={459}
+            />
+          </S.NewUserCardIllustration>
+        </S.NewUserCard>
+      </Styled.SectionContainer>
       <Styled.SectionContainer>
         <Styled.Title>
           Escolha uma especialidade e um especialista para sua sessão:
