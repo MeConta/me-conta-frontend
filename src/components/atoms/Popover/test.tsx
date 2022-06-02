@@ -16,7 +16,7 @@ describe('<Popover/>', () => {
       position: 'absolute',
       top: '0',
       left: '100%',
-      width: '15rem',
+      width: '15.2rem',
       borderRadius: '1rem',
       marginLeft: '2rem'
     })

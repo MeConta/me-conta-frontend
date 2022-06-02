@@ -26,6 +26,7 @@ describe('<FormCadastro/>', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const setTipoDeUsuarioMock = jest.fn()
+  const VALID_PASSWORD = '!@#A8SAD!@#AaASASD'
 
   const elements = () => {
     return {
@@ -53,8 +54,8 @@ describe('<FormCadastro/>', () => {
 
     userEvent.type(name, 'Nome Completo')
     userEvent.type(email, 'teste@teste.com')
-    userEvent.type(password, '!@#ASD!@#AASASD')
-    userEvent.type(confirm, '!@#ASD!@#AASASD')
+    userEvent.type(password, VALID_PASSWORD)
+    userEvent.type(confirm, VALID_PASSWORD)
     fireEvent.click(studentOption)
     fireEvent.click(termsConfirm)
     fireEvent.click(buttonCadastrar)
@@ -122,7 +123,9 @@ describe('<FormCadastro/>', () => {
     fireEvent.click(buttonCadastrar)
 
     await waitFor(() => {
-      expect(screen.getByText(/A senha deve ser forte/)).toBeInTheDocument()
+      expect(
+        screen.getByText(/A senha deve atender aos requisitos mínimos/)
+      ).toBeInTheDocument()
     })
   })
   it('when inserting 2 different passwords in the "password" and "repeat password" field', async () => {
@@ -143,7 +146,7 @@ describe('<FormCadastro/>', () => {
       expect(signupServiceMock.initialSignup).toBeCalledWith({
         nome: 'Nome Completo',
         email: 'teste@teste.com',
-        senha: '!@#ASD!@#AASASD',
+        senha: VALID_PASSWORD,
         tipo: UserType.ALUNO
       })
       expect(handleSuccessMock).toBeCalled()

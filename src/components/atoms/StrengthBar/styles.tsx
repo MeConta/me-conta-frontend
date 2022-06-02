@@ -5,15 +5,23 @@ type BarProps = {
 }
 
 export const StrengthBarWrapper = styled.div`
+  padding: 0 2px;
+`
+
+export const BarsWrapper = styled.div`
   display: flex;
   width: 100%;
   gap: 8px;
 `
+
 export const Bar = styled.div<BarProps>`
   ${({ theme, active, color }) => css`
     height: 4px;
-    min-width: 50px;
-    background: ${active ? color : theme.colors.xlightGray};
+    width: 100%;
+    background-color: ${active ? color : theme.colors.xlightGray};
+    border-radius: 5px;
+
+    transition: background-color 0.3s ease-in;
   `}
 `
 export const StrengthText = styled.p`

@@ -71,6 +71,16 @@ describe('<FormResetSenha />', () => {
     })
   })
 
+  it('deve exibir error de senha fraca', async () => {
+    const { button, password } = elements()
+    userEvent.type(password, 'AAA%$#A')
+    fireEvent.click(button)
+
+    expect(
+      await screen.findByText(/A senha deve atender aos requisitos mínimos/)
+    ).toBeInTheDocument()
+  })
+
   it('deve exibir error de campos obrigatorios', async () => {
     const { button } = elements()
     fireEvent.click(button)

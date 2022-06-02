@@ -4,25 +4,27 @@ import React, {
   InputHTMLAttributes,
   useState
 } from 'react'
-import PasswordStrengthBar, {
-  PasswordFeedback
-} from 'react-password-strength-bar'
-
 import { EyeFill, EyeSlashFill } from '@styled-icons/bootstrap'
 import { TextField } from '../TextField'
-
 import * as S from './styles'
 import Popover, { PopoverProps } from '../Popover'
+import { StrengthBar } from '../StrengthBar'
+
+export enum ScoreWordsEnum {
+  fraca,
+  razoável,
+  forte,
+  incrível
+}
 
 type ToggleType = 'text' | 'password'
 
-export enum ScoreWordsEnum {
-  ruim,
-  fraca,
-  razoavel,
-  forte,
-  incrivel
-}
+export const passwordRequirements = [
+  new RegExp(/[a-z]/),
+  new RegExp(/[A-Z]/),
+  new RegExp(/\d/),
+  new RegExp(/\W/)
+]
 
 export type PasswordFieldProps = {
   label: string
@@ -34,9 +36,9 @@ export type PasswordFieldProps = {
   value?: string
   onChange: ChangeEventHandler<any> | undefined
   showStrengthBar?: boolean
-  handleStrength?: (score: number, feedback: PasswordFeedback) => void
   showPopover?: boolean
   popoverProps?: PopoverProps
+  handleStrength?: (score: number) => void
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const PasswordField = React.forwardRef(function PasswordField(
@@ -110,14 +112,14 @@ export const PasswordField = React.forwardRef(function PasswordField(
       </TextField>
 
       {showStrengthBar && (
-        <PasswordStrengthBar
+        <StrengthBar
           minLength={props.minLength || 8}
-          password={value}
-          scoreWords={Object.keys(ScoreWordsEnum).map(
-            (key, valueScore) => ScoreWordsEnum[valueScore]
+          password={value!}
+          scoreWords={Object.keys(ScoreWordsEnum).filter((value) =>
+            isNaN(Number(value))
           )}
-          shortScoreWord="muito curta"
-          onChangeScore={handleStrength || undefined}
+          requirements={passwordRequirements}
+          strengthColors={['#ed7315', '#faad39', '#d7e60b', '#96d60d']}
         />
       )}
     </>

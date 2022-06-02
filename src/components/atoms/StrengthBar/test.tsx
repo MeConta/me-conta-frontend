@@ -62,7 +62,7 @@ describe('<StrengthBar />', () => {
     expect(screen.getByText('forte')).toBeInTheDocument()
   })
 
-  it('should show message "incrível" on strength bar when the password meets only 3 requirements', () => {
+  it('should show message "incrível" on strength bar when the password meets all the requirements', () => {
     render(
       <StrengthBar
         requirements={requirements}

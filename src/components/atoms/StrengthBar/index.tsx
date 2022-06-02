@@ -25,8 +25,8 @@ export const StrengthBar = (props: StrengthBarProps) => {
   const passwordGreaterThanMinLength = props.password.length >= props.minLength
 
   return (
-    <div>
-      <S.StrengthBarWrapper>
+    <S.StrengthBarWrapper>
+      <S.BarsWrapper>
         {props.scoreWords.map((scoreWord, index) => (
           <S.Bar
             key={index}
@@ -36,7 +36,7 @@ export const StrengthBar = (props: StrengthBarProps) => {
             }
           />
         ))}
-      </S.StrengthBarWrapper>
+      </S.BarsWrapper>
       <S.TextWrapper>
         {passwordGreaterThanMinLength ? (
           <S.StrengthText>{props.scoreWords[score - 1]}</S.StrengthText>
@@ -44,6 +44,6 @@ export const StrengthBar = (props: StrengthBarProps) => {
           <S.StrengthText>muito curta</S.StrengthText>
         )}
       </S.TextWrapper>
-    </div>
+    </S.StrengthBarWrapper>
   )
 }

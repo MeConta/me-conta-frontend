@@ -4,7 +4,7 @@ export const Container = styled.div`
   position: absolute;
   top: 0;
   left: 100%;
-  width: 15rem;
+  width: 15.2rem;
   border-radius: 1rem;
   margin-left: 2rem;
   border: 1px solid ${(p) => p.theme.colors.silverChalice};

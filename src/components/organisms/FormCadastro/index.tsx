@@ -1,7 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { Button } from 'components/atoms/Button'
 import { CheckboxField } from 'components/atoms/CheckboxField'
-import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
+import {
+  PasswordField,
+  passwordRequirements
+} from 'components/atoms/PasswordField'
 import { RadioField } from 'components/atoms/RadioField'
 import { TextField } from 'components/atoms/TextField'
 import React, { useState } from 'react'
@@ -38,7 +41,7 @@ const ERRORS = {
   MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres`,
   REQUIRED_EMAIL: `E-mail é obrigatório`,
   REQUIRED_PASSWORD: `A senha é obrigatório`,
-  WEAK_PASSWORD: `A senha deve ser forte`,
+  WEAK_PASSWORD: `A senha deve atender aos requisitos mínimos`,
   REQUIRED_CONFIRM_PASSWORD: 'A confirmação de senha é obrigatório',
   PASSWORD_MISMATCH: `As senhas devem ser iguais`,
   REQUIRED_TYPE: `Tipo é obrigatório`,
@@ -70,9 +73,7 @@ export function FormCadastro(props: {
   setTipoDeUsuario: (usuario: UserType) => void
 }) {
   const authCtx = useAuthContext()
-
   const [isLoading, setLoading] = useState(false)
-  const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
   const [, setNome] = useLocalStorage<string>('nome', '')
   const [, setEmail] = useLocalStorage<string>('email', '')
 
@@ -91,8 +92,8 @@ export function FormCadastro(props: {
       .required(ERRORS.REQUIRED_EMAIL),
     password: Yup.string()
       .required(ERRORS.REQUIRED_PASSWORD)
-      .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, () => {
-        return passwordScore > ScoreWordsEnum.razoavel
+      .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, (value) => {
+        return passwordRequirements.every((regex) => value?.match(regex))
       }),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
@@ -164,9 +165,6 @@ export function FormCadastro(props: {
           <PasswordField
             label="Senha"
             showStrengthBar
-            handleStrength={(score) => {
-              setPasswordScore(score)
-            }}
             error={errors.password?.message}
             required={true}
             showPopover

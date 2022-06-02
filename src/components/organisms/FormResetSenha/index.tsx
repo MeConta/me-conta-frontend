@@ -1,7 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from 'components/atoms/Button'
-import { PasswordField, ScoreWordsEnum } from 'components/atoms/PasswordField'
+import {
+  PasswordField,
+  passwordRequirements
+} from 'components/atoms/PasswordField'
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { IAuthService } from 'services/auth-services/auth-service'
@@ -23,20 +26,19 @@ type MyProps = {
 
 const ERRORS = {
   REQUIRED_PASSWORD: `A senha é obrigatória`,
-  WEAK_PASSWORD: `A senha deve ser forte`,
+  WEAK_PASSWORD: `A senha deve atender aos requisitos mínimos`,
   REQUIRED_CONFIRM_PASSWORD: 'A confirmação de senha é obrigatória',
   PASSWORD_MISMATCH: `As senhas devem ser iguais`
 }
 
 export function FormResetSenha(props: MyProps) {
-  const [passwordScore, setPasswordScore] = useState(ScoreWordsEnum.fraca)
   const [isLoading, setLoading] = useState(false)
 
   const validationSchema = Yup.object({
     password: Yup.string()
       .required(ERRORS.REQUIRED_PASSWORD)
-      .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, () => {
-        return passwordScore > ScoreWordsEnum.razoavel
+      .test('make-a-strong-password-test', ERRORS.WEAK_PASSWORD, (value) => {
+        return passwordRequirements.every((regex) => value?.match(regex))
       }),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), null], ERRORS.PASSWORD_MISMATCH)
@@ -83,9 +85,6 @@ export function FormResetSenha(props: MyProps) {
             label="Nova senha"
             required={true}
             showStrengthBar
-            handleStrength={(score) => {
-              setPasswordScore(score)
-            }}
             error={errors.password?.message}
             showPopover
             {...field}
