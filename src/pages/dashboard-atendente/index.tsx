@@ -12,6 +12,11 @@ import {
 import { api } from '../../services/api/api'
 import Loader from '../../components/atoms/Loader'
 import { getTokenData } from '../../utils/authentication/getTokenData'
+import toggles from '../../utils/toggles/toggles'
+import { Button } from 'components/atoms/Button'
+import illustration from '../../assets/illustrations/illustration_1.svg'
+import Image from 'next/image'
+import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 
 function VolunteerDashboard() {
   const { emit } = useToast()
@@ -44,7 +49,7 @@ function VolunteerDashboard() {
   }
 
   useEffect(() => {
-    fetchSlotsReserved()
+    if (toggles.enableDashboardAtendente) fetchSlotsReserved()
   }, [])
 
   useEffect(() => {
@@ -78,7 +83,7 @@ function VolunteerDashboard() {
     await fetchSlotsReserved()
   }
 
-  return (
+  return toggles.enableDashboardAtendente ? (
     <S.WrapperDashboard>
       <S.SectionTitle>Meus horários cadastrados:</S.SectionTitle>
       {isLoadingDates ? (
@@ -91,6 +96,33 @@ function VolunteerDashboard() {
         alreadySelected={datesAlreadySelected}
         handleSave={handleSaveNewSlots}
       />
+    </S.WrapperDashboard>
+  ) : (
+    <S.WrapperDashboard>
+      <Styled.SectionContainer>
+        <S.NewUserCard>
+          <S.NewUserCardContent>
+            <S.NewUserCardTitle>
+              Bem vindo(a), ao <b>Me Conta</b>!
+            </S.NewUserCardTitle>
+            <S.NewUserCardText>
+              Nossa equipe irá analisar seu perfil e entrará em{' '}
+              <strong>contato por e-mail</strong> em breve.
+            </S.NewUserCardText>
+            <Button color="secondary" radius="square" size="mediumLarge">
+              VOLTAR À PÁGINA INICIAL
+            </Button>
+          </S.NewUserCardContent>
+          <S.NewUserCardIllustration>
+            <Image
+              alt="Illustration"
+              src={illustration}
+              width={488}
+              height={459}
+            />
+          </S.NewUserCardIllustration>
+        </S.NewUserCard>
+      </Styled.SectionContainer>
     </S.WrapperDashboard>
   )
 }

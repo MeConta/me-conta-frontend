@@ -8,6 +8,7 @@ export const WrapperDashboard = styled.div`
     width: 100%;
     max-width: 1360px;
     padding: 0 18px;
+    margin: 4rem;
   `}
 `
 
@@ -25,11 +26,15 @@ export const NewUserCard = styled.div`
     border-radius: 4px;
     font-family: ${theme.font.family};
     font-size: 16px;
-    padding: 20px;
+    padding: 2rem 4rem;
     display: flex;
     min-height: 240px;
     position: relative;
     overflow: hidden;
+
+    @media (max-width: 768px) {
+      padding: 10px;
+    }
   `}
 `
 export const NewUserCardTitle = styled.h1`
@@ -38,12 +43,14 @@ export const NewUserCardTitle = styled.h1`
     font-weight: 500;
     font-size: ${theme.font.sizes['desk-xxlarge']};
     line-height: 40px;
-    display: flex;
-    align-items: center;
     letter-spacing: 0.2px;
     color: #333333;
     strong {
       font-weight: 800;
+    }
+
+    @media (max-width: 768px) {
+      text-align: center;
     }
   `}
 `
@@ -52,6 +59,10 @@ export const NewUserCardContent = styled.div`
   ${() => css`
     display: inline-block;
     flex-direction: column;
+
+    @media (max-width: 768px) {
+      text-align: center;
+    }
   `}
 `
 
@@ -61,6 +72,10 @@ export const NewUserCardIllustration = styled.div`
     right: -25%;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    @media (max-width: 768px) {
+      display: none;
+    }
   `}
 `
 export const NewUserCardText = styled.p`
