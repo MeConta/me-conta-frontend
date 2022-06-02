@@ -15,7 +15,7 @@ export const StrengthBar = (props: StrengthBarProps) => {
   useEffect(() => {
     let requirementsCounter = 0
 
-    props.requirements.map((regex) => {
+    props.requirements.forEach((regex) => {
       if (props.password.match(regex)) requirementsCounter++
     })
 
