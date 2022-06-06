@@ -18,6 +18,7 @@ export const criarContaRouter = (CriarContaPage: NextPage<CriarContaProps>) => {
   const CriarContaRouter = () => {
     const authCtx = useAuthContext()
     const router = useRouter()
+    const [shouldRender, setShouldRender] = useState(false)
 
     const [tipoDeUsuario, setTipoDeUsuario] = useState(
       +authCtx.session.type ?? UserType.ALUNO
@@ -44,6 +45,12 @@ export const criarContaRouter = (CriarContaPage: NextPage<CriarContaProps>) => {
         setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
         setTipoDeUsuario(+authCtx.session.type)
       }
+      if (
+        (userStatus.INCOMPLETE_PROFILE && authCtx.session.type) ||
+        !authCtx.isLoggedIn
+      ) {
+        setShouldRender(true)
+      }
     }, [
       authCtx,
       router,
@@ -51,15 +58,15 @@ export const criarContaRouter = (CriarContaPage: NextPage<CriarContaProps>) => {
       userStatus.INCOMPLETE_PROFILE
     ])
 
-    return userStatus.COMPLETE_PROFILE ? (
-      <Loader />
-    ) : (
+    return shouldRender ? (
       <CriarContaPage
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
         tipoDeUsuario={tipoDeUsuario}
         setTipoDeUsuario={setTipoDeUsuario}
       />
+    ) : (
+      <Loader />
     )
   }
 

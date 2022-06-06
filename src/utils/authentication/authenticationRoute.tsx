@@ -1,9 +1,10 @@
 import { UserType } from 'enums/user-type.enum'
 import { NextComponentType } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthContext } from 'store/auth-context'
 import { redirects } from 'utils/routes/redirects'
+import Loader from '../../components/atoms/Loader'
 
 type AuthenticatedRouteOptions = {
   allowedRoles: UserType[]
@@ -18,6 +19,7 @@ export const authenticatedRoute = (
   const AuthenticatedComponent = () => {
     const authCtx = useAuthContext()
     const router = useRouter()
+    const [shouldRender, setShouldRender] = useState(false)
 
     const userRoleIsAuthorized = (params: {
       userRole: number
@@ -41,9 +43,19 @@ export const authenticatedRoute = (
         const route = redirects[+authCtx.session.type]
         router.push(route)
       }
+      if (
+        authCtx.isLoggedIn &&
+        authCtx.session.type &&
+        userRoleIsAuthorized({
+          userRole: +authCtx.session.type,
+          allowedRoles: options.allowedRoles
+        })
+      ) {
+        setShouldRender(true)
+      }
     }, [authCtx, router])
 
-    return <Component />
+    return shouldRender ? <Component /> : <Loader />
   }
 
   return AuthenticatedComponent

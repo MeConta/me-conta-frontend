@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { useAuthContext } from 'store/auth-context'
 import { useEffect, useState } from 'react'
 import { redirects } from 'utils/routes/redirects'
+import Loader from '../../components/atoms/Loader'
 
 export default function Login() {
   const router = useRouter()
@@ -19,7 +20,11 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (authCtx.isLoggedIn && authCtx.session.completeProfile) {
+    if (
+      authCtx.isLoggedIn &&
+      authCtx.session.completeProfile &&
+      authCtx.session.type
+    ) {
       const route = redirects[+authCtx.session.type]
       router.push(route)
     } else {
@@ -56,6 +61,6 @@ export default function Login() {
       </WrapperForm>
     </S.ComponentWrapper>
   ) : (
-    <></>
+    <Loader />
   )
 }
