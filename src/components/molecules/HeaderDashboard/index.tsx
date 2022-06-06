@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { FiMenu } from 'react-icons/fi'
 import { GrClose } from 'react-icons/gr'
 import router from 'next/router'
+import toggles from '../../../utils/toggles/toggles'
 
 import * as S from './styles'
 import { headerDashboardLinks } from './headerDashboardLinks'
@@ -57,15 +58,17 @@ export default function HeaderDashboard({
         {authCtx.isLoggedIn ? (
           <div className={`menu-container ${menuToggleClass}`}>
             <nav className="nav">
-              <ul>
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href}>
-                      <a>{link.label}</a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {toggles.enableHeaderLinks && (
+                <ul>
+                  {links.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href}>
+                        <a>{link.label}</a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </nav>
 
             <div className="userinfo-container">

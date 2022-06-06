@@ -11,8 +11,9 @@ import {
 import { api } from 'services/api/api'
 import { useState, useEffect } from 'react'
 import { Button } from 'components/atoms/Button'
-import illustration from '../../assets/illustrations/illustration_1.svg'
+import illustration from '../../assets/illustrations/me-conta-card-illustration.svg'
 import Image from 'next/image'
+import toggles from '../../utils/toggles/toggles'
 type SelectedFrente = {
   id: number
   text: string
@@ -48,7 +49,7 @@ function DashboardAluno() {
         <S.NewUserCard>
           <S.NewUserCardContent>
             <S.NewUserCardTitle>
-              Bem vindo(a), ao<strong>&nbsp;Me Conta</strong>!
+              Bem vindo(a) ao<strong>&nbsp;Me Conta</strong>!
             </S.NewUserCardTitle>
             <S.NewUserCardText>
               Você ainda não tem consultas agendadas.
@@ -58,59 +59,60 @@ function DashboardAluno() {
             </Button>
           </S.NewUserCardContent>
           <S.NewUserCardIllustration>
-            <Image
-              alt="Illustration"
-              src={illustration}
-              width={488}
-              height={459}
-            />
+            <S.IllustrationBackground />
+            <Image alt="Illustration" src={illustration} width={200} />
           </S.NewUserCardIllustration>
         </S.NewUserCard>
       </Styled.SectionContainer>
-      <Styled.SectionContainer>
-        <Styled.Title>
-          Escolha uma especialidade e um especialista para sua sessão:
-        </Styled.Title>
-        <FrentesDropdown onSelectItem={onSelectItemHandler} />
-      </Styled.SectionContainer>
 
-      <Styled.SectionContainer>
-        <Styled.Title>
-          Selecione o profissional perfeito para você:
-        </Styled.Title>
+      {toggles.enableDashboardAluno && (
+        <>
+          <Styled.SectionContainer>
+            <Styled.Title>
+              Escolha uma especialidade e um especialista para sua sessão:
+            </Styled.Title>
+            <FrentesDropdown onSelectItem={onSelectItemHandler} />
+          </Styled.SectionContainer>
 
-        {!isLoading && (
-          <Styled.VolunteersCard>
-            {volunteers.length > 0 && (
-              <Styled.VolunteersGrid>
-                {volunteers.map((volunteer) => {
-                  return (
-                    <div key={volunteer.usuario.id}>
-                      <CardVoluntario
-                        description={volunteer.abordagem}
-                        frentes={volunteer.frentes}
-                        name={volunteer.usuario.nome}
-                        title={volunteer.areaAtuacao}
-                      />
-                    </div>
-                  )
-                })}
-              </Styled.VolunteersGrid>
+          <Styled.SectionContainer>
+            <Styled.Title>
+              Selecione o profissional perfeito para você:
+            </Styled.Title>
+
+            {!isLoading && (
+              <Styled.VolunteersCard>
+                {volunteers.length > 0 && (
+                  <Styled.VolunteersGrid>
+                    {volunteers.map((volunteer) => {
+                      return (
+                        <div key={volunteer.usuario.id}>
+                          <CardVoluntario
+                            description={volunteer.abordagem}
+                            frentes={volunteer.frentes}
+                            name={volunteer.usuario.nome}
+                            title={volunteer.areaAtuacao}
+                          />
+                        </div>
+                      )
+                    })}
+                  </Styled.VolunteersGrid>
+                )}
+
+                {!volunteers.length && (
+                  <Styled.MessageContainer>
+                    <Styled.HourglassIcon />
+                    <p>
+                      Desculpe, não possuímos profissionais capacitados para
+                      atuar nessa frente no momento. Por favor, tente novamente
+                      mais tarde.
+                    </p>
+                  </Styled.MessageContainer>
+                )}
+              </Styled.VolunteersCard>
             )}
-
-            {!volunteers.length && (
-              <Styled.MessageContainer>
-                <Styled.HourglassIcon />
-                <p>
-                  Desculpe, não possuímos profissionais capacitados para atuar
-                  nessa frente no momento. Por favor, tente novamente mais
-                  tarde.
-                </p>
-              </Styled.MessageContainer>
-            )}
-          </Styled.VolunteersCard>
-        )}
-      </Styled.SectionContainer>
+          </Styled.SectionContainer>
+        </>
+      )}
     </S.WrapperDashboard>
   )
 }

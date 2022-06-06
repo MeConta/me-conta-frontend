@@ -1,5 +1,7 @@
 const toggles = {
-  enableDashboardAtendente: false
+  enableDashboardAtendente: false,
+  enableDashboardAluno: false,
+  enableHeaderLinks: false
 }
 
 export default toggles

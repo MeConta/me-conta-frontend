@@ -1,8 +1,12 @@
 import { useAuthContext } from 'store/auth-context'
 import { render, screen } from 'utils/tests/helpers'
 import HeaderDashboard from '.'
+import toggles from '../../../utils/toggles/toggles'
 
 jest.mock('../../../store/auth-context')
+jest.mock('../../../utils/toggles/toggles', () => {
+  return { enableHeaderLinks: true }
+})
 
 describe('<HeaderDashboard />', () => {
   beforeEach(() => {
@@ -117,5 +121,14 @@ describe('<HeaderDashboard />', () => {
     render(<HeaderDashboard logoSrc="/mock-image.png" />)
 
     expect(screen.getByText('Sair').closest('button')).toBeInTheDocument()
+  })
+
+  it('should not render links when the toggle is false', () => {
+    toggles.enableHeaderLinks = false
+
+    render(<HeaderDashboard logoSrc="/mock-image.png" />)
+
+    expect(screen.queryByText('Meu perfil')).toBeNull()
+    expect(screen.queryByText('Agenda')).toBeNull()
   })
 })
