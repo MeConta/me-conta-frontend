@@ -69,9 +69,6 @@ export const Main = styled.main`
   & > #headCrumb {
     margin-top: -${(p) => p.theme.spacings.xsmall};
   }
-  @media only screen and (max-width: 768px) {
-    background-color: ${(p) => p.theme.colors.white};
-  }
   @media only screen and (max-width: 480px) {
     margin: 0;
   }

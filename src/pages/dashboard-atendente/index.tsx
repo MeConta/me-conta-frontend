@@ -14,7 +14,7 @@ import Loader from '../../components/atoms/Loader'
 import { getTokenData } from '../../utils/authentication/getTokenData'
 import toggles from '../../utils/toggles/toggles'
 import { Button } from 'components/atoms/Button'
-import illustration from '../../assets/illustrations/illustration_1.svg'
+import illustration from '../../assets/illustrations/me-conta-card-illustration.svg'
 import Image from 'next/image'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 
@@ -103,7 +103,7 @@ function VolunteerDashboard() {
         <S.NewUserCard>
           <S.NewUserCardContent>
             <S.NewUserCardTitle>
-              Bem vindo(a), ao <b>Me Conta</b>!
+              Bem vindo(a) ao <b>Me Conta</b>!
             </S.NewUserCardTitle>
             <S.NewUserCardText>
               Nossa equipe irá analisar seu perfil e entrará em{' '}
@@ -114,11 +114,12 @@ function VolunteerDashboard() {
             </Button>
           </S.NewUserCardContent>
           <S.NewUserCardIllustration>
+            <S.IllustrationBackground />
             <Image
+              id="illustration"
               alt="Illustration"
               src={illustration}
-              width={488}
-              height={459}
+              width={220}
             />
           </S.NewUserCardIllustration>
         </S.NewUserCard>

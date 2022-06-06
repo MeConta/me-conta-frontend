@@ -1,15 +1,15 @@
 import styled, { css } from 'styled-components'
 
+const screenBreakingPoint = '895px'
+
 export const WrapperDashboard = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    min-height: 70vh;
-    width: 100%;
-    max-width: 1360px;
-    padding: 0 18px;
-    margin: 4rem;
-  `}
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+  width: 100%;
+  max-width: 1360px;
+  padding: 0 18px;
+  margin: 4rem;
 `
 
 export const SectionTitle = styled.h1`
@@ -28,12 +28,16 @@ export const NewUserCard = styled.div`
     font-size: 16px;
     padding: 2rem 4rem;
     display: flex;
+    justify-content: space-between;
     min-height: 240px;
     position: relative;
     overflow: hidden;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${screenBreakingPoint}) {
       padding: 10px;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8rem;
     }
   `}
 `
@@ -49,7 +53,7 @@ export const NewUserCardTitle = styled.h1`
       font-weight: 800;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: ${screenBreakingPoint}) {
       text-align: center;
     }
   `}
@@ -60,24 +64,43 @@ export const NewUserCardContent = styled.div`
     display: inline-block;
     flex-direction: column;
 
-    @media (max-width: 768px) {
+    @media (max-width: ${screenBreakingPoint}) {
       text-align: center;
     }
   `}
 `
 
 export const NewUserCardIllustration = styled.div`
-  ${() => css`
-    position: absolute;
-    right: -25%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  width: 45%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
 
-    @media (max-width: 768px) {
-      display: none;
+  @media (max-width: ${screenBreakingPoint}) {
+    display: none;
+  }
+`
+
+export const IllustrationBackground = styled.div`
+  ${({ theme }) => css`
+    position: absolute;
+    right: -15%;
+    background: ${theme.colors.ceriseRed};
+    width: 120%;
+    height: 150%;
+    clip-path: circle(80% at right);
+
+    @media (max-width: ${screenBreakingPoint}) {
+      height: 245px;
+      width: 245px;
+      right: auto;
+      clip-path: none;
+      border-radius: 50%;
     }
   `}
 `
+
 export const NewUserCardText = styled.p`
   ${() => css`
     margin-top: 20px;

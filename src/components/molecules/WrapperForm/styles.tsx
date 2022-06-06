@@ -45,6 +45,10 @@ export const Wrapper = styled.div<WrapperProp>`
       border: 0;
       max-width: 500px;
       padding: 0;
+
+      > a {
+        display: none;
+      }
     }
   `}
 `

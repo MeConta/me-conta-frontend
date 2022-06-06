@@ -6,4 +6,8 @@ export const ComponentWrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `
