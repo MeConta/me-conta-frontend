@@ -35,12 +35,15 @@ export const authenticatedRoute = (
       }
       if (
         authCtx.session.type &&
-        !userRoleIsAuthorized({
+        (!userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
-        })
+        }) ||
+          !authCtx.session.completeProfile)
       ) {
-        const route = redirects[+authCtx.session.type]
+        const route = authCtx.session.completeProfile
+          ? redirects[+authCtx.session.type]
+          : '/criar-conta'
         router.push(route)
       }
       if (
@@ -49,7 +52,8 @@ export const authenticatedRoute = (
         userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
-        })
+        }) &&
+        authCtx.session.completeProfile
       ) {
         setShouldRender(true)
       }

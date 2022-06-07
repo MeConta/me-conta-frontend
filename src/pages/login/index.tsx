@@ -20,15 +20,13 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (
-      authCtx.isLoggedIn &&
-      authCtx.session.completeProfile &&
-      authCtx.session.type
-    ) {
-      const route = redirects[+authCtx.session.type]
+    if (!authCtx.isLoggedIn) setRenderLogin(true)
+
+    if (authCtx.isLoggedIn && authCtx.session.type) {
+      const route = authCtx.session.completeProfile
+        ? redirects[+authCtx.session.type]
+        : '/criar-conta'
       router.push(route)
-    } else {
-      setRenderLogin(true)
     }
   }, [authCtx, router])
 

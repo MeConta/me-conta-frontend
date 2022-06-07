@@ -3,8 +3,6 @@ import InputMask, { ReactInputMask } from 'react-input-mask'
 import { FormGroup } from '../FormGroup'
 import * as S from './styles'
 
-React.useLayoutEffect = React.useEffect
-
 export type PhoneFieldProps = {
   label: string
   name: string
