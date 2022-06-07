@@ -45,6 +45,7 @@ export const Wrapper = styled.header`
     @media (max-width: 768px) {
       &.open {
         display: flex;
+        z-index: 40;
       }
       display: none;
 

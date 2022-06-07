@@ -28,36 +28,46 @@ export const authenticatedRoute = (
       return params.allowedRoles.includes(params.userRole)
     }
 
-    useEffect(() => {
-      if (!authCtx.isLoggedIn) {
-        authCtx.handleLogout()
-        return
-      }
-      if (
+    const userStatus = {
+      LOGGED_OFF: !authCtx.isLoggedIn,
+      NOT_AUTHORIZED:
         authCtx.session.type &&
-        (!userRoleIsAuthorized({
+        !userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
-        }) ||
-          !authCtx.session.completeProfile)
-      ) {
-        const route = authCtx.session.completeProfile
-          ? redirects[+authCtx.session.type]
-          : '/criar-conta'
-        router.push(route)
-      }
-      if (
+        }),
+      AUTHORIZED:
         authCtx.isLoggedIn &&
         authCtx.session.type &&
         userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
-        }) &&
-        authCtx.session.completeProfile
-      ) {
+        }),
+      COMPLETE_PROFILE: authCtx.session.completeProfile
+    }
+
+    useEffect(() => {
+      if (userStatus.LOGGED_OFF) {
+        authCtx.handleLogout()
+        return
+      }
+      if (userStatus.NOT_AUTHORIZED || !userStatus.COMPLETE_PROFILE) {
+        const route = userStatus.COMPLETE_PROFILE
+          ? redirects[+authCtx.session.type]
+          : '/criar-conta'
+        router.push(route)
+      }
+      if (userStatus.AUTHORIZED && userStatus.COMPLETE_PROFILE) {
         setShouldRender(true)
       }
-    }, [authCtx, router])
+    }, [
+      authCtx,
+      router,
+      userStatus.AUTHORIZED,
+      userStatus.COMPLETE_PROFILE,
+      userStatus.LOGGED_OFF,
+      userStatus.NOT_AUTHORIZED
+    ])
 
     return shouldRender ? <Component /> : <Loader />
   }
