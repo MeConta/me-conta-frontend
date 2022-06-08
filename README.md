@@ -69,3 +69,60 @@ git commit -m"feat(#18): implementa testes unitários"
 ```
 
 Para mais detalhes sobre commits válidos consultar [conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/).
+
+## 👣 Check in dance
+Passos para atualizar as mudanças locais no github.
+
+- Antes de tudo:
+
+1. Garanta que está na pasta frontend
+```
+cd frontend/
+```
+
+2. Garanta que o git status está limpo
+
+3. Faça o pull (base de código atualizada) 
+```
+git pull --rebase
+```
+4. Rode os testes
+```
+npm run test
+```
+5. Faça as alterações seguindo o TDD (red-green-refactor)
+
+- Garanta que os testes estão passando:
+```
+npm run test
+```
+Se os testes falharem:
+
+a) Corrija os testes com falha. 
+
+b) Rode os testes novamente. 
+
+c) Repita até que todos os testes estejam passando.
+
+6. Commit localmente 
+```
+git add <arquivo> ou git add . 
+git commit -m "<mensagem>"
+```
+
+7. Faça o pull (base de código atualizada) 
+```
+git pull --rebase
+```
+Se houver conflitos, corrija os arquivos conflitantes e continue:
+```
+git add <arquivos> 
+git rebase --continue
+```
+Se houve alterações, rode os testes novamente.
+
+8. Push para repositório remoto 
+```
+git push
+```
+9. Após o push, atualize o [repositório principal](https://github.com/MeConta/me-conta)
