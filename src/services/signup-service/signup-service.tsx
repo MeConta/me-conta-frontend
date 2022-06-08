@@ -4,12 +4,15 @@ import { UserType } from '../../enums/user-type.enum'
 import { BackendError } from '../../types/backend-error'
 
 export enum SignupError {
-  DUPLICATED
+  DUPLICATED,
+  INTERNAL_ERROR
 }
 export function getSignupError(error: SignupError): BackendError | undefined {
   switch (error) {
     case SignupError.DUPLICATED:
       return { code: 409, message: 'e-mail duplicado' }
+    case SignupError.INTERNAL_ERROR:
+      return { code: 500, message: 'erro interno do servidor' }
   }
   return undefined
 }

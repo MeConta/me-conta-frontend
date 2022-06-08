@@ -37,6 +37,7 @@ type MyFormValues = {
 const ERRORS = {
   REQUIRED_NAME: `Nome é obrigatório`,
   INVALID_EMAIL: `E-mail inválido`,
+  DUPLICATED_EMAIL: `Uma conta com esse e-mail já existe. Tente fazer o login clicando no botão Entrar.`,
   MIN_LENGHT_NAME: `Nome deve conter mais de ${MIN_LENGTH_NAME_VALUE} caracteres`,
   MAX_LENGHT_NAME: `Nome deve conter menos de ${MAX_LENGTH_NAME_VALUE} caracteres`,
   REQUIRED_EMAIL: `E-mail é obrigatório`,
@@ -76,6 +77,7 @@ export function FormCadastro(props: {
   const [isLoading, setLoading] = useState(false)
   const [, setNome] = useLocalStorage<string>('nome', '')
   const [, setEmail] = useLocalStorage<string>('email', '')
+  const [backendError, setBackendError] = useState('')
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -126,6 +128,7 @@ export function FormCadastro(props: {
       })
       setNome(name)
       setEmail(email)
+      setBackendError('')
 
       authCtx.handleLogin({
         name: name,
@@ -136,9 +139,13 @@ export function FormCadastro(props: {
       })
 
       props.handleSuccess({ nome: name, email, senha: password, tipo })
-    } catch (e) {
+    } catch (e: any) {
+      const error = e?.response?.data as BackendError
+      if (error?.code === 409) {
+        setBackendError(ERRORS.DUPLICATED_EMAIL)
+      }
       setLoading(false)
-      props.handleError(e as BackendError)
+      props.handleError(error as BackendError)
     }
   }
 
@@ -153,7 +160,7 @@ export function FormCadastro(props: {
       />
       <TextField
         label="E-mail"
-        error={errors.email?.message}
+        error={errors.email?.message || backendError}
         required={true}
         {...register('email')}
       />

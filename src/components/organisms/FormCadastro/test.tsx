@@ -156,13 +156,33 @@ describe('<FormCadastro/>', () => {
     jest
       .spyOn(signupServiceMock, 'initialSignup')
       .mockImplementation(() =>
-        Promise.reject(getSignupError(SignupError.DUPLICATED))
+        Promise.reject(getSignupError(SignupError.INTERNAL_ERROR))
       )
 
     await fillForm()
 
     await waitFor(() => {
       expect(handleErrorMock).toBeCalled()
+    })
+  })
+  it('should show a error message when the email is already used', async () => {
+    const error = {
+      response: {
+        data: getSignupError(SignupError.DUPLICATED)
+      }
+    }
+    jest
+      .spyOn(signupServiceMock, 'initialSignup')
+      .mockImplementation(() => Promise.reject(error))
+
+    await fillForm()
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          /Uma conta com esse e-mail já existe. Tente fazer o login clicando no botão Entrar./
+        )
+      ).toBeInTheDocument()
     })
   })
 })
