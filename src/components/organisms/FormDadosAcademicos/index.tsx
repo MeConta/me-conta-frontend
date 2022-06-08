@@ -112,8 +112,6 @@ export default function FormDadosAcademicos({
         token
       )
 
-      authContext.setCompleteProfile(true)
-
       handleSuccess()
     } catch (e) {
       setLoading(false)

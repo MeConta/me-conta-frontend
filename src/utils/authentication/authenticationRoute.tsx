@@ -43,7 +43,9 @@ export const authenticatedRoute = (
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
         }),
-      COMPLETE_PROFILE: authCtx.session.completeProfile
+      COMPLETE_PROFILE: authCtx.session.completeProfile,
+      INCOMPLETE_PROFILE:
+        !authCtx.session.completeProfile && authCtx.session.type
     }
 
     useEffect(() => {
@@ -51,7 +53,7 @@ export const authenticatedRoute = (
         authCtx.handleLogout()
         return
       }
-      if (userStatus.NOT_AUTHORIZED || !userStatus.COMPLETE_PROFILE) {
+      if (userStatus.NOT_AUTHORIZED || userStatus.INCOMPLETE_PROFILE) {
         const route = userStatus.COMPLETE_PROFILE
           ? redirects[+authCtx.session.type]
           : '/criar-conta'
@@ -65,6 +67,7 @@ export const authenticatedRoute = (
       router,
       userStatus.AUTHORIZED,
       userStatus.COMPLETE_PROFILE,
+      userStatus.INCOMPLETE_PROFILE,
       userStatus.LOGGED_OFF,
       userStatus.NOT_AUTHORIZED
     ])

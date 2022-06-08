@@ -97,8 +97,6 @@ const FormDadosEscolares = ({
         token
       )
 
-      authContext.setCompleteProfile(true)
-
       handleSuccess()
     } catch (e) {
       setLoading(false)

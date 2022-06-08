@@ -65,9 +65,10 @@ function CriarConta({
     const redirectRoute =
       tipoDeUsuario === UserType.ALUNO
         ? '/dashboard-aluno'
-        : '/cadastro-pendente'
+        : '/dashboard-atendente'
 
     await router.push(redirectRoute)
+    authCtx.setCompleteProfile(true)
 
     emit({
       type: ToastType.SUCCESS,

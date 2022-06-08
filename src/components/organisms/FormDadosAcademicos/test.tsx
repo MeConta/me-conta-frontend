@@ -300,18 +300,5 @@ describe('<FormDadosAcademicos />', () => {
         expect(handleErrorMock).toBeCalledWith(error)
       })
     })
-
-    it('deve setar flag de perfil completo, ao concluir o cadastro', async () => {
-      const { buttonFinalizarCadastro } = elements()
-      await fillForm(ESituacaoCurso.COMPLETO)
-
-      await act(async () => {
-        fireEvent.click(buttonFinalizarCadastro)
-      })
-
-      await waitFor(async () => {
-        expect(authContextMock.setCompleteProfile).toHaveBeenCalledWith(true)
-      })
-    })
   })
 })
