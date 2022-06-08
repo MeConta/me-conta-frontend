@@ -99,7 +99,7 @@ export const PasswordField = React.forwardRef(function PasswordField(
                 '1 número',
                 '1 letra maiúscula',
                 '1 letra minúscula',
-                '1 caracter especial (ex: !, @, #, $)'
+                '1 carácter especial (ex: !, @, #, $)'
               ]
             }
           ></Popover>
