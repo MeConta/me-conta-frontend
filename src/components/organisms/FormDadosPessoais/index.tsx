@@ -12,6 +12,8 @@ import { DadosPessoaisValues } from '../../../types/dados-cadastro'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { validationSchema } from './validation'
+import { useBeforeUnload } from 'hooks/beforeunload.hook'
+import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
 export const GENDER = [
   { value: 'M', label: 'Masculino' },
@@ -52,6 +54,8 @@ const FormDadosPessoais = ({
     resolver: yupResolver(validationSchema),
     defaultValues: valoresIniciais
   })
+
+  useBeforeUnload(handleBeforeUnload)
 
   const moveToNextStep = () => {
     setNextStep(PassosCadastro.DADOS_ACADEMICOS)

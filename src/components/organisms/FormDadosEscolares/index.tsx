@@ -20,6 +20,8 @@ import {
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { ArrowLeft } from '@styled-icons/bootstrap'
 import { AuthServiceProps } from '../../../store/auth-context'
+import { useBeforeUnload } from 'hooks/beforeunload.hook'
+import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
 const ERRORS = {
   REQUIRED_SCHOLARITY: `Escolaridade é obrigatória.`,
@@ -80,6 +82,8 @@ const FormDadosEscolares = ({
     resolver: yupResolver(validationSchema),
     defaultValues: previousValues ?? initialValues
   })
+
+  useBeforeUnload(handleBeforeUnload)
 
   async function onSubmit(values: CadastroAlunoValues) {
     try {

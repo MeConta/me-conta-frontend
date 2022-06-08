@@ -23,6 +23,8 @@ import { UserType } from 'enums/user-type.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import { AreaAtuacao } from './area-atuacao.enum'
 import { AuthServiceProps } from 'store/auth-context'
+import { useBeforeUnload } from 'hooks/beforeunload.hook'
+import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
 interface DadosAcademicosProp {
   setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
@@ -83,6 +85,8 @@ export default function FormDadosAcademicos({
 
   const [token] = useLocalStorage<string>('token', '')
   const [isLoading, setLoading] = useState(false)
+
+  useBeforeUnload(handleBeforeUnload)
 
   const onSubmit = async (form: DadosAcademicosValues) => {
     const dadosVoluntario = possuiSuperiorCompleto()

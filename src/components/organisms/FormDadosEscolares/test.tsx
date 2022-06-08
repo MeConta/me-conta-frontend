@@ -197,6 +197,13 @@ describe('<FormDadosEscolares />', () => {
     })
   })
 
+  it('deve disparar o evento onbeforeunload', async () => {
+    jest.spyOn(window, 'addEventListener')
+    window.onbeforeunload = jest.fn()
+    window.dispatchEvent(new Event('beforeunload'))
+    expect(window.onbeforeunload).toHaveBeenCalled()
+  })
+
   it('deve exibir campos pré preenchidos caso hajam valores preenchidos anteriormente', async () => {
     cleanup()
 

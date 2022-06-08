@@ -226,6 +226,13 @@ describe('<FormDadosAcademicos />', () => {
     })
   })
 
+  it('deve disparar o evento onbeforeunload', async () => {
+    jest.spyOn(window, 'addEventListener')
+    window.onbeforeunload = jest.fn()
+    window.dispatchEvent(new Event('beforeunload'))
+    expect(window.onbeforeunload).toHaveBeenCalled()
+  })
+
   describe('deve submeter o formulário com os dados preenchidos', () => {
     it('atendente com curso superior em andamento', async () => {
       const { buttonFinalizarCadastro } = elements()

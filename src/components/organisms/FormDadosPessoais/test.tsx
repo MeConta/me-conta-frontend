@@ -186,4 +186,10 @@ describe('<FormDadosPessoais />', () => {
       PassosCadastro.DADOS_ACADEMICOS
     )
   })
+  it('deve disparar o evento onbeforeunload', async () => {
+    jest.spyOn(window, 'addEventListener')
+    window.onbeforeunload = jest.fn()
+    window.dispatchEvent(new Event('beforeunload'))
+    expect(window.onbeforeunload).toHaveBeenCalled()
+  })
 })
