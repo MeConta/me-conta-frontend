@@ -66,7 +66,7 @@ describe('<PasswordField/>', () => {
         '1 número',
         '1 letra maiúscula',
         '1 letra minúscula',
-        '1 caracter especial (ex: !, @, #, $)'
+        '1 carácter especial (ex: !, @, #, $)'
       ]
     }
     expect(screen.getByText(popoverPropsDefault.title)).toBeInTheDocument()
