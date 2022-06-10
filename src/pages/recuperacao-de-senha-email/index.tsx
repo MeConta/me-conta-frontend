@@ -1,7 +1,8 @@
 import ConfirmationDialog from '../../components/molecules/ConfirmationDialog'
 import * as F from '../../styles/form/styles'
+import { unauthenticatedRoute } from 'utils/authentication/unauthenticatedRoute'
 
-export default function EmailDeRecuperacaoDeSenha() {
+function EmailDeRecuperacaoDeSenha() {
   return (
     <ConfirmationDialog
       titleInfo={{ boldText: 'E-mail de recuperação enviado com sucesso' }}
@@ -21,3 +22,5 @@ export default function EmailDeRecuperacaoDeSenha() {
     />
   )
 }
+
+export default unauthenticatedRoute(EmailDeRecuperacaoDeSenha)

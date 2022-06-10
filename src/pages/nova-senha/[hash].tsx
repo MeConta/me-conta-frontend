@@ -8,6 +8,7 @@ import { BackendError } from 'types/backend-error'
 import { ToastType, useToast } from '../../services/toast-service/toast-service'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/styles'
+import { redirects } from 'utils/routes/redirects'
 
 type InitialProps = {
   hash: string
@@ -15,6 +16,7 @@ type InitialProps = {
 
 function NovaSenha({ hash }: InitialProps) {
   const { authService } = useAuthContext()
+  const authCtx = useAuthContext()
   const { emit } = useToast()
   const [successModalVisible, setSuccessModalVisible] = useState(false)
   const [validHash, setValidHash] = useState(false)
@@ -33,6 +35,15 @@ function NovaSenha({ hash }: InitialProps) {
       setError(true)
     }
   }
+
+  useEffect(() => {
+    if (authCtx.isLoggedIn && authCtx.session.type) {
+      const route = authCtx.session.completeProfile
+        ? redirects[+authCtx.session.type]
+        : '/criar-conta'
+      router.push(route)
+    }
+  }, [authCtx])
 
   const renderError = () => {
     return (
@@ -63,7 +74,7 @@ function NovaSenha({ hash }: InitialProps) {
     )
   }
 
-  return validHash ? (
+  return validHash && !authCtx.isLoggedIn ? (
     <>
       {successModalVisible && (
         <ConfirmationDialog
@@ -111,7 +122,7 @@ function NovaSenha({ hash }: InitialProps) {
       </S.ComponentWrapper>
     </>
   ) : (
-    error && renderError()
+    error && !authCtx.isLoggedIn && renderError()
   )
 }
 

@@ -1,6 +1,7 @@
 import ConfirmationDialog from 'components/molecules/ConfirmationDialog'
+import { unauthenticatedRoute } from 'utils/authentication/unauthenticatedRoute'
 
-export default function RecuperacaoSenhaSucesso() {
+function RecuperacaoSenhaSucesso() {
   return (
     <ConfirmationDialog
       titleInfo={{
@@ -15,3 +16,5 @@ export default function RecuperacaoSenhaSucesso() {
     />
   )
 }
+
+export default unauthenticatedRoute(RecuperacaoSenhaSucesso)

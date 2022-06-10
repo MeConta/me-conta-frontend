@@ -1,7 +1,7 @@
 import { render, screen } from '../../utils/tests/helpers'
 import * as AuthorizationContext from '../../store/auth-context'
 import createAuthContextObject from '../../utils/tests/createAuthContextObject'
-import TestPage from '../../utils/tests/AuthenticatedTestPage'
+import TestPage from '../../utils/tests/UnauthenticatedTestPage'
 import { UserType } from 'enums/user-type.enum'
 
 jest.mock('store/auth-context')
@@ -10,21 +10,18 @@ jest.mock('next/router', () => ({
   useRouter: () => ({ push: mockRouter })
 }))
 
-describe('authenticationRoute', () => {
-  it('should redirect to login page if the user is not logged in', () => {
+describe('unauthenticationRoute', () => {
+  it('should render the page if the user is not logged in', () => {
     jest
       .spyOn(AuthorizationContext, 'useAuthContext')
       .mockReturnValue(createAuthContextObject())
 
     render(<TestPage />)
 
-    expect(screen.queryByText('Página Padrão')).not.toBeInTheDocument()
-    expect(
-      AuthorizationContext.useAuthContext().handleLogout
-    ).toHaveBeenCalled()
+    expect(screen.queryByText('Página Padrão')).toBeInTheDocument()
   })
 
-  it('should render the page if the user is logged in, is authorized and has a complete profile', () => {
+  it('should redirect to dashboard page he user is logged in, is authorized and has a complete profile', () => {
     jest
       .spyOn(AuthorizationContext, 'useAuthContext')
       .mockReturnValue(
@@ -33,7 +30,8 @@ describe('authenticationRoute', () => {
 
     render(<TestPage />)
 
-    expect(screen.queryByText('Página Padrão')).toBeInTheDocument()
+    expect(screen.queryByText('Página Padrão')).not.toBeInTheDocument()
+    expect(mockRouter).toHaveBeenCalledWith('/dashboard-aluno')
   })
 
   it('should redirect to criar conta page if the user is logged in with an incomplete profile', () => {

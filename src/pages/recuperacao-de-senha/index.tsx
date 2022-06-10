@@ -9,11 +9,12 @@ import * as S from '../../styles/pages/styles'
 import * as B from '../../components/organisms/FormRecuperacaoSenha/styles'
 import { useState } from 'react'
 import ConfirmationDialog from '../../components/molecules/ConfirmationDialog'
-export default function RecuperacaoDeSenha() {
-  const { authService } = useAuthContext()
+import { unauthenticatedRoute } from 'utils/authentication/unauthenticatedRoute'
 
+function RecuperacaoDeSenha() {
+  const authCtx = useAuthContext()
+  const { authService } = authCtx
   const [showModal, setShowModal] = useState(false)
-
   const router = useRouter()
 
   const fazerLogin = function () {
@@ -77,3 +78,5 @@ export default function RecuperacaoDeSenha() {
     </S.ComponentWrapper>
   )
 }
+
+export default unauthenticatedRoute(RecuperacaoDeSenha)

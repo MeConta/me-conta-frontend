@@ -5,32 +5,16 @@ import { Button } from 'components/atoms/Button'
 import * as F from '../../styles/form/styles'
 import * as S from '../../styles/pages/styles'
 import { useRouter } from 'next/router'
-import { useAuthContext } from 'store/auth-context'
-import { useEffect, useState } from 'react'
-import { redirects } from 'utils/routes/redirects'
-import Loader from '../../components/atoms/Loader'
+import { unauthenticatedRoute } from 'utils/authentication/unauthenticatedRoute'
 
-export default function Login() {
+function Login() {
   const router = useRouter()
-  const authCtx = useAuthContext()
-  const [renderLogin, setRenderLogin] = useState<boolean>(false)
 
   const criarConta = function () {
     router.push('/criar-conta')
   }
 
-  useEffect(() => {
-    if (!authCtx.isLoggedIn) setRenderLogin(true)
-
-    if (authCtx.isLoggedIn && authCtx.session.type) {
-      const route = authCtx.session.completeProfile
-        ? redirects[+authCtx.session.type]
-        : '/criar-conta'
-      router.push(route)
-    }
-  }, [authCtx, router])
-
-  return renderLogin ? (
+  return (
     <S.ComponentWrapper>
       <WrapperForm>
         <F.WrapperFields>
@@ -58,7 +42,7 @@ export default function Login() {
         </F.WrapperFields>
       </WrapperForm>
     </S.ComponentWrapper>
-  ) : (
-    <Loader />
   )
 }
+
+export default unauthenticatedRoute(Login)
