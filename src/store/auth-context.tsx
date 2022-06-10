@@ -72,6 +72,8 @@ export const AuthorizationProvider = (
   const [name, setName] = useState<string | null>(null)
   const [type, setType] = useState<string | null>(null)
 
+  const cookieOptions = { path: '/' }
+
   useEffect(() => {
     if (isTokenValid(decodedToken)) {
       setIsLoggedIn(true)
@@ -86,23 +88,33 @@ export const AuthorizationProvider = (
   const loginHandler = (session: SessionData) => {
     setName(session.name)
     setType(session.type.toString())
-    setCookie(undefined, CookieKeys.TOKEN, session.token)
-    setCookie(undefined, CookieKeys.NAME, session.name)
+    setCookie(undefined, CookieKeys.TOKEN, session.token, cookieOptions)
+    setCookie(undefined, CookieKeys.NAME, session.name, cookieOptions)
     setCompleteProfile(session.completeProfile)
-    setCookie(undefined, CookieKeys.REFRESH_TOKEN, session.refreshToken)
+    setCookie(
+      undefined,
+      CookieKeys.REFRESH_TOKEN,
+      session.refreshToken,
+      cookieOptions
+    )
     setIsLoggedIn(true)
   }
 
   const setCompleteProfile = (value: boolean) => {
     setCompletedProfile(value)
-    setCookie(undefined, CookieKeys.COMPLETE_PROFILE, booleanToString(value))
+    setCookie(
+      undefined,
+      CookieKeys.COMPLETE_PROFILE,
+      booleanToString(value),
+      cookieOptions
+    )
   }
 
   const logoutHandler = (autoLogout?: boolean) => {
-    destroyCookie(null, CookieKeys.TOKEN)
-    destroyCookie(null, CookieKeys.NAME)
-    destroyCookie(null, CookieKeys.COMPLETE_PROFILE)
-    destroyCookie(null, CookieKeys.REFRESH_TOKEN)
+    destroyCookie(null, CookieKeys.TOKEN, cookieOptions)
+    destroyCookie(null, CookieKeys.NAME, cookieOptions)
+    destroyCookie(null, CookieKeys.COMPLETE_PROFILE, cookieOptions)
+    destroyCookie(null, CookieKeys.REFRESH_TOKEN, cookieOptions)
     setName(null)
     setType(null)
     setIsLoggedIn(false)
