@@ -13,6 +13,7 @@ import Link from 'next/link'
 
 import * as S from './styles'
 import * as F from '../../../styles/form/styles'
+import { useState } from 'react'
 
 type FormLoginValues = {
   email: string
@@ -31,6 +32,7 @@ const ERRORS = {
 
 export const FormLogin = ({ handleError }: FormLoginProps) => {
   const { handleLogin } = useAuthContext()
+  const [isLoading, setLoading] = useState(false)
 
   const handleDashboardRedirection = async (userType: string) => {
     const typeRedirectionIndex = parseInt(userType, 10)
@@ -44,6 +46,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
 
   const onSubmit = async ({ email, password }: FormLoginValues) => {
     try {
+      setLoading(true)
       const response = await api.post('/auth/login', {
         username: email,
         password: password
@@ -61,6 +64,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         await handleDashboardRedirection(response.data.tipo)
       else await router.push('/criar-conta')
     } catch (error) {
+      setLoading(false)
       handleError(error as BackendError)
     }
   }
@@ -76,15 +80,13 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
 
   const {
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors },
     handleSubmit
   } = useForm({
     resolver: yupResolver(SigninSchema),
     defaultValues: initialValues,
     mode: 'onChange'
   })
-
-  const buttonDisabled: boolean = isSubmitting || !isValid
 
   return (
     <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -106,6 +108,7 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
           type="submit"
           color="primary"
           size="mediumLarge"
+          isLoading={isLoading}
         >
           ENTRAR
         </Button>

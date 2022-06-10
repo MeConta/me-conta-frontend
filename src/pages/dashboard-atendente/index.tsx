@@ -17,9 +17,11 @@ import { Button } from 'components/atoms/Button'
 import illustration from '../../assets/illustrations/me-conta-card-illustration.svg'
 import Image from 'next/image'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
+import { useRouter } from 'next/router'
 
 function VolunteerDashboard() {
   const { emit } = useToast()
+  const router = useRouter()
 
   const [isLoadingDates, setIsLoadingDates] = useState<boolean>(true)
   const [slotsReserved, setSlotsReserved] = useState<SlotResponseInterface[]>(
@@ -83,6 +85,10 @@ function VolunteerDashboard() {
     await fetchSlotsReserved()
   }
 
+  const goToLandingPage = function () {
+    router.push('/')
+  }
+
   return toggles.enableDashboardAtendente ? (
     <S.WrapperDashboard>
       <S.SectionTitle>Meus horários cadastrados:</S.SectionTitle>
@@ -109,7 +115,12 @@ function VolunteerDashboard() {
               Nossa equipe irá analisar seu perfil e entrará em{' '}
               <strong>contato por e-mail</strong> em breve.
             </S.NewUserCardText>
-            <Button color="secondary" radius="square" size="mediumLarge">
+            <Button
+              color="secondary"
+              radius="square"
+              size="mediumLarge"
+              onClick={goToLandingPage}
+            >
               VOLTAR À PÁGINA INICIAL
             </Button>
           </S.NewUserCardContent>
