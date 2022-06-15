@@ -27,7 +27,6 @@ class AbsoluteAnimation implements IAnimation {
   _top?: AnimationProgress
   _bottom?: AnimationProgress
   static _instance: AbsoluteAnimation
-  constructor() {}
   static get instance(): AbsoluteAnimation {
     if (!AbsoluteAnimation._instance) {
       AbsoluteAnimation._instance = new AbsoluteAnimation()
@@ -116,7 +115,6 @@ class NormalAnimation implements IAnimation {
   _margin?: AnimationProgress
   _padding?: AnimationProgress
   static _instance: NormalAnimation
-  constructor() {}
   static get instance(): NormalAnimation {
     if (!NormalAnimation._instance) {
       NormalAnimation._instance = new NormalAnimation()

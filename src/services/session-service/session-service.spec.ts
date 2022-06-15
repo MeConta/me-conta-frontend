@@ -2,14 +2,12 @@ import { SessionService } from './session-service'
 
 describe('session-service', () => {
   const mockedService: any = {
-    get: () => {}
+    get: jest.fn()
   }
 
   const makeSut = () => {
     return new SessionService(mockedService as any)
   }
-
-  beforeEach(() => {})
 
   it('should list sessions', async () => {
     const fakeRes = [

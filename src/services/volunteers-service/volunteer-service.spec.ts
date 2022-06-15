@@ -2,7 +2,7 @@ import { VolunteerService } from './volunteer-service'
 
 describe('volunteers service', () => {
   const fakeAxios: any = {
-    get: () => {}
+    get: jest.fn()
   }
 
   const makeSut = () => {
