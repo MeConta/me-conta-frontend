@@ -35,9 +35,9 @@ api.interceptors.response.use(
       ) {
         const request = err.config
         const authService = new AuthService(api)
-        const { [CookieKeys.REFRESH_TOKEN]: refreshToken } = parseCookies()
+        const { [CookieKeys.REFRESH_TOKEN]: newRefreshToken } = parseCookies()
         authService
-          .refreshToken({ refreshToken })
+          .refreshToken({ refreshToken: newRefreshToken })
           .then(async (res) => {
             const { token, refreshToken } = res
             setCookie(null, CookieKeys.TOKEN, token)

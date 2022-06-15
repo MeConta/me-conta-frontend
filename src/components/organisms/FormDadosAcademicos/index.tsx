@@ -22,7 +22,6 @@ import { DadosAcademicosValues } from './values-type'
 import { UserType } from 'enums/user-type.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import { AreaAtuacao } from './area-atuacao.enum'
-import { AuthServiceProps } from 'store/auth-context'
 import { useBeforeUnload } from 'hooks/beforeunload.hook'
 import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
@@ -34,7 +33,6 @@ interface DadosAcademicosProp {
   setPreviousValues: Function
   previousValues: DadosAcademicosValues | undefined
   dadosPessoais: DadosPessoaisValues | null
-  authContext: AuthServiceProps
 }
 
 const NIVELFORMACAO = {
@@ -68,8 +66,7 @@ export default function FormDadosAcademicos({
   handleError,
   previousValues,
   setPreviousValues,
-  dadosPessoais,
-  authContext
+  dadosPessoais
 }: DadosAcademicosProp) {
   const {
     register,

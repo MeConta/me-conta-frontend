@@ -19,7 +19,6 @@ import {
 } from '../../../types/dados-cadastro'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { ArrowLeft } from '@styled-icons/bootstrap'
-import { AuthServiceProps } from '../../../store/auth-context'
 import { useBeforeUnload } from 'hooks/beforeunload.hook'
 import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
@@ -52,11 +51,10 @@ type FormDadosEscolaresProps = {
   handleError: (error: BackendError) => void
   dadosPessoais: DadosPessoaisValues | null
   setCurrentStep: React.Dispatch<React.SetStateAction<PassosCadastro>>
-  previousValues?: DadosEscolaresValues | undefined
+  previousValues?: DadosEscolaresValues
   setPreviousValues: React.Dispatch<
     React.SetStateAction<DadosEscolaresValues | undefined>
   >
-  authContext: AuthServiceProps
 }
 
 const FormDadosEscolares = ({
@@ -66,8 +64,7 @@ const FormDadosEscolares = ({
   dadosPessoais,
   setCurrentStep,
   previousValues,
-  setPreviousValues,
-  authContext
+  setPreviousValues
 }: FormDadosEscolaresProps) => {
   const [token] = useLocalStorage<string>('token', '')
   const [isLoading, setLoading] = useState(false)

@@ -27,7 +27,7 @@ export const StrengthBar = (props: StrengthBarProps) => {
   return (
     <S.StrengthBarWrapper>
       <S.BarsWrapper>
-        {props.scoreWords.map((scoreWord, index) => (
+        {props.scoreWords.map((_scoreWord, index) => (
           <S.Bar
             key={index}
             active={score > index && passwordGreaterThanMinLength}

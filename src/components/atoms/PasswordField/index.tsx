@@ -38,7 +38,6 @@ export type PasswordFieldProps = {
   showStrengthBar?: boolean
   showPopover?: boolean
   popoverProps?: PopoverProps
-  handleStrength?: (score: number) => void
 } & InputHTMLAttributes<HTMLInputElement>
 
 export const PasswordField = React.forwardRef(function PasswordField(
@@ -54,7 +53,6 @@ export const PasswordField = React.forwardRef(function PasswordField(
     showPopover,
     popoverProps,
     showStrengthBar = false,
-    handleStrength,
     ...props
   }: PasswordFieldProps,
   ref?: ForwardedRef<HTMLInputElement>
@@ -115,8 +113,8 @@ export const PasswordField = React.forwardRef(function PasswordField(
         <StrengthBar
           minLength={props.minLength || 8}
           password={value!}
-          scoreWords={Object.keys(ScoreWordsEnum).filter((value) =>
-            isNaN(Number(value))
+          scoreWords={Object.keys(ScoreWordsEnum).filter((scoreWord) =>
+            isNaN(Number(scoreWord))
           )}
           requirements={passwordRequirements}
           strengthColors={['#ed7315', '#faad39', '#d7e60b', '#96d60d']}

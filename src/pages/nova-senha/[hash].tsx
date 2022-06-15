@@ -112,8 +112,7 @@ function NovaSenha({ hash }: InitialProps) {
                 })
                 setSuccessModalVisible(true)
               }}
-              handleError={(error: BackendError) => {
-                console.log(error)
+              handleError={() => {
                 router.push('/login')
               }}
             />

@@ -61,9 +61,9 @@ function CriarConta({
     setCurrentStep(PassosCadastro.DADOS_PESSOAIS)
   }
 
-  const handleSuccessCadastro = async (tipoDeUsuario: UserType) => {
+  const handleSuccessCadastro = async (tipoUsuario: UserType) => {
     const redirectRoute =
-      tipoDeUsuario === UserType.ALUNO
+      tipoUsuario === UserType.ALUNO
         ? '/dashboard-aluno'
         : '/dashboard-atendente'
 
@@ -159,7 +159,6 @@ function CriarConta({
             setCurrentStep={setCurrentStep}
             previousValues={dadosEscolares}
             setPreviousValues={setDadosEscolares}
-            authContext={authCtx}
           />
         ) : (
           <FormDadosAcademicos
@@ -170,7 +169,6 @@ function CriarConta({
             setCurrentStep={setCurrentStep}
             previousValues={dadosAcademicos}
             setPreviousValues={setDadosAcademicos}
-            authContext={authCtx}
           />
         )
     }

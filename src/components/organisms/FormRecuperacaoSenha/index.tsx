@@ -54,7 +54,7 @@ export function FormRecuperacaoSenha(props: {
 
   const {
     register,
-    formState: { errors, isSubmitting, isValid, isSubmitted },
+    formState: { errors },
     handleSubmit
   } = useForm({
     resolver: yupResolver(validationSchema),

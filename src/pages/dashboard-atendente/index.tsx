@@ -89,54 +89,58 @@ function VolunteerDashboard() {
     router.push('/')
   }
 
-  return toggles.enableDashboardAtendente ? (
-    <S.WrapperDashboard>
-      <S.SectionTitle>Meus horários cadastrados:</S.SectionTitle>
-      {isLoadingDates ? (
-        <Loader />
-      ) : (
-        <AvailableDates dates={slotsReserved} onDelete={handleOnDelete} />
-      )}
-      <S.SectionTitle>Agendamentos futuros</S.SectionTitle>
-      <AddDates
-        alreadySelected={datesAlreadySelected}
-        handleSave={handleSaveNewSlots}
-      />
-    </S.WrapperDashboard>
-  ) : (
-    <S.WrapperDashboard>
-      <Styled.SectionContainer>
-        <S.NewUserCard>
-          <S.NewUserCardContent>
-            <S.NewUserCardTitle>
-              Bem vindo(a) ao <b>Me Conta</b>!
-            </S.NewUserCardTitle>
-            <S.NewUserCardText>
-              Nossa equipe irá analisar seu perfil e entrará em{' '}
-              <strong>contato por e-mail</strong> em breve.
-            </S.NewUserCardText>
-            <Button
-              color="secondary"
-              radius="square"
-              size="mediumLarge"
-              onClick={goToLandingPage}
-            >
-              VOLTAR À PÁGINA INICIAL
-            </Button>
-          </S.NewUserCardContent>
-          <S.NewUserCardIllustration>
-            <S.IllustrationBackground />
-            <Image
-              id="illustration"
-              alt="Illustration"
-              src={illustration}
-              width={220}
-            />
-          </S.NewUserCardIllustration>
-        </S.NewUserCard>
-      </Styled.SectionContainer>
-    </S.WrapperDashboard>
-  )
+  if (toggles.enableDashboardAtendente) {
+    return (
+      <S.WrapperDashboard>
+        <S.SectionTitle>Meus horários cadastrados:</S.SectionTitle>
+        {isLoadingDates ? (
+          <Loader />
+        ) : (
+          <AvailableDates dates={slotsReserved} onDelete={handleOnDelete} />
+        )}
+        <S.SectionTitle>Agendamentos futuros</S.SectionTitle>
+        <AddDates
+          alreadySelected={datesAlreadySelected}
+          handleSave={handleSaveNewSlots}
+        />
+      </S.WrapperDashboard>
+    )
+  } else {
+    return (
+      <S.WrapperDashboard>
+        <Styled.SectionContainer>
+          <S.NewUserCard>
+            <S.NewUserCardContent>
+              <S.NewUserCardTitle>
+                Bem vindo(a) ao <b>Me Conta</b>!
+              </S.NewUserCardTitle>
+              <S.NewUserCardText>
+                Nossa equipe irá analisar seu perfil e entrará em{' '}
+                <strong>contato por e-mail</strong> em breve.
+              </S.NewUserCardText>
+              <Button
+                color="secondary"
+                radius="square"
+                size="mediumLarge"
+                onClick={goToLandingPage}
+              >
+                VOLTAR À PÁGINA INICIAL
+              </Button>
+            </S.NewUserCardContent>
+            <S.NewUserCardIllustration>
+              <S.IllustrationBackground />
+              <Image
+                id="illustration"
+                alt="Illustration"
+                src={illustration}
+                width={220}
+              />
+            </S.NewUserCardIllustration>
+          </S.NewUserCard>
+        </Styled.SectionContainer>
+      </S.WrapperDashboard>
+    )
+  }
 }
 
 export default authenticatedRoute(VolunteerDashboard, {
