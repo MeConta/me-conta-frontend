@@ -30,6 +30,5 @@ export type DadosAcademicosValues = Pick<
   | 'areaAtuacao'
   | 'crp'
   | 'bio'
-  | 'abordagem'
   | 'frentes'
 > & { nivelDeFormacao: string | number }

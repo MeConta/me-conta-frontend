@@ -1,3 +1,4 @@
 export const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-  return (event.returnValue = true)
+  event.returnValue = true
+  return true
 }

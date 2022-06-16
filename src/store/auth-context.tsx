@@ -46,11 +46,11 @@ export const stringToBoolean = (value: string) => value === 'true'
 export const AuthorizationProvider = (
   props: PropsWithChildren<{ authService: IAuthService }>
 ) => {
-  const isTokenValid = (decodedToken: DecodedToken | null): boolean => {
-    if (!decodedToken || !decodedToken.exp) {
+  const isTokenValid = (token: DecodedToken | null): boolean => {
+    if (!token || !token.exp) {
       return false
     }
-    return decodedToken.exp * 1000 > Date.now()
+    return token.exp * 1000 > Date.now()
   }
 
   const router = useRouter()
@@ -85,16 +85,16 @@ export const AuthorizationProvider = (
     }
   }, [completeProfileCookie, decodedToken, nomeCookie])
 
-  const loginHandler = (session: SessionData) => {
-    setName(session.name)
-    setType(session.type.toString())
-    setCookie(undefined, CookieKeys.TOKEN, session.token, cookieOptions)
-    setCookie(undefined, CookieKeys.NAME, session.name, cookieOptions)
-    setCompleteProfile(session.completeProfile)
+  const loginHandler = (sessionData: SessionData) => {
+    setName(sessionData.name)
+    setType(sessionData.type.toString())
+    setCookie(undefined, CookieKeys.TOKEN, sessionData.token, cookieOptions)
+    setCookie(undefined, CookieKeys.NAME, sessionData.name, cookieOptions)
+    setCompleteProfile(sessionData.completeProfile)
     setCookie(
       undefined,
       CookieKeys.REFRESH_TOKEN,
-      session.refreshToken,
+      sessionData.refreshToken,
       cookieOptions
     )
     setIsLoggedIn(true)

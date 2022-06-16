@@ -45,8 +45,8 @@ api.interceptors.response.use(
             request.headers['Authorization'] = `Bearer ${token}`
             resolve(axios(request))
           })
-          .catch((err) => {
-            reject(err)
+          .catch((error) => {
+            reject(error)
           })
       } else {
         reject(err)
