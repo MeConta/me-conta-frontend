@@ -62,6 +62,5 @@ export const SignupProvider = (props: PropsWithChildren<SignupProps>) => {
 }
 
 export function useSignup(): SignupProps {
-  const context = useContext(SignupContext)
-  return context
+  return useContext(SignupContext)
 }

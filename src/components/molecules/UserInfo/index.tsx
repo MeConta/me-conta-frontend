@@ -8,7 +8,7 @@ export type UserInfoProps = {
   name: string
   email?: string
   profileLink?: string
-  frentes: Array<Number>
+  frentes: Array<number>
 }
 
 export function UserInfo({ name, email, profileLink, frentes }: UserInfoProps) {

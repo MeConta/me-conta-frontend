@@ -31,7 +31,7 @@ export class AgendaService {
   }
 
   async deleteSlot(id: number): Promise<void> {
-    return await this.service.delete(`/agenda/${id}`)
+    return this.service.delete(`/agenda/${id}`)
   }
 
   async createSlots(initialDates: Date[]) {

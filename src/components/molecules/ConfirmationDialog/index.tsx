@@ -6,7 +6,7 @@ import { WrapperForm } from '../WrapperForm'
 import { Close } from '@styled-icons/material'
 import Logo from '../../../../public/assets/logo.png'
 import router from 'next/router'
-import useDelayUnmount from 'utils/animations/unmountHelper'
+import useDelayUnmount from 'utils/animations/useDelayUnmount'
 
 type InfoHeader = {
   preText?: string

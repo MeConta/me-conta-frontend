@@ -7,7 +7,7 @@ export type CardPacienteProps = {
   name: string
   email?: string
   profileLink?: string
-  frentes: Array<Number>
+  frentes: Array<number>
   title: string
   description: string
   whatsappLink: string

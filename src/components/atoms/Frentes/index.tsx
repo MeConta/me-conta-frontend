@@ -4,7 +4,7 @@ import { FrentesInfo } from './frentesInfo'
 import ReactTooltip from 'react-tooltip'
 
 export type FrentesProps = {
-  frentes: Array<Number>
+  frentes: Array<number>
 }
 
 export default function Frentes({ frentes }: FrentesProps) {

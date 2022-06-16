@@ -2,7 +2,7 @@ import * as S from './styles'
 
 export interface PopoverProps {
   title: string
-  items: Array<String>
+  items: Array<string>
 }
 
 export default function Popover(props: PopoverProps) {

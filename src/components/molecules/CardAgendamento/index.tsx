@@ -7,7 +7,7 @@ export type CardAgendamentoProps = {
   name: string
   email?: string
   profileLink?: string
-  frentes: Array<Number>
+  frentes: Array<number>
   title: string
   description: string
   onChange: (value: Date) => void

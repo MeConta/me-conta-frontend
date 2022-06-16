@@ -6,7 +6,7 @@ describe('session-service', () => {
   }
 
   const makeSut = () => {
-    return new SessionService(mockedService as any)
+    return new SessionService(mockedService)
   }
 
   it('should list sessions', async () => {

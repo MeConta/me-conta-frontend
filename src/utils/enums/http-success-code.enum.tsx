@@ -4,10 +4,8 @@ export enum EHttpSuccess {
 }
 
 export function getSuccessMessage(statusCode: EHttpSuccess) {
-  switch (statusCode) {
-    case EHttpSuccess.CREATED:
-      return 'O registro foi criado com sucesso!'
-    default:
-      return 'A operação foi realizada com sucesso!'
-  }
+  if (statusCode === EHttpSuccess.CREATED)
+    return 'O registro foi criado com sucesso!'
+
+  return 'A operação foi realizada com sucesso!'
 }

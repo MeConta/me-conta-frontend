@@ -145,7 +145,7 @@ export function FormCadastro(props: {
         setBackendError(ERRORS.DUPLICATED_EMAIL)
       }
       setLoading(false)
-      props.handleError(error as BackendError)
+      props.handleError(error)
     }
   }
 

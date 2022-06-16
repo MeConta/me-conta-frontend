@@ -28,7 +28,7 @@ const ERRORS = {
   REQUIRED_SCHOOL_TYPE: `Tipo de escola é obrigatório.`
 }
 
-const phoneRegex = /^[1-9]{2}(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}$/
+const phoneRegex = /^[1-9]{2}(?:[2-8]|9[1-9])\d{3}\d{4}$/
 
 export const validationSchema = Yup.object({
   telefone: Yup.string()

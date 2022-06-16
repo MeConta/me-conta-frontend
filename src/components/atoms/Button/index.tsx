@@ -5,7 +5,7 @@ import {
   useEffect,
   useState
 } from 'react'
-import useDelayUnmount from '../../../utils/animations/unmountHelper'
+import useDelayUnmount from '../../../utils/animations/useDelayUnmount'
 import Loader from '../Loader'
 
 import * as S from './styles'

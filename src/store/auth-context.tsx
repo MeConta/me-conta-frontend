@@ -155,6 +155,5 @@ export const AuthorizationProvider = (
 }
 
 export function useAuthContext(): AuthServiceProps {
-  const context = useContext(AuthorizationContext)
-  return context
+  return useContext(AuthorizationContext)
 }

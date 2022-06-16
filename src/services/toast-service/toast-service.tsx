@@ -51,6 +51,5 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
 }
 
 export function useToast(): ToastProps {
-  const context = useContext(ToastContext)
-  return context
+  return useContext(ToastContext)
 }

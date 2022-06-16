@@ -16,8 +16,7 @@ export const PhoneField = React.forwardRef(function PhoneField(
   ref?: ForwardedRef<ReactInputMask>
 ) {
   const removePhoneMask = (inputValue: string): string => {
-    const onlyPhoneNumbers = inputValue.replace(/\D/g, '')
-    return onlyPhoneNumbers
+    return inputValue.replace(/\D/g, '')
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

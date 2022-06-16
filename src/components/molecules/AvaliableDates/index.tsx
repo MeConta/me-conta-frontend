@@ -9,7 +9,6 @@ import {
 import { Button } from '../../atoms/Button'
 import * as S from './styles'
 import { SlotResponseInterface } from '../../../services/agenda-services/agenda-service'
-import { bool } from 'yup'
 
 function PrevArrow(props: any) {
   const { className, style, onClick } = props
@@ -35,7 +34,7 @@ function NextArrow(props: any) {
 
 export type DateType = {
   date: Date
-  deletable: Boolean
+  deletable: boolean
 }
 
 export type AvailableDatesProps = {

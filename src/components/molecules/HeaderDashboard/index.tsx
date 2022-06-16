@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Logo from '../../../../public/assets/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
