@@ -11,9 +11,28 @@ jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() })
 }))
 
+jest.mock('services/toast-service/toast-service', () => {
+  const useToast = () => {
+    return { emit: jest.fn() }
+  }
+  return { useToast, ToastType: { SUCCESS: 'sucesso' } }
+})
+
 const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
 
 describe('dashboard administrador page', () => {
+  it('should render title Lista de Voluntários', async () => {
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, UserType.ADMINISTRADOR.toString(), true)
+      )
+
+    render(<DashboardAdministrador />)
+
+    expect(screen.getByText(/Lista de Voluntários/)).toBeInTheDocument()
+  })
+
   for (const filter of filters) {
     it(`should render page with button ${filter}`, async () => {
       jest

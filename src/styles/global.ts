@@ -23,6 +23,13 @@ const GlobalStyles = createGlobalStyle`
   font-display: swap;
   src: url('/fonts/mulish-v3-latin-700.woff2') format('woff2')
 }
+@font-face {
+  font-family: 'Mulish';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fonts/mulish-v11-latin-900.woff2') format('woff2')
+}
 
   *{
     margin: 0;
