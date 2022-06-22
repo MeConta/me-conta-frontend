@@ -14,8 +14,8 @@ jest.mock('next/router', () => ({
 const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
 
 describe('dashboard administrador page', () => {
-  for (let i = 0; i < filters.length; i++) {
-    it(`should render page with button ${filters[i]}`, async () => {
+  for (const filter of filters) {
+    it(`should render page with button ${filter}`, async () => {
       jest
         .spyOn(AuthorizationContext, 'useAuthContext')
         .mockReturnValue(
@@ -24,9 +24,7 @@ describe('dashboard administrador page', () => {
 
       render(<DashboardAdministrador />)
 
-      expect(
-        screen.getByRole('button', { name: filters[i] })
-      ).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: filter })).toBeInTheDocument()
     })
   }
 })

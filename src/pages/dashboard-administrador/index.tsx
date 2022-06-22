@@ -1,17 +1,14 @@
 import { UserType } from 'enums/user-type.enum'
 import { authenticatedRoute } from 'utils/authentication/authenticationRoute'
 import * as S from '../../styles/pages/dashboards/styles'
-import * as F from '../../styles/pages/dashboards/dashboard-administrador/styles'
+import Filter from '../../components/molecules/Filter'
+
+const attendantStatus = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
 
 function DashboardAdministrador() {
   return (
     <S.WrapperDashboard>
-      <F.WrapperFilter>
-        <F.ButtonFilter>Em aberto</F.ButtonFilter>
-        <F.ButtonFilter>Aprovados</F.ButtonFilter>
-        <F.ButtonFilter>Reprovados</F.ButtonFilter>
-        <F.ButtonFilter>Todos</F.ButtonFilter>
-      </F.WrapperFilter>
+      <Filter filterOptions={attendantStatus} />
     </S.WrapperDashboard>
   )
 }
