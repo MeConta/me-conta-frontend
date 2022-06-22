@@ -46,4 +46,15 @@ describe('dashboard administrador page', () => {
       expect(screen.getByRole('button', { name: filter })).toBeInTheDocument()
     })
   }
+  it.skip(`should call endpoint to get volunteers by status when a filter button is clicked`, async () => {
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, String(UserType.ADMINISTRADOR), true)
+      )
+
+    render(<DashboardAdministrador />)
+
+    //expect(volunteerServiceMock.findByApprovalStatus).toHaveBeenCalledWith()
+  })
 })

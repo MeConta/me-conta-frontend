@@ -7,6 +7,7 @@ export interface IVolunteerService {
   }: {
     sessionType: number
   }): Promise<VolunteerResponse[]>
+  findByApprovalStatus(approvalStatus: number): Promise<VolunteerResponse[]>
 }
 
 export interface VolunteerResponse {
@@ -36,6 +37,16 @@ export class VolunteerService implements IVolunteerService {
     const res = await this.service.get(
       `/voluntarios/listar/2${
         sessionType !== undefined ? `?frente=${sessionType}` : ''
+      }`
+    )
+    return res.data
+  }
+  async findByApprovalStatus(
+    approvalStatus: number
+  ): Promise<VolunteerResponse[]> {
+    const res = await this.service.get(
+      `/voluntarios/listar/2${
+        approvalStatus !== undefined ? `?aprovado=${approvalStatus}` : ''
       }`
     )
     return res.data

@@ -39,4 +39,20 @@ describe('volunteers service', () => {
     )
     expect(res).toEqual([])
   })
+
+  it('should list volunteers filtered by status', async () => {
+    const sut = makeSut()
+    const approvalStatus = 0
+    const volunteerType = 2
+    jest.spyOn(fakeAxios, 'get').mockResolvedValue({
+      data: []
+    })
+
+    const res = await sut.findByApprovalStatus(approvalStatus)
+
+    expect(fakeAxios.get).toHaveBeenCalledWith(
+      `/voluntarios/listar/${volunteerType}?aprovado=${approvalStatus}`
+    )
+    expect(res).toEqual([])
+  })
 })

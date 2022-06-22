@@ -7,8 +7,10 @@ import theme from '../../../styles/theme'
 const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
 
 describe('<Filter />', () => {
-  it('should render filter with filter options', async () => {
-    render(<Filter filterOptions={filters} />)
+  const handleClickMock = jest.fn()
+
+  it('should render filter with filter options', () => {
+    render(<Filter filterOptions={filters} handleClick={handleClickMock} />)
 
     expect(screen.getByRole('button', { name: filters[0] })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: filters[1] })).toBeInTheDocument()
@@ -16,8 +18,8 @@ describe('<Filter />', () => {
     expect(screen.getByRole('button', { name: filters[3] })).toBeInTheDocument()
   })
 
-  it('should exhibit active button styles when clicked', async () => {
-    render(<Filter filterOptions={filters} />)
+  it('should exhibit active button styles when clicked', () => {
+    render(<Filter filterOptions={filters} handleClick={handleClickMock} />)
 
     const thirdOption = screen.getByRole('button', { name: filters[2] })
 
@@ -26,5 +28,14 @@ describe('<Filter />', () => {
       `background-color: ${theme.colors.cornflowerBlue};
       color: white`
     )
+  })
+
+  it('should call handleClick function when clicked on filter name', () => {
+    render(<Filter filterOptions={filters} handleClick={handleClickMock} />)
+
+    const thirdOption = screen.getByRole('button', { name: filters[2] })
+
+    userEvent.click(thirdOption)
+    expect(handleClickMock).toHaveBeenCalledWith(filters[2])
   })
 })

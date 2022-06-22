@@ -9,7 +9,7 @@ function DashboardAdministrador() {
   return (
     <S.WrapperDashboard>
       <S.Title> Lista de Voluntários </S.Title>
-      <Filter filterOptions={attendantStatus} />
+      <Filter filterOptions={attendantStatus} handleClick={() => {}} />
     </S.WrapperDashboard>
   )
 }
