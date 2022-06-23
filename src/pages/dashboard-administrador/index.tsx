@@ -10,6 +10,7 @@ import { api } from 'services/api/api'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import { useEffect, useState } from 'react'
 
+type AttendantStatus = 'Em aberto' | 'Aprovados' | 'Reprovados' | 'Todos'
 const attendantStatus = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
 
 function DashboardAdministrador() {
@@ -17,15 +18,22 @@ function DashboardAdministrador() {
 
   const volunteerService = new VolunteerService(api)
 
-  const fetchVolunteers = async (volunteerStatus: StatusAprovacao) => {
+  const fetchVolunteers = async (volunteerStatus?: StatusAprovacao) => {
     const fetchedVolunteers = await volunteerService.findByApprovalStatus(
       volunteerStatus
     )
     setVolunteers(fetchedVolunteers)
   }
 
-  const onSelectedFilter = async (filterName: string) => {
-    await fetchVolunteers(StatusAprovacao.ABERTO)
+  const onSelectedFilter = async (filterName: AttendantStatus) => {
+    const statusByFilterName = {
+      'Em aberto': StatusAprovacao.ABERTO,
+      Aprovados: StatusAprovacao.APROVADO,
+      Reprovados: StatusAprovacao.REPROVADO,
+      Todos: undefined
+    }
+
+    await fetchVolunteers(statusByFilterName[filterName])
   }
 
   useEffect(() => {

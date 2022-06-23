@@ -43,7 +43,7 @@ export class VolunteerService implements IVolunteerService {
     return res.data
   }
   async findByApprovalStatus(
-    approvalStatus: StatusAprovacao
+    approvalStatus?: StatusAprovacao
   ): Promise<VolunteerResponse[]> {
     const res = await this.service.get(
       `/voluntarios/listar/2${
