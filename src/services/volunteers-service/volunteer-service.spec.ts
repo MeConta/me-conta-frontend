@@ -1,3 +1,4 @@
+import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import { VolunteerService } from './volunteer-service'
 
 describe('volunteers service', () => {
@@ -43,7 +44,7 @@ describe('volunteers service', () => {
   it('should list volunteers filtered by status', async () => {
     const sut = makeSut()
     const approvalStatus = 0
-    const volunteerType = 2
+    const volunteerType = StatusAprovacao.APROVADO
     jest.spyOn(fakeAxios, 'get').mockResolvedValue({
       data: []
     })
@@ -51,7 +52,7 @@ describe('volunteers service', () => {
     const res = await sut.findByApprovalStatus(approvalStatus)
 
     expect(fakeAxios.get).toHaveBeenCalledWith(
-      `/voluntarios/listar/${volunteerType}?aprovado=${approvalStatus}`
+      `/voluntarios/listar/${volunteerType}?status=${approvalStatus}`
     )
     expect(res).toEqual([])
   })

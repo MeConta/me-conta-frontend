@@ -8,7 +8,6 @@ import userEvent from '@testing-library/user-event'
 import { PassosCadastro } from 'enums/passos-cadastro.enum'
 import { DadosPessoaisValues } from 'types/dados-cadastro'
 import { BackendError } from 'types/backend-error'
-import createAuthContextObject from 'utils/tests/createAuthContextObject'
 
 describe('<FormDadosEscolares />', () => {
   const signupServiceMock: ISignupAlunoService = {
@@ -17,7 +16,6 @@ describe('<FormDadosEscolares />', () => {
   const handleSuccessMock = jest.fn()
   const handleErrorMock = jest.fn()
   const setCurrentStepMock = jest.fn()
-  const authContextMock = createAuthContextObject()
 
   const previousValuesMock = {
     escolaridade: '1',
@@ -96,7 +94,6 @@ describe('<FormDadosEscolares />', () => {
         dadosPessoais={dadosPessoais}
         setCurrentStep={setCurrentStepMock}
         setPreviousValues={setPreviousValuesMock}
-        authContext={authContextMock}
       />
     )
   })
@@ -217,7 +214,6 @@ describe('<FormDadosEscolares />', () => {
           setCurrentStep={setCurrentStepMock}
           previousValues={previousValuesMock}
           setPreviousValues={setPreviousValuesMock}
-          authContext={authContextMock}
         />
       )
     })

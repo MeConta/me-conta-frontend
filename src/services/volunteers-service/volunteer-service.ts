@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
+import { StatusAprovacao } from 'enums/volunteer-status.enum'
 
 export interface IVolunteerService {
   findBySessionType({
@@ -42,11 +43,11 @@ export class VolunteerService implements IVolunteerService {
     return res.data
   }
   async findByApprovalStatus(
-    approvalStatus: number
+    approvalStatus: StatusAprovacao
   ): Promise<VolunteerResponse[]> {
     const res = await this.service.get(
       `/voluntarios/listar/2${
-        approvalStatus !== undefined ? `?aprovado=${approvalStatus}` : ''
+        approvalStatus !== undefined ? `?status=${approvalStatus}` : ''
       }`
     )
     return res.data

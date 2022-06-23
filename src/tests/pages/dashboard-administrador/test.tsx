@@ -1,11 +1,20 @@
-import { render, screen } from '../../../utils/tests/helpers'
+import { render, screen, waitFor } from '../../../utils/tests/helpers'
 import React from 'react'
 import * as AuthorizationContext from '../../../store/auth-context'
 import createAuthContextObject from '../../../utils/tests/createAuthContextObject'
 import DashboardAdministrador from 'pages/dashboard-administrador'
 import { UserType } from 'enums/user-type.enum'
+import { VolunteerService } from 'services/volunteers-service/volunteer-service'
+import userEvent from '@testing-library/user-event'
+import { api } from 'services/api/api'
 
 jest.mock('store/auth-context')
+
+jest.mock('services/api/api', () => ({
+  api: { get: jest.fn() }
+}))
+
+jest.mock('services/volunteers-service/volunteer-service')
 
 jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() })
@@ -19,6 +28,7 @@ jest.mock('services/toast-service/toast-service', () => {
 })
 
 const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
+const volunteerService = new VolunteerService(api)
 
 describe('dashboard administrador page', () => {
   it('should render title Lista de Voluntários', async () => {
@@ -55,6 +65,9 @@ describe('dashboard administrador page', () => {
 
     render(<DashboardAdministrador />)
 
-    //expect(volunteerServiceMock.findByApprovalStatus).toHaveBeenCalledWith()
+    userEvent.click(screen.getByRole('button', { name: 'Aprovados' }))
+    await waitFor(() => {
+      expect(api.get).toBeCalled()
+    })
   })
 })
