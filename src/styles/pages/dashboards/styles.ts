@@ -110,7 +110,7 @@ export const NewUserCardText = styled.p`
 
 export const Title = styled.p`
   ${({ theme }) => css`
-    font-weight: 900;
+    font-weight: ${theme.font.black};
     font-size: ${theme.font.sizes['desk-xxlarge']};
     margin-bottom: ${theme.spacings.xsmall};
     line-height: 45px;

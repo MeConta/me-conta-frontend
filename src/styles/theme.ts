@@ -16,6 +16,8 @@ export default {
     normal: 400,
     semibold: 600,
     bold: 700,
+    extrabold: 800,
+    black: 900,
     sizes: {
       'desk-xsmall': '1rem',
       'desk-small': '1.1rem',
