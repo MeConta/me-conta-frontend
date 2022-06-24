@@ -18,6 +18,7 @@ export const WrapperTag = styled.div<TagProps>`
     background-color: ${backgroundColor ? backgroundColor : 'white'};
     border-radius: 4px;
     padding: 4px 16px;
+    display: inline-block;
   `}
 `
 export const TextTag = styled.span`
