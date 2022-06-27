@@ -13,7 +13,24 @@ jest.mock('store/auth-context')
 jest.mock('services/api/api', () => ({
   api: {
     get: jest.fn(() => ({
-      data: []
+      data: [
+        {
+          aprovado: null,
+          usuario: {
+            nome: 'Maria Silva',
+            id: 1,
+            frente: [0, 1, 2]
+          }
+        },
+        {
+          aprovado: null,
+          usuario: {
+            nome: 'João Souza',
+            id: 2,
+            frente: [0, 1]
+          }
+        }
+      ]
     }))
   }
 }))
@@ -63,5 +80,19 @@ describe('dashboard administrador page', () => {
         `/voluntarios/listar/2?status=${StatusAprovacao.APROVADO}`
       )
     })
+  })
+
+  it(`should render a table listing the volunteers with Status, Nome and Tipo`, async () => {
+    act(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Em aberto' }))
+    })
+
+    expect(screen.getByRole('table')).toBeInTheDocument()
+    expect(screen.getByText('Status')).toBeInTheDocument()
+    expect(screen.getByText('Nome')).toBeInTheDocument()
+    expect(screen.getByText('Tipo')).toBeInTheDocument()
+    expect(screen.getByText(/Maria Silva/)).toBeInTheDocument()
+    expect(screen.getByText(/João Souza/)).toBeInTheDocument()
+    expect(screen.getAllByText('Aberto')).toHaveLength(2)
   })
 })

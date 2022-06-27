@@ -38,6 +38,10 @@ export default {
     ceriseRed: '#DE3163',
     cobalt: '#0545AB',
     cornflowerBlue: '#458FF6',
+    harvestGold: '#DE8A0B',
+    blondYellow: '#FFF0C3',
+    emerald: '#50CD89',
+    honeydew: '#E8FFF3',
     malibu: '#67C3F3',
     mineShaft: '#333333',
     lightGray: '#848A8C',
@@ -49,6 +53,7 @@ export default {
     white: '#FFFFFF',
     black: '#000000',
     venetianRed: '#B2244D',
+    mistyRose: '#FFE8E8',
     spanishGray: '#A39C9C',
     transparent: 'transparent'
   },
