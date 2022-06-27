@@ -15,6 +15,11 @@ type WrapperProps = Pick<
 >
 
 const wrapperModifiers = {
+  small: (theme: DefaultTheme) => css`
+    min-height: 1.5rem;
+    font-size: ${theme.font.sizes['desk-large']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
+  `,
   medium: (theme: DefaultTheme) => css`
     min-height: 3rem;
     font-size: ${theme.font.sizes['desk-medium']};

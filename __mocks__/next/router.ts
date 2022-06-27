@@ -1,5 +1,6 @@
 const router = {
-  push: jest.fn()
+  push: jest.fn(),
+  useRouter: () => ({ push: jest.fn() })
 }
 
 export default router

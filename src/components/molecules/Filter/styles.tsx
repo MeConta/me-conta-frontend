@@ -24,6 +24,7 @@ export const ButtonFilter = styled.button<ButtonProps>`
     font-family: ${theme.font.family};
     padding: 1rem 2rem;
     border-radius: ${theme.border['btn-square-radius']};
+    white-space: nowrap;
 
     &:hover {
       background-color: ${active

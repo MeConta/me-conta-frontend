@@ -12,6 +12,8 @@ import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import { useEffect, useState } from 'react'
 import Tag from 'components/atoms/Tag'
 import theme from '../../styles/theme'
+import router from 'next/router'
+import { Button } from 'components/atoms/Button'
 
 type VolunteerStatus = 'Em aberto' | 'Aprovados' | 'Reprovados' | 'Todos'
 const volunteerStatus = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
@@ -66,6 +68,10 @@ function DashboardAdministrador() {
     }
   }
 
+  const redirectToVolunteerProfile = (id: number) => {
+    router.push(`/dashboard-administrador/perfil-voluntario/${id}`)
+  }
+
   return (
     <S.WrapperDashboard>
       <S.Title> Lista de Voluntários </S.Title>
@@ -91,7 +97,14 @@ function DashboardAdministrador() {
             <td>{volunteer.usuario.nome}</td>
             <td>{volunteer.frentes}</td>
             <td>
-              <button>ver perfil</button>
+              <Button
+                color="secondary"
+                size="small"
+                radius="square"
+                onClick={() => redirectToVolunteerProfile(volunteer.usuario.id)}
+              >
+                Ver Perfil
+              </Button>
             </td>
           </tr>
         ))}

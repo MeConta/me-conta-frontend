@@ -7,36 +7,48 @@ import { UserType } from 'enums/user-type.enum'
 import userEvent from '@testing-library/user-event'
 import { api } from 'services/api/api'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
+import router from 'next/router'
 
 jest.mock('store/auth-context')
+
+const volunteersData = [
+  {
+    aprovado: null,
+    usuario: {
+      nome: 'Maria Silva',
+      id: 1,
+      frente: [0, 1, 2]
+    }
+  },
+  {
+    aprovado: false,
+    usuario: {
+      nome: 'João Souza',
+      id: 2,
+      frente: [0, 1]
+    }
+  },
+  {
+    aprovado: true,
+    usuario: {
+      nome: 'Bia Barboza',
+      id: 3,
+      frente: [0, 2]
+    }
+  }
+]
 
 jest.mock('services/api/api', () => ({
   api: {
     get: jest.fn(() => ({
-      data: [
-        {
-          aprovado: null,
-          usuario: {
-            nome: 'Maria Silva',
-            id: 1,
-            frente: [0, 1, 2]
-          }
-        },
-        {
-          aprovado: null,
-          usuario: {
-            nome: 'João Souza',
-            id: 2,
-            frente: [0, 1]
-          }
-        }
-      ]
+      data: volunteersData
     }))
   }
 }))
 
 jest.mock('next/router', () => ({
-  useRouter: () => ({ push: jest.fn() })
+  useRouter: () => ({ push: jest.fn() }),
+  push: jest.fn()
 }))
 
 jest.mock('services/toast-service/toast-service', () => {
@@ -47,6 +59,9 @@ jest.mock('services/toast-service/toast-service', () => {
 })
 
 const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
+
+const getByRoleAndName = (role: string, name: string) =>
+  screen.getByRole(role, { name })
 
 describe('dashboard administrador page', () => {
   beforeEach(() => {
@@ -82,17 +97,36 @@ describe('dashboard administrador page', () => {
     })
   })
 
-  it(`should render a table listing the volunteers with Status, Nome and Tipo`, async () => {
+  it(`should render a table with headers (Status, Nome and Tipo)`, async () => {
     act(() => {
       userEvent.click(screen.getByRole('button', { name: 'Em aberto' }))
     })
 
     expect(screen.getByRole('table')).toBeInTheDocument()
-    expect(screen.getByText('Status')).toBeInTheDocument()
-    expect(screen.getByText('Nome')).toBeInTheDocument()
-    expect(screen.getByText('Tipo')).toBeInTheDocument()
-    expect(screen.getByText(/Maria Silva/)).toBeInTheDocument()
-    expect(screen.getByText(/João Souza/)).toBeInTheDocument()
-    expect(screen.getAllByText('Aberto')).toHaveLength(2)
+    expect(getByRoleAndName('columnheader', 'Status')).toBeInTheDocument()
+    expect(getByRoleAndName('columnheader', 'Nome')).toBeInTheDocument()
+    expect(getByRoleAndName('columnheader', 'Tipo')).toBeInTheDocument()
+    expect(getByRoleAndName('columnheader', '')).toBeInTheDocument()
+  })
+
+  it(`should render a table with volunteers rows information`, async () => {
+    act(() => {
+      userEvent.click(screen.getByRole('button', { name: 'Em aberto' }))
+    })
+    expect(screen.getByText(volunteersData[0].usuario.nome)).toBeInTheDocument()
+    expect(getByRoleAndName('cell', 'Aberto')).toBeInTheDocument()
+    expect(getByRoleAndName('cell', 'Reprovado')).toBeInTheDocument()
+    expect(getByRoleAndName('cell', 'Aprovado')).toBeInTheDocument()
+    expect(screen.getAllByRole('button', { name: 'Ver Perfil' })).toHaveLength(
+      3
+    )
+  })
+
+  it('should redirect to volunteers profile page when clicked on the button Ver Perfil', () => {
+    userEvent.click(screen.getAllByRole('button', { name: 'Ver Perfil' })[0])
+
+    expect(router.push).toHaveBeenCalledWith(
+      '/dashboard-administrador/perfil-voluntario/1'
+    )
   })
 })
