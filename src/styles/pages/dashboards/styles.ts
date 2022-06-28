@@ -117,3 +117,10 @@ export const Title = styled.p`
     color: #333333;
   `}
 `
+export const ContainerDashboard = styled.div`
+  ${({ theme }) => css`
+    background-color: white;
+    border-radius: ${theme.border['card-radius']};
+    padding: ${theme.spacings.large};
+  `}
+`
