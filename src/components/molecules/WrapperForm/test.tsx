@@ -7,7 +7,7 @@ describe('<WrapperForm />', () => {
   const content = <div data-testid="form-content"></div>
 
   it('should render content and Me Conta logo', () => {
-    render(<WrapperForm logoSrc="/mockimage.png">{content}</WrapperForm>)
+    render(<WrapperForm>{content}</WrapperForm>)
 
     expect(
       screen.getByRole('img', { name: 'Logo Me Conta' })
@@ -17,12 +17,7 @@ describe('<WrapperForm />', () => {
 
   it('should render title passed to the wrapper', () => {
     render(
-      <WrapperForm
-        title={<h1>Título do Formulário</h1>}
-        logoSrc="/mockimage.png"
-      >
-        {content}
-      </WrapperForm>
+      <WrapperForm title={<h1>Título do Formulário</h1>}>{content}</WrapperForm>
     )
 
     expect(
@@ -31,21 +26,14 @@ describe('<WrapperForm />', () => {
   })
 
   it('should not render NavigationLocation component when prop passoCadastro is not passed', () => {
-    render(
-      <WrapperForm tipoDeUsuario={UserType.ALUNO} logoSrc="/mockimage.png">
-        {content}
-      </WrapperForm>
-    )
+    render(<WrapperForm tipoDeUsuario={UserType.ALUNO}>{content}</WrapperForm>)
 
     expect(screen.queryByTestId('navigationContainer')).not.toBeInTheDocument()
   })
 
   it('should not render NavigationLocation component when prop tipoDeUsuario is not passed', () => {
     render(
-      <WrapperForm
-        passoCadastro={PassosCadastro.CRIAR_CONTA}
-        logoSrc="/mockimage.png"
-      >
+      <WrapperForm passoCadastro={PassosCadastro.CRIAR_CONTA}>
         {content}
       </WrapperForm>
     )
@@ -58,7 +46,6 @@ describe('<WrapperForm />', () => {
       <WrapperForm
         passoCadastro={PassosCadastro.CRIAR_CONTA}
         tipoDeUsuario={UserType.ALUNO}
-        logoSrc="/mockimage.png"
       >
         {content}
       </WrapperForm>
@@ -72,7 +59,6 @@ describe('<WrapperForm />', () => {
       <WrapperForm
         passoCadastro={PassosCadastro.CRIAR_CONTA}
         tipoDeUsuario={UserType.ALUNO}
-        logoSrc="/mockimage.png"
         actionItems={[
           <button key="0">edit</button>,
           <button key="1">close</button>

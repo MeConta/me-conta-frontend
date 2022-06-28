@@ -11,7 +11,6 @@ type WrapperFormProps = {
   title?: ReactNode
   borderPresent?: boolean
   padding?: string
-  logoSrc?: string | StaticImageData
   logoSize?: 'small' | 'medium'
   shape?: 'square'
   tipoDeUsuario?: UserType
@@ -26,7 +25,6 @@ export const WrapperForm = ({
   title,
   borderPresent,
   padding,
-  logoSrc = Logo,
   logoSize = 'medium',
   shape,
   tipoDeUsuario,
@@ -65,7 +63,7 @@ export const WrapperForm = ({
       <Link href="/">
         <a>
           <Image
-            src={logoSrc}
+            src={Logo.src}
             alt="Logo Me Conta"
             width={logoSizes[logoSize].width}
             height={logoSizes[logoSize].height}
