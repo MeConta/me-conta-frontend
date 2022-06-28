@@ -6,8 +6,8 @@ type MockImageProps = {
   alt: string
 }
 
-const image = ({ alt }: MockImageProps) => {
-  return <img alt={alt} />
+const image = ({ alt, src}: MockImageProps) => {
+  return <img alt={alt} src={src}/>
 }
 
 export default image
