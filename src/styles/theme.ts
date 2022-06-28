@@ -46,6 +46,7 @@ export default {
     mineShaft: '#333333',
     lightGray: '#848A8C',
     xlightGray: '#e6e6e6',
+    brightGray: '#EFEFEF',
     gray: '#828282',
     silverChalice: '#ABABAB',
     backgroundGray: '#F4F7F9',

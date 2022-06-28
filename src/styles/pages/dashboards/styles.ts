@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { HourglassEmpty } from '@styled-icons/material'
 
 const screenBreakingPoint = '895px'
 
@@ -122,5 +123,37 @@ export const ContainerDashboard = styled.div`
     background-color: white;
     border-radius: ${theme.border['card-radius']};
     padding: ${theme.spacings.large};
+  `}
+`
+
+export const HourglassIcon = styled(HourglassEmpty)`
+  height: 2rem;
+`
+
+export const MessageContainer = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    background-color: white;
+    flex-direction: row;
+    justify-content: center;
+    gap: ${theme.spacings.xxsmall};
+    text-align: center;
+    color: ${theme.colors.mineShaft};
+    font-size: ${theme.font.sizes['desk-large']};
+    font-weight: ${theme.font.bold};
+    border-top: 2px ${theme.colors.brightGray} dashed;
+    border-bottom: 2px ${theme.colors.brightGray} dashed;
+    padding: ${theme.spacings.xlarge};
+    width: 100%;
+  `}
+`
+
+export const SectionContainer = styled.section`
+  ${({ theme }) => css`
+    width: 100%;
+    margin-top: ${theme.spacings.xmedium};
+    padding: ${theme.spacings.large} ${theme.spacings.xxxlarge};
+    background-color: ${theme.colors.white};
+    border-radius: ${theme.border['card-radius']};
   `}
 `

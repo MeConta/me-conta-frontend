@@ -15,30 +15,58 @@ import theme from '../../styles/theme'
 import router from 'next/router'
 import { Button } from 'components/atoms/Button'
 
-type VolunteerStatus = 'Em aberto' | 'Aprovados' | 'Reprovados' | 'Todos'
-const volunteerStatus = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
+enum VolunteerStatus {
+  EM_ABERTO = 'Em aberto',
+  APROVADOS = 'Aprovados',
+  REPROVADOS = 'Reprovados',
+  TODOS = 'Todos'
+}
+
+const volunteerStatus = [
+  VolunteerStatus.EM_ABERTO,
+  VolunteerStatus.APROVADOS,
+  VolunteerStatus.REPROVADOS,
+  VolunteerStatus.TODOS
+]
 
 function DashboardAdministrador() {
   const [volunteers, setVolunteers] = useState<VolunteerResponse[]>([])
+  const [statusLabel, setStatusLabel] = useState<string>('em aberto')
 
   const volunteerService = new VolunteerService(api)
 
   const fetchVolunteers = async (approvalStatus?: StatusAprovacao) => {
-    const fetchedVolunteers = await volunteerService.findByApprovalStatus(
-      approvalStatus
-    )
-    setVolunteers(fetchedVolunteers)
+    try {
+      const fetchedVolunteers = await volunteerService.findByApprovalStatus(
+        approvalStatus
+      )
+      setVolunteers(fetchedVolunteers)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateStatusLabel = (status: VolunteerStatus) => {
+    const statusLabels = {
+      [VolunteerStatus.EM_ABERTO]: 'em aberto',
+      [VolunteerStatus.APROVADOS]: 'aprovado',
+      [VolunteerStatus.REPROVADOS]: 'reprovado',
+      [VolunteerStatus.TODOS]: 'cadastrado'
+    }
+
+    setStatusLabel(statusLabels[status])
   }
 
   const onSelectedFilter = async (filterName: VolunteerStatus) => {
     const statusByFilterName = {
-      'Em aberto': StatusAprovacao.ABERTO,
-      Aprovados: StatusAprovacao.APROVADO,
-      Reprovados: StatusAprovacao.REPROVADO,
-      Todos: undefined
+      [VolunteerStatus.EM_ABERTO]: StatusAprovacao.ABERTO,
+      [VolunteerStatus.APROVADOS]: StatusAprovacao.APROVADO,
+      [VolunteerStatus.REPROVADOS]: StatusAprovacao.REPROVADO,
+      [VolunteerStatus.TODOS]: undefined
     }
 
     await fetchVolunteers(statusByFilterName[filterName])
+    updateStatusLabel(filterName)
   }
 
   useEffect(() => {
@@ -76,39 +104,58 @@ function DashboardAdministrador() {
     <S.WrapperDashboard>
       <S.Title> Lista de Voluntários </S.Title>
       <Filter filterOptions={volunteerStatus} handleClick={onSelectedFilter} />
-      <STable.TableContainer>
-        <tr>
-          <th>Status</th>
-          <th>Nome</th>
-          <th>Tipo</th>
-          <th></th>
-        </tr>
-        {volunteers.map((volunteer) => (
-          <tr key={volunteer.usuario.id}>
-            <td>
-              <Tag
-                title={getTagAttributes(volunteer.aprovado).title}
-                titleColor={getTagAttributes(volunteer.aprovado).titleColor}
-                backgroundColor={
-                  getTagAttributes(volunteer.aprovado).backgroundColor
-                }
-              ></Tag>
-            </td>
-            <td>{volunteer.usuario.nome}</td>
-            <td>{volunteer.frentes}</td>
-            <td>
-              <Button
-                color="secondary"
-                size="small"
-                radius="square"
-                onClick={() => redirectToVolunteerProfile(volunteer.usuario.id)}
-              >
-                Ver Perfil
-              </Button>
-            </td>
-          </tr>
-        ))}
-      </STable.TableContainer>
+      {volunteers?.length > 0 && (
+        <STable.TableContainer>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {volunteers?.map((volunteer) => {
+              const tagAttributes = getTagAttributes(volunteer?.aprovado)
+
+              return (
+                <tr key={volunteer.usuario.id}>
+                  <td>
+                    <Tag
+                      title={tagAttributes?.title}
+                      titleColor={tagAttributes?.titleColor}
+                      backgroundColor={tagAttributes?.backgroundColor}
+                    ></Tag>
+                  </td>
+                  <td>{volunteer.usuario.nome}</td>
+                  <td>{volunteer.frentes}</td>
+                  <td>
+                    <Button
+                      color="secondary"
+                      size="small"
+                      radius="square"
+                      onClick={() =>
+                        redirectToVolunteerProfile(volunteer.usuario.id)
+                      }
+                    >
+                      Ver Perfil
+                    </Button>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </STable.TableContainer>
+      )}
+
+      {!volunteers.length && (
+        <S.SectionContainer>
+          <S.MessageContainer>
+            <S.HourglassIcon />
+            <p>Nenhum voluntário {statusLabel} no momento.</p>
+          </S.MessageContainer>
+        </S.SectionContainer>
+      )}
     </S.WrapperDashboard>
   )
 }

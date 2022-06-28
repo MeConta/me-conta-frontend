@@ -58,7 +58,12 @@ jest.mock('services/toast-service/toast-service', () => {
   return { useToast, ToastType: { SUCCESS: 'sucesso' } }
 })
 
-const filters = ['Em aberto', 'Aprovados', 'Reprovados', 'Todos']
+const statusLabels = [
+  ['Em aberto', 'em aberto'],
+  ['Aprovados', 'aprovado'],
+  ['Reprovados', 'reprovado'],
+  ['Todos', 'cadastrado']
+]
 
 const getByRoleAndName = (role: string, name: string) =>
   screen.getByRole(role, { name })
@@ -80,11 +85,13 @@ describe('dashboard administrador page', () => {
     expect(screen.getByText(/Lista de Voluntários/)).toBeInTheDocument()
   })
 
-  for (const filter of filters) {
-    it(`should render page with button ${filter}`, () => {
-      expect(screen.getByRole('button', { name: filter })).toBeInTheDocument()
-    })
-  }
+  it.each(statusLabels)(
+    `should render page with filter button %p`,
+    (status) => {
+      expect(screen.getByRole('button', { name: status })).toBeInTheDocument()
+    }
+  )
+
   it(`should call endpoint to get volunteers by status when a filter button is clicked`, async () => {
     act(() => {
       userEvent.click(screen.getByRole('button', { name: 'Aprovados' }))
@@ -129,4 +136,19 @@ describe('dashboard administrador page', () => {
       '/dashboard-administrador/perfil-voluntario/1'
     )
   })
+
+  it.each(statusLabels)(
+    'should show message instead of table if there are no volunteers with %p status in the list',
+    async (status, statusLabel) => {
+      jest.spyOn(api, 'get').mockResolvedValue({ data: [] })
+
+      userEvent.click(getByRoleAndName('button', status))
+
+      expect(
+        await screen.findByText(`Nenhum voluntário ${statusLabel} no momento.`)
+      ).toBeInTheDocument()
+
+      expect(screen.queryByRole('table')).not.toBeInTheDocument()
+    }
+  )
 })
