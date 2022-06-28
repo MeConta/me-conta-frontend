@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useState } from 'react'
 import { Button } from 'components/atoms/Button'
 import { WrapperForm } from '../WrapperForm'
 import { Close } from '@styled-icons/material'
-import Logo from '../../../../public/assets/logo.png'
 import router from 'next/router'
 import useDelayUnmount from 'utils/animations/useDelayUnmount'
 
@@ -23,7 +22,6 @@ interface ConfirmationDialogProps {
   buttonLink?: string
   buttonAction?: () => void
   buttonColor?: 'primary' | 'secondary'
-  logoSrc?: string | StaticImageData
   isModal?: boolean
   isClosable?: boolean
 }
@@ -35,7 +33,6 @@ export default function ConfirmationDialog({
   subtitleInfo,
   buttonText,
   buttonLink,
-  logoSrc = Logo,
   isModal,
   isClosable,
   buttonColor,
@@ -97,7 +94,6 @@ export default function ConfirmationDialog({
         logoSize="small"
         shape="square"
         id={isModal ? 'modal' : ''}
-        logoSrc={logoSrc}
         actionItems={
           isModal && isClosable
             ? [

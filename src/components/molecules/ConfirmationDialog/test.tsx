@@ -7,13 +7,7 @@ describe('<ConfirmationDialog />', () => {
   const buttonText = 'texto botão'
 
   it('should render ConfirmationDialog with a title and button', () => {
-    render(
-      <ConfirmationDialog
-        logoSrc="/teste.png"
-        buttonText={buttonText}
-        title={'Título'}
-      />
-    )
+    render(<ConfirmationDialog buttonText={buttonText} title={'Título'} />)
 
     expect(screen.getByText('Título')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: buttonText })).toBeInTheDocument()
@@ -22,7 +16,6 @@ describe('<ConfirmationDialog />', () => {
   it('should render ConfirmationDialog with a decorated title', () => {
     const { container } = render(
       <ConfirmationDialog
-        logoSrc="/teste.png"
         buttonText={buttonText}
         titleInfo={{ preText: 'Título', boldText: 'em destaque' }}
       />
@@ -33,13 +26,7 @@ describe('<ConfirmationDialog />', () => {
   })
 
   it('should render ConfirmationDialog with a subtitle', () => {
-    render(
-      <ConfirmationDialog
-        logoSrc="/teste.png"
-        buttonText={buttonText}
-        subtitle="Subtítulo"
-      />
-    )
+    render(<ConfirmationDialog buttonText={buttonText} subtitle="Subtítulo" />)
 
     expect(screen.getByText('Subtítulo')).toBeInTheDocument()
   })
@@ -47,7 +34,6 @@ describe('<ConfirmationDialog />', () => {
   it('should render ConfirmationDialog with a decorated subtitle', () => {
     const { container } = render(
       <ConfirmationDialog
-        logoSrc="/teste.png"
         buttonText={buttonText}
         subtitleInfo={{
           preText: 'Subtítulo',
@@ -64,11 +50,7 @@ describe('<ConfirmationDialog />', () => {
 
   it('should redirect to link when clicking on button', () => {
     render(
-      <ConfirmationDialog
-        logoSrc="/teste.png"
-        buttonText={buttonText}
-        buttonLink="/rota-teste"
-      />
+      <ConfirmationDialog buttonText={buttonText} buttonLink="/rota-teste" />
     )
 
     userEvent.click(screen.getByRole('button', { name: buttonText }))
@@ -77,7 +59,7 @@ describe('<ConfirmationDialog />', () => {
   })
 
   it('should redirect to home when clicking on button if no buttonLink is provided', () => {
-    render(<ConfirmationDialog logoSrc="/teste.png" buttonText={buttonText} />)
+    render(<ConfirmationDialog buttonText={buttonText} />)
 
     userEvent.click(screen.getByRole('button', { name: buttonText }))
 
@@ -87,7 +69,6 @@ describe('<ConfirmationDialog />', () => {
   it('should close the dialog after clicking in close button', async () => {
     render(
       <ConfirmationDialog
-        logoSrc="/teste.png"
         buttonText={buttonText}
         buttonLink="/rota-teste"
         isModal={true}
@@ -104,7 +85,6 @@ describe('<ConfirmationDialog />', () => {
     beforeEach(() => {
       render(
         <ConfirmationDialog
-          logoSrc="/teste.png"
           buttonText={buttonText}
           buttonLink="/rota-teste"
           isModal={true}
