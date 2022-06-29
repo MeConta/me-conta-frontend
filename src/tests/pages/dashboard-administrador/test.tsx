@@ -1,4 +1,10 @@
-import { act, render, screen, waitFor } from '../../../utils/tests/helpers'
+import {
+  act,
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved
+} from '../../../utils/tests/helpers'
 import React from 'react'
 import * as AuthorizationContext from '../../../store/auth-context'
 import createAuthContextObject from '../../../utils/tests/createAuthContextObject'
@@ -69,7 +75,7 @@ const getByRoleAndName = (role: string, name: string) =>
   screen.getByRole(role, { name })
 
 describe('dashboard administrador page', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest
       .spyOn(AuthorizationContext, 'useAuthContext')
       .mockReturnValue(
@@ -79,6 +85,8 @@ describe('dashboard administrador page', () => {
     act(() => {
       render(<DashboardAdministrador />)
     })
+
+    await waitForElementToBeRemoved(screen.getByTestId('loader'))
   })
 
   it('should render title Lista de Voluntários', () => {
@@ -105,10 +113,6 @@ describe('dashboard administrador page', () => {
   })
 
   it(`should render a table with headers (Status, Nome and Tipo)`, async () => {
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Em aberto' }))
-    })
-
     expect(screen.getByRole('table')).toBeInTheDocument()
     expect(getByRoleAndName('columnheader', 'Status')).toBeInTheDocument()
     expect(getByRoleAndName('columnheader', 'Nome')).toBeInTheDocument()
@@ -117,9 +121,6 @@ describe('dashboard administrador page', () => {
   })
 
   it(`should render a table with volunteers rows information`, async () => {
-    act(() => {
-      userEvent.click(screen.getByRole('button', { name: 'Em aberto' }))
-    })
     expect(screen.getByText(volunteersData[0].usuario.nome)).toBeInTheDocument()
     expect(getByRoleAndName('cell', 'Aberto')).toBeInTheDocument()
     expect(getByRoleAndName('cell', 'Reprovado')).toBeInTheDocument()
@@ -140,7 +141,7 @@ describe('dashboard administrador page', () => {
   it.each(statusLabels)(
     'should show message instead of table if there are no volunteers with %p status in the list',
     async (status, statusLabel) => {
-      jest.spyOn(api, 'get').mockResolvedValue({ data: [] })
+      jest.spyOn(api, 'get').mockResolvedValueOnce({ data: [] })
 
       userEvent.click(getByRoleAndName('button', status))
 
@@ -151,4 +152,14 @@ describe('dashboard administrador page', () => {
       expect(screen.queryByRole('table')).not.toBeInTheDocument()
     }
   )
+
+  it('should show loader while data is being required', async () => {
+    act(() => {
+      userEvent.click(getByRoleAndName('button', 'Aprovados'))
+    })
+
+    expect(screen.getByTestId('loader')).toBeInTheDocument()
+
+    expect(await screen.findByRole('table')).toBeInTheDocument()
+  })
 })

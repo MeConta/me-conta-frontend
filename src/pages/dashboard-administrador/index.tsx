@@ -14,6 +14,7 @@ import Tag from 'components/atoms/Tag'
 import theme from '../../styles/theme'
 import router from 'next/router'
 import { Button } from 'components/atoms/Button'
+import Loader from 'components/atoms/Loader'
 
 enum VolunteerStatus {
   EM_ABERTO = 'Em aberto',
@@ -32,10 +33,13 @@ const volunteerStatus = [
 function DashboardAdministrador() {
   const [volunteers, setVolunteers] = useState<VolunteerResponse[]>([])
   const [statusLabel, setStatusLabel] = useState<string>('em aberto')
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const volunteerService = new VolunteerService(api)
 
   const fetchVolunteers = async (approvalStatus?: StatusAprovacao) => {
+    setIsLoading(true)
+
     try {
       const fetchedVolunteers = await volunteerService.findByApprovalStatus(
         approvalStatus
@@ -43,6 +47,8 @@ function DashboardAdministrador() {
       setVolunteers(fetchedVolunteers)
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -104,7 +110,14 @@ function DashboardAdministrador() {
     <S.WrapperDashboard>
       <S.Title> Lista de Voluntários </S.Title>
       <Filter filterOptions={volunteerStatus} handleClick={onSelectedFilter} />
-      {volunteers?.length > 0 && (
+
+      {isLoading && (
+        <S.SectionContainer>
+          <Loader />
+        </S.SectionContainer>
+      )}
+
+      {volunteers?.length > 0 && !isLoading && (
         <STable.TableContainer>
           <thead>
             <tr>
@@ -148,7 +161,7 @@ function DashboardAdministrador() {
         </STable.TableContainer>
       )}
 
-      {!volunteers.length && (
+      {!volunteers.length && !isLoading && (
         <S.SectionContainer>
           <S.MessageContainer>
             <S.HourglassIcon />
