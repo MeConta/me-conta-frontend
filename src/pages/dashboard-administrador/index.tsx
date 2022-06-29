@@ -15,6 +15,10 @@ import theme from '../../styles/theme'
 import router from 'next/router'
 import { Button } from 'components/atoms/Button'
 import Loader from 'components/atoms/Loader'
+import Acolhimento from '../../../public/assets/volunteer/services/acolhimentoIcon.png'
+import CoachingEstudos from '../../../public/assets/volunteer/services/coachingEstudosIcon.png'
+import OrientacaoVocacional from '../../../public/assets/volunteer/services/orientacaoVocacionalIcon.png'
+import ImageIcon from 'components/atoms/ImageIcon'
 
 enum VolunteerStatus {
   EM_ABERTO = 'Em aberto',
@@ -102,8 +106,51 @@ function DashboardAdministrador() {
     }
   }
 
+  const getIconsAttributes = (service: number) => {
+    switch (service) {
+      case 0:
+        return {
+          imageSrc: Acolhimento.src,
+          imageAlt: 'acolhimento',
+          backgroundColor: '#F8F5FF',
+          tooltip: 'Acolhimento'
+        }
+      case 1:
+        return {
+          imageSrc: CoachingEstudos.src,
+          imageAlt: 'Coaching de Estudos',
+          backgroundColor: '#E8FFF3',
+          tooltip: 'Coaching de Estudos'
+        }
+      default:
+        return {
+          imageSrc: OrientacaoVocacional.src,
+          imageAlt: 'Orientação Vocacional',
+          backgroundColor: '#F1FAFF',
+          tooltip: 'Orientação Vocacional'
+        }
+    }
+  }
+
   const redirectToVolunteerProfile = (id: number) => {
     router.push(`/dashboard-administrador/perfil-voluntario/${id}`)
+  }
+
+  const renderVolunteerServices = (services: number[]) => {
+    return services?.map((service) => {
+      const value = getIconsAttributes(service)
+      return (
+        <ImageIcon
+          key={service}
+          backgroundColor={value.backgroundColor}
+          imageAlt={value.imageAlt}
+          imageSrc={value.imageSrc}
+          tooltip={value.tooltip}
+          imageHeight={24}
+          imageWidth={24.63}
+        />
+      )
+    })
   }
 
   return (
@@ -118,6 +165,7 @@ function DashboardAdministrador() {
       )}
 
       {volunteers?.length > 0 && !isLoading && (
+        <STable.WrapperTable>
         <STable.TableContainer>
           <thead>
             <tr>
@@ -128,38 +176,40 @@ function DashboardAdministrador() {
             </tr>
           </thead>
           <tbody>
-            {volunteers?.map((volunteer) => {
-              const tagAttributes = getTagAttributes(volunteer?.aprovado)
-
-              return (
-                <tr key={volunteer.usuario.id}>
-                  <td>
-                    <Tag
-                      title={tagAttributes?.title}
-                      titleColor={tagAttributes?.titleColor}
-                      backgroundColor={tagAttributes?.backgroundColor}
-                    ></Tag>
-                  </td>
-                  <td>{volunteer.usuario.nome}</td>
-                  <td>{volunteer.frentes}</td>
-                  <td>
-                    <Button
-                      color="secondary"
-                      size="small"
-                      radius="square"
-                      onClick={() =>
-                        redirectToVolunteerProfile(volunteer.usuario.id)
-                      }
-                    >
-                      Ver Perfil
-                    </Button>
-                  </td>
-                </tr>
-              )
-            })}
+            {volunteers.map((volunteer) => (
+              <tr key={volunteer.usuario.id}>
+                <td>
+                  <Tag
+                    title={getTagAttributes(volunteer.aprovado).title}
+                    titleColor={getTagAttributes(volunteer.aprovado).titleColor}
+                    backgroundColor={
+                      getTagAttributes(volunteer.aprovado).backgroundColor
+                    }
+                  ></Tag>
+                </td>
+                <td>{volunteer.usuario.nome}</td>
+                <td>
+                  <STable.CellContainer>
+                    {renderVolunteerServices(volunteer.frentes)}
+                  </STable.CellContainer>
+                </td>
+                <td>
+                  <Button
+                    color="secondary"
+                    size="small"
+                    radius="square"
+                    onClick={() =>
+                      redirectToVolunteerProfile(volunteer.usuario.id)
+                    }
+                  >
+                    Ver Perfil
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </STable.TableContainer>
-      )}
+        </STable.WrapperTable>)}
 
       {!volunteers.length && !isLoading && (
         <S.SectionContainer>

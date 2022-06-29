@@ -3,7 +3,8 @@ import {
   render,
   screen,
   waitFor,
-  waitForElementToBeRemoved
+  waitForElementToBeRemoved,
+  within,
 } from '../../../utils/tests/helpers'
 import React from 'react'
 import * as AuthorizationContext from '../../../store/auth-context'
@@ -14,43 +15,40 @@ import userEvent from '@testing-library/user-event'
 import { api } from 'services/api/api'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import router from 'next/router'
+import Acolhimento from '../../public/assets/volunteer/services/acolhimentoIcon.png'
+import CoachingEstudos from '../../public/assets/volunteer/services/coachingEstudosIcon.png'
+import OrientacaoVocacional from '../../public/assets/volunteer/services/orientacaoVocacionalIcon.png'
 
 jest.mock('store/auth-context')
+
+const icons = [Acolhimento, CoachingEstudos, OrientacaoVocacional]
 
 const volunteersData = [
   {
     aprovado: null,
     usuario: {
       nome: 'Maria Silva',
-      id: 1,
-      frente: [0, 1, 2]
-    }
+      id: 1
+    },
+    frentes: [0, 1, 2]
   },
   {
     aprovado: false,
     usuario: {
       nome: 'João Souza',
-      id: 2,
-      frente: [0, 1]
-    }
+      id: 2
+    },
+    frentes: [0, 1]
   },
   {
     aprovado: true,
     usuario: {
       nome: 'Bia Barboza',
-      id: 3,
-      frente: [0, 2]
-    }
+      id: 3
+    },
+    frentes: [0, 2]
   }
 ]
-
-jest.mock('services/api/api', () => ({
-  api: {
-    get: jest.fn(() => ({
-      data: volunteersData
-    }))
-  }
-}))
 
 jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -81,8 +79,9 @@ describe('dashboard administrador page', () => {
       .mockReturnValue(
         createAuthContextObject(true, UserType.ADMINISTRADOR.toString(), true)
       )
+    jest.spyOn(api, 'get').mockResolvedValue({ data: volunteersData })
 
-    act(() => {
+    await act(async () => {
       render(<DashboardAdministrador />)
     })
 
@@ -101,7 +100,7 @@ describe('dashboard administrador page', () => {
   )
 
   it(`should call endpoint to get volunteers by status when a filter button is clicked`, async () => {
-    act(() => {
+    await act(async () => {
       userEvent.click(screen.getByRole('button', { name: 'Aprovados' }))
     })
 
@@ -161,5 +160,19 @@ describe('dashboard administrador page', () => {
     expect(screen.getByTestId('loader')).toBeInTheDocument()
 
     expect(await screen.findByRole('table')).toBeInTheDocument()
+  })
+
+  it("should render the icons of voluteer's service (acolhimentoIcon.png, orientacaoVocacionalIcon.png, coachingEstudosIcon.png)", async () => {
+    await waitFor(async () => {
+      const firstRow = (
+        await screen.findAllByRole('row')
+      )[1] as HTMLTableRowElement
+      const images = await within(firstRow.cells[2]).findAllByRole('img')
+
+      expect(images).toHaveLength(3)
+      expect(images[0]).toHaveAttribute('src', icons[0].src)
+      expect(images[1]).toHaveAttribute('src', icons[1].src)
+      expect(images[2]).toHaveAttribute('src', icons[2].src)
+    })
   })
 })
