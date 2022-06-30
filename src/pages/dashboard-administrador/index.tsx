@@ -166,50 +166,53 @@ function DashboardAdministrador() {
 
       {volunteers?.length > 0 && !isLoading && (
         <STable.WrapperTable>
-        <STable.TableContainer>
-          <thead>
-            <tr>
-              <th>Status</th>
-              <th>Nome</th>
-              <th>Tipo</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {volunteers.map((volunteer) => (
-              <tr key={volunteer.usuario.id}>
-                <td>
-                  <Tag
-                    title={getTagAttributes(volunteer.aprovado).title}
-                    titleColor={getTagAttributes(volunteer.aprovado).titleColor}
-                    backgroundColor={
-                      getTagAttributes(volunteer.aprovado).backgroundColor
-                    }
-                  ></Tag>
-                </td>
-                <td>{volunteer.usuario.nome}</td>
-                <td>
-                  <STable.CellContainer>
-                    {renderVolunteerServices(volunteer.frentes)}
-                  </STable.CellContainer>
-                </td>
-                <td>
-                  <Button
-                    color="secondary"
-                    size="small"
-                    radius="square"
-                    onClick={() =>
-                      redirectToVolunteerProfile(volunteer.usuario.id)
-                    }
-                  >
-                    Ver Perfil
-                  </Button>
-                </td>
+          <STable.TableContainer>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </STable.TableContainer>
-        </STable.WrapperTable>)}
+            </thead>
+            <tbody>
+              {volunteers.map((volunteer) => (
+                <tr key={volunteer.usuario.id}>
+                  <td>
+                    <Tag
+                      title={getTagAttributes(volunteer.aprovado).title}
+                      titleColor={
+                        getTagAttributes(volunteer.aprovado).titleColor
+                      }
+                      backgroundColor={
+                        getTagAttributes(volunteer.aprovado).backgroundColor
+                      }
+                    ></Tag>
+                  </td>
+                  <td>{volunteer.usuario.nome}</td>
+                  <td>
+                    <STable.CellContainer>
+                      {renderVolunteerServices(volunteer.frentes)}
+                    </STable.CellContainer>
+                  </td>
+                  <td>
+                    <Button
+                      color="secondary"
+                      size="small"
+                      radius="square"
+                      onClick={() =>
+                        redirectToVolunteerProfile(volunteer.usuario.id)
+                      }
+                    >
+                      Ver Perfil
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </STable.TableContainer>
+        </STable.WrapperTable>
+      )}
 
       {!volunteers.length && !isLoading && (
         <S.SectionContainer>

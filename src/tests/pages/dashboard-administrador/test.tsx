@@ -3,8 +3,7 @@ import {
   render,
   screen,
   waitFor,
-  waitForElementToBeRemoved,
-  within,
+  within
 } from '../../../utils/tests/helpers'
 import React from 'react'
 import * as AuthorizationContext from '../../../store/auth-context'
@@ -84,8 +83,6 @@ describe('dashboard administrador page', () => {
     await act(async () => {
       render(<DashboardAdministrador />)
     })
-
-    await waitForElementToBeRemoved(screen.getByTestId('loader'))
   })
 
   it('should render title Lista de Voluntários', () => {
@@ -153,9 +150,7 @@ describe('dashboard administrador page', () => {
   )
 
   it('should show loader while data is being required', async () => {
-    act(() => {
-      userEvent.click(getByRoleAndName('button', 'Aprovados'))
-    })
+    userEvent.click(getByRoleAndName('button', 'Aprovados'))
 
     expect(screen.getByTestId('loader')).toBeInTheDocument()
 
