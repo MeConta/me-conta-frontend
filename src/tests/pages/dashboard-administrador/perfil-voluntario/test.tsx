@@ -4,7 +4,8 @@ import React from 'react'
 import createAuthContextObject from 'utils/tests/createAuthContextObject'
 import { act, render, screen } from 'utils/tests/helpers'
 import * as AuthorizationContext from '../../../../store/auth-context'
-import arrowLeftSrc from '../../../../../public/assets/volunteer/arrowLeft.png'
+import userEvent from '@testing-library/user-event'
+import router from 'next/router'
 
 jest.mock('store/auth-context')
 
@@ -31,14 +32,14 @@ describe('when in volunteer profile page', () => {
 
   it('should render button link to return to admin Dashboard', () => {
     expect(
-      screen.getByRole('button', { name: 'Voltar ao Dashboard' })
+      screen.getByRole('button', { name: /Voltar ao Dashboard/ })
     ).toBeInTheDocument()
   })
 
-  it.skip('should render Arrow Left image in button to return to dashboard', () => {
-    const arrowLeft = screen.findByRole('img')
-    expect(arrowLeft).toHaveAttribute('src', arrowLeftSrc)
-    expect(arrowLeft).toHaveAttribute('alt', 'Voltar ao Dashboard')
+  it('should redirect to dashboard admin when click in Voltar ao Dashboard', () => {
+    userEvent.click(screen.getByRole('button', { name: /Voltar ao Dashboard/ }))
+
+    expect(router.push).toHaveBeenCalledWith('/dashboard-administrador')
   })
 
   it.skip('should render input title for Perfil Voluntário container', () => {

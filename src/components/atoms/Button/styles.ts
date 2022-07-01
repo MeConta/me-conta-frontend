@@ -81,9 +81,9 @@ const wrapperModifiers = {
     background-color: transparent;
     color: ${theme.colors.venetianRed};
     font-size: 1.5rem;
-    text-decoration: underline;
     &:hover {
       background-color: transparent;
+      text-decoration: underline;
     }
   `,
   fillOver: (duration: number) => css`
