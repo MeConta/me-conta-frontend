@@ -1,7 +1,10 @@
 import { UserType } from 'enums/user-type.enum'
 import { authenticatedRoute } from '../../../utils/authentication/authenticationRoute'
 import * as S from '../../../styles/pages/dashboards/styles'
-import { TitleContainer } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
+import {
+  TitleContainer,
+  ContentWrapper
+} from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
 import { ArrowLeft } from 'styled-icons/bootstrap'
@@ -12,7 +15,7 @@ function PerfilVoluntario() {
   }
 
   return (
-    <S.WrapperDashboard>
+    <ContentWrapper>
       <TitleContainer>
         <S.Title> Perfil - Voluntário </S.Title>
         <Button onClick={goBack} btnStyle="link" prefixIcon={<ArrowLeft />}>
@@ -20,7 +23,7 @@ function PerfilVoluntario() {
         </Button>
       </TitleContainer>
       <S.ContainerDashboard></S.ContainerDashboard>
-    </S.WrapperDashboard>
+    </ContentWrapper>
   )
 }
 export default authenticatedRoute(PerfilVoluntario, {
