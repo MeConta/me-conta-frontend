@@ -11,6 +11,15 @@ export interface IVolunteerService {
   findByApprovalStatus(approvalStatus: number): Promise<VolunteerResponse[]>
 }
 
+export enum Gender {
+  M = 'Masculino',
+  F = 'Feminino',
+  NB = 'Não Binário',
+  ND = 'Não Declarado'
+}
+
+export type GenderTypes = keyof typeof Gender
+
 export interface VolunteerResponse {
   aprovado: boolean
   crp: string
@@ -21,6 +30,10 @@ export interface VolunteerResponse {
   frentes: number[]
   bio: string
   abordagem: string
+  genero: GenderTypes
+  cidade: string
+  UF: string
+  telefone: string
   usuario: {
     nome: string
     tipo: UserType
@@ -51,6 +64,11 @@ export class VolunteerService implements IVolunteerService {
         approvalStatus !== undefined ? `?status=${approvalStatus}` : ''
       }`
     )
+    return res.data
+  }
+
+  async findById(id: number): Promise<VolunteerResponse> {
+    const res = await this.service.get(`/voluntarios/${id}`)
     return res.data
   }
 }

@@ -109,7 +109,7 @@ export const NewUserCardText = styled.p`
   `}
 `
 
-export const Title = styled.p`
+export const Title = styled.h1`
   ${({ theme }) => css`
     font-weight: ${theme.font.black};
     font-size: ${theme.font.sizes['desk-xxlarge']};
@@ -118,6 +118,16 @@ export const Title = styled.p`
     color: #333333;
   `}
 `
+
+export const SecondLevelTitle = styled.h2`
+  ${({ theme }) => css`
+    font-family: ${theme.font.family};
+    font-weight: ${theme.font.bold};
+    font-size: ${theme.font.sizes['desk-xlarge']};
+    margin: 27px 0;
+  `}
+`
+
 export const ContainerDashboard = styled.div`
   ${({ theme }) => css`
     background-color: white;
@@ -155,5 +165,20 @@ export const SectionContainer = styled.section`
     padding: ${theme.spacings.large} ${theme.spacings.xxxlarge};
     background-color: ${theme.colors.white};
     border-radius: ${theme.border['card-radius']};
+  `}
+`
+
+export const SectionDetailsText = styled.p`
+  ${({ theme }) => css`
+    font-family: ${theme.font.family};
+    font-weight: ${theme.font.normal};
+    font-size: ${theme.font.sizes['desk-large']};
+    line-height: 30px;
+  `}
+`
+
+export const SectionDetailsTextHighlight = styled.b`
+  ${({ theme }) => css`
+    font-weight: ${theme.font.semibold};
   `}
 `

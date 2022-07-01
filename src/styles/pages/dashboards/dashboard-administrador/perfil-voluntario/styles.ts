@@ -1,6 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const screenBreakingPoint = '895px'
+
+type SectionDetailsProps = {
+  width: string
+}
 
 export const TitleContainer = styled.div`
   display: flex;
@@ -25,4 +29,18 @@ export const ContentWrapper = styled.div`
   min-height: 70vh;
   padding: 0 18px;
   margin: 4rem;
+`
+
+export const SectionDetailsContainer = styled.section`
+  display: flex;
+
+  @media (max-width: ${screenBreakingPoint}) {
+    flex-direction: column;
+  }
+`
+
+export const SectionDetails = styled.div<SectionDetailsProps>`
+  ${({ width }) => css`
+    width: ${width};
+  `}
 `
