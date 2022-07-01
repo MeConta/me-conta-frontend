@@ -7,7 +7,7 @@ import {
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import { ArrowLeft } from 'styled-icons/bootstrap'
+import { ArrowLeft, CheckLg } from 'styled-icons/bootstrap'
 
 function PerfilVoluntario() {
   const goBack = function () {
@@ -22,7 +22,16 @@ function PerfilVoluntario() {
           Voltar ao Dashboard
         </Button>
       </TitleContainer>
-      <S.ContainerDashboard></S.ContainerDashboard>
+      <S.ContainerDashboard>
+        <Button
+          color="success"
+          radius="square"
+          size="xMedium"
+          sufixIcon={<CheckLg />}
+        >
+          APROVAR
+        </Button>
+      </S.ContainerDashboard>
     </ContentWrapper>
   )
 }

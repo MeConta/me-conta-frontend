@@ -12,6 +12,7 @@ type WrapperProps = Pick<
   | 'isLoading'
   | 'fillOver'
   | 'fillOverDuration'
+  | 'sufixIcon'
 >
 
 const wrapperModifiers = {
@@ -34,6 +35,11 @@ const wrapperModifiers = {
     min-height: 6rem;
     font-size: ${theme.font.sizes['desk-glarge']};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.medium};
+  `,
+  xMedium: (theme: DefaultTheme) => css`
+    min-height: 5rem;
+    font-size: ${theme.font.sizes['desk-large']};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.xlarge};
   `,
   primary: (theme: DefaultTheme) => css`
     background: ${theme.colors.cornflowerBlue};
@@ -59,6 +65,14 @@ const wrapperModifiers = {
     &:hover {
       color: ${theme.colors.maroonFlush};
       transition: color 0.2s;
+    }
+  `,
+  success: (theme: DefaultTheme) => css`
+    background: ${theme.colors.darkPastelGreen};
+
+    &:hover {
+      background-color: ${theme.colors.emerald};
+      transition: background-color 0.2s;
     }
   `,
   round: (theme: DefaultTheme) => css`
@@ -126,7 +140,8 @@ export const Wrapper = styled.button<WrapperProps>`
     btnStyle,
     isLoading,
     fillOver,
-    fillOverDuration
+    fillOverDuration,
+    sufixIcon
   }) => css`
     overflow-x: hidden;
     align-items: center;
@@ -144,6 +159,7 @@ export const Wrapper = styled.button<WrapperProps>`
       width: ${theme.font.sizes['desk-large']};
       height: ${theme.font.sizes['desk-large']};
       margin-right: ${theme.spacings.xxxsmall};
+      margin-left: ${sufixIcon ? theme.spacings.xxsmall : ''};
     }
     > #loader {
       ${isLoading ? fadeIn : fadeOut}

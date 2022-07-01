@@ -16,12 +16,13 @@ type ButtonTypes =
 
 export type ButtonProps = {
   children: React.ReactNode
-  size?: 'small' | 'medium' | 'mediumLarge' | 'large'
-  color?: 'primary' | 'secondary' | 'negative'
+  size?: 'small' | 'medium' | 'mediumLarge' | 'xMedium' | 'large'
+  color?: 'primary' | 'secondary' | 'negative' | 'success'
   radius?: 'round' | 'square'
   textTransform?: 'uppercase'
   btnStyle?: 'link'
   prefixIcon?: React.ReactNode
+  sufixIcon?: React.ReactNode
   isLoading?: boolean
   disabled?: boolean
   fillOver?: boolean
@@ -38,6 +39,7 @@ export function Button({
   textTransform,
   btnStyle,
   prefixIcon,
+  sufixIcon,
   isLoading,
   disabled,
   fillOver,
@@ -68,6 +70,7 @@ export function Button({
       textTransform={textTransform}
       btnStyle={btnStyle}
       prefixIcon={prefixIcon}
+      sufixIcon={sufixIcon}
       isLoading={isLoading}
       disabled={disabled || isLoading}
       fillOver={fillOver}
@@ -76,6 +79,7 @@ export function Button({
     >
       {prefixIcon}
       <S.TextWrapper>{children}</S.TextWrapper>
+      {sufixIcon}
       {useDelayUnmount(isLoading) && <Loader size="30px" borderSize="5px" />}
     </S.Wrapper>
   )

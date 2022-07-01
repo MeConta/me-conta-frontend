@@ -6,6 +6,7 @@ import { act, render, screen } from 'utils/tests/helpers'
 import * as AuthorizationContext from '../../../../store/auth-context'
 import userEvent from '@testing-library/user-event'
 import router from 'next/router'
+import theme from 'styles/theme'
 
 jest.mock('store/auth-context')
 
@@ -44,5 +45,13 @@ describe('when in volunteer profile page', () => {
 
   it.skip('should render input title for Perfil Voluntário container', () => {
     expect(screen.getByLabelText(/Link das Sessões/)).toBeInTheDocument()
+  })
+
+  it('should render Aprovar button', () => {
+    const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+    expect(aprovarButton).toBeInTheDocument()
+    expect(aprovarButton).toHaveStyle(
+      `background-color: ${theme.colors.darkPastelGreen}`
+    )
   })
 })

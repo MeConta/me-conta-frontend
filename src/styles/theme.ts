@@ -41,6 +41,7 @@ export default {
     harvestGold: '#DE8A0B',
     blondYellow: '#FFF0C3',
     emerald: '#50CD89',
+    darkPastelGreen: '#0ABE32',
     honeydew: '#E8FFF3',
     malibu: '#67C3F3',
     mineShaft: '#333333',
