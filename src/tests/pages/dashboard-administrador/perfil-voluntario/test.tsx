@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event'
 import router from 'next/router'
 import theme from 'styles/theme'
 import { api } from 'services/api/api'
+import { NivelFormacao } from '../../../../domain/nivel-formacao'
 
 jest.mock('store/auth-context')
 
@@ -49,6 +50,17 @@ const genderMap = [
   ['F', 'Feminino'],
   ['NB', 'Não Binário'],
   ['ND', 'Não Declarado']
+]
+
+const educationLevelMap = [
+  [
+    NivelFormacao.SUPERIOR_COMPLETO.value,
+    NivelFormacao.SUPERIOR_COMPLETO.label
+  ],
+  [
+    NivelFormacao.SUPERIOR_EM_ANDAMENTO.value,
+    NivelFormacao.SUPERIOR_EM_ANDAMENTO.label
+  ]
 ]
 
 async function applyTestSetup(volunteerParameter: any = volunteer) {
@@ -118,6 +130,46 @@ describe('Perfil Voluntário', () => {
         expect(container).toHaveTextContent(`Gênero: ${genderLabel}`)
       }
     )
+  })
+
+  describe('Dados Acadêmicos', () => {
+    it('should render academic volunteer info', async () => {
+      const container = await applyTestSetup()
+      expect(screen.getByText(/Dados Acadêmicos:/)).toBeInTheDocument()
+      expect(container).toHaveTextContent(
+        `Instituição de Ensino: ${volunteer.instituicao}`
+      )
+      expect(container).toHaveTextContent(`Semestre: ${volunteer.semestre}`)
+      expect(container).toHaveTextContent(
+        `Breve descrição sobre você: ${volunteer.bio}`
+      )
+    })
+
+    it.each(educationLevelMap)(
+      'given education level %p should render label %p',
+      async (educationLevel, educationLabel) => {
+        const container = await applyTestSetup({
+          ...volunteer,
+          formado: educationLevel
+        })
+
+        expect(container).toHaveTextContent(
+          `Nível de Formação: ${educationLabel}`
+        )
+      }
+    )
+
+    it("should render the voluteer's services (Acolhimento, Orientação Vocacional, Coaching de Estudos)", async () => {
+      const container = await applyTestSetup({
+        ...volunteer,
+        frentes: [0, 1, 2]
+      })
+
+      expect(container).toHaveTextContent('Áreas que gostaria de atuar:')
+      expect(screen.getByText(/Acolhimento/i)).toBeInTheDocument()
+      expect(screen.getByText(/Orientação Vocacional/i)).toBeInTheDocument()
+      expect(screen.getByText(/Coaching de Estudos/i)).toBeInTheDocument()
+    })
   })
 
   describe('Aprovar and Reprovar buttons', () => {

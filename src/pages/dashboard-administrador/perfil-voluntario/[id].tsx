@@ -19,6 +19,8 @@ import {
   GenderTypes,
   Gender
 } from 'services/volunteers-service/volunteer-service'
+import { NivelFormacao } from 'domain/nivel-formacao'
+import Frentes from 'components/atoms/Frentes'
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
@@ -44,6 +46,14 @@ function PerfilVoluntario() {
 
   function getGender(type?: GenderTypes) {
     return type ? Gender[type] : ''
+  }
+
+  function getNivelFormacao(formado?: boolean) {
+    if (typeof formado === 'undefined') return ''
+
+    return formado
+      ? NivelFormacao.SUPERIOR_COMPLETO.label
+      : NivelFormacao.SUPERIOR_EM_ANDAMENTO.label
   }
 
   return (
@@ -98,6 +108,43 @@ function PerfilVoluntario() {
             </S.SectionDetailsText>
           </SectionDetails>
         </SectionDetailsContainer>
+        <S.SecondLevelTitle> Dados Acadêmicos: </S.SecondLevelTitle>
+        <SectionDetailsContainer>
+          <SectionDetails width="50%">
+            <S.SectionDetailsText>
+              <S.SectionDetailsTextHighlight>
+                Nível de Formação:{' '}
+              </S.SectionDetailsTextHighlight>
+              {getNivelFormacao(volunteer?.formado)}
+            </S.SectionDetailsText>
+            <S.SectionDetailsText>
+              <S.SectionDetailsTextHighlight>
+                Instituição de Ensino:{' '}
+              </S.SectionDetailsTextHighlight>
+              {volunteer?.instituicao}
+            </S.SectionDetailsText>
+            <S.SectionDetailsText>
+              <S.SectionDetailsTextHighlight>
+                Semestre:{' '}
+              </S.SectionDetailsTextHighlight>
+              {volunteer?.semestre}
+            </S.SectionDetailsText>
+          </SectionDetails>
+          <SectionDetails width="50%">
+            <S.SectionDetailsText>
+              <S.SectionDetailsTextHighlight>
+                Áreas que gostaria de atuar:{' '}
+              </S.SectionDetailsTextHighlight>
+              <Frentes frentes={volunteer?.frentes || []} />
+            </S.SectionDetailsText>
+          </SectionDetails>
+        </SectionDetailsContainer>
+        <S.SectionDetailsText>
+          <S.SectionDetailsTextHighlight>
+            Breve descrição sobre você:{' '}
+          </S.SectionDetailsTextHighlight>
+          {volunteer?.bio}
+        </S.SectionDetailsText>
         <ButtonContainer>
           <Button
             color="success"
