@@ -5,11 +5,12 @@ import {
   TitleContainer,
   ContentWrapper,
   SectionDetailsContainer,
-  SectionDetails
+  SectionDetails,
+  ButtonContainer
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import { ArrowLeft, CheckLg } from 'styled-icons/bootstrap'
+import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import {
@@ -97,15 +98,24 @@ function PerfilVoluntario() {
             </S.SectionDetailsText>
           </SectionDetails>
         </SectionDetailsContainer>
-
-        <Button
-          color="success"
-          radius="square"
-          size="xMedium"
-          sufixIcon={<CheckLg />}
-        >
-          APROVAR
-        </Button>
+        <ButtonContainer>
+          <Button
+            color="success"
+            radius="square"
+            size="xMedium"
+            sufixIcon={<CheckLg />}
+          >
+            APROVAR
+          </Button>
+          <Button
+            color="secondary"
+            radius="square"
+            size="xMedium"
+            sufixIcon={<XCircle />}
+          >
+            REPROVAR
+          </Button>
+        </ButtonContainer>
       </S.ContainerDashboard>
     </ContentWrapper>
   )

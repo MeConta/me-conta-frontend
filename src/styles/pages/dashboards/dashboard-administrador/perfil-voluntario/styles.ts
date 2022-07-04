@@ -44,3 +44,10 @@ export const SectionDetails = styled.div<SectionDetailsProps>`
     width: ${width};
   `}
 `
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 0 8rem;
+  margin-top: 4rem;
+`

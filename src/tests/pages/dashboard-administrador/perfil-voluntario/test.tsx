@@ -69,7 +69,7 @@ async function applyTestSetup(volunteerParameter: any = volunteer) {
   return container
 }
 
-describe('when in volunteer profile page', () => {
+describe('Perfil Voluntário', () => {
   it('should render title Perfil Voluntário', async () => {
     await applyTestSetup()
     expect(screen.getByText(/Perfil - Voluntário/)).toBeInTheDocument()
@@ -89,39 +89,51 @@ describe('when in volunteer profile page', () => {
     expect(router.push).toHaveBeenCalledWith('/dashboard-administrador')
   })
 
-  it.skip('should render input title for Perfil Voluntário container', async () => {
-    await applyTestSetup()
-    expect(screen.getByLabelText(/Link das Sessões/)).toBeInTheDocument()
+  describe('Link das Sessões', () => {
+    it.skip('should render input title for Link das Sessões', async () => {
+      await applyTestSetup()
+      expect(screen.getByLabelText(/Link das Sessões/)).toBeInTheDocument()
+    })
   })
 
-  it('should render Aprovar button', async () => {
-    await applyTestSetup()
-    const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
-    expect(aprovarButton).toBeInTheDocument()
-    expect(aprovarButton).toHaveStyle(
-      `background-color: ${theme.colors.darkPastelGreen}`
+  describe('Dados Pessoais', () => {
+    it('should render personal volunteer info', async () => {
+      const container = await applyTestSetup()
+      expect(screen.getByText(/Dados Pessoais:/)).toBeInTheDocument()
+      expect(container).toHaveTextContent(`Nome: ${volunteer.usuario.nome}`)
+      expect(container).toHaveTextContent(`Cidade: ${volunteer.cidade}`)
+      expect(container).toHaveTextContent(`E-mail: ${volunteer.usuario.email}`)
+      expect(container).toHaveTextContent(`Telefone: ${volunteer.telefone}`)
+      expect(container).toHaveTextContent(`Estado: ${volunteer.UF}`)
+    })
+
+    it.each(genderMap)(
+      'given gender %p should render label %p',
+      async (genderType, genderLabel) => {
+        const container = await applyTestSetup({
+          ...volunteer,
+          genero: genderType
+        })
+
+        expect(container).toHaveTextContent(`Gênero: ${genderLabel}`)
+      }
     )
   })
 
-  it('should render personal volunteer info', async () => {
-    const container = await applyTestSetup()
-    expect(screen.getByText(/Dados Pessoais:/)).toBeInTheDocument()
-    expect(container).toHaveTextContent(`Nome: ${volunteer.usuario.nome}`)
-    expect(container).toHaveTextContent(`Cidade: ${volunteer.cidade}`)
-    expect(container).toHaveTextContent(`E-mail: ${volunteer.usuario.email}`)
-    expect(container).toHaveTextContent(`Telefone: ${volunteer.telefone}`)
-    expect(container).toHaveTextContent(`Estado: ${volunteer.UF}`)
+  describe('Aprovar and Reprovar buttons', () => {
+    it('should render Aprovar button', async () => {
+      await applyTestSetup()
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      expect(aprovarButton).toBeInTheDocument()
+      expect(aprovarButton).toHaveStyle(
+        `background-color: ${theme.colors.darkPastelGreen}`
+      )
+    })
+
+    it('should render Reprovar button', async () => {
+      await applyTestSetup()
+      const aprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+      expect(aprovarButton).toBeInTheDocument()
+    })
   })
-
-  it.each(genderMap)(
-    'given gender %p should render label %p',
-    async (genderType, genderLabel) => {
-      const container = await applyTestSetup({
-        ...volunteer,
-        genero: genderType
-      })
-
-      expect(container).toHaveTextContent(`Gênero: ${genderLabel}`)
-    }
-  )
 })
