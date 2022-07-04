@@ -1,7 +1,6 @@
 import * as S from './styles'
 import { FrentesInfo } from './frentesInfo'
-
-import ReactTooltip from 'react-tooltip'
+import ImageIcon from '../ImageIcon'
 
 export type FrentesProps = {
   frentes: Array<number>
@@ -11,10 +10,15 @@ export default function Frentes({ frentes }: FrentesProps) {
   return (
     <S.Wrapper>
       {FrentesInfo.filter((item) => frentes.includes(item.id)).map((obj) => (
-        <div data-tip data-for={obj.value} key={obj.value}>
-          <ReactTooltip id={obj.value}> {obj.text} </ReactTooltip>
-          {obj.icon}
-        </div>
+        <ImageIcon
+          key={obj.value}
+          imageSrc={obj.imageSrc}
+          imageAlt={obj.imageAlt}
+          imageHeight={24}
+          imageWidth={24.63}
+          backgroundColor={obj.backgroundColor}
+          tooltip={obj.text}
+        />
       ))}
     </S.Wrapper>
   )

@@ -4,6 +4,7 @@ import { School, AutoStories, VolunteerActivism } from '@styled-icons/material'
 export const Wrapper = styled.div`
   display: flex;
   margin-right: 19px;
+  gap: 8px;
 
   @media (max-width: 768px) {
     flex-direction: column;
