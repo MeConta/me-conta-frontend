@@ -115,7 +115,6 @@ describe('Perfil Voluntário', () => {
       expect(container).toHaveTextContent(`Nome: ${volunteer.usuario.nome}`)
       expect(container).toHaveTextContent(`Cidade: ${volunteer.cidade}`)
       expect(container).toHaveTextContent(`E-mail: ${volunteer.usuario.email}`)
-      expect(container).toHaveTextContent(`Estado: ${volunteer.UF}`)
     })
 
     it('should render formatted phone number', async () => {
@@ -125,6 +124,15 @@ describe('Perfil Voluntário', () => {
       })
 
       expect(container).toHaveTextContent(`Telefone: (34) 12345-6789`)
+    })
+
+    it('should render unabbreviated state name', async () => {
+      const container = await applyTestSetup({
+        ...volunteer,
+        UF: 'MA'
+      })
+
+      expect(container).toHaveTextContent(`Estado: Maranhão`)
     })
 
     it.each(genderMap)(

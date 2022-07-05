@@ -1,6 +1,7 @@
 import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
+import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
 export interface IVolunteerService {
   findBySessionType({
@@ -34,7 +35,7 @@ export interface VolunteerResponse {
   abordagem: string
   genero: GenderTypes
   cidade: string
-  UF: string
+  UF: keyof typeof EBrazilStates
   telefone: string
   usuario: {
     nome: string

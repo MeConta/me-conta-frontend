@@ -22,6 +22,7 @@ import {
 import { NivelFormacao } from 'domain/nivel-formacao'
 import Frentes from 'components/atoms/Frentes'
 import { formatPhoneNumber } from '../../../utils/format-string/helpers'
+import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
@@ -105,7 +106,7 @@ function PerfilVoluntario() {
               <S.SectionDetailsTextHighlight>
                 Estado:{' '}
               </S.SectionDetailsTextHighlight>
-              {volunteer?.UF}{' '}
+              {volunteer ? EBrazilStates[volunteer.UF] : ''}
             </S.SectionDetailsText>
           </SectionDetails>
         </SectionDetailsContainer>
