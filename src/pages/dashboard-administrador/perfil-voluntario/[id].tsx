@@ -21,6 +21,7 @@ import {
 } from 'services/volunteers-service/volunteer-service'
 import { NivelFormacao } from 'domain/nivel-formacao'
 import Frentes from 'components/atoms/Frentes'
+import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
@@ -98,7 +99,7 @@ function PerfilVoluntario() {
               <S.SectionDetailsTextHighlight>
                 Telefone:{' '}
               </S.SectionDetailsTextHighlight>
-              {volunteer?.telefone}{' '}
+              {formatPhoneNumber(volunteer?.telefone || '')}
             </S.SectionDetailsText>
             <S.SectionDetailsText>
               <S.SectionDetailsTextHighlight>

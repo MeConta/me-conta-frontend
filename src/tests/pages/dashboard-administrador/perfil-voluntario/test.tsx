@@ -115,8 +115,16 @@ describe('Perfil Voluntário', () => {
       expect(container).toHaveTextContent(`Nome: ${volunteer.usuario.nome}`)
       expect(container).toHaveTextContent(`Cidade: ${volunteer.cidade}`)
       expect(container).toHaveTextContent(`E-mail: ${volunteer.usuario.email}`)
-      expect(container).toHaveTextContent(`Telefone: ${volunteer.telefone}`)
       expect(container).toHaveTextContent(`Estado: ${volunteer.UF}`)
+    })
+
+    it('should render formatted phone number', async () => {
+      const container = await applyTestSetup({
+        ...volunteer,
+        telefone: '34123456789'
+      })
+
+      expect(container).toHaveTextContent(`Telefone: (34) 12345-6789`)
     })
 
     it.each(genderMap)(
