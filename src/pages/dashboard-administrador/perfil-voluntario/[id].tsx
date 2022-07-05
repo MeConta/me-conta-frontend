@@ -146,8 +146,8 @@ function PerfilVoluntario() {
               <S.SectionDetailsTextHighlight>
                 Áreas que gostaria de atuar:{' '}
               </S.SectionDetailsTextHighlight>
-              <Frentes frentes={volunteer?.frentes || []} />
             </S.SectionDetailsText>
+            <Frentes frentes={volunteer?.frentes || []} />
           </SectionDetails>
         </SectionDetailsContainer>
         <S.SectionDetailsText>

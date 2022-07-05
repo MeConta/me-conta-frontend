@@ -17,8 +17,8 @@ export const TitleContainer = styled.div`
   }
 
   @media (max-width: ${screenBreakingPoint}) {
-    display: block;
-    text-align: center;
+    flex-direction: column-reverse;
+    align-items: start;
   }
 `
 export const ContentWrapper = styled.div`
@@ -48,6 +48,10 @@ export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  padding: 0 8rem;
   margin-top: 4rem;
+
+  @media (max-width: ${screenBreakingPoint}) {
+    flex-direction: column;
+    gap: 16px;
+  }
 `
