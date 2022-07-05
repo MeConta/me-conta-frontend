@@ -123,12 +123,21 @@ function PerfilVoluntario() {
               </S.SectionDetailsTextHighlight>
               {volunteer?.instituicao}
             </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Semestre:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer?.semestre}
-            </S.SectionDetailsText>
+            {volunteer?.formado ? (
+              <S.SectionDetailsText>
+                <S.SectionDetailsTextHighlight>
+                  Ano de conclusão:{' '}
+                </S.SectionDetailsTextHighlight>
+                {volunteer?.anoFormacao}
+              </S.SectionDetailsText>
+            ) : (
+              <S.SectionDetailsText>
+                <S.SectionDetailsTextHighlight>
+                  Semestre:{' '}
+                </S.SectionDetailsTextHighlight>
+                {volunteer?.semestre}
+              </S.SectionDetailsText>
+            )}
           </SectionDetails>
           <SectionDetails width="50%">
             <S.SectionDetailsText>

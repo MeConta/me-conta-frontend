@@ -26,6 +26,7 @@ export interface VolunteerResponse {
   especializacoes: string
   areaAtuacao: string
   formado: boolean
+  anoFormacao: number
   instituicao: string
   semestre: number
   frentes: number[]

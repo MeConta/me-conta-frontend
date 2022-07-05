@@ -139,7 +139,6 @@ describe('Perfil Voluntário', () => {
       expect(container).toHaveTextContent(
         `Instituição de Ensino: ${volunteer.instituicao}`
       )
-      expect(container).toHaveTextContent(`Semestre: ${volunteer.semestre}`)
       expect(container).toHaveTextContent(
         `Breve descrição sobre você: ${volunteer.bio}`
       )
@@ -158,6 +157,34 @@ describe('Perfil Voluntário', () => {
         )
       }
     )
+
+    it('given volunteer has graduated should render graduation year', async () => {
+      const anoFormacao = 2017
+      const container = await applyTestSetup({
+        ...volunteer,
+        formado: true,
+        anoFormacao: anoFormacao
+      })
+
+      expect(container).toHaveTextContent(`Ano de conclusão: ${anoFormacao}`)
+
+      expect(container).not.toHaveTextContent(`Semestre: ${volunteer.semestre}`)
+    })
+
+    it('given volunteer has not graduated yet should render voluteer college semester', async () => {
+      const semestre = 2
+      const container = await applyTestSetup({
+        ...volunteer,
+        formado: false,
+        semestre: semestre
+      })
+
+      expect(container).toHaveTextContent(`Semestre: ${semestre}`)
+
+      expect(container).not.toHaveTextContent(
+        `Ano de conclusão: ${volunteer.anoFormacao}`
+      )
+    })
 
     it("should render the voluteer's services (Acolhimento, Orientação Vocacional, Coaching de Estudos)", async () => {
       const container = await applyTestSetup({
