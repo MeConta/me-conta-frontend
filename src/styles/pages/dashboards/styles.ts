@@ -133,6 +133,11 @@ export const ContainerDashboard = styled.div`
     background-color: white;
     border-radius: ${theme.border['card-radius']};
     padding: ${theme.spacings.large};
+
+    @media (max-width: ${screenBreakingPoint}) {
+      background-color: transparent;
+      padding: 0;
+    }
   `}
 `
 

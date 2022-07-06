@@ -14,7 +14,7 @@ export const WrapperImageIcon = styled.div<ImageIconProps>`
     border-radius: 50%;
     padding: 10px;
     position: relative;
-
+    width: fit-content;
     &:hover span {
       visibility: visible;
     }

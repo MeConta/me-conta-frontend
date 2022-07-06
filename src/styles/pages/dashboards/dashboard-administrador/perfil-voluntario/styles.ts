@@ -29,6 +29,12 @@ export const ContentWrapper = styled.div`
   min-height: 70vh;
   padding: 0 18px;
   margin: 4rem;
+
+  @media (max-width: ${screenBreakingPoint}) {
+    padding: 0;
+    margin: 0;
+    max-width: 90%;
+  }
 `
 
 export const SectionDetailsContainer = styled.section`
@@ -42,6 +48,10 @@ export const SectionDetailsContainer = styled.section`
 export const SectionDetails = styled.div<SectionDetailsProps>`
   ${({ width }) => css`
     width: ${width};
+
+    @media (max-width: ${screenBreakingPoint}) {
+      width: 100%;
+    }
   `}
 `
 export const ButtonContainer = styled.div`
