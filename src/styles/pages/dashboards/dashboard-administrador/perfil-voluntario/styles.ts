@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components'
+import { Link } from '@styled-icons/evaicons-solid'
+import theme from '../../../../theme'
 
 const screenBreakingPoint = '895px'
 
@@ -43,6 +45,14 @@ export const SectionDetailsContainer = styled.section`
   @media (max-width: ${screenBreakingPoint}) {
     flex-direction: column;
   }
+`
+
+export const LinkIcon = styled(Link)`
+  display: flex;
+  color: ${theme.colors.gray};
+
+  width: 22.84px;
+  height: 24px;
 `
 
 export const SectionDetails = styled.div<SectionDetailsProps>`

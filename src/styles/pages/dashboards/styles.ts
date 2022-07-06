@@ -138,6 +138,14 @@ export const ContainerDashboard = styled.div`
       background-color: transparent;
       padding: 0;
     }
+
+    > div > label {
+      font-family: ${theme.font.family};
+      font-weight: ${theme.font.bold};
+      font-size: ${theme.font.sizes['desk-xlarge']};
+      margin: 27px 0;
+      color: ${theme.colors.mineShaft};
+    }
   `}
 `
 

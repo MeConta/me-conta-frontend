@@ -6,10 +6,6 @@ export const Wrapper = styled.div`
   margin-right: 19px;
   gap: 8px;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-
   .frente {
     border-radius: 50%;
     width: 42px;

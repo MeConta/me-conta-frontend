@@ -54,6 +54,7 @@ export const InputWrapper = styled.div`
     margin-top: ${theme.spacings.xgsmall};
     border: 0.1rem solid;
     border-color: ${theme.colors.lightGray};
+    gap: 10px;
 
     &:focus-within {
       box-shadow: 0 0 0.5rem ${theme.colors.cobalt};

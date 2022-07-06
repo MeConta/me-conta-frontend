@@ -50,6 +50,7 @@ exports[`<FormGroup/> should render error input 1`] = `
   margin-top: 1.13rem;
   border: 0.1rem solid;
   border-color: #848A8C;
+  gap: 10px;
 }
 
 .c4:focus-within {

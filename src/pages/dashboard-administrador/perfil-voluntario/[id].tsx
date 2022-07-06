@@ -6,7 +6,8 @@ import {
   ContentWrapper,
   SectionDetailsContainer,
   SectionDetails,
-  ButtonContainer
+  ButtonContainer,
+  LinkIcon
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
@@ -24,6 +25,7 @@ import Frentes from 'components/atoms/Frentes'
 import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
+import { TextField } from 'components/atoms/TextField'
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
@@ -149,6 +151,14 @@ function PerfilVoluntario() {
         </Button>
       </TitleContainer>
       <S.ContainerDashboard>
+        <TextField
+          label="Link das Sessões"
+          name={'sessionLink'}
+          onChange={undefined}
+          required={true}
+        >
+          <LinkIcon />
+        </TextField>
         {renderVolunteersPersonalData()}
         {renderVolunteersAcademicData()}
         <ButtonContainer>

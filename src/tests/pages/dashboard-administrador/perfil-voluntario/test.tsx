@@ -102,9 +102,12 @@ describe('Perfil Voluntário', () => {
   })
 
   describe('Link das Sessões', () => {
-    it.skip('should render input title for Link das Sessões', async () => {
+    it('should render input title for Link das Sessões', async () => {
       await applyTestSetup()
-      expect(screen.getByLabelText(/Link das Sessões/)).toBeInTheDocument()
+      const inputElement = screen.getByRole('textbox', {
+        name: /Link das Sessões/
+      })
+      expect(inputElement).toBeInTheDocument()
     })
   })
 
