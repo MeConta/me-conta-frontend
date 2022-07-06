@@ -230,8 +230,29 @@ describe('Perfil Voluntário', () => {
 
     it('should render Reprovar button', async () => {
       await applyTestSetup()
-      const aprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
-      expect(aprovarButton).toBeInTheDocument()
+      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+      expect(reprovarButton).toBeInTheDocument()
+    })
+
+    it('should render error message when I click in "Aprovar" and the link input is empty', async () => {
+      await applyTestSetup()
+
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+
+      userEvent.click(aprovarButton)
+      expect(screen.getByText(/Campo obrigatório/)).toBeInTheDocument()
+    })
+
+    it('should NOT render error message when I click in "Aprovar" and the link input is filled', async () => {
+      await applyTestSetup()
+
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, 'https://teste.com.br')
+      userEvent.click(aprovarButton)
+
+      expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument()
     })
   })
 })

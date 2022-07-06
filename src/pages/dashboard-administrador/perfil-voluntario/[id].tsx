@@ -27,8 +27,14 @@ import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
 import { TextField } from 'components/atoms/TextField'
 
+const ERRORS = {
+  REQUIRED_FIELD: 'Campo obrigatório'
+}
+
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
+  const [emptyLinkError, setEmptyLinkError] = useState<string>('')
+  const [sessionLink, setSessionLink] = useState<string>('')
 
   const volunteerService = new VolunteerService(api)
 
@@ -59,6 +65,10 @@ function PerfilVoluntario() {
     return formado
       ? NivelFormacao.SUPERIOR_COMPLETO.label
       : NivelFormacao.SUPERIOR_EM_ANDAMENTO.label
+  }
+
+  function handleApproval() {
+    setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
 
   function renderVolunteersPersonalData() {
@@ -154,8 +164,10 @@ function PerfilVoluntario() {
         <TextField
           label="Link das Sessões"
           name={'sessionLink'}
-          onChange={undefined}
+          value={sessionLink}
+          onChange={(e) => setSessionLink(e.target.value)}
           required={true}
+          error={emptyLinkError}
         >
           <LinkIcon />
         </TextField>
@@ -167,6 +179,7 @@ function PerfilVoluntario() {
             radius="square"
             size="xMedium"
             sufixIcon={<CheckLg />}
+            onClick={handleApproval}
           >
             APROVAR
           </Button>
