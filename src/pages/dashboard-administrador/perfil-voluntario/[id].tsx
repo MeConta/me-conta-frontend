@@ -23,6 +23,7 @@ import { NivelFormacao } from 'domain/nivel-formacao'
 import Frentes from 'components/atoms/Frentes'
 import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
+import SectionDetailsText from 'components/atoms/SectionDetailsText'
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
@@ -70,92 +71,70 @@ function PerfilVoluntario() {
         <S.SecondLevelTitle> Dados Pessoais: </S.SecondLevelTitle>
         <SectionDetailsContainer>
           <SectionDetails width="50%">
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Nome:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer?.usuario.nome}{' '}
-            </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Gênero:{' '}
-              </S.SectionDetailsTextHighlight>
-              {getGender(volunteer?.genero)}{' '}
-            </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Cidade:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer?.cidade}{' '}
-            </S.SectionDetailsText>
+            <SectionDetailsText
+              label={'Nome'}
+              value={volunteer?.usuario.nome || ''}
+            />
+            <SectionDetailsText
+              label={'Gênero'}
+              value={getGender(volunteer?.genero)}
+            />
+            <SectionDetailsText
+              label={'Cidade'}
+              value={volunteer?.cidade || ''}
+            />
           </SectionDetails>
           <SectionDetails width="50%">
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                E-mail:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer?.usuario.email}{' '}
-            </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Telefone:{' '}
-              </S.SectionDetailsTextHighlight>
-              {formatPhoneNumber(volunteer?.telefone || '')}
-            </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Estado:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer ? EBrazilStates[volunteer.UF] : ''}
-            </S.SectionDetailsText>
+            <SectionDetailsText
+              label={'E-mail'}
+              value={volunteer?.usuario.email || ''}
+            />
+            <SectionDetailsText
+              label={'Telefone'}
+              value={formatPhoneNumber(volunteer?.telefone || '')}
+            />
+            <SectionDetailsText
+              label={'Estado'}
+              value={volunteer ? EBrazilStates[volunteer.UF] : ''}
+            />
           </SectionDetails>
         </SectionDetailsContainer>
         <S.SecondLevelTitle> Dados Acadêmicos: </S.SecondLevelTitle>
         <SectionDetailsContainer>
           <SectionDetails width="50%">
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Nível de Formação:{' '}
-              </S.SectionDetailsTextHighlight>
-              {getNivelFormacao(volunteer?.formado)}
-            </S.SectionDetailsText>
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Instituição de Ensino:{' '}
-              </S.SectionDetailsTextHighlight>
-              {volunteer?.instituicao}
-            </S.SectionDetailsText>
+            <SectionDetailsText
+              label={'Nível de Formação'}
+              value={getNivelFormacao(volunteer?.formado)}
+            />
+            <SectionDetailsText
+              label={'Instituição de Ensino'}
+              value={volunteer?.instituicao || ''}
+            />
+
             {volunteer?.formado ? (
-              <S.SectionDetailsText>
-                <S.SectionDetailsTextHighlight>
-                  Ano de conclusão:{' '}
-                </S.SectionDetailsTextHighlight>
-                {volunteer?.anoFormacao}
-              </S.SectionDetailsText>
+              <SectionDetailsText
+                label={'Ano de conclusão'}
+                value={volunteer?.anoFormacao || ''}
+              />
             ) : (
-              <S.SectionDetailsText>
-                <S.SectionDetailsTextHighlight>
-                  Semestre:{' '}
-                </S.SectionDetailsTextHighlight>
-                {volunteer?.semestre}
-              </S.SectionDetailsText>
+              <SectionDetailsText
+                label={'Semestre'}
+                value={volunteer?.semestre || ''}
+              />
             )}
           </SectionDetails>
           <SectionDetails width="50%">
-            <S.SectionDetailsText>
-              <S.SectionDetailsTextHighlight>
-                Áreas que gostaria de atuar:{' '}
-              </S.SectionDetailsTextHighlight>
-            </S.SectionDetailsText>
+            <SectionDetailsText
+              label={'Áreas que gostaria de atuar'}
+              value={''}
+            />
             <Frentes frentes={volunteer?.frentes || []} />
           </SectionDetails>
         </SectionDetailsContainer>
-        <S.SectionDetailsText>
-          <S.SectionDetailsTextHighlight>
-            Breve descrição sobre você:{' '}
-          </S.SectionDetailsTextHighlight>
-          {volunteer?.bio}
-        </S.SectionDetailsText>
+        <SectionDetailsText
+          label={'Breve descrição sobre você'}
+          value={volunteer?.bio || ''}
+        />
         <ButtonContainer>
           <Button
             color="success"
