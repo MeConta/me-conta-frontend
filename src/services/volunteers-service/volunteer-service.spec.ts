@@ -3,7 +3,8 @@ import { VolunteerService } from './volunteer-service'
 
 describe('volunteers service', () => {
   const fakeAxios: any = {
-    get: jest.fn()
+    get: jest.fn(),
+    patch: jest.fn()
   }
 
   const makeSut = () => {
@@ -94,5 +95,39 @@ describe('volunteers service', () => {
 
     expect(fakeAxios.get).toHaveBeenLastCalledWith(`/voluntarios/${id}`)
     expect(res).toEqual(volunteer)
+  })
+
+  it('should approve volunteer by id', async () => {
+    const sut = makeSut()
+    const id = 1
+    const sessionLink = ''
+
+    jest.spyOn(fakeAxios, 'patch').mockResolvedValue({})
+
+    await sut.approve(id, sessionLink)
+
+    expect(fakeAxios.patch).toHaveBeenLastCalledWith(
+      `/admin/voluntarios/aprovar/${id}`,
+      {
+        aprovado: true,
+        link: sessionLink
+      }
+    )
+  })
+
+  it('should reject volunteer by id', async () => {
+    const sut = makeSut()
+    const id = 1
+
+    jest.spyOn(fakeAxios, 'patch').mockResolvedValue({})
+
+    await sut.reject(id)
+
+    expect(fakeAxios.patch).toHaveBeenLastCalledWith(
+      `/admin/voluntarios/aprovar/${id}`,
+      {
+        aprovado: false
+      }
+    )
   })
 })

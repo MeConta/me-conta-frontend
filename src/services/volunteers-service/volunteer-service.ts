@@ -74,4 +74,17 @@ export class VolunteerService implements IVolunteerService {
     const res = await this.service.get(`/voluntarios/${id}`)
     return res.data
   }
+
+  async approve(id: number, sessionLink: string): Promise<void> {
+    await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
+      aprovado: true,
+      link: sessionLink
+    })
+  }
+
+  async reject(id: number): Promise<void> {
+    await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
+      aprovado: false
+    })
+  }
 }
