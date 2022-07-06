@@ -68,6 +68,9 @@ function PerfilVoluntario() {
   }
 
   function handleApproval() {
+    if (volunteer && sessionLink) {
+      volunteerService.approve(volunteer?.usuario.id, sessionLink)
+    }
     setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
 

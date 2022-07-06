@@ -9,8 +9,13 @@ import router from 'next/router'
 import theme from 'styles/theme'
 import { api } from 'services/api/api'
 import { NivelFormacao } from '../../../../domain/nivel-formacao'
+import { VolunteerService } from 'services/volunteers-service/volunteer-service'
 
 jest.mock('store/auth-context')
+
+const approveVolunteerMock = jest
+  .spyOn(VolunteerService.prototype, 'approve')
+  .mockImplementation(jest.fn())
 
 jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -71,6 +76,7 @@ async function applyTestSetup(volunteerParameter: any = volunteer) {
     )
 
   jest.spyOn(api, 'get').mockResolvedValue({ data: volunteerParameter })
+  jest.spyOn(api, 'patch').mockResolvedValue({})
 
   let container = null
 
@@ -253,6 +259,26 @@ describe('Perfil Voluntário', () => {
       userEvent.click(aprovarButton)
 
       expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument()
+    })
+
+    it('should call approve volunteer service when I click in "Aprovar" and the link input is filled', async () => {
+      const VOLUNTEER_ID = 123
+      const SESSION_LINK = 'https://teste.com.br'
+      await applyTestSetup({
+        ...volunteer,
+        usuario: { ...volunteer?.usuario, id: VOLUNTEER_ID }
+      })
+
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(aprovarButton)
+
+      expect(approveVolunteerMock).toHaveBeenCalledWith(
+        VOLUNTEER_ID,
+        SESSION_LINK
+      )
     })
   })
 })
