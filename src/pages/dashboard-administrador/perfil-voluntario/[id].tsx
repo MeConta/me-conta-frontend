@@ -59,15 +59,9 @@ function PerfilVoluntario() {
       : NivelFormacao.SUPERIOR_EM_ANDAMENTO.label
   }
 
-  return (
-    <ContentWrapper>
-      <TitleContainer>
-        <S.Title> Perfil - Voluntário </S.Title>
-        <Button onClick={goBack} btnStyle="link" prefixIcon={<ArrowLeft />}>
-          Voltar ao Dashboard
-        </Button>
-      </TitleContainer>
-      <S.ContainerDashboard>
+  function renderVolunteersPersonalData() {
+    return (
+      <>
         <S.SecondLevelTitle> Dados Pessoais: </S.SecondLevelTitle>
         <SectionDetailsContainer>
           <SectionDetails width="50%">
@@ -99,6 +93,13 @@ function PerfilVoluntario() {
             />
           </SectionDetails>
         </SectionDetailsContainer>
+      </>
+    )
+  }
+
+  function renderVolunteersAcademicData() {
+    return (
+      <>
         <S.SecondLevelTitle> Dados Acadêmicos: </S.SecondLevelTitle>
         <SectionDetailsContainer>
           <SectionDetails width="50%">
@@ -135,6 +136,21 @@ function PerfilVoluntario() {
           label={'Breve descrição sobre você'}
           value={volunteer?.bio || ''}
         />
+      </>
+    )
+  }
+
+  return (
+    <ContentWrapper>
+      <TitleContainer>
+        <S.Title> Perfil - Voluntário </S.Title>
+        <Button onClick={goBack} btnStyle="link" prefixIcon={<ArrowLeft />}>
+          Voltar ao Dashboard
+        </Button>
+      </TitleContainer>
+      <S.ContainerDashboard>
+        {renderVolunteersPersonalData()}
+        {renderVolunteersAcademicData()}
         <ButtonContainer>
           <Button
             color="success"
