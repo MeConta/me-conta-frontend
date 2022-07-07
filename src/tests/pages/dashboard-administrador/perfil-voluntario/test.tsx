@@ -2,7 +2,7 @@ import { UserType } from 'enums/user-type.enum'
 import PerfilVoluntario from 'pages/dashboard-administrador/perfil-voluntario/[id]'
 import React from 'react'
 import createAuthContextObject from 'utils/tests/createAuthContextObject'
-import { act, render, screen } from 'utils/tests/helpers'
+import { act, screen, waitFor, render } from 'utils/tests/helpers'
 import * as AuthorizationContext from '../../../../store/auth-context'
 import userEvent from '@testing-library/user-event'
 import router from 'next/router'
@@ -15,7 +15,7 @@ jest.mock('store/auth-context')
 
 const approveVolunteerMock = jest
   .spyOn(VolunteerService.prototype, 'approve')
-  .mockImplementation(jest.fn())
+  .mockImplementation(jest.fn(() => Promise.resolve()))
 
 jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -68,7 +68,11 @@ const educationLevelMap = [
   ]
 ]
 
+const SESSION_LINK = 'https://teste.com.br'
+
 async function applyTestSetup(volunteerParameter: any = volunteer) {
+  jest.clearAllMocks()
+
   jest
     .spyOn(AuthorizationContext, 'useAuthContext')
     .mockReturnValue(
@@ -263,7 +267,6 @@ describe('Perfil Voluntário', () => {
 
     it('should call approve volunteer service when I click in "Aprovar" and the link input is filled', async () => {
       const VOLUNTEER_ID = 123
-      const SESSION_LINK = 'https://teste.com.br'
       await applyTestSetup({
         ...volunteer,
         usuario: { ...volunteer?.usuario, id: VOLUNTEER_ID }
@@ -279,6 +282,34 @@ describe('Perfil Voluntário', () => {
         VOLUNTEER_ID,
         SESSION_LINK
       )
+    })
+
+    it('should redirect to dashboard admin when sucessfully approve volunteer', async () => {
+      await applyTestSetup()
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(aprovarButton)
+
+      expect(await router.push).toHaveBeenCalledWith('/dashboard-administrador')
+    })
+
+    it.skip('should render toast with successful message when approve volunteer', async () => {
+      await applyTestSetup()
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(aprovarButton)
+
+      const emitMock = jest.fn()
+      await waitFor(() => {
+        expect(emitMock).toHaveBeenCalledWith({
+          type: 'sucesso',
+          message: 'Alteração feita com sucesso'
+        })
+      })
     })
   })
 })

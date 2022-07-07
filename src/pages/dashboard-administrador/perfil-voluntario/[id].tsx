@@ -26,6 +26,10 @@ import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
 import { TextField } from 'components/atoms/TextField'
+import {
+  ToastType,
+  useToast
+} from '../../../services/toast-service/toast-service'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -35,11 +39,11 @@ function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
   const [emptyLinkError, setEmptyLinkError] = useState<string>('')
   const [sessionLink, setSessionLink] = useState<string>('')
-
+  const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
-  const goBack = function () {
-    router.push('/dashboard-administrador')
+  const goBack = async function () {
+    await router.push('/dashboard-administrador')
   }
 
   const fetchVolunteer = async (id: number) => {
@@ -69,7 +73,17 @@ function PerfilVoluntario() {
 
   function handleApproval() {
     if (volunteer && sessionLink) {
-      volunteerService.approve(volunteer?.usuario.id, sessionLink)
+      volunteerService
+        .approve(volunteer?.usuario.id, sessionLink)
+        .then((result) => {
+          goBack()
+
+          emit({
+            type: ToastType.SUCCESS,
+            message: 'Alteração feita com sucesso'
+          })
+        })
+        .catch((error) => {})
     }
     setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
