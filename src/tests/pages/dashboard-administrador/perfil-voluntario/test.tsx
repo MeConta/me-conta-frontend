@@ -16,6 +16,10 @@ const approveVolunteerMock = jest
   .spyOn(VolunteerService.prototype, 'approve')
   .mockImplementation(jest.fn(() => Promise.resolve()))
 
+const rejectVolunteerMock = jest
+  .spyOn(VolunteerService.prototype, 'reject')
+  .mockImplementation(jest.fn(() => Promise.resolve()))
+
 jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() }),
   push: jest.fn(),
@@ -324,6 +328,20 @@ describe('Perfil Voluntário', () => {
           message: 'Alteração feita com sucesso'
         })
       })
+    })
+
+    it('should call reject volunteer service when I click in "Reprovar"', async () => {
+      const VOLUNTEER_ID = 123
+      await applyTestSetup({
+        ...volunteer,
+        usuario: { ...volunteer?.usuario, id: VOLUNTEER_ID }
+      })
+
+      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(reprovarButton)
+
+      expect(rejectVolunteerMock).toHaveBeenCalledWith(VOLUNTEER_ID)
     })
   })
 })

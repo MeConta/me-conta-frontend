@@ -91,6 +91,17 @@ function PerfilVoluntario() {
     showLinkError(sessionLink)
   }
 
+  function handleReject() {
+    if (volunteer) {
+      volunteerService
+        .reject(volunteer?.usuario.id)
+        .then(() => {})
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }
+
   function handleSaveLink() {
     if (volunteer && sessionLink) {
       volunteerService.updateSessionLink(volunteer?.usuario.id, sessionLink)
@@ -228,6 +239,7 @@ function PerfilVoluntario() {
             radius="square"
             size="xMedium"
             sufixIcon={<XCircle />}
+            onClick={handleReject}
           >
             REPROVAR
           </Button>
