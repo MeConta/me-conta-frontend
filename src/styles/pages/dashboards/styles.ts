@@ -146,6 +146,10 @@ export const ContainerDashboard = styled.div`
       margin: 27px 0;
       color: ${theme.colors.mineShaft};
     }
+
+    #error-message {
+      font-size: ${theme.font.sizes['desk-large']};
+    }
   `}
 `
 
