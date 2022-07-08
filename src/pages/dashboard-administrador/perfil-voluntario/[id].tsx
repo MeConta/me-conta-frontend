@@ -7,7 +7,10 @@ import {
   SectionDetailsContainer,
   SectionDetails,
   ButtonContainer,
-  LinkIcon
+  LinkIcon,
+  SectionLinkContainer,
+  FieldLinkWrapper,
+  SaveLinkWrapper
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
@@ -36,6 +39,7 @@ function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
   const [emptyLinkError, setEmptyLinkError] = useState<string>('')
   const [sessionLink, setSessionLink] = useState<string>('')
+  const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
@@ -199,29 +203,42 @@ function PerfilVoluntario() {
         </Button>
       </TitleContainer>
       <S.ContainerDashboard>
-        <TextField
-          label="Link das Sessões"
-          name={'sessionLink'}
-          value={sessionLink}
-          onChange={(e) => setSessionLink(e.target.value)}
-          required={true}
-          error={emptyLinkError}
-        >
-          <LinkIcon />
-        </TextField>
-        {volunteer?.aprovado ? (
-          <Button
-            color="secondary"
-            radius="square"
-            size="xMedium"
-            prefixIcon={<Save />}
-            onClick={handleSaveLink}
-          >
-            SALVAR LINK
-          </Button>
-        ) : (
-          <></>
-        )}
+        <SectionLinkContainer>
+          <FieldLinkWrapper>
+            <TextField
+              label="Link das Sessões"
+              name={'sessionLink'}
+              value={sessionLink}
+              onChange={(e) => {
+                setSessionLink(e.target.value)
+                setDisableButtonLink(false)
+              }}
+              required={true}
+              error={emptyLinkError}
+            >
+              <LinkIcon />
+            </TextField>
+          </FieldLinkWrapper>
+          {volunteer?.aprovado ? (
+            <SaveLinkWrapper>
+              <Button
+                color="primary"
+                radius="square"
+                size="xMedium"
+                prefixIcon={<Save />}
+                onClick={() => {
+                  handleSaveLink
+                  setDisableButtonLink(true)
+                }}
+                disabled={disableButtonLink}
+              >
+                SALVAR LINK
+              </Button>
+            </SaveLinkWrapper>
+          ) : (
+            <></>
+          )}
+        </SectionLinkContainer>
         {renderVolunteersPersonalData()}
         {renderVolunteersAcademicData()}
         <ButtonContainer>

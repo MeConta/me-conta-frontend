@@ -75,3 +75,16 @@ export const ButtonContainer = styled.div`
     gap: 16px;
   }
 `
+export const SectionLinkContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+`
+export const FieldLinkWrapper = styled.div`
+  flex-grow: 3;
+`
+
+export const SaveLinkWrapper = styled.div`
+  flex-grow: 0;
+  margin-top: 3rem;
+`

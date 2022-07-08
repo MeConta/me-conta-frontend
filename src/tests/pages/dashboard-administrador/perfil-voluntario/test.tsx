@@ -138,6 +138,21 @@ describe('Perfil Voluntário', () => {
         screen.queryByRole('button', { name: /Salvar Link/i })
       ).not.toBeInTheDocument()
     })
+
+    it('should render disable button', async () => {
+      await applyTestSetup()
+      expect(
+        screen.getByRole('button', { name: /Salvar Link/i })
+      ).toBeDisabled()
+    })
+
+    it('should render enable button when field value link changed', async () => {
+      await applyTestSetup()
+      const sessionLinkInput = screen.getByRole('textbox')
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+
+      expect(screen.getByRole('button', { name: /Salvar Link/i })).toBeEnabled()
+    })
   })
 
   describe('Dados Pessoais', () => {
