@@ -11,7 +11,7 @@ import {
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
+import { ArrowLeft, CheckLg, Save, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import {
@@ -71,6 +71,10 @@ function PerfilVoluntario() {
       : NivelFormacao.SUPERIOR_EM_ANDAMENTO.label
   }
 
+  function showLinkError(sessionLink: string) {
+    setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
+  }
+
   function handleApproval() {
     if (volunteer && sessionLink) {
       volunteerService
@@ -85,7 +89,14 @@ function PerfilVoluntario() {
         })
         .catch((error) => {})
     }
-    setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
+    showLinkError(sessionLink)
+  }
+
+  function handleSaveLink() {
+    if (volunteer && sessionLink) {
+      volunteerService.updateSessionLink(volunteer?.usuario.id, sessionLink)
+    }
+    showLinkError(sessionLink)
   }
 
   function renderVolunteersPersonalData() {
@@ -188,6 +199,19 @@ function PerfilVoluntario() {
         >
           <LinkIcon />
         </TextField>
+        {volunteer?.aprovado ? (
+          <Button
+            color="secondary"
+            radius="square"
+            size="xMedium"
+            prefixIcon={<Save />}
+            onClick={handleSaveLink}
+          >
+            SALVAR LINK
+          </Button>
+        ) : (
+          <></>
+        )}
         {renderVolunteersPersonalData()}
         {renderVolunteersAcademicData()}
         <ButtonContainer>

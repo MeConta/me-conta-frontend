@@ -119,6 +119,22 @@ describe('Perfil Voluntário', () => {
       })
       expect(inputElement).toBeInTheDocument()
     })
+
+    it('should render save link button if Volunteer is approved', async () => {
+      await applyTestSetup()
+      expect(
+        screen.getByRole('button', { name: /Salvar Link/i })
+      ).toBeInTheDocument()
+    })
+
+    it('should not render save link button if Volunteer is not approved', async () => {
+      const volunteerNotApproved = { ...volunteer }
+      volunteerNotApproved.aprovado = false
+      await applyTestSetup(volunteerNotApproved)
+      expect(
+        screen.queryByRole('button', { name: /Salvar Link/i })
+      ).not.toBeInTheDocument()
+    })
   })
 
   describe('Dados Pessoais', () => {
