@@ -26,10 +26,7 @@ import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
 import { TextField } from 'components/atoms/TextField'
-import {
-  ToastType,
-  useToast
-} from '../../../services/toast-service/toast-service'
+import { ToastType, useToast } from 'services/toast-service/toast-service'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -79,7 +76,7 @@ function PerfilVoluntario() {
     if (volunteer && sessionLink) {
       volunteerService
         .approve(volunteer?.usuario.id, sessionLink)
-        .then((result) => {
+        .then(() => {
           goBack()
 
           emit({
@@ -87,7 +84,9 @@ function PerfilVoluntario() {
             message: 'Alteração feita com sucesso'
           })
         })
-        .catch((error) => {})
+        .catch((error) => {
+          console.error(error)
+        })
     }
     showLinkError(sessionLink)
   }

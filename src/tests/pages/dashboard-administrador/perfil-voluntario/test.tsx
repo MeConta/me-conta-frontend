@@ -10,8 +10,7 @@ import theme from 'styles/theme'
 import { api } from 'services/api/api'
 import { NivelFormacao } from '../../../../domain/nivel-formacao'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
-
-jest.mock('store/auth-context')
+import { useToast } from 'services/toast-service/toast-service'
 
 const approveVolunteerMock = jest
   .spyOn(VolunteerService.prototype, 'approve')
@@ -311,7 +310,7 @@ describe('Perfil Voluntário', () => {
       expect(await router.push).toHaveBeenCalledWith('/dashboard-administrador')
     })
 
-    it.skip('should render toast with successful message when approve volunteer', async () => {
+    it('should render toast with successful message when approve volunteer', async () => {
       await applyTestSetup()
       const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
       const sessionLinkInput = screen.getByRole('textbox')
@@ -319,10 +318,9 @@ describe('Perfil Voluntário', () => {
       userEvent.type(sessionLinkInput, SESSION_LINK)
       userEvent.click(aprovarButton)
 
-      const emitMock = jest.fn()
       await waitFor(() => {
-        expect(emitMock).toHaveBeenCalledWith({
-          type: 'sucesso',
+        expect(useToast().emit).toHaveBeenCalledWith({
+          type: 'success',
           message: 'Alteração feita com sucesso'
         })
       })
