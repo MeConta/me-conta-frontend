@@ -22,6 +22,9 @@ jobs:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy-dev:
     runs-on: ubuntu-latest
+    environment:
+      name: DEV
+      url: https://me-conta-frontend.herokuapp.com
     needs:
       - build-and-test
     env:
