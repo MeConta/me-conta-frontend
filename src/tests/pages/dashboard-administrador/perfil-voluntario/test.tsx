@@ -158,6 +158,23 @@ describe('Perfil Voluntário', () => {
 
       expect(screen.getByRole('button', { name: /Salvar Link/i })).toBeEnabled()
     })
+
+    it('should render toast with successful message when new session link is saved', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: true })
+      const saveLink = screen.getByRole('button', { name: /Salvar Link/i })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(saveLink)
+      expect(saveLink).toBeDisabled()
+
+      await waitFor(() => {
+        expect(useToast().emit).toHaveBeenCalledWith({
+          type: 'success',
+          message: 'Link das Sessões salvo com sucesso'
+        })
+      })
+    })
   })
 
   describe('Dados Pessoais', () => {

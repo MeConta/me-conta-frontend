@@ -27,6 +27,7 @@ import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
 import { TextField } from 'components/atoms/TextField'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
+import Loader from 'components/atoms/Loader'
 import SaveIcon from 'components/atoms/SaveIcon'
 
 const ERRORS = {
@@ -223,64 +224,70 @@ function PerfilVoluntario() {
         </Button>
       </TitleContainer>
       <S.ContainerDashboard>
-        <SectionLinkContainer>
-          <FieldLinkWrapper>
-            <TextField
-              label="Link das Sessões"
-              name={'sessionLink'}
-              value={sessionLink}
-              onChange={(e) => {
-                setSessionLink(e.target.value)
-                setDisableButtonLink(false)
-              }}
-              required={true}
-              error={emptyLinkError}
-            >
-              <LinkIcon />
-            </TextField>
-          </FieldLinkWrapper>
-          {volunteer?.aprovado ? (
-            <SaveLinkWrapper>
-              <Button
-                color="primary"
-                radius="square"
-                size="xMedium"
-                prefixIcon={<SaveIcon />}
-                onClick={() => {
-                  handleSaveLink()
-                  setDisableButtonLink(true)
-                }}
-                disabled={disableButtonLink}
-              >
-                <span>SALVAR LINK</span>
-              </Button>
-            </SaveLinkWrapper>
-          ) : (
-            <></>
-          )}
-        </SectionLinkContainer>
-        {renderVolunteersPersonalData()}
-        {renderVolunteersAcademicData()}
-        <ButtonContainer>
-          <Button
-            color="success"
-            radius="square"
-            size="xMedium"
-            sufixIcon={<CheckLg />}
-            onClick={handleApproval}
-          >
-            APROVAR
-          </Button>
-          <Button
-            color="secondary"
-            radius="square"
-            size="xMedium"
-            sufixIcon={<XCircle />}
-            onClick={handleReject}
-          >
-            REPROVAR
-          </Button>
-        </ButtonContainer>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <SectionLinkContainer>
+              <FieldLinkWrapper>
+                <TextField
+                  label="Link das Sessões"
+                  name={'sessionLink'}
+                  value={sessionLink}
+                  onChange={(e) => {
+                    setSessionLink(e.target.value)
+                    setDisableButtonLink(false)
+                  }}
+                  required={true}
+                  error={emptyLinkError}
+                >
+                  <LinkIcon />
+                </TextField>
+              </FieldLinkWrapper>
+              {volunteer?.aprovado && (
+                <SaveLinkWrapper>
+                  <Button
+                    color="primary"
+                    radius="square"
+                    size="xMedium"
+                    prefixIcon={<SaveIcon />}
+                    onClick={() => {
+                      handleSaveLink()
+                      setDisableButtonLink(true)
+                    }}
+                    disabled={disableButtonLink}
+                  >
+                    SALVAR LINK
+                  </Button>
+                </SaveLinkWrapper>
+              )}
+            </SectionLinkContainer>
+            {renderVolunteersPersonalData()}
+            {renderVolunteersAcademicData()}
+            {volunteer?.isEmAberto() && (
+              <ButtonContainer>
+                <Button
+                  color="success"
+                  radius="square"
+                  size="xMedium"
+                  sufixIcon={<CheckLg />}
+                  onClick={handleApproval}
+                >
+                  APROVAR
+                </Button>
+                <Button
+                  color="secondary"
+                  radius="square"
+                  size="xMedium"
+                  sufixIcon={<XCircle />}
+                  onClick={handleReject}
+                >
+                  REPROVAR
+                </Button>
+              </ButtonContainer>
+            )}
+          </>
+        )}
       </S.ContainerDashboard>
     </ContentWrapper>
   )
