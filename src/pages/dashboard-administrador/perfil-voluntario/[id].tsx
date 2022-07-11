@@ -14,7 +14,7 @@ import {
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import { ArrowLeft, CheckLg, Save, XCircle } from 'styled-icons/bootstrap'
+import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
@@ -29,6 +29,7 @@ import { TextField } from 'components/atoms/TextField'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Loader from 'components/atoms/Loader'
 import SaveIcon from 'components/atoms/SaveIcon'
+import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -36,7 +37,7 @@ const ERRORS = {
 
 function PerfilVoluntario() {
   const [volunteer, setVolunteer] = useState<Volunteer | null>(null)
-  const [emptyLinkError, setEmptyLinkError] = useState<string>('')
+  const [linkError, setLinkError] = useState<string>('')
   const [sessionLink, setSessionLink] = useState<string>('')
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(true)
@@ -76,7 +77,7 @@ function PerfilVoluntario() {
   }
 
   function showLinkError(sessionLink: string) {
-    setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
+    setLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
 
   function showSuccessFeedback(messageInput: string) {
@@ -98,10 +99,11 @@ function PerfilVoluntario() {
           showSuccessFeedback(successMessageUpdate)
         })
         .catch((error) => {
-          console.error(error)
+          setLinkError(formatErrorMessage(error?.response?.data?.message[0]))
         })
+    } else {
+      showLinkError(sessionLink)
     }
-    showLinkError(sessionLink)
   }
 
   function handleReject() {
@@ -239,7 +241,7 @@ function PerfilVoluntario() {
                     setDisableButtonLink(false)
                   }}
                   required={true}
-                  error={emptyLinkError}
+                  error={linkError}
                 >
                   <LinkIcon />
                 </TextField>

@@ -321,6 +321,31 @@ describe('Perfil Voluntário', () => {
       expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument()
     })
 
+    it('should render error message when I click in "Aprovar" and the link input is invalid', async () => {
+      await applyTestSetup()
+      approveVolunteerMock.mockImplementationOnce(
+        jest.fn(() =>
+          Promise.reject({
+            response: {
+              data: {
+                statusCode: 400,
+                message: ['Link inválido'],
+                error: 'Bad Request'
+              }
+            }
+          })
+        )
+      )
+
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, 'linkinvalido')
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+
+      userEvent.click(aprovarButton)
+      expect(await screen.findByText(/Link inválido/)).toBeInTheDocument()
+    })
+
     it('should call approve volunteer service when I click in "Aprovar" and the link input is filled', async () => {
       const VOLUNTEER_ID = 123
       await applyTestSetup({

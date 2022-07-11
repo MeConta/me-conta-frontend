@@ -1,14 +1,20 @@
 import { AxiosError } from 'axios'
-import { array } from 'yup'
+
+export function formatErrorMessage(errorMessage: string | Array<string>) {
+  if (!Array.isArray(errorMessage)) {
+    return errorMessage
+  } else {
+    return errorMessage.length > 0 ? errorMessage[0] : 'Erro genérico'
+  }
+}
 
 export function getErrorMessage(error: AxiosError) {
   const errorMessage = error?.response?.data?.message
 
   if (errorMessage) {
-    return Array.isArray(errorMessage) && errorMessage.length > 0
-      ? errorMessage[0]
-      : errorMessage
+    return formatErrorMessage(errorMessage)
   }
+
   return (
     <div>
       Algo deu errado!

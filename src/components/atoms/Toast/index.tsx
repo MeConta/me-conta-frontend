@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { ToastContainer } from 'react-toastify'
 import { api } from 'services/api/api'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
-import { getErrorMessage } from 'utils/enums/http-error-code.enum'
+import { getErrorMessage } from 'utils/handlers/errorHandler'
 
 export function Toast() {
   const { emit } = useToast()
