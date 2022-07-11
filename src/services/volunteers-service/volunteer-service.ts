@@ -84,6 +84,7 @@ export class VolunteerService implements IVolunteerService {
 
   async updateSessionLink(id: number, sessionLink: string): Promise<void> {
     await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
+      aprovado: true,
       link: sessionLink
     })
   }

@@ -76,21 +76,23 @@ function PerfilVoluntario() {
     setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
 
-  function showSuccessFeedback() {
+  function showSuccessFeedback(messageInput: string) {
     goBack()
 
     emit({
       type: ToastType.SUCCESS,
-      message: 'Alteração feita com sucesso'
+      message: messageInput
     })
   }
+
+  const successMessageUpdate = 'Alteração feita com sucesso'
 
   function handleApproval() {
     if (volunteer && sessionLink) {
       volunteerService
         .approve(volunteer?.usuario.id, sessionLink)
         .then(() => {
-          showSuccessFeedback()
+          showSuccessFeedback(successMessageUpdate)
         })
         .catch((error) => {
           console.error(error)
@@ -104,7 +106,7 @@ function PerfilVoluntario() {
       volunteerService
         .reject(volunteer?.usuario.id)
         .then(() => {
-          showSuccessFeedback()
+          showSuccessFeedback(successMessageUpdate)
         })
         .catch((error) => {
           console.error(error)
@@ -114,7 +116,17 @@ function PerfilVoluntario() {
 
   function handleSaveLink() {
     if (volunteer && sessionLink) {
-      volunteerService.updateSessionLink(volunteer?.usuario.id, sessionLink)
+      volunteerService
+        .updateSessionLink(volunteer?.usuario.id, sessionLink)
+        .then(() => {
+          emit({
+            type: ToastType.SUCCESS,
+            message: 'Link das Sessões salvo com sucesso'
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
     showLinkError(sessionLink)
   }
