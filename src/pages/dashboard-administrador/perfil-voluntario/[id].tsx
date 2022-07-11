@@ -53,6 +53,7 @@ function PerfilVoluntario() {
     try {
       const fetchedVolunteer = await volunteerService.findById(id)
       setVolunteer(new Volunteer(fetchedVolunteer))
+      setSessionLink(fetchedVolunteer.link)
     } catch (error) {
       console.log(error)
     } finally {

@@ -35,6 +35,7 @@ export interface VolunteerResponse {
     email: string
     id: number
   }
+  link: string
 }
 
 export class VolunteerService implements IVolunteerService {

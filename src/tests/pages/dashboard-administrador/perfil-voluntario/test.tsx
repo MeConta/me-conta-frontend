@@ -50,7 +50,8 @@ const volunteer = {
   genero: '',
   cidade: 'Guarujá',
   UF: 'São Paulo',
-  telefone: '34999999999'
+  telefone: '34999999999',
+  link: ''
 }
 
 const genderMap = [
