@@ -139,7 +139,7 @@ export const ContainerDashboard = styled.div`
       padding: 0;
     }
 
-    > div > label {
+    label {
       font-family: ${theme.font.family};
       font-weight: ${theme.font.bold};
       font-size: ${theme.font.sizes['desk-xlarge']};
