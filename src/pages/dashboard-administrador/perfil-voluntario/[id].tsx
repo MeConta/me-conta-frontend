@@ -76,17 +76,21 @@ function PerfilVoluntario() {
     setEmptyLinkError(sessionLink ? '' : ERRORS.REQUIRED_FIELD)
   }
 
+  function showSuccessFeedback() {
+    goBack()
+
+    emit({
+      type: ToastType.SUCCESS,
+      message: 'Alteração feita com sucesso'
+    })
+  }
+
   function handleApproval() {
     if (volunteer && sessionLink) {
       volunteerService
         .approve(volunteer?.usuario.id, sessionLink)
         .then(() => {
-          goBack()
-
-          emit({
-            type: ToastType.SUCCESS,
-            message: 'Alteração feita com sucesso'
-          })
+          showSuccessFeedback()
         })
         .catch((error) => {
           console.error(error)
@@ -99,7 +103,9 @@ function PerfilVoluntario() {
     if (volunteer) {
       volunteerService
         .reject(volunteer?.usuario.id)
-        .then(() => {})
+        .then(() => {
+          showSuccessFeedback()
+        })
         .catch((error) => {
           console.error(error)
         })

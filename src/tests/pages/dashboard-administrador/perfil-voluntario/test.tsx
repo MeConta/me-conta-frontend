@@ -358,5 +358,28 @@ describe('Perfil Voluntário', () => {
 
       expect(rejectVolunteerMock).toHaveBeenCalledWith(VOLUNTEER_ID)
     })
+
+    it('should redirect to dashboard admin when sucessfully reject volunteer', async () => {
+      await applyTestSetup()
+      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(reprovarButton)
+
+      expect(await router.push).toHaveBeenCalledWith('/dashboard-administrador')
+    })
+
+    it('should render toast with successful message when reject volunteer', async () => {
+      await applyTestSetup()
+      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(reprovarButton)
+
+      await waitFor(() => {
+        expect(useToast().emit).toHaveBeenCalledWith({
+          type: 'success',
+          message: 'Alteração feita com sucesso'
+        })
+      })
+    })
   })
 })
