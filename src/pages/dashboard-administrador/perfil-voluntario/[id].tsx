@@ -17,13 +17,10 @@ import router from 'next/router'
 import { ArrowLeft, CheckLg, Save, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
-import {
-  VolunteerResponse,
-  VolunteerService,
-  GenderTypes,
-  Gender
-} from 'services/volunteers-service/volunteer-service'
+import { VolunteerService } from 'services/volunteers-service/volunteer-service'
+import { Volunteer } from 'domain/volunteer'
 import { NivelFormacao } from 'domain/nivel-formacao'
+import { GenderTypes, Gender } from 'enums/gender.enum'
 import Frentes from 'components/atoms/Frentes'
 import { formatPhoneNumber } from '../../../utils/format-string/helpers'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
@@ -36,7 +33,7 @@ const ERRORS = {
 }
 
 function PerfilVoluntario() {
-  const [volunteer, setVolunteer] = useState<VolunteerResponse | null>(null)
+  const [volunteer, setVolunteer] = useState<Volunteer | null>(null)
   const [emptyLinkError, setEmptyLinkError] = useState<string>('')
   const [sessionLink, setSessionLink] = useState<string>('')
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
@@ -50,7 +47,7 @@ function PerfilVoluntario() {
   const fetchVolunteer = async (id: number) => {
     try {
       const fetchedVolunteer = await volunteerService.findById(id)
-      setVolunteer(fetchedVolunteer)
+      setVolunteer(new Volunteer(fetchedVolunteer))
     } catch (error) {
       console.log(error)
     }
@@ -259,26 +256,28 @@ function PerfilVoluntario() {
         </SectionLinkContainer>
         {renderVolunteersPersonalData()}
         {renderVolunteersAcademicData()}
-        <ButtonContainer>
-          <Button
-            color="success"
-            radius="square"
-            size="xMedium"
-            sufixIcon={<CheckLg />}
-            onClick={handleApproval}
-          >
-            APROVAR
-          </Button>
-          <Button
-            color="secondary"
-            radius="square"
-            size="xMedium"
-            sufixIcon={<XCircle />}
-            onClick={handleReject}
-          >
-            REPROVAR
-          </Button>
-        </ButtonContainer>
+        {volunteer?.isEmAberto() && (
+          <ButtonContainer>
+            <Button
+              color="success"
+              radius="square"
+              size="xMedium"
+              sufixIcon={<CheckLg />}
+              onClick={handleApproval}
+            >
+              APROVAR
+            </Button>
+            <Button
+              color="secondary"
+              radius="square"
+              size="xMedium"
+              sufixIcon={<XCircle />}
+              onClick={handleReject}
+            >
+              REPROVAR
+            </Button>
+          </ButtonContainer>
+        )}
       </S.ContainerDashboard>
     </ContentWrapper>
   )

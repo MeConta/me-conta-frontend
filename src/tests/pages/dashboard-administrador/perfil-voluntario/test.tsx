@@ -30,7 +30,7 @@ jest.mock('next/router', () => ({
 
 const volunteer = {
   anoFormacao: 2020,
-  aprovado: true,
+  aprovado: null,
   areaAtuacao: 'professor',
   bio: 'string',
   crp: 'string',
@@ -124,30 +124,28 @@ describe('Perfil Voluntário', () => {
     })
 
     it('should render save link button if Volunteer is approved', async () => {
-      await applyTestSetup()
+      await applyTestSetup({ ...volunteer, aprovado: true })
       expect(
         screen.getByRole('button', { name: /Salvar Link/i })
       ).toBeInTheDocument()
     })
 
     it('should not render save link button if Volunteer is not approved', async () => {
-      const volunteerNotApproved = { ...volunteer }
-      volunteerNotApproved.aprovado = false
-      await applyTestSetup(volunteerNotApproved)
+      await applyTestSetup({ ...volunteer, aprovado: false })
       expect(
         screen.queryByRole('button', { name: /Salvar Link/i })
       ).not.toBeInTheDocument()
     })
 
     it('should render disable button', async () => {
-      await applyTestSetup()
+      await applyTestSetup({ ...volunteer, aprovado: true })
       expect(
         screen.getByRole('button', { name: /Salvar Link/i })
       ).toBeDisabled()
     })
 
     it('should render enable button when field value link changed', async () => {
-      await applyTestSetup()
+      await applyTestSetup({ ...volunteer, aprovado: true })
       const sessionLinkInput = screen.getByRole('textbox')
       userEvent.type(sessionLinkInput, SESSION_LINK)
 
@@ -380,6 +378,28 @@ describe('Perfil Voluntário', () => {
           message: 'Alteração feita com sucesso'
         })
       })
+    })
+
+    it('should not render APROVAR and REPROVAR buttons when volunteer is already approved', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: true })
+
+      expect(
+        screen.queryByRole('button', { name: /APROVAR/ })
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /REPROVAR/ })
+      ).not.toBeInTheDocument()
+    })
+
+    it('should not render APROVAR and REPROVAR buttons when volunteer is already rejected', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: false })
+
+      expect(
+        screen.queryByRole('button', { name: /APROVAR/ })
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('button', { name: /REPROVAR/ })
+      ).not.toBeInTheDocument()
     })
   })
 })

@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 import { UserType } from 'enums/user-type.enum'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import { EBrazilStates } from 'utils/enums/brazil-states.enum'
+import { GenderTypes } from 'enums/gender.enum'
 
 export interface IVolunteerService {
   findBySessionType({
@@ -11,15 +12,6 @@ export interface IVolunteerService {
   }): Promise<VolunteerResponse[]>
   findByApprovalStatus(approvalStatus: number): Promise<VolunteerResponse[]>
 }
-
-export enum Gender {
-  M = 'Masculino',
-  F = 'Feminino',
-  NB = 'Não Binário',
-  ND = 'Não Declarado'
-}
-
-export type GenderTypes = keyof typeof Gender
 
 export interface VolunteerResponse {
   aprovado: boolean
