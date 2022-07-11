@@ -37,12 +37,12 @@ jobs:
           NODE_ENV: production
           API_URL: ${{ secrets.API_URL }}
         run: |
-          docker build . -f Dockerfile.web -t frontend --build-arg NODE_ENV --build-arg API_URL
-          docker tag frontend registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+          docker build . -f Dockerfile.web -t frontend --build-arg NODE_ENV --build-arg $API_URL
+          docker tag frontend registry.heroku.com/$HEROKU_APP_NAME/web
       - name: Push docker image to Heroku
-        run: docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+        run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
       - name: Release to Heroku
-        run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
+        run: heroku container:release -a $HEROKU_APP_NAME web
 
   deploy-hml:
     runs-on: ubuntu-latest
