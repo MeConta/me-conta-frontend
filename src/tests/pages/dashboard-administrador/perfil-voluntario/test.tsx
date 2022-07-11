@@ -73,7 +73,10 @@ const educationLevelMap = [
 
 const SESSION_LINK = 'https://teste.com.br'
 
-async function applyTestSetup(volunteerParameter: any = volunteer) {
+async function applyTestSetup(
+  volunteerParameter: any = volunteer,
+  shouldAwait: boolean = true
+) {
   jest.clearAllMocks()
 
   jest
@@ -87,9 +90,13 @@ async function applyTestSetup(volunteerParameter: any = volunteer) {
 
   let container = null
 
-  await act(async () => {
+  if (shouldAwait) {
+    await act(async () => {
+      container = render(<PerfilVoluntario />).container
+    })
+  } else {
     container = render(<PerfilVoluntario />).container
-  })
+  }
 
   return container
 }
@@ -400,6 +407,14 @@ describe('Perfil Voluntário', () => {
       expect(
         screen.queryByRole('button', { name: /REPROVAR/ })
       ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Page Loader', () => {
+    it('should render loader while volunteer data is being fetched', async () => {
+      await applyTestSetup(volunteer, false)
+
+      expect(screen.getByTestId('loader')).toBeInTheDocument()
     })
   })
 })

@@ -27,6 +27,7 @@ import { EBrazilStates } from 'utils/enums/brazil-states.enum'
 import SectionDetailsText from 'components/atoms/SectionDetailsText'
 import { TextField } from 'components/atoms/TextField'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
+import Loader from 'components/atoms/Loader'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -37,6 +38,7 @@ function PerfilVoluntario() {
   const [emptyLinkError, setEmptyLinkError] = useState<string>('')
   const [sessionLink, setSessionLink] = useState<string>('')
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
+  const [isLoading, setLoading] = useState<boolean>(true)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
@@ -45,11 +47,14 @@ function PerfilVoluntario() {
   }
 
   const fetchVolunteer = async (id: number) => {
+    setLoading(true)
     try {
       const fetchedVolunteer = await volunteerService.findById(id)
       setVolunteer(new Volunteer(fetchedVolunteer))
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -218,65 +223,69 @@ function PerfilVoluntario() {
         </Button>
       </TitleContainer>
       <S.ContainerDashboard>
-        <SectionLinkContainer>
-          <FieldLinkWrapper>
-            <TextField
-              label="Link das Sessões"
-              name={'sessionLink'}
-              value={sessionLink}
-              onChange={(e) => {
-                setSessionLink(e.target.value)
-                setDisableButtonLink(false)
-              }}
-              required={true}
-              error={emptyLinkError}
-            >
-              <LinkIcon />
-            </TextField>
-          </FieldLinkWrapper>
-          {volunteer?.aprovado ? (
-            <SaveLinkWrapper>
-              <Button
-                color="primary"
-                radius="square"
-                size="xMedium"
-                prefixIcon={<Save />}
-                onClick={() => {
-                  handleSaveLink()
-                  setDisableButtonLink(true)
-                }}
-                disabled={disableButtonLink}
-              >
-                SALVAR LINK
-              </Button>
-            </SaveLinkWrapper>
-          ) : (
-            <></>
-          )}
-        </SectionLinkContainer>
-        {renderVolunteersPersonalData()}
-        {renderVolunteersAcademicData()}
-        {volunteer?.isEmAberto() && (
-          <ButtonContainer>
-            <Button
-              color="success"
-              radius="square"
-              size="xMedium"
-              sufixIcon={<CheckLg />}
-              onClick={handleApproval}
-            >
-              APROVAR
-            </Button>
-            <Button
-              color="secondary"
-              radius="square"
-              size="xMedium"
-              sufixIcon={<XCircle />}
-              onClick={handleReject}
-            >
-              REPROVAR
-            </Button>
-          </ButtonContainer>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <SectionLinkContainer>
+              <FieldLinkWrapper>
+                <TextField
+                  label="Link das Sessões"
+                  name={'sessionLink'}
+                  value={sessionLink}
+                  onChange={(e) => {
+                    setSessionLink(e.target.value)
+                    setDisableButtonLink(false)
+                  }}
+                  required={true}
+                  error={emptyLinkError}
+                >
+                  <LinkIcon />
+                </TextField>
+              </FieldLinkWrapper>
+              {volunteer?.aprovado && (
+                <SaveLinkWrapper>
+                  <Button
+                    color="primary"
+                    radius="square"
+                    size="xMedium"
+                    prefixIcon={<Save />}
+                    onClick={() => {
+                      handleSaveLink()
+                      setDisableButtonLink(true)
+                    }}
+                    disabled={disableButtonLink}
+                  >
+                    SALVAR LINK
+                  </Button>
+                </SaveLinkWrapper>
+              )}
+            </SectionLinkContainer>
+            {renderVolunteersPersonalData()}
+            {renderVolunteersAcademicData()}
+            {volunteer?.isEmAberto() && (
+              <ButtonContainer>
+                <Button
+                  color="success"
+                  radius="square"
+                  size="xMedium"
+                  sufixIcon={<CheckLg />}
+                  onClick={handleApproval}
+                >
+                  APROVAR
+                </Button>
+                <Button
+                  color="secondary"
+                  radius="square"
+                  size="xMedium"
+                  sufixIcon={<XCircle />}
+                  onClick={handleReject}
+                >
+                  REPROVAR
+                </Button>
+              </ButtonContainer>
+            )}
+          </>
         )}
       </S.ContainerDashboard>
     </ContentWrapper>
