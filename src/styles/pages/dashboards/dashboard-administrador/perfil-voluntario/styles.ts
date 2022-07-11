@@ -86,5 +86,11 @@ export const FieldLinkWrapper = styled.div`
 
 export const SaveLinkWrapper = styled.div`
   flex-grow: 0;
-  margin-top: 3rem;
+  margin-top: 3.7rem;
+
+  span {
+    @media (max-width: ${screenBreakingPoint}) {
+      display: none;
+    }
+  }
 `
