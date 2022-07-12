@@ -19,11 +19,7 @@ jobs:
           fetch-depth: 0
       - name: Login no Heroku Container
         run: heroku container:login
-      - name: Build Docker image
-        run: |
-          docker build . -f Dockerfile.storybook -t storybook
-          docker tag storybook registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
       - name: Push Docker image to Heroku
-        run: docker push registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
+        run: heroku container:push web
       - name: Release to Heroku
         run: heroku container:release -a $HEROKU_STORYBOOK_APP_NAME web

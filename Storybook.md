@@ -23,6 +23,6 @@ npm run storybook
 ```shell
 docker build . -f Dockerfile.storybook -t me-conta_storybook:latest
 
-docker run -p 8080:80 me-conta_storybook:latest
+docker run -p 8080:8080 me-conta_storybook:latest
 ```
 
