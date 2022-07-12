@@ -1,20 +1,13 @@
 # DEPENDENCY STAGE
-FROM node:lts-slim as dependencies
+FROM node:16.16-slim as builder
 WORKDIR /usr/src/app
 COPY ./package*.json ./
 RUN npm i
-
-# STORYBOOK BUILD STAGE
-FROM node:lts-slim as builder
-WORKDIR /usr/src/app
-COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 COPY ./ ./
 RUN npx build-storybook
 
 # STORYBOOK STAGE
-FROM httpd:latest as storybook
+FROM httpd:2.4 as storybook
 WORKDIR /usr/local/apache2/htdocs/
 COPY --from=builder /usr/src/app/storybook-static ./
-# ARG PORT
-# ENV PORT=$PORT
-EXPOSE 8080
+EXPOSE 80
