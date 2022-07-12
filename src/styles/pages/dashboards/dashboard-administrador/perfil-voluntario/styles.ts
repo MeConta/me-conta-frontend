@@ -6,6 +6,7 @@ const screenBreakingPoint = '895px'
 
 type SectionDetailsProps = {
   width: string
+  alignItens?: string
 }
 
 export const TitleContainer = styled.div`
@@ -56,11 +57,19 @@ export const LinkIcon = styled(Link)`
 `
 
 export const SectionDetails = styled.div<SectionDetailsProps>`
-  ${({ width }) => css`
+  ${({ width, alignItens }) => css`
     width: ${width};
+
+    ${alignItens === 'right' &&
+    `
+      display: flex;
+      flex-direction: column;
+      align-items: end; 
+    `}
 
     @media (max-width: ${screenBreakingPoint}) {
       width: 100%;
+      align-items: start;
     }
   `}
 `

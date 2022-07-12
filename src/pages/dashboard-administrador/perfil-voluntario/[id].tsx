@@ -202,7 +202,7 @@ function PerfilVoluntario() {
               />
             )}
           </SectionDetails>
-          <SectionDetails width="50%">
+          <SectionDetails width="50%" alignItens="right">
             <SectionDetailsText
               label={'Áreas que gostaria de atuar'}
               value={''}
