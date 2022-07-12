@@ -23,3 +23,24 @@ export const DivContainer = styled.div<ContainerProps>`
       : Animation.normal().setAnimation().fadeOut()}
   `}
 `
+
+export const ModalContent = styled.div`
+  width: 421px;
+  height: 328px;
+`
+
+export const CloseButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    animation: zoomIn 0.3s forwards;
+
+    @keyframes zoomIn {
+      100% {
+        transform: scale(1.2);
+      }
+    }
+  }
+`

@@ -1,6 +1,5 @@
 import { render, screen, waitFor, within } from '../../../utils/tests/helpers'
 import Modal from '.'
-import userEvent from '@testing-library/user-event'
 
 const MODAL_CONTENT = () => {
   return (
@@ -48,15 +47,15 @@ describe('<Modal />', () => {
     })
 
     it('should render a container with a close button', () => {
-      const container = screen.getByTestId('modal-container')
+      const container = screen.getByTestId('content-container')
 
       expect(container).toBeInTheDocument()
-      // expect(container).toHaveStyle(
-      //   `
-      //     width: ${modalProps.width};
-      //     height: ${modalProps.height};
-      //   `
-      // )
+      expect(container).toHaveStyle(
+        `
+          width: 421px;
+          height: 328px;
+        `
+      )
     })
   })
 

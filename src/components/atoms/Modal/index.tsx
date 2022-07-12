@@ -3,9 +3,6 @@ import * as S from './styles'
 
 interface ModalProps {
   isEnabled: boolean
-  // width: number
-  // height: number
-  // approval: boolean
   children: ReactNode
 }
 
@@ -16,7 +13,10 @@ export default function Modal({ isEnabled, children }: ModalProps) {
       role="modal"
       data-testid="modal-container"
     >
-      <div>{children}</div>
+      <S.ModalContent data-testid="content-container">
+        <button></button>
+        {children}
+      </S.ModalContent>
     </S.DivContainer>
   ) : (
     <div></div>
