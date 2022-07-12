@@ -11,19 +11,16 @@ jobs:
       url: https://me-conta-story-book.herokuapp.com/
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_STORYBOOK_APP_NAME: ${{ secrets.HEROKU_STORYBOOK_APP_NAME }}
+      HEROKU_STORYBOOK_APP_NAME: me-conta-story-book
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Build docker image
-        env:
-          NODE_ENV: production
-          API_URL: ${{ secrets.API_URL }}
-        run: docker build . -f Dockerfile.storybook -t registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
       - name: Login no Heroku Container
         run: heroku container:login
+      - name: Build docker image
+        run: docker build . -f Dockerfile.storybook -t registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
       - name: Push Docker image to Heroku
         run: heroku container:push -a $HEROKU_STORYBOOK_APP_NAME web
       - name: Release to Heroku
