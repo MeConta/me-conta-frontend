@@ -30,6 +30,7 @@ import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Loader from 'components/atoms/Loader'
 import SaveIcon from 'components/atoms/SaveIcon'
 import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
+import Modal from 'components/atoms/Modal'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -41,6 +42,7 @@ function PerfilVoluntario() {
   const [sessionLink, setSessionLink] = useState<string>('')
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(true)
+  const [isModelEnabled, setModalEnable] = useState<boolean>(true)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
@@ -294,6 +296,34 @@ function PerfilVoluntario() {
       </S.ContainerDashboard>
     </ContentWrapper>
   )
+
+  type GoBackToDashboardModalProps = {
+    onClick: () => void
+    isModelEnabled: boolean
+  }
+
+  function GoBackToDashboardModal({
+    isModelEnabled,
+    onClick
+  }: GoBackToDashboardModalProps) {
+    return (
+      <>
+        <Modal isEnabled={isModelEnabled}>
+          <p>Sair da página?</p>
+          <p>As alterações feitas poderam não serem salvas</p>
+          <Button onClick={() => onClick()}>Cancelar</Button>
+          <Button
+            onClick={() => {
+              onClick()
+              goBack()
+            }}
+          >
+            Sair
+          </Button>
+        </Modal>
+      </>
+    )
+  }
 }
 
 export default authenticatedRoute(PerfilVoluntario, {

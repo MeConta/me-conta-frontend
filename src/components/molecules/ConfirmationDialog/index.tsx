@@ -3,9 +3,9 @@ import * as F from '../../../styles/form/styles'
 import { ReactNode, useEffect, useState } from 'react'
 import { Button } from 'components/atoms/Button'
 import { WrapperForm } from '../WrapperForm'
-import { Close } from '@styled-icons/material'
 import router from 'next/router'
 import useDelayUnmount from 'utils/animations/useDelayUnmount'
+import CloseButton from 'components/atoms/CloseButton'
 
 type InfoHeader = {
   preText?: string
@@ -97,14 +97,10 @@ export default function ConfirmationDialog({
         actionItems={
           isModal && isClosable
             ? [
-                <S.CloseButton
-                  id="close-button"
-                  data-testid="close"
+                <CloseButton
+                  key={'button'}
                   onClick={() => setVisible(false)}
-                  key="close"
-                >
-                  <Close size={'24'} color={'#5f5f5f'} />
-                </S.CloseButton>
+                ></CloseButton>
               ]
             : []
         }

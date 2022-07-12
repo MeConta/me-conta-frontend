@@ -1,10 +1,10 @@
 import { render, screen } from '../../../utils/tests/helpers'
-import userEvent from '@testing-library/user-event'
 import CloseButton from '.'
 
 describe('<CloseButton />', () => {
-  it('should close the dialog after clicking in close button', async () => {
-    render(<CloseButton />)
+  const onclickSpy = jest.fn()
+  it('should render close button', async () => {
+    render(<CloseButton onClick={onclickSpy} />)
 
     expect(screen.getByTestId('close')).toBeInTheDocument()
     expect(screen.getByTestId('close')).toHaveStyle(
@@ -14,5 +14,12 @@ describe('<CloseButton />', () => {
             cursor: pointer;
             `
     )
+  })
+
+  it('should call function when button is clicked', async () => {
+    render(<CloseButton onClick={onclickSpy} />)
+
+    screen.getByTestId('close').click()
+    expect(onclickSpy).toHaveBeenCalled()
   })
 })

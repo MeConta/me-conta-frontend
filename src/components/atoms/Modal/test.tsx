@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from '../../../utils/tests/helpers'
+import { render, screen } from '../../../utils/tests/helpers'
 import Modal from '.'
 
 const MODAL_CONTENT = () => {
