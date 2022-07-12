@@ -20,6 +20,6 @@ jobs:
       - name: Login no Heroku Container
         run: heroku container:login
       - name: Push Docker image to Heroku
-        run: heroku container:push web
+        run: heroku container:push -a $HEROKU_STORYBOOK_APP_NAME web
       - name: Release to Heroku
         run: heroku container:release -a $HEROKU_STORYBOOK_APP_NAME web
