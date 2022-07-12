@@ -17,6 +17,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Build docker image
+        env:
+          NODE_ENV: production
+          API_URL: ${{ secrets.API_URL }}
+        run: |
+          docker build . -f Dockerfile.storybook -t storybook
+          docker tag storybook registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
       - name: Login no Heroku Container
         run: heroku container:login
       - name: Push Docker image to Heroku
