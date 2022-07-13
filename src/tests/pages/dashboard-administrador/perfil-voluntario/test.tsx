@@ -131,6 +131,14 @@ describe('Perfil Voluntário', () => {
       expect(inputElement).toBeInTheDocument()
     })
 
+    it('should render placeholder text for Link das Sessões', async () => {
+      await applyTestSetup()
+      const inputElement = screen.getByPlaceholderText(
+        /Insira aqui o link para as sessões/
+      )
+      expect(inputElement).toBeInTheDocument()
+    })
+
     it('should render save link button if Volunteer is approved', async () => {
       await applyTestSetup({ ...volunteer, aprovado: true })
       expect(
