@@ -4,24 +4,36 @@ import * as S from './styles'
 
 interface ModalProps {
   isEnabled: boolean
+  width?: string
+  height?: string
   children: ReactNode
 }
 
-export default function Modal({ isEnabled, children }: ModalProps) {
-  const [isVisible, setVisible] = useState(true)
-  console.log('Modal')
-  return isEnabled ? (
+export default function Modal({
+  isEnabled,
+  children,
+  width = '421px',
+  height = '328px'
+}: ModalProps) {
+  const [isVisible, setVisible] = useState(isEnabled)
+  return isVisible ? (
     <S.DivContainer
-      isEnabled={isVisible}
+      isVisible={isVisible}
       role="modal"
       data-testid="modal-container"
     >
-      <S.ModalContent data-testid="content-container">
-        <CloseButton onClick={() => setVisible(false)}></CloseButton>
+      <S.ModalContent
+        width={width}
+        height={height}
+        data-testid="content-container"
+      >
+        <S.ModalHeader>
+          <CloseButton onClick={() => setVisible(false)} />
+        </S.ModalHeader>
         {children}
       </S.ModalContent>
     </S.DivContainer>
   ) : (
-    <div></div>
+    <></>
   )
 }

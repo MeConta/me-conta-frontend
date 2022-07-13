@@ -1,4 +1,4 @@
-import { render, screen } from '../../../utils/tests/helpers'
+import { render, screen, within } from '../../../utils/tests/helpers'
 import Modal from '.'
 
 const MODAL_CONTENT = () => {
@@ -13,13 +13,23 @@ const MODAL_CONTENT = () => {
 }
 
 const modalProps = {
-  isEnable: true
+  isEnable: true,
+  width: '430px',
+  height: '332px'
 }
 
 describe('<Modal />', () => {
   describe('when isEnabled prop is true', () => {
     beforeEach(() => {
-      render(<Modal isEnabled={modalProps.isEnable}>{MODAL_CONTENT()}</Modal>)
+      render(
+        <Modal
+          isEnabled={modalProps.isEnable}
+          width={modalProps.width}
+          height={modalProps.height}
+        >
+          {MODAL_CONTENT()}
+        </Modal>
+      )
     })
 
     it('should apply modal styles', () => {
@@ -48,14 +58,16 @@ describe('<Modal />', () => {
 
     it('should render a container with a close button', () => {
       const container = screen.getByTestId('content-container')
+      const closeButton = within(container).getByTestId('close')
 
       expect(container).toBeInTheDocument()
       expect(container).toHaveStyle(
         `
-          width: 421px;
-          height: 328px;
+          width: ${modalProps.width};
+          height: ${modalProps.height};
         `
       )
+      expect(closeButton).toBeInTheDocument()
     })
   })
 

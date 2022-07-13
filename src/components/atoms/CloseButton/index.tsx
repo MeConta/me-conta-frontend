@@ -13,7 +13,7 @@ export default function CloseButton({ onClick }: CloseButtonProps) {
       onClick={() => onClick()}
       key="close"
     >
-      <Close size={'24'} color={'#5f5f5f'} />
+      <Close size={'20'} color={'#5f5f5f'} />
     </S.CloseButton>
   )
 }
