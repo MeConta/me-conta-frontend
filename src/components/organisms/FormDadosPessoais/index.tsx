@@ -55,7 +55,7 @@ const FormDadosPessoais = ({
     defaultValues: valoresIniciais
   })
 
-  useBeforeUnload(handleBeforeUnload)
+  useBeforeUnload(handleBeforeUnload, true)
 
   const moveToNextStep = () => {
     setNextStep(PassosCadastro.DADOS_ACADEMICOS)

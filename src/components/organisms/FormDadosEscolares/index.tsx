@@ -80,7 +80,7 @@ const FormDadosEscolares = ({
     defaultValues: previousValues ?? initialValues
   })
 
-  useBeforeUnload(handleBeforeUnload)
+  useBeforeUnload(handleBeforeUnload, true)
 
   async function onSubmit(values: CadastroAlunoValues) {
     try {

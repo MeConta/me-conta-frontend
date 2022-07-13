@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
 
 export const useBeforeUnload = (
-  handler: (event: BeforeUnloadEvent) => boolean
+  handler: (event: BeforeUnloadEvent) => boolean,
+  enableModalBrowserExit: boolean
 ) => {
   useEffect(() => {
-    window.addEventListener('beforeunload', handler)
-    return () => window.removeEventListener('beforeunload', handler)
-  }, [handler])
+    if (enableModalBrowserExit) {
+      window.addEventListener('beforeunload', handler)
+      return () => window.removeEventListener('beforeunload', handler)
+    }
+  }, [handler, enableModalBrowserExit])
 }

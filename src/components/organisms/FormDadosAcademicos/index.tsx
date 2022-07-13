@@ -83,7 +83,7 @@ export default function FormDadosAcademicos({
   const [token] = useLocalStorage<string>('token', '')
   const [isLoading, setLoading] = useState(false)
 
-  useBeforeUnload(handleBeforeUnload)
+  useBeforeUnload(handleBeforeUnload, true)
 
   const onSubmit = async (form: DadosAcademicosValues) => {
     const dadosVoluntario = possuiSuperiorCompleto()

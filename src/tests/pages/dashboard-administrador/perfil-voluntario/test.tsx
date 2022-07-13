@@ -28,6 +28,9 @@ jest.mock('next/router', () => ({
   }
 }))
 
+const spyOnBeforeUnload = jest.fn()
+window.addEventListener = spyOnBeforeUnload
+
 const volunteer = {
   anoFormacao: 2020,
   aprovado: null,
@@ -183,6 +186,18 @@ describe('Perfil Voluntário', () => {
           message: 'Link das Sessões salvo com sucesso'
         })
       })
+    })
+
+    it('should trigger onbeforeunload event when session link is changed', async () => {
+      await applyTestSetup()
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+
+      expect(spyOnBeforeUnload).toHaveBeenCalledWith(
+        'beforeunload',
+        expect.anything()
+      )
     })
   })
 

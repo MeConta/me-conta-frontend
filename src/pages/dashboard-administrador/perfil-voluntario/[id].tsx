@@ -31,6 +31,8 @@ import Loader from 'components/atoms/Loader'
 import SaveIcon from 'components/atoms/SaveIcon'
 import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
 import Modal from 'components/molecules/Modal'
+import { useBeforeUnload } from 'hooks/beforeunload.hook'
+import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -43,12 +45,16 @@ function PerfilVoluntario() {
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(true)
   const [isModelEnabled, setModalEnable] = useState<boolean>(true)
+  const [enableModalBrowserExit, setEnableModalBrowserExit] =
+    useState<boolean>(false)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
   const goBack = async function () {
     await router.push('/dashboard-administrador')
   }
+
+  useBeforeUnload(handleBeforeUnload, enableModalBrowserExit)
 
   const fetchVolunteer = async (id: number) => {
     setLoading(true)
@@ -131,6 +137,7 @@ function PerfilVoluntario() {
             type: ToastType.SUCCESS,
             message: 'Link das Sessões salvo com sucesso'
           })
+          setEnableModalBrowserExit(false)
         })
         .catch((error) => {
           console.error(error)
@@ -243,6 +250,7 @@ function PerfilVoluntario() {
                   onChange={(e) => {
                     setSessionLink(e.target.value)
                     setDisableButtonLink(false)
+                    setEnableModalBrowserExit(true)
                   }}
                   required={true}
                   error={linkError}
