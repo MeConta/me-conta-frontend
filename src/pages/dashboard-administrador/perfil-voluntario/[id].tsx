@@ -44,7 +44,7 @@ function PerfilVoluntario() {
   const [sessionLink, setSessionLink] = useState<string>('')
   const [disableButtonLink, setDisableButtonLink] = useState<boolean>(true)
   const [isLoading, setLoading] = useState<boolean>(true)
-  const [isModelEnabled, setModalEnable] = useState<boolean>(true)
+  const [isModelEnabled, setModalEnable] = useState<boolean>(false)
   const [enableModalBrowserExit, setEnableModalBrowserExit] =
     useState<boolean>(false)
   const { emit } = useToast()
@@ -228,102 +228,121 @@ function PerfilVoluntario() {
   }
 
   return (
-    <ContentWrapper>
-      <TitleContainer>
-        <S.Title> Perfil - Voluntário </S.Title>
-        <Button onClick={goBack} btnStyle="link" prefixIcon={<ArrowLeft />}>
-          Voltar ao Dashboard
-        </Button>
-      </TitleContainer>
-      <S.ContainerDashboard>
-        {isLoading ? (
-          <Loader />
+    <>
+      <>
+        {isModelEnabled ? (
+          <HandleModalExit isModelEnabled={isModelEnabled}></HandleModalExit>
         ) : (
-          <>
-            <SectionLinkContainer>
-              <FieldLinkWrapper>
-                <TextField
-                  label="Link das Sessões"
-                  name={'sessionLink'}
-                  value={sessionLink}
-                  placeholder="Insira aqui o link para as sessões"
-                  onChange={(e) => {
-                    setSessionLink(e.target.value)
-                    setDisableButtonLink(false)
-                    setEnableModalBrowserExit(true)
-                  }}
-                  required={true}
-                  error={linkError}
-                >
-                  <LinkIcon />
-                </TextField>
-              </FieldLinkWrapper>
-              {volunteer?.aprovado && (
-                <SaveLinkWrapper>
+          <></>
+        )}
+      </>
+      <ContentWrapper>
+        <TitleContainer>
+          <S.Title> Perfil - Voluntário </S.Title>
+          <Button
+            onClick={() => {
+              if (enableModalBrowserExit) {
+                setModalEnable(true)
+              } else {
+                goBack()
+              }
+            }}
+            btnStyle="link"
+            prefixIcon={<ArrowLeft />}
+          >
+            Voltar ao Dashboard
+          </Button>
+        </TitleContainer>
+        <S.ContainerDashboard>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <SectionLinkContainer>
+                <FieldLinkWrapper>
+                  <TextField
+                    label="Link das Sessões"
+                    name={'sessionLink'}
+                    value={sessionLink}
+                    placeholder="Insira aqui o link para as sessões"
+                    onChange={(e) => {
+                      setSessionLink(e.target.value)
+                      setDisableButtonLink(false)
+                      setEnableModalBrowserExit(true)
+                    }}
+                    required={true}
+                    error={linkError}
+                  >
+                    <LinkIcon />
+                  </TextField>
+                </FieldLinkWrapper>
+                {volunteer?.aprovado && (
+                  <SaveLinkWrapper>
+                    <Button
+                      color="primary"
+                      radius="square"
+                      size="xMedium"
+                      prefixIcon={<SaveIcon />}
+                      onClick={() => {
+                        handleSaveLink()
+                        setDisableButtonLink(true)
+                      }}
+                      disabled={disableButtonLink}
+                    >
+                      SALVAR LINK
+                    </Button>
+                  </SaveLinkWrapper>
+                )}
+              </SectionLinkContainer>
+              {renderVolunteersPersonalData()}
+              {renderVolunteersAcademicData()}
+              {volunteer?.isEmAberto() && (
+                <ButtonContainer>
                   <Button
-                    color="primary"
+                    color="success"
                     radius="square"
                     size="xMedium"
-                    prefixIcon={<SaveIcon />}
-                    onClick={() => {
-                      handleSaveLink()
-                      setDisableButtonLink(true)
-                    }}
-                    disabled={disableButtonLink}
+                    sufixIcon={<CheckLg />}
+                    onClick={handleApproval}
                   >
-                    SALVAR LINK
+                    APROVAR
                   </Button>
-                </SaveLinkWrapper>
+                  <Button
+                    color="secondary"
+                    radius="square"
+                    size="xMedium"
+                    sufixIcon={<XCircle />}
+                    onClick={handleReject}
+                  >
+                    REPROVAR
+                  </Button>
+                </ButtonContainer>
               )}
-            </SectionLinkContainer>
-            {renderVolunteersPersonalData()}
-            {renderVolunteersAcademicData()}
-            {volunteer?.isEmAberto() && (
-              <ButtonContainer>
-                <Button
-                  color="success"
-                  radius="square"
-                  size="xMedium"
-                  sufixIcon={<CheckLg />}
-                  onClick={handleApproval}
-                >
-                  APROVAR
-                </Button>
-                <Button
-                  color="secondary"
-                  radius="square"
-                  size="xMedium"
-                  sufixIcon={<XCircle />}
-                  onClick={handleReject}
-                >
-                  REPROVAR
-                </Button>
-              </ButtonContainer>
-            )}
-          </>
-        )}
-      </S.ContainerDashboard>
-    </ContentWrapper>
+            </>
+          )}
+        </S.ContainerDashboard>
+      </ContentWrapper>
+    </>
   )
 
   type GoBackToDashboardModalProps = {
-    onClick: () => void
     isModelEnabled: boolean
   }
 
-  function GoBackToDashboardModal({
-    isModelEnabled,
-    onClick
-  }: GoBackToDashboardModalProps) {
+  function HandleModalExit({ isModelEnabled }: GoBackToDashboardModalProps) {
     return (
       <>
-        <Modal isEnabled={isModelEnabled}>
+        <Modal
+          isEnabled={isModelEnabled}
+          funcCloseButton={() => setModalEnable(false)}
+        >
           <p>Sair da página?</p>
           <p>As alterações feitas poderam não serem salvas</p>
-          <Button onClick={() => onClick()}>Cancelar</Button>
+          <Button onClick={() => setModalEnable(false)}>Cancelar</Button>
           <Button
+            color="secondary"
             onClick={() => {
-              onClick()
+              setModalEnable(false)
               goBack()
             }}
           >
