@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react'
-import CloseButton from '../CloseButton'
+import CloseButton from '../../atoms/CloseButton'
 import * as S from './styles'
 
 interface ModalProps {

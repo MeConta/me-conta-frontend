@@ -30,7 +30,7 @@ import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Loader from 'components/atoms/Loader'
 import SaveIcon from 'components/atoms/SaveIcon'
 import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
-import Modal from 'components/atoms/Modal'
+import Modal from 'components/molecules/Modal'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
