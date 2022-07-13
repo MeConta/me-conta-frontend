@@ -18,7 +18,7 @@ export function getErrorMessage(error: AxiosError) {
   return (
     <div>
       Algo deu errado!
-      {/* <br /> Tente novamente mais tarde. */}
+      <br /> Tente novamente mais tarde.
     </div>
   )
 }
