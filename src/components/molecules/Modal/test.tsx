@@ -18,6 +18,8 @@ const modalProps = {
   height: '332px'
 }
 
+const onCloseMock = jest.fn()
+
 describe('<Modal />', () => {
   describe('when isEnabled prop is true', () => {
     beforeEach(() => {
@@ -26,13 +28,14 @@ describe('<Modal />', () => {
           isEnabled={modalProps.isEnable}
           width={modalProps.width}
           height={modalProps.height}
+          funcCloseButton={onCloseMock}
         >
           {MODAL_CONTENT()}
         </Modal>
       )
     })
 
-    it('should apply modal styles', () => {
+    it('should apply background modal styles', () => {
       const modal = screen.getByRole('modal')
 
       expect(modal).toHaveStyle(
@@ -45,7 +48,7 @@ describe('<Modal />', () => {
       )
     })
 
-    it('should render Modal with a title, body and button', () => {
+    it('should render Modal with a title, body and buttons', () => {
       expect(screen.getByText('Title')).toBeInTheDocument()
       expect(screen.getByText('My body')).toBeInTheDocument()
       expect(
@@ -69,14 +72,17 @@ describe('<Modal />', () => {
       )
       expect(closeButton).toBeInTheDocument()
     })
+
+    it('should call function onCloseMock and close modal when closeButton is clicked', async () => {
+      screen.getByTestId('close').click()
+      expect(onCloseMock).toHaveBeenCalled()
+      expect(screen.queryByRole('modal')).not.toBeInTheDocument()
+    })
   })
 
   describe('when isEnabled prop is false', () => {
-    beforeEach(() => {
-      render(<Modal isEnabled={false}>{MODAL_CONTENT()}</Modal>)
-    })
-
     it('shouldnt render Modal', () => {
+      render(<Modal isEnabled={false} funcCloseButton={onCloseMock}>{MODAL_CONTENT()}</Modal>)
       expect(screen.queryByRole('modal')).not.toBeInTheDocument()
     })
   })

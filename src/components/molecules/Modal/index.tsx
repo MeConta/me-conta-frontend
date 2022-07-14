@@ -15,17 +15,26 @@ export default function Modal({
   children,
   funcCloseButton,
   width = '421px',
-  height = '328px'
+  height = '328px',
 }: ModalProps) {
-  return isEnabled ? (
-    <S.DivContainer isVisible={true} role="modal" data-testid="modal-container">
+  const [isVisible, setVisible] = useState(isEnabled)
+  const close = () => {
+    setVisible(false)
+    funcCloseButton()
+  }
+  return isVisible ? (
+    <S.DivContainer
+      isVisible={isVisible}
+      role="modal"
+      data-testid="modal-container"
+    >
       <S.ModalContent
         width={width}
         height={height}
         data-testid="content-container"
       >
         <S.ModalHeader>
-          <CloseButton onClick={funcCloseButton} />
+          <CloseButton onClick={close} />
         </S.ModalHeader>
         {children}
       </S.ModalContent>
