@@ -118,11 +118,15 @@ describe('Perfil Voluntário', () => {
     ).toBeInTheDocument()
   })
 
-  it('should redirect to dashboard admin when click in Voltar ao Dashboard', async () => {
-    await applyTestSetup()
-    userEvent.click(screen.getByRole('button', { name: /Voltar ao Dashboard/ }))
+  describe('Voltar ao dashboard', () => {
+    it('should redirect to dashboard admin when click in Voltar ao Dashboard without changes in link session field', async () => {
+      await applyTestSetup()
+      userEvent.click(
+        screen.getByRole('button', { name: /Voltar ao Dashboard/ })
+      )
 
-    expect(router.push).toHaveBeenCalledWith('/dashboard-administrador')
+      expect(router.push).toHaveBeenCalledWith('/dashboard-administrador')
+    })
   })
 
   describe('Link das Sessões', () => {
@@ -481,6 +485,38 @@ describe('Perfil Voluntário', () => {
       await applyTestSetup(volunteer, false)
 
       expect(screen.getByTestId('loader')).toBeInTheDocument()
+    })
+  })
+
+  describe('Go back dashboard modal', () => {
+    it('should show modal when link session changes but it is not saved and user clicks in Voltar ao Dashboard', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: true })
+      const sessionLinkInput = screen.getByRole('textbox')
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(
+        screen.getByRole('button', { name: /Voltar ao Dashboard/ })
+      )
+      expect(screen.getByRole('modal')).toBeInTheDocument()
+    })
+    it('should close modal when clicks Cancelar', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: true })
+      const sessionLinkInput = screen.getByRole('textbox')
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(
+        screen.getByRole('button', { name: /Voltar ao Dashboard/ })
+      )
+      userEvent.click(screen.getByRole('button', { name: /Cancelar/ }))
+      expect(screen.queryByRole('modal')).not.toBeInTheDocument()
+    })
+    it('should redirect to Admin Dashboard when clicks in Sair', async () => {
+      await applyTestSetup({ ...volunteer, aprovado: true })
+      const sessionLinkInput = screen.getByRole('textbox')
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(
+        screen.getByRole('button', { name: /Voltar ao Dashboard/ })
+      )
+      userEvent.click(screen.getByRole('button', { name: /Sair/ }))
+      expect(router.push).toHaveBeenCalledWith('/dashboard-administrador')
     })
   })
 })

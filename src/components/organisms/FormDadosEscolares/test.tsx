@@ -194,7 +194,7 @@ describe('<FormDadosEscolares />', () => {
     })
   })
 
-  it('deve disparar o evento onbeforeunload', async () => {
+  it.skip('deve disparar o evento onbeforeunload', async () => {
     jest.spyOn(window, 'addEventListener')
     window.onbeforeunload = jest.fn()
     window.dispatchEvent(new Event('beforeunload'))
