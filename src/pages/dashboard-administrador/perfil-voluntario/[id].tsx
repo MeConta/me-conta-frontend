@@ -10,7 +10,9 @@ import {
   LinkIcon,
   SectionLinkContainer,
   FieldLinkWrapper,
-  SaveLinkWrapper
+  SaveLinkWrapper,
+  ModalTitle,
+  ModalSubTitle
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
@@ -336,18 +338,26 @@ function PerfilVoluntario() {
           isEnabled={isModelEnabled}
           funcCloseButton={() => setModalEnable(false)}
         >
-          <p>Sair da página?</p>
-          <p>As alterações feitas poderam não serem salvas</p>
-          <Button onClick={() => setModalEnable(false)}>Cancelar</Button>
-          <Button
-            color="secondary"
-            onClick={() => {
-              setModalEnable(false)
-              goBack()
-            }}
-          >
-            Sair
-          </Button>
+          <ModalTitle>Sair da página?</ModalTitle>
+          <ModalSubTitle>
+            As alterações feitas poderam não serem salvas
+          </ModalSubTitle>
+          <ButtonContainer>
+            <Button btnStyle="link" onClick={() => setModalEnable(false)}>
+              Cancelar
+            </Button>
+            <Button
+              color="secondary"
+              radius="square"
+              size="xMedium"
+              onClick={() => {
+                setModalEnable(false)
+                goBack()
+              }}
+            >
+              Sair
+            </Button>
+          </ButtonContainer>
         </Modal>
       </>
     )

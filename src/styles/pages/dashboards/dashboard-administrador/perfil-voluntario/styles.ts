@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import { Link } from '@styled-icons/evaicons-solid'
 import theme from '../../../../theme'
+import { TextProps } from 'styles/form/styles'
 
 const screenBreakingPoint = '895px'
 
@@ -8,6 +9,8 @@ type SectionDetailsProps = {
   width: string
   alignItens?: string
 }
+
+type ParagraphProps = Pick<TextProps, 'size' | 'margin' | 'color' | 'weight'>
 
 export const TitleContainer = styled.div`
   display: flex;
@@ -102,4 +105,23 @@ export const SaveLinkWrapper = styled.div`
       display: none;
     }
   }
+`
+export const ModalTitle = styled.p<ParagraphProps>`
+  ${({ theme, size, margin, weight }) => css`
+    text-align: center;
+    padding: 1rem;
+    margin: ${margin ? theme.spacings[margin] : theme.zero};
+    font-size: ${theme.font.sizes[size ?? 'desk-xxlarge']};
+    font-weight: ${weight ?? theme.font.bold};
+  `}
+`
+export const ModalSubTitle = styled.p<ParagraphProps>`
+  ${({ theme, size, margin, color, weight }) => css`
+    text-align: center;
+    padding: 2rem 6rem;
+    color: ${theme.colors[color ?? 'lightGray']};
+    margin: ${margin ? theme.spacings[margin] : theme.zero};
+    font-size: ${theme.font.sizes[size ?? 'desk-glarge']};
+    font-weight: ${weight ?? theme.font.normal};
+  `}
 `
