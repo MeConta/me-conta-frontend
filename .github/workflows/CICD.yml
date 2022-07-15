@@ -13,6 +13,8 @@ jobs:
           fetch-depth: 0
       - name: Install Dependencies
         uses: bahmutov/npm-install@v1
+      - name: Build
+        run: npm run build
       - name: Run Tests
         run: npm run coverage
       - name: SonarCloud Scan
@@ -20,6 +22,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: google-chat-notification
+        uses: Co-qn/google-chat-notification@v1
+        if: failure()
+        with:
+          name: Build Failure
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
+
+
   deploy-dev:
     runs-on: ubuntu-latest
     environment:
