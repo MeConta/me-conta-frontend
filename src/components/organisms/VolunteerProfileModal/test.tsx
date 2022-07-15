@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event'
 import theme from 'styles/theme'
-import { render, screen, within } from '../../../utils/tests/helpers'
+import { render, screen } from '../../../utils/tests/helpers'
 
 import VolunteerProfileModal from './'
 

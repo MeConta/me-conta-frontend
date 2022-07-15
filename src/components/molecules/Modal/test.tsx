@@ -82,7 +82,11 @@ describe('<Modal />', () => {
 
   describe('when isEnabled prop is false', () => {
     it('shouldnt render Modal', () => {
-      render(<Modal isEnabled={false} funcCloseButton={onCloseMock}>{MODAL_CONTENT()}</Modal>)
+      render(
+        <Modal isEnabled={false} funcCloseButton={onCloseMock}>
+          {MODAL_CONTENT()}
+        </Modal>
+      )
       expect(screen.queryByRole('modal')).not.toBeInTheDocument()
     })
   })

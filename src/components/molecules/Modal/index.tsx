@@ -15,7 +15,7 @@ export default function Modal({
   children,
   funcCloseButton,
   width = '421px',
-  height = '328px',
+  height = '328px'
 }: ModalProps) {
   const [isVisible, setVisible] = useState(isEnabled)
   const close = () => {

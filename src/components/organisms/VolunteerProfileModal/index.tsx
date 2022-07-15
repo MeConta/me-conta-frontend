@@ -20,7 +20,7 @@ export default function VolunteerProfileModal({
   onCancel
 }: VolunteerProfileModalProps) {
   return (
-    <Modal isEnabled={isEnabled} funcCloseButton={()=>{}}>
+    <Modal isEnabled={isEnabled} funcCloseButton={onCancel}>
       <h1>{title}</h1>
       <p>{body}</p>
       <button title="Cancelar" onClick={() => onCancel()}>

@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css } from 'styled-components'
 import Animation from '../../../utils/animations/animation'
 
 type ContainerProps = {
@@ -11,7 +11,7 @@ type ModalContentProps = {
 }
 
 export const DivContainer = styled.div<ContainerProps>`
-  ${({ theme, isVisible }) => css`
+  ${({ isVisible }) => css`
     background-color: rgba(0, 0, 0, 0.25);
     position: fixed;
     top: 0;
