@@ -62,6 +62,13 @@ jobs:
     steps:
       - name: test
         run: echo 'deploy on hml'
+      - name: google-chat-notification
+        uses: Co-qn/google-chat-notification@v1
+        if: failure()
+        with:
+          name: Deploy Dev Failure
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
 
   deploy-prd:
     runs-on: ubuntu-latest
