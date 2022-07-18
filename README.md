@@ -25,6 +25,13 @@ git clone https://github.com/MeConta/me-conta.git
 bash
 npm install
 ```
+
+## 🏠  Variáveis de Ambiente (.env.local)
+Para desenvolvimento local, é necessário criar o arquivo `.env.local` na raiz do projeto e adicionar as variáveis necessárias.
+> Criar à variável `NEXT_PUBLIC_API_URL` e adicionar o _link_ do backend [local](http://localhost:3000) ou do [Heroku](https://me-conta-backend.herokuapp.com), como no exemplo abaixo:
+> - NEXT_PUBLIC_API_URL=http://localhost:3000
+---
+
 ## ▶️ Executando o projeto
 
 Primeiramente, execute o servidor de desenvolvimento:
