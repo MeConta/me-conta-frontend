@@ -4,30 +4,31 @@
 O Me Conta é uma plataforma que une jovens que buscam terapia a profissionais de Psicologia
 
 ## 🛠 Ferramentas Utilizadas
-- React
-- NextJS
-- Jest
-- Styled Components
+- [React](https://reactjs.org/)
+- [NextJS](https://nextjs.org/)
+- [Jest](https://jestjs.io)
+- [Styled Components](https://styled-components.com/)
+
+---
 
 ## 💻 Configurando o Ambiente
 
-- Instale o Node -
-[https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+- Instale o [NVM](https://github.com/nvm-sh/nvm) (Gerenciador de versão do Node) e adicione a versão LTS do [node](https://nodejs.org/en/) ao nvm
 
-- Clone o Repositório
-```
-bash
-git clone https://github.com/MeConta/me-conta.git
-````
+- Clone o projeto
+
+  ```bash
+  git clone https://github.com/MeConta/me-conta-frontend.git
+  ```
 
 - Execute o comando:
-```
-bash
-npm install
-```
+  ```bash
+  npm install
+  ```
 
 ## 🏠  Variáveis de Ambiente (.env.local)
-Para desenvolvimento local, é necessário criar o arquivo `.env.local` na raiz do projeto e adicionar as variáveis necessárias.
+Existe o arquivo `.env` com todas as variáveis utilizadas para rodar o sistema. Para desenvolvimento local, é preciso criar o arquivo `.env.local` na raiz do projeto e adicionar algumas variáveis, conforme abaixo:
+
 > Criar à variável `NEXT_PUBLIC_API_URL` e adicionar o _link_ do backend [local](http://localhost:3000) ou do [Heroku](https://me-conta-backend.herokuapp.com), como no exemplo abaixo:
 > - NEXT_PUBLIC_API_URL=http://localhost:3000
 ---
@@ -35,24 +36,29 @@ Para desenvolvimento local, é necessário criar o arquivo `.env.local` na raiz 
 ## ▶️ Executando o projeto
 
 Primeiramente, execute o servidor de desenvolvimento:
-```
-bash
+```bash
 npm run dev
 # ou
 yarn dev
 ```
 
 Para rodar os testes:
-```
-bash
+```bash
+# rodar os testes uma única vez
 npm run test
-ou
+
+# rodar os testes sempre que houver alguma alteração
+npm run test:watch
+
+# rodar os testes com a cobertura
 npm run coverage
 ```
 
 Abra [http://localhost:3000](http://localhost:3000) no navegador para ver o resultado
 
 Você pode editar o arquivo pages/index.tsx para desenvolver. A página se atualiza automáticamente conforme você edita.
+
+---
 
 ## 🚀 Contribuindo com o projeto
 
