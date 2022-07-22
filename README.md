@@ -65,7 +65,7 @@ Você pode editar o arquivo pages/index.tsx para desenvolver. A página se atual
 
 ## :warning: Começando a desenvolver - Conheça o Check in Dance 👣 
 
-O "Check in dance" é uma prática usada para garantir que nosso código esteja sempre atualizado e seguindo os padrões de desenvolvimento definidos pela equipe. Veja o [Passo-a-passo](https://github.com/MeConta/me-conta-backend/blob/main/check-in-dance.md).
+O "Check in dance" é uma prática usada para garantir que nosso código esteja sempre atualizado e seguindo os padrões de desenvolvimento definidos pela equipe. Veja o [Passo-a-passo](https://github.com/MeConta/me-conta-frontend/blob/main/check-in-dance.md).
 
 ---
 
