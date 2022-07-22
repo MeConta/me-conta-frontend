@@ -12,11 +12,17 @@ import {
   FieldLinkWrapper,
   SaveLinkWrapper,
   ModalTitle,
-  ModalSubTitle
+  ModalSubTitle,
+  ExclamationIcon
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
+import {
+  ArrowLeft,
+  CheckLg,
+  XCircle,
+  Exclamation
+} from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
@@ -49,6 +55,9 @@ function PerfilVoluntario() {
   const [isModelEnabled, setModalEnable] = useState<boolean>(false)
   const [enableModalBrowserExit, setEnableModalBrowserExit] =
     useState<boolean>(false)
+  const [isAprovalModalEnabled, setAprovalModalEnable] =
+    useState<boolean>(false)
+  const [enableAproveModal, setAproveModal] = useState<boolean>(false)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
@@ -238,6 +247,17 @@ function PerfilVoluntario() {
           <></>
         )}
       </>
+
+      <>
+        {isAprovalModalEnabled ? (
+          <HandleApprovalModal
+            isAprovalModalEnabled={isAprovalModalEnabled}
+          ></HandleApprovalModal>
+        ) : (
+          <></>
+        )}
+      </>
+
       <ContentWrapper>
         <TitleContainer>
           <S.Title> Perfil - Voluntário </S.Title>
@@ -305,7 +325,11 @@ function PerfilVoluntario() {
                     radius="square"
                     size="xMedium"
                     sufixIcon={<CheckLg />}
-                    onClick={handleApproval}
+                    onClick={() => {
+                      sessionLink
+                        ? setAprovalModalEnable(true)
+                        : showLinkError(sessionLink)
+                    }}
                   >
                     APROVAR
                   </Button>
@@ -356,6 +380,51 @@ function PerfilVoluntario() {
               }}
             >
               Sair
+            </Button>
+          </ButtonContainer>
+        </Modal>
+      </>
+    )
+  }
+
+  type HandleApprovalModalProps = {
+    isAprovalModalEnabled: boolean
+  }
+
+  function HandleApprovalModal({
+    isAprovalModalEnabled
+  }: HandleApprovalModalProps) {
+    return (
+      <>
+        <Modal
+          height="350px"
+          isEnabled={isAprovalModalEnabled}
+          funcCloseButton={() => setAprovalModalEnable(false)}
+        >
+          <ModalTitle>
+            Tem certeza que deseja aprovar o voluntário(a)?
+          </ModalTitle>
+          <ModalSubTitle>
+            <ExclamationIcon />
+            Um e-mail informando o status será enviado ao Voluntário
+          </ModalSubTitle>
+          <ButtonContainer>
+            <Button
+              btnStyle="link"
+              onClick={() => setAprovalModalEnable(false)}
+            >
+              Cancelar
+            </Button>
+            <Button
+              color="success"
+              radius="square"
+              size="xMedium"
+              onClick={() => {
+                setAprovalModalEnable(false)
+                handleApproval()
+              }}
+            >
+              Sim, Aprovar
             </Button>
           </ButtonContainer>
         </Modal>

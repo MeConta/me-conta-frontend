@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Link } from '@styled-icons/evaicons-solid'
+import { Exclamation } from 'styled-icons/bootstrap'
 import theme from '../../../../theme'
 import { TextProps } from 'styles/form/styles'
 
@@ -124,4 +125,13 @@ export const ModalSubTitle = styled.p<ParagraphProps>`
     font-size: ${theme.font.sizes[size ?? 'desk-glarge']};
     font-weight: ${weight ?? theme.font.normal};
   `}
+`
+
+export const ExclamationIcon = styled(Exclamation)`
+  color: ${theme.colors.gray};
+  width: 22px;
+  height: 22px;
+  border: solid 2px;
+  border-radius: 100px;
+  margin-right: 1rem;
 `

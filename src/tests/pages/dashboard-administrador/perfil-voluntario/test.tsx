@@ -349,7 +349,20 @@ describe('Perfil Voluntário', () => {
       expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument()
     })
 
-    it('should render error message when I click in "Aprovar" and the link input is invalid', async () => {
+    it('should show modal when link session changes but it is not saved and user clicks in Voltar ao Dashboard', async () => {
+      await applyTestSetup()
+
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+
+      userEvent.type(sessionLinkInput, 'https://teste.com.br')
+
+      userEvent.click(aprovarButton)
+
+      expect(screen.getByRole('modal')).toBeInTheDocument()
+    })
+
+    it('should render error message when I click in "Sim, Aprovar" and the link input is invalid', async () => {
       await applyTestSetup()
       approveVolunteerMock.mockImplementationOnce(
         jest.fn(() =>
@@ -368,23 +381,27 @@ describe('Perfil Voluntário', () => {
       const sessionLinkInput = screen.getByRole('textbox')
 
       userEvent.type(sessionLinkInput, 'linkinvalido')
-      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      userEvent.click(screen.getByRole('button', { name: /APROVAR/ }))
+      const aprovarButton = screen.getByRole('button', { name: /Sim, Aprovar/ })
 
       userEvent.click(aprovarButton)
       expect(await screen.findByText(/Link inválido/)).toBeInTheDocument()
     })
 
-    it('should call approve volunteer service when I click in "Aprovar" and the link input is filled', async () => {
+    it('should call approve volunteer service when I click in "Sim, Aprovar" in the Modal, and the link input is filled', async () => {
       const VOLUNTEER_ID = 123
       await applyTestSetup({
         ...volunteer,
         usuario: { ...volunteer?.usuario, id: VOLUNTEER_ID }
       })
 
-      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
       const sessionLinkInput = screen.getByRole('textbox')
 
       userEvent.type(sessionLinkInput, SESSION_LINK)
+
+      userEvent.click(screen.getByRole('button', { name: /APROVAR/ }))
+
+      const aprovarButton = screen.getByRole('button', { name: /Sim, Aprovar/ })
       userEvent.click(aprovarButton)
 
       expect(approveVolunteerMock).toHaveBeenCalledWith(
@@ -400,6 +417,7 @@ describe('Perfil Voluntário', () => {
 
       userEvent.type(sessionLinkInput, SESSION_LINK)
       userEvent.click(aprovarButton)
+      userEvent.click(screen.getByRole('button', { name: /Sim, Aprovar/ }))
 
       expect(await router.push).toHaveBeenCalledWith('/dashboard-administrador')
     })
@@ -411,6 +429,8 @@ describe('Perfil Voluntário', () => {
 
       userEvent.type(sessionLinkInput, SESSION_LINK)
       userEvent.click(aprovarButton)
+
+      userEvent.click(screen.getByRole('button', { name: /Sim, Aprovar/ }))
 
       await waitFor(() => {
         expect(useToast().emit).toHaveBeenCalledWith({
