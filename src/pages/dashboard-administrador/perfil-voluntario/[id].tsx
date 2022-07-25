@@ -17,12 +17,7 @@ import {
 } from '../../../styles/pages/dashboards/dashboard-administrador/perfil-voluntario/styles'
 import { Button } from 'components/atoms/Button'
 import router from 'next/router'
-import {
-  ArrowLeft,
-  CheckLg,
-  XCircle,
-  Exclamation
-} from 'styled-icons/bootstrap'
+import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
@@ -57,7 +52,6 @@ function PerfilVoluntario() {
     useState<boolean>(false)
   const [isAprovalModalEnabled, setAprovalModalEnable] =
     useState<boolean>(false)
-  const [enableAproveModal, setAproveModal] = useState<boolean>(false)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
