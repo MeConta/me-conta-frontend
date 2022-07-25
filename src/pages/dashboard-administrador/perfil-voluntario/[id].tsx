@@ -52,6 +52,7 @@ function PerfilVoluntario() {
     useState<boolean>(false)
   const [isAprovalModalEnabled, setAprovalModalEnable] =
     useState<boolean>(false)
+  const [isRejectModalEnabled, setRejectModalEnable] = useState<boolean>(false)
   const { emit } = useToast()
   const volunteerService = new VolunteerService(api)
 
@@ -252,6 +253,16 @@ function PerfilVoluntario() {
         )}
       </>
 
+      <>
+        {isRejectModalEnabled ? (
+          <HandleRejectModal
+            isRejectModalEnabled={isRejectModalEnabled}
+          ></HandleRejectModal>
+        ) : (
+          <></>
+        )}
+      </>
+
       <ContentWrapper>
         <TitleContainer>
           <S.Title> Perfil - Voluntário </S.Title>
@@ -332,7 +343,9 @@ function PerfilVoluntario() {
                     radius="square"
                     size="xMedium"
                     sufixIcon={<XCircle />}
-                    onClick={handleReject}
+                    onClick={() => {
+                      setRejectModalEnable(true)
+                    }}
                   >
                     REPROVAR
                   </Button>
@@ -419,6 +432,46 @@ function PerfilVoluntario() {
               }}
             >
               Sim, Aprovar
+            </Button>
+          </ButtonContainer>
+        </Modal>
+      </>
+    )
+  }
+
+  type HandleRejectModalProps = {
+    isRejectModalEnabled: boolean
+  }
+
+  function HandleRejectModal({ isRejectModalEnabled }: HandleRejectModalProps) {
+    return (
+      <>
+        <Modal
+          height="350px"
+          isEnabled={isRejectModalEnabled}
+          funcCloseButton={() => setRejectModalEnable(false)}
+        >
+          <ModalTitle>
+            Tem certeza que deseja reprovar o voluntário(a)?
+          </ModalTitle>
+          <ModalSubTitle>
+            <ExclamationIcon />
+            Um e-mail informando o status será enviado ao Voluntário
+          </ModalSubTitle>
+          <ButtonContainer>
+            <Button btnStyle="link" onClick={() => setRejectModalEnable(false)}>
+              Cancelar
+            </Button>
+            <Button
+              color="success"
+              radius="square"
+              size="xMedium"
+              onClick={() => {
+                setRejectModalEnable(false)
+                handleReject()
+              }}
+            >
+              Sim, Reprovar
             </Button>
           </ButtonContainer>
         </Modal>

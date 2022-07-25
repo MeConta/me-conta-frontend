@@ -349,7 +349,7 @@ describe('Perfil Voluntário', () => {
       expect(screen.queryByText(/Campo obrigatório/)).not.toBeInTheDocument()
     })
 
-    it('should show modal when link session changes but it is not saved and user clicks in Voltar ao Dashboard', async () => {
+    it('should show modal when link session is filled and user clicks in "Aprovar" button', async () => {
       await applyTestSetup()
 
       const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
@@ -440,14 +440,28 @@ describe('Perfil Voluntário', () => {
       })
     })
 
-    it('should call reject volunteer service when I click in "Reprovar"', async () => {
+    it('should show modal when user clicks in "Reprovar" button', async () => {
+      await applyTestSetup()
+
+      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(reprovarButton)
+
+      expect(screen.getByRole('modal')).toBeInTheDocument()
+    })
+
+    it('should call reject volunteer service when I click in "Sim, Reprovar"', async () => {
       const VOLUNTEER_ID = 123
       await applyTestSetup({
         ...volunteer,
         usuario: { ...volunteer?.usuario, id: VOLUNTEER_ID }
       })
 
-      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+      userEvent.click(screen.getByRole('button', { name: /REPROVAR/ }))
+
+      const reprovarButton = screen.getByRole('button', {
+        name: /Sim, Reprovar/
+      })
 
       userEvent.click(reprovarButton)
 
@@ -456,7 +470,12 @@ describe('Perfil Voluntário', () => {
 
     it('should redirect to dashboard admin when sucessfully reject volunteer', async () => {
       await applyTestSetup()
-      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(screen.getByRole('button', { name: /REPROVAR/ }))
+
+      const reprovarButton = screen.getByRole('button', {
+        name: /Sim, Reprovar/
+      })
 
       userEvent.click(reprovarButton)
 
@@ -465,7 +484,12 @@ describe('Perfil Voluntário', () => {
 
     it('should render toast with successful message when reject volunteer', async () => {
       await applyTestSetup()
-      const reprovarButton = screen.getByRole('button', { name: /REPROVAR/ })
+
+      userEvent.click(screen.getByRole('button', { name: /REPROVAR/ }))
+
+      const reprovarButton = screen.getByRole('button', {
+        name: /Sim, Reprovar/
+      })
 
       userEvent.click(reprovarButton)
 
