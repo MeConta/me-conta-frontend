@@ -9,6 +9,8 @@ RUN npx build-storybook
 # STORYBOOK STAGE
 FROM httpd:2.4 as storybook
 WORKDIR /usr/local/apache2/htdocs/
+ARG PORT
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 COPY --from=builder /usr/src/app/storybook-static ./
 COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
-EXPOSE 8080

@@ -22,6 +22,6 @@ jobs:
       - name: Build docker image
         run: docker build . -f Dockerfile.storybook -t registry.heroku.com/$HEROKU_STORYBOOK_APP_NAME/web
       - name: Push Docker image to Heroku
-        run: heroku container:push -a $HEROKU_STORYBOOK_APP_NAME web
+        run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
       - name: Release to Heroku
         run: heroku container:release -a $HEROKU_STORYBOOK_APP_NAME web
