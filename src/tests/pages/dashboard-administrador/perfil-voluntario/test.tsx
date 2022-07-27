@@ -123,14 +123,21 @@ describe('Perfil Voluntário', () => {
   describe('Volunteer status', () => {
     it('should show tag "Aberto" when volunteer aprovado status is null', async () => {
       await applyTestSetup()
-      expect(screen.getByText('Aberto')).toBeInTheDocument()
+      expect(screen.getByTestId('tag')).toHaveTextContent('Aberto')
     })
 
     it('should show tag "Reprovado" when volunteer aprovado status is false', async () => {
       const rejectVolunteer = { ...volunteer, aprovado: false }
       await applyTestSetup(rejectVolunteer)
 
-      expect(screen.getByText('Reprovado')).toBeInTheDocument()
+      expect(screen.getByTestId('tag')).toHaveTextContent('Reprovado')
+    })
+
+    it('should show tag "Aprovado" when volunteer aprovado status is true', async () => {
+      const approvedVolunteer = { ...volunteer, aprovado: true }
+      await applyTestSetup(approvedVolunteer)
+
+      expect(screen.getByTestId('tag')).toHaveTextContent('Aprovado')
     })
   })
 

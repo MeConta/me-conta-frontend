@@ -36,6 +36,7 @@ import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
 import Modal from 'components/molecules/Modal'
 import { useBeforeUnload } from 'hooks/beforeunload.hook'
 import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
+import Tag from 'components/atoms/Tag'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -298,7 +299,18 @@ function PerfilVoluntario() {
             <Loader />
           ) : (
             <>
-              <div>{volunteer?.aprovado === null ? 'Aberto' : 'Reprovado'}</div>
+              <Tag
+                title={
+                  volunteer?.aprovado === null
+                    ? 'Aberto'
+                    : volunteer?.aprovado
+                    ? 'Aprovado'
+                    : 'Reprovado'
+                }
+                titleColor={'#ffffff'}
+                backgroundColor={'#000000'}
+              />
+
               <SectionLinkContainer>
                 <FieldLinkWrapper>
                   <TextField
