@@ -440,6 +440,41 @@ describe('Perfil Voluntário', () => {
       })
     })
 
+    it('should render toast with error message when click on Sim, Aprovar but the system cannot send email', async () => {
+      await applyTestSetup()
+      const aprovarButton = screen.getByRole('button', { name: /APROVAR/ })
+      const sessionLinkInput = screen.getByRole('textbox')
+      const failToApproveVolunteerMock = jest
+        .spyOn(VolunteerService.prototype, 'approve')
+        .mockImplementation(jest.fn(() => Promise.reject()))
+
+      userEvent.type(sessionLinkInput, SESSION_LINK)
+      userEvent.click(aprovarButton)
+
+      userEvent.click(screen.getByRole('button', { name: /Sim, Aprovar/ }))
+
+      failToApproveVolunteerMock.mockImplementationOnce(
+        jest.fn(() =>
+          Promise.reject({
+            response: {
+              data: {
+                statusCode: 500,
+                message: ['Erro interno do servidor'],
+                error: 'Internal Server Error'
+              }
+            }
+          })
+        )
+      )
+
+      await waitFor(() => {
+        expect(useToast().emit).toHaveBeenCalledWith({
+          type: 'error',
+          message: 'Erro ao enviar e-mail. Por favor, tente novamente'
+        })
+      })
+    })
+
     it('should show modal when user clicks in "Reprovar" button', async () => {
       await applyTestSetup()
 
@@ -497,6 +532,42 @@ describe('Perfil Voluntário', () => {
         expect(useToast().emit).toHaveBeenCalledWith({
           type: 'success',
           message: 'Alteração feita com sucesso'
+        })
+      })
+    })
+
+    it('should render toast with error message when reject volunteer but email wasnt send', async () => {
+      await applyTestSetup()
+      const failToRejectVolunteerMock = jest
+        .spyOn(VolunteerService.prototype, 'reject')
+        .mockImplementation(jest.fn(() => Promise.reject()))
+
+      userEvent.click(screen.getByRole('button', { name: /REPROVAR/ }))
+
+      const reprovarButton = screen.getByRole('button', {
+        name: /Sim, Reprovar/
+      })
+
+      userEvent.click(reprovarButton)
+
+      failToRejectVolunteerMock.mockImplementationOnce(
+        jest.fn(() =>
+          Promise.reject({
+            response: {
+              data: {
+                statusCode: 500,
+                message: ['Erro interno do servidor'],
+                error: 'Internal Server Error'
+              }
+            }
+          })
+        )
+      )
+
+      await waitFor(() => {
+        expect(useToast().emit).toHaveBeenCalledWith({
+          type: 'error',
+          message: 'Erro ao enviar e-mail. Por favor, tente novamente'
         })
       })
     })

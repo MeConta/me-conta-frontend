@@ -105,6 +105,15 @@ function PerfilVoluntario() {
   }
 
   const successMessageUpdate = 'Alteração feita com sucesso'
+  const failToSendEmailToast =
+    'Erro ao enviar e-mail. Por favor, tente novamente'
+
+  function showErrorFeedback(messageInput: string) {
+    emit({
+      type: ToastType.ERROR,
+      message: messageInput
+    })
+  }
 
   function handleApproval() {
     if (volunteer && sessionLink) {
@@ -115,6 +124,7 @@ function PerfilVoluntario() {
         })
         .catch((error) => {
           setLinkError(formatErrorMessage(error?.response?.data?.message[0]))
+          showErrorFeedback(failToSendEmailToast)
         })
     } else {
       showLinkError(sessionLink)
@@ -130,6 +140,7 @@ function PerfilVoluntario() {
         })
         .catch((error) => {
           console.error(error)
+          showErrorFeedback(failToSendEmailToast)
         })
     }
   }
