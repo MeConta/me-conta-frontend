@@ -370,9 +370,7 @@ function PerfilVoluntario() {
           funcCloseButton={() => setModalEnable(false)}
         >
           <ModalTitle>Sair da página?</ModalTitle>
-          <ModalSubTitle>
-            As alterações feitas poderam não serem salvas
-          </ModalSubTitle>
+          <ModalSubTitle>As alterações não serão salvas.</ModalSubTitle>
           <ButtonContainer>
             <Button btnStyle="link" onClick={() => setModalEnable(false)}>
               Cancelar
