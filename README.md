@@ -112,6 +112,6 @@ O ambiente de desenvolvimento está no Heroku, e seguem os links abaixo:
 
 | Backend                                  | Swagger                                  | Frontend                                  | Storybook                                  |
 |------------------------------------------|-------------------------------------------|------------------------------------------|-------------------------------------------|
-| [Backend](https://me-conta-backend.herokuapp.com)| [Swagger](https://me-conta-backend.herokuapp.com/api)| [Frontend](https://me-conta-frontend.herokuapp.com) | [Storybook](https://me-conta-storybook.herokuapp.com) | 
+| [Backend](https://me-conta-backend.herokuapp.com)| [Swagger](https://me-conta-backend.herokuapp.com/api)| [Frontend](https://me-conta-frontend.herokuapp.com) | [Storybook](https://me-conta-story-book.herokuapp.com) | 
 
 ---
