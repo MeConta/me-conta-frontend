@@ -298,6 +298,7 @@ function PerfilVoluntario() {
             <Loader />
           ) : (
             <>
+              <div>{volunteer?.aprovado === null ? 'Aberto' : 'Reprovado'}</div>
               <SectionLinkContainer>
                 <FieldLinkWrapper>
                   <TextField
