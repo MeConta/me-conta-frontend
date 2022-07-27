@@ -69,7 +69,7 @@ export class VolunteerService implements IVolunteerService {
   }
 
   async approve(id: number, sessionLink: string): Promise<void> {
-    await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
+    await this.service.patch(`/voluntario/${id}`, {
       aprovado: true,
       link: sessionLink
     })
@@ -82,7 +82,7 @@ export class VolunteerService implements IVolunteerService {
   }
 
   async reject(id: number): Promise<void> {
-    await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
+    await this.service.patch(`/voluntario/${id}`, {
       aprovado: false
     })
   }
