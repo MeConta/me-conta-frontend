@@ -106,10 +106,13 @@ describe('volunteers service', () => {
 
     await sut.approve(id, sessionLink)
 
-    expect(fakeAxios.patch).toHaveBeenLastCalledWith(`/voluntario/${id}`, {
-      aprovado: true,
-      link: sessionLink
-    })
+    expect(fakeAxios.patch).toHaveBeenLastCalledWith(
+      `/admin/voluntarios/aprovar/${id}`,
+      {
+        aprovado: true,
+        link: sessionLink
+      }
+    )
   })
 
   it('should reject volunteer by id', async () => {
@@ -120,8 +123,11 @@ describe('volunteers service', () => {
 
     await sut.reject(id)
 
-    expect(fakeAxios.patch).toHaveBeenLastCalledWith(`/voluntario/${id}`, {
-      aprovado: false
-    })
+    expect(fakeAxios.patch).toHaveBeenLastCalledWith(
+      `/admin/voluntarios/aprovar/${id}`,
+      {
+        aprovado: false
+      }
+    )
   })
 })
