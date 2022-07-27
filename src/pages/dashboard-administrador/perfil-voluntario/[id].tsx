@@ -327,7 +327,7 @@ function PerfilVoluntario() {
                       }}
                       disabled={disableButtonLink}
                     >
-                      SALVAR LINK
+                      <span>SALVAR LINK</span>
                     </Button>
                   </SaveLinkWrapper>
                 )}
