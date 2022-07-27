@@ -319,7 +319,7 @@ function PerfilVoluntario() {
                     <Button
                       color="primary"
                       radius="square"
-                      size="xMedium"
+                      size="smallMedium"
                       prefixIcon={<SaveIcon />}
                       onClick={() => {
                         handleSaveLink()
@@ -434,7 +434,7 @@ function PerfilVoluntario() {
             <Button
               color="success"
               radius="square"
-              size="xMedium"
+              size="smallMedium"
               onClick={() => {
                 setAprovalModalEnable(false)
                 handleApproval()
@@ -472,9 +472,9 @@ function PerfilVoluntario() {
               Cancelar
             </Button>
             <Button
-              color="success"
+              color="secondary"
               radius="square"
-              size="xMedium"
+              size="smallMedium"
               onClick={() => {
                 setRejectModalEnable(false)
                 handleReject()
