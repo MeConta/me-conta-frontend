@@ -247,6 +247,11 @@ function PerfilVoluntario() {
     )
   }
 
+  function getTag(status?: boolean | null) {
+    if (status === null) return 'Aberto'
+    return status ? 'Aprovado' : 'Reprovado'
+  }
+
   return (
     <>
       <>
@@ -300,13 +305,7 @@ function PerfilVoluntario() {
           ) : (
             <>
               <Tag
-                title={
-                  volunteer?.aprovado === null
-                    ? 'Aberto'
-                    : volunteer?.aprovado
-                    ? 'Aprovado'
-                    : 'Reprovado'
-                }
+                title={getTag(volunteer?.aprovado)}
                 titleColor={'#ffffff'}
                 backgroundColor={'#000000'}
               />
