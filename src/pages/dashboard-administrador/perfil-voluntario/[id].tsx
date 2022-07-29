@@ -37,6 +37,7 @@ import Modal from 'components/molecules/Modal'
 import { useBeforeUnload } from 'hooks/beforeunload.hook'
 import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
 import Tag from 'components/atoms/Tag'
+import theme from 'styles/theme'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -247,9 +248,42 @@ function PerfilVoluntario() {
     )
   }
 
+  const getTagAttributes = (status?: boolean | null) => {
+    switch (status) {
+      case null:
+        return {
+          title: 'Aberto',
+          titleColor: theme.colors.harvestGold,
+          backgroundColor: theme.colors.blondYellow
+        }
+      case true:
+        return {
+          title: 'Aprovado',
+          titleColor: theme.colors.emerald,
+          backgroundColor: theme.colors.honeydew
+        }
+      case false:
+        return {
+          title: 'Reprovado',
+          titleColor: theme.colors.maroonFlush,
+          backgroundColor: theme.colors.mistyRose
+        }
+      default:
+        return null
+    }
+  }
+
   function getTag(status?: boolean | null) {
-    if (status === null) return 'Aberto'
-    return status ? 'Aprovado' : 'Reprovado'
+    const tagAttributes = getTagAttributes(status)
+    return (
+      tagAttributes && (
+        <Tag
+          title={tagAttributes.title}
+          titleColor={tagAttributes.titleColor}
+          backgroundColor={tagAttributes.backgroundColor}
+        />
+      )
+    )
   }
 
   return (
@@ -304,11 +338,7 @@ function PerfilVoluntario() {
             <Loader />
           ) : (
             <>
-              <Tag
-                title={getTag(volunteer?.aprovado)}
-                titleColor={'#ffffff'}
-                backgroundColor={'#000000'}
-              />
+              {getTag(volunteer?.aprovado)}
 
               <SectionLinkContainer>
                 <FieldLinkWrapper>

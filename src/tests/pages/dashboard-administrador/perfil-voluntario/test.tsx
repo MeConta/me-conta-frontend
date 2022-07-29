@@ -120,8 +120,8 @@ describe('Perfil Voluntário', () => {
     })
   })
 
-  describe('Volunteer status', () => {
-    it.skip('should show tag "Aberto" with correct colors when volunteer aprovado status is null', async () => {
+  describe.only('Volunteer status', () => {
+    it('should show tag "Aberto" with correct colors when volunteer aprovado status is null', async () => {
       await applyTestSetup()
 
       const tagElement = screen.getByTestId('tag')
@@ -137,14 +137,26 @@ describe('Perfil Voluntário', () => {
       const rejectVolunteer = { ...volunteer, aprovado: false }
       await applyTestSetup(rejectVolunteer)
 
-      expect(screen.getByTestId('tag')).toHaveTextContent('Reprovado')
+      const tagElement = screen.getByTestId('tag')
+
+      expect(tagElement).toHaveTextContent('Reprovado')
+      expect(tagElement).toHaveStyle(
+        `background-color: ${theme.colors.mistyRose};
+        color: ${theme.colors.maroonFlush};`
+      )
     })
 
     it('should show tag "Aprovado" when volunteer aprovado status is true', async () => {
       const approvedVolunteer = { ...volunteer, aprovado: true }
       await applyTestSetup(approvedVolunteer)
 
-      expect(screen.getByTestId('tag')).toHaveTextContent('Aprovado')
+      const tagElement = screen.getByTestId('tag')
+
+      expect(tagElement).toHaveTextContent('Aprovado')
+      expect(tagElement).toHaveStyle(
+        `background-color: ${theme.colors.honeydew};
+        color: ${theme.colors.emerald};`
+      )
     })
   })
 

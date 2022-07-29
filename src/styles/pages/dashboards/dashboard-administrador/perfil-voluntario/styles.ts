@@ -92,6 +92,7 @@ export const SectionLinkContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  margin-top: 15px;
 `
 export const FieldLinkWrapper = styled.div`
   flex-grow: 3;
