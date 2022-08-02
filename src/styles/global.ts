@@ -37,6 +37,12 @@ const GlobalStyles = createGlobalStyle`
   font-display: swap;
   src: url('/fonts/mulish-v11-latin-900.woff2') format('woff2')
 }
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/poppins-v20-latin-500.woff2') format('woff2')
+}
 
   *{
     margin: 0;
