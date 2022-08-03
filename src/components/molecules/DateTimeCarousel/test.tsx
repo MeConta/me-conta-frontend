@@ -21,7 +21,7 @@ describe('<DateTimeCarousel />', () => {
     expect(carouselCards.length).toBe(schedules.length)
   })
 
-  it('should render a next button when the number of cards is more than 7', () => {
+  it('should render next and preview buttons when the number of cards is more than 7', () => {
     const schedules = [
       { date: '26 de Junho de 2022', time: '13:00' },
       { date: '24 de Junho de 2022', time: '14:00' },
@@ -34,7 +34,7 @@ describe('<DateTimeCarousel />', () => {
     ]
 
     render(<DateTimeCarousel schedules={schedules} />)
-    const nextButtonElement = screen.getByRole('button', { name: 'Next' })
-    expect(nextButtonElement).toBeInTheDocument()
+    const buttons = screen.queryAllByRole('button')
+    expect(buttons.length).toBe(2)
   })
 })

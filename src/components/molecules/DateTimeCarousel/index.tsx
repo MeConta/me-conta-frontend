@@ -14,6 +14,24 @@ export type DateTimeCarouselProps = {
   schedules: Array<DateTimeElement>
 }
 
+function SampleNextArrow(props: any) {
+  const { className, onClick } = props
+  return (
+    <S.ArrowWrapper className={className} onClick={onClick}>
+      <S.NextArrow />
+    </S.ArrowWrapper>
+  )
+}
+
+function SamplePrevArrow(props: any) {
+  const { className, onClick } = props
+  return (
+    <S.ArrowWrapper className={className} onClick={onClick}>
+      <S.BackArrow />
+    </S.ArrowWrapper>
+  )
+}
+
 export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
   const settings = {
     dots: true,
@@ -21,7 +39,8 @@ export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
     speed: 500,
     slidesToShow: 7,
     slidesToScroll: 7,
-    rows: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     responsive: [
       {
         breakpoint: 1024,
