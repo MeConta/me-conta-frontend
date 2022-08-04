@@ -9,7 +9,7 @@ type BannerProps = {
 export default function Banner({ children, imageSrc }: BannerProps) {
   const imagePath = imageSrc ?? '/illustrations/me-conta-card-illustration.svg'
   return (
-    <S.WrapperDashboard>
+    <S.WrapperDashboard data-testid="banner">
       <S.SectionContainer>
         <S.NewUserCard>
           <S.NewUserCardContent>{children}</S.NewUserCardContent>
