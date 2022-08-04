@@ -1,4 +1,5 @@
 import { Story, Meta } from '@storybook/react'
+import { date } from 'yup/lib/locale'
 
 import { DateTimeCarousel, DateTimeCarouselProps } from '.'
 
@@ -27,7 +28,7 @@ export const Default: Story<DateTimeCarouselProps> = (args) => (
 
 Default.args = {
   schedules: [
-    { date: '01 de Junho de 2022', time: '13:00' },
+    { date: '01/06/2022', time: '13:00' },
     { date: '02 de Junho de 2022', time: '14:00' },
     { date: '03 de Junho de 2022', time: '15:00' },
     { date: '04 de Junho de 2022', time: '17:00' },

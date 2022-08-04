@@ -34,7 +34,7 @@ function SamplePrevArrow(props: any) {
 
 export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 7,
@@ -43,26 +43,38 @@ export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1440,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
+          slidesToShow: 7,
+          slidesToScroll: 7
         }
       },
       {
-        breakpoint: 600,
+        breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToShow: 5,
+          slidesToScroll: 5
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 6,
+          slidesToScroll: 6
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      },
+      {
+        breakpoint: 320,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
         }
       }
     ]

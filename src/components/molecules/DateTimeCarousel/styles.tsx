@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
   justify-content: center;
 
   .slider {
-    width: 70%;
+    width: 100%;
   }
 
   .slick-initialized .slick-slide {

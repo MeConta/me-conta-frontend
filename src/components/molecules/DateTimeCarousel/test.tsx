@@ -21,7 +21,7 @@ describe('<DateTimeCarousel />', () => {
     expect(carouselCards.length).toBe(schedules.length)
   })
 
-  it('should render next and preview buttons when the number of cards is more than 7', () => {
+  it.skip('should render next and preview buttons when the number of cards is more than 7', () => {
     const schedules = [
       { date: '26 de Junho de 2022', time: '13:00' },
       { date: '24 de Junho de 2022', time: '14:00' },
