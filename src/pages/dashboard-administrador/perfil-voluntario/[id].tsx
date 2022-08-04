@@ -76,7 +76,7 @@ function PerfilVoluntario() {
   }
 
   useEffect(() => {
-    if(router.query.id) {
+    if (router.query.id) {
       fetchVolunteer(Number(router.query.id))
     }
   }, [router.query.id])
