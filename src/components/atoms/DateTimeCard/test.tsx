@@ -3,16 +3,27 @@ import { render, screen } from '../../../utils/tests/helpers'
 import { DateTimeCard } from './index'
 
 describe('screen show main itens for card schedule', () => {
-  const schedule = {
-    date: '14 de julho de 2022',
-    time: '18:00'
-  }
-  render(<DateTimeCard date={schedule.date} time={schedule.time} />)
+  const dateTime = new Date('2022-07-14T18:00:00.000Z')
 
-  it('verify date and time', () => {
-    const date = screen.getByText('14 de julho de 2022')
+  it('verify date and time when screen is desktop', async () => {
+    jest.spyOn(window.screen, 'width', 'get').mockReturnValue(1024)
+
+    await render(<DateTimeCard dateTime={dateTime} />)
+
+    const date = screen.getByText(/14 de julho de 2022/)
     expect(date).toBeInTheDocument()
-    const time = screen.getByText('18:00')
+    const time = screen.getByText(/15:00/)
+    expect(time).toBeInTheDocument()
+  })
+
+  it('verify date and time when screen is mobile', () => {
+    jest.spyOn(window.screen, 'width', 'get').mockReturnValue(768)
+
+    render(<DateTimeCard dateTime={dateTime} />)
+
+    const date = screen.getByText(/14\/07\/2022/)
+    expect(date).toBeInTheDocument()
+    const time = screen.getByText(/15:00/)
     expect(time).toBeInTheDocument()
   })
 })

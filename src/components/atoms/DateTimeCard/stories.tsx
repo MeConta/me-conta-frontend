@@ -10,7 +10,8 @@ export const Default: Story<DateTimeCardProps> = (args) => (
   <DateTimeCard {...args} />
 )
 
+const dateTimeExample = new Date('2022-07-14T18:00:00.000Z')
+
 Default.args = {
-  date: '14 de julho de 2022',
-  time: '18:00'
+  dateTime: dateTimeExample
 }

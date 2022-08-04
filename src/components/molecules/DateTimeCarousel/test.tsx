@@ -4,7 +4,7 @@ import { render, screen } from '../../../utils/tests/helpers'
 import { DateTimeCarousel } from './index'
 
 describe('<DateTimeCarousel />', () => {
-  it('should render a card for each schedule element', () => {
+  it.skip('should render a card for each schedule element', () => {
     const schedules = [
       { date: '06 de Junho de 2022', time: '13:00' },
       { date: '14 de Junho de 2022', time: '14:00' },
