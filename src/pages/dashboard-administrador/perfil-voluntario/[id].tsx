@@ -76,8 +76,10 @@ function PerfilVoluntario() {
   }
 
   useEffect(() => {
-    fetchVolunteer(Number(router.query.id))
-  }, [])
+    if(router.query.id) {
+      fetchVolunteer(Number(router.query.id))
+    }
+  }, [router.query.id])
 
   function getGender(type?: GenderTypes) {
     return type ? Gender[type] : ''
