@@ -118,6 +118,22 @@ describe('Perfil Voluntário', () => {
     ).toBeInTheDocument()
   })
 
+  it('should not fetch volunteer data when the value of id is undefined', async () => {
+    router.query = { id: undefined }
+
+    await applyTestSetup()
+
+    expect(api.get).not.toHaveBeenCalled()
+  })
+
+  it('should fetch volunteer data when the id has a valid value', async () => {
+    router.query = { id: '254' }
+
+    await applyTestSetup()
+
+    expect(api.get).toHaveBeenCalledWith('/voluntarios/254')
+  })
+
   describe('Voltar ao dashboard', () => {
     it('should redirect to dashboard admin when click in Voltar ao Dashboard without changes in link session field', async () => {
       await applyTestSetup()
