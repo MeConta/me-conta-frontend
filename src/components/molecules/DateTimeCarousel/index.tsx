@@ -6,8 +6,7 @@ import { DateTimeCard } from '../../atoms/DateTimeCard'
 import * as S from './styles'
 
 export type DateTimeElement = {
-  date: string
-  time: string
+  dateTime: Date
 }
 
 export type DateTimeCarouselProps = {
@@ -83,9 +82,9 @@ export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
   return (
     <S.Wrapper>
       <Slider className="slider" {...settings}>
-        {/* {schedules.map((schedule, index) => (
-          // <DateTimeCard key={index} date={schedule.date} time={schedule.time} />
-        ))} */}
+        {schedules.map((schedule, index) => (
+          <DateTimeCard key={index} dateTime={schedule.dateTime} />
+        ))}
       </Slider>
     </S.Wrapper>
   )

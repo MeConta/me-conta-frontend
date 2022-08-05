@@ -4,20 +4,20 @@ import { render, screen } from '../../../utils/tests/helpers'
 import { DateTimeCarousel } from './index'
 
 describe('<DateTimeCarousel />', () => {
-  it.skip('should render a card for each schedule element', () => {
+  it('should render a card for each schedule element', () => {
     const schedules = [
-      { date: '06 de Junho de 2022', time: '13:00' },
-      { date: '14 de Junho de 2022', time: '14:00' },
-      { date: '24 de Junho de 2022', time: '15:00' },
-      { date: '25 de Junho de 2022', time: '17:00' },
-      { date: '26 de Junho de 2022', time: '13:00' },
-      { date: '14 de Junho de 2022', time: '15:00' },
-      { date: '15 de Junho de 2022', time: '17:00' }
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') },
+      { dateTime: new Date('2022-06-14T18:00:00.000Z') }
     ]
 
     render(<DateTimeCarousel schedules={schedules} />)
 
-    const carouselCards = screen.getAllByText(/Junho/)
+    const carouselCards = screen.getAllByText(/14\/06\/2022/)
     expect(carouselCards.length).toBe(schedules.length)
   })
 
