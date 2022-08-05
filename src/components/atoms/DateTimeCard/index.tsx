@@ -8,6 +8,7 @@ export type DateTimeCardProps = {
 
 const WINDOW_BREAKPOINT = 768
 const LOCALE = 'pt-br'
+const BRASILTIMEZONE = 'America/Sao_Paulo'
 
 export function DateTimeCard({ dateTime }: DateTimeCardProps) {
   const [isMobile, setIsMobile] = useState(false)
@@ -21,18 +22,18 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
   function formatedDate() {
     if (isMobile) {
       return dateTime.toLocaleDateString(LOCALE, {
-        timeZone: 'America/Sao_Paulo'
+        timeZone: BRASILTIMEZONE
       })
     } else {
       return `${dateTime.toLocaleString(LOCALE, {
         day: 'numeric',
-        timeZone: 'America/Sao_Paulo'
+        timeZone: BRASILTIMEZONE
       })} de ${dateTime.toLocaleString(LOCALE, {
         month: 'long',
-        timeZone: 'America/Sao_Paulo'
+        timeZone: BRASILTIMEZONE
       })} de ${dateTime.toLocaleString(LOCALE, {
         year: 'numeric',
-        timeZone: 'America/Sao_Paulo'
+        timeZone: BRASILTIMEZONE
       })}`
     }
   }
@@ -42,14 +43,14 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
       dateTime
         .toLocaleString(LOCALE, {
           hour: 'numeric',
-          timeZone: 'America/Sao_Paulo'
+          timeZone: BRASILTIMEZONE
         })
         .padStart(2, '0') +
       ':' +
       dateTime
         .toLocaleString(LOCALE, {
           minute: 'numeric',
-          timeZone: 'America/Sao_Paulo'
+          timeZone: BRASILTIMEZONE
         })
         .padStart(2, '0')
     )
