@@ -32,9 +32,9 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
 
   function formatedTime() {
     return (
-      dateTime.getHours().toString().padStart(2, '0') +
+      dateTime.toLocaleString(LOCALE, { hour: 'numeric' }).padStart(2, '0') +
       ':' +
-      dateTime.getMinutes().toString().padStart(2, '0')
+      dateTime.toLocaleString(LOCALE, { minute: 'numeric' }).padStart(2, '0')
     )
   }
 
