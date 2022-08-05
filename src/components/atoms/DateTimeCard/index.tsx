@@ -20,21 +20,38 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
 
   function formatedDate() {
     if (isMobile) {
-      return dateTime.toLocaleDateString(LOCALE)
+      return dateTime.toLocaleDateString(LOCALE, {
+        timeZone: 'America/Sao_Paulo'
+      })
     } else {
       return `${dateTime.toLocaleString(LOCALE, {
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: 'America/Sao_Paulo'
       })} de ${dateTime.toLocaleString(LOCALE, {
-        month: 'long'
-      })} de ${dateTime.toLocaleString(LOCALE, { year: 'numeric' })}`
+        month: 'long',
+        timeZone: 'America/Sao_Paulo'
+      })} de ${dateTime.toLocaleString(LOCALE, {
+        year: 'numeric',
+        timeZone: 'America/Sao_Paulo'
+      })}`
     }
   }
 
   function formatedTime() {
     return (
-      dateTime.toLocaleString(LOCALE, { hour: 'numeric' }).padStart(2, '0') +
+      dateTime
+        .toLocaleString(LOCALE, {
+          hour: 'numeric',
+          timeZone: 'America/Sao_Paulo'
+        })
+        .padStart(2, '0') +
       ':' +
-      dateTime.toLocaleString(LOCALE, { minute: 'numeric' }).padStart(2, '0')
+      dateTime
+        .toLocaleString(LOCALE, {
+          minute: 'numeric',
+          timeZone: 'America/Sao_Paulo'
+        })
+        .padStart(2, '0')
     )
   }
 
