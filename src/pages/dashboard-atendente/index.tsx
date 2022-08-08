@@ -4,11 +4,10 @@ import * as S from '../../styles/pages/dashboards/styles'
 import { Button } from 'components/atoms/Button'
 import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import { useRouter } from 'next/router'
+import router from 'next/router'
 import { DivContainer } from 'styles/pages/dashboards/dashboard-atendente/styles'
 
 function VolunteerDashboard() {
-  const router = useRouter()
-
   const goToMeusHorarios = function () {
     router.push('/atendente/meus-horarios')
   }
@@ -25,7 +24,7 @@ function VolunteerDashboard() {
             color="secondary"
             radius="square"
             size="mediumLarge"
-            onClick={goToMeusHorarios}
+            onClick={() => goToMeusHorarios()}
           >
             GERENCIAR HORÁRIOS
           </Button>

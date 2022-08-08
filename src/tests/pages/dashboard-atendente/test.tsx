@@ -42,12 +42,9 @@ describe('Atendente page', () => {
     ).toBeInTheDocument()
   })
 
-  it.skip('should redirect to atendente/meus-horarios', () => {
-    // const button = screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ })
-    // userEvent.click(button)
-
-    userEvent.click(screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ }))
-
+  it('should redirect to atendente/meus-horarios', () => {
+    const button = screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ })
+    userEvent.click(button)
     expect(router.push).toHaveBeenCalledWith('/atendente/meus-horarios')
   })
 })
