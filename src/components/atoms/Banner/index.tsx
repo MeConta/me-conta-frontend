@@ -12,7 +12,7 @@ export default function Banner({ children, imageSrc }: BannerProps) {
     <S.WrapperDashboard data-testid="banner">
       <S.SectionContainer>
         <S.NewUserCard>
-          <S.NewUserCardContent>{children}</S.NewUserCardContent>
+          {children}
           <S.NewUserCardIllustration>
             <S.IllustrationBackground />
             <Image

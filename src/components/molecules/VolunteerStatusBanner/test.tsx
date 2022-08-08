@@ -12,7 +12,7 @@ const bannerReprovedContent = {
 }
 const bannerUndefinedContent = {
   title: 'Bem-vindo(a) ao MeConta!',
-  body: 'Nossa equipe irá analisar seu perfil e entrará em contato por e-mail em breve.'
+  body: `Nossa equipe irá analisar seu perfil e entrará em contato por e-mail em breve.`
 }
 
 describe('<BannerContainer />', () => {
@@ -26,9 +26,9 @@ describe('<BannerContainer />', () => {
       within(banner).getByRole('heading', { level: 1 }).textContent
     ).toEqual(bannerAprovedContent.title)
 
-    expect(
-      within(banner).getByText(bannerAprovedContent.body)
-    ).toBeInTheDocument()
+    expect(within(banner).getByRole('paragraph')).toHaveTextContent(
+      bannerAprovedContent.body
+    )
 
     expect(
       within(banner).getByRole('button', {
@@ -47,9 +47,9 @@ describe('<BannerContainer />', () => {
       within(banner).getByRole('heading', { level: 1 }).textContent
     ).toEqual(bannerReprovedContent.title)
 
-    expect(
-      within(banner).getByText(bannerReprovedContent.body)
-    ).toBeInTheDocument()
+    expect(within(banner).getByRole('paragraph')).toHaveTextContent(
+      bannerReprovedContent.body
+    )
   })
 
   it('should render Banner with undefined information when approvalStatus is null or undefined', () => {
@@ -62,8 +62,8 @@ describe('<BannerContainer />', () => {
       within(banner).getByRole('heading', { level: 1 }).textContent
     ).toEqual(bannerUndefinedContent.title)
 
-    expect(
-      within(banner).getByText(bannerUndefinedContent.body)
-    ).toBeInTheDocument()
+    expect(within(banner).getByRole('paragraph')).toHaveTextContent(
+      bannerUndefinedContent.body
+    )
   })
 })

@@ -77,6 +77,7 @@ export const NewUserCardIllustration = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  /* flex-shrink: 0; */
 
   @media (max-width: ${screenBreakingPoint}) {
     display: none;
