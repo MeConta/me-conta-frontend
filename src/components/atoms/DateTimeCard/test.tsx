@@ -21,9 +21,20 @@ describe('screen show main itens for card schedule', () => {
 
     render(<DateTimeCard dateTime={dateTime} />)
 
-    const date = screen.getByText(/14\/07\/2022/)
+    const date = screen.getByText(/14\/07\/22/)
     expect(date).toBeInTheDocument()
     const time = screen.getByText(/15:00/)
+    expect(time).toBeInTheDocument()
+  })
+
+  it('verify date and time format when values are less than 10', () => {
+    jest.spyOn(window.screen, 'width', 'get').mockReturnValue(768)
+
+    render(<DateTimeCard dateTime={new Date('2002-07-01T06:00:00.000Z')} />)
+
+    const date = screen.getByText(/01\/07\/02/)
+    expect(date).toBeInTheDocument()
+    const time = screen.getByText(/03:00/)
     expect(time).toBeInTheDocument()
   })
 })

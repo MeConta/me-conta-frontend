@@ -6,12 +6,9 @@ export default {
   title: 'Atoms/DateTimeCard'
 } as Meta
 
-export const Default: Story<DateTimeCardProps> = (args) => (
-  <DateTimeCard {...args} />
+export const Default: Story<DateTimeCardProps> = () => (
+  <div>
+    <DateTimeCard dateTime={new Date('2022-07-14T18:00:00.000Z')} />
+    <DateTimeCard dateTime={new Date('2001-07-02T06:00:00.000Z')} />
+  </div>
 )
-
-const dateTimeExample = new Date('2022-07-14T18:00:00.000Z')
-
-Default.args = {
-  dateTime: dateTimeExample
-}

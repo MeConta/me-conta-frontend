@@ -22,7 +22,10 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
   function formatedDate() {
     if (isMobile) {
       return dateTime.toLocaleDateString(LOCALE, {
-        timeZone: BRASILTIMEZONE
+        timeZone: BRASILTIMEZONE,
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
       })
     } else {
       return `${dateTime.toLocaleString(LOCALE, {
