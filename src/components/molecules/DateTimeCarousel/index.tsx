@@ -46,38 +46,31 @@ export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
-        breakpoint: 1440,
-        settings: {
-          slidesToShow: 7,
-          slidesToScroll: 7
-        }
-      },
-      {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5
+          slidesToShow: defineSlidesToShow(5),
+          slidesToScroll: defineSlidesToShow(5)
         }
       },
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 6,
-          slidesToScroll: 6
+          slidesToShow: defineSlidesToShow(6),
+          slidesToScroll: defineSlidesToShow(6)
         }
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3
+          slidesToShow: defineSlidesToShow(3),
+          slidesToScroll: defineSlidesToShow(3)
         }
       },
       {
         breakpoint: 320,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2
+          slidesToShow: defineSlidesToShow(2),
+          slidesToScroll: defineSlidesToShow(2)
         }
       }
     ]
