@@ -17,7 +17,7 @@ describe('<DateTimeCarousel />', () => {
 
     render(<DateTimeCarousel schedules={schedules} />)
 
-    const carouselCards = screen.getAllByText(/14\/06\/2022/)
+    const carouselCards = screen.getAllByText(/14\/06\/22/)
     expect(carouselCards.length).toBe(schedules.length)
   })
 
@@ -32,7 +32,7 @@ describe('<DateTimeCarousel />', () => {
 
     render(<DateTimeCarousel schedules={schedules} />)
 
-    const carouselCards = screen.getAllByText(/14\/06\/2022/)
+    const carouselCards = screen.getAllByText(/14\/06\/22/)
     expect(carouselCards.length).toBe(schedules.length)
   })
 })
