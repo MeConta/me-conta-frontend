@@ -17,6 +17,9 @@ function VolunteerDashboard() {
     <S.WrapperDashboard>
       <Styled.SectionContainer></Styled.SectionContainer>
       <Styled.SectionContainer>
+        <S.SecondLevelTitle>
+          Meus horários disponíveis na semana
+        </S.SecondLevelTitle>
         <DivContainer>
           <Button
             color="secondary"

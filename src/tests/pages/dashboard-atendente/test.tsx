@@ -27,6 +27,15 @@ describe('Atendente page', () => {
     })
   })
 
+  it('should render title meus horários disponíveis', () => {
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Meus horários disponíveis na semana/
+      })
+    ).toBeInTheDocument()
+  })
+
   it('should render button gerenciar horários', () => {
     expect(
       screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ })
