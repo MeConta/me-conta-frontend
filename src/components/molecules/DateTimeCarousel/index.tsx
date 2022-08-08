@@ -32,12 +32,16 @@ function SamplePrevArrow(props: any) {
 }
 
 export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
+  function defineSlidesToShow(size: number) {
+    return schedules.length >= size ? size : schedules.length
+  }
+
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 7,
-    slidesToScroll: 7,
+    slidesToShow: defineSlidesToShow(7),
+    slidesToScroll: defineSlidesToShow(7),
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
