@@ -1,3 +1,4 @@
+import '../../../utils/tests/matchMedia.mock'
 import { act, render, screen } from '../../../utils/tests/helpers'
 import React from 'react'
 import * as AuthorizationContext from '../../../store/auth-context'
@@ -9,6 +10,7 @@ import router from 'next/router'
 import DashboardAtendente from 'pages/dashboard-atendente'
 import Banner from 'components/atoms/Banner'
 import { api } from 'services/api/api'
+import { VolunteerService } from 'services/volunteers-service/volunteer-service'
 
 jest.mock('store/auth-context')
 
@@ -17,19 +19,24 @@ jest.mock('next/router', () => ({
   push: jest.fn()
 }))
 
-const volunteerSlots = [
+jest.mock('../../../utils/authentication/getTokenData', () => ({
+  getTokenData: () => ({
+    id: 1
+  })
+}))
+
+const availableSlots: any = [
   {
-    voluntario: {
-      id: 107
-    },
-    slots: [
-      {
-        id: 1,
-        voluntarioId: 107,
-        inicio: '2022-06-17T04:00:00.000Z',
-        fim: '2022-06-17T05:00:00.000Z'
-      }
-    ]
+    id: 30,
+    voluntarioId: 3575,
+    inicio: '2022-08-12T03:30:00.000Z',
+    fim: '2022-08-12T04:30:00.000Z'
+  },
+  {
+    id: 31,
+    voluntarioId: 3575,
+    inicio: '2022-08-12T07:00:00.000Z',
+    fim: '2022-08-12T08:00:00.000Z'
   }
 ]
 
@@ -70,7 +77,9 @@ describe('Atendente page', () => {
         createAuthContextObject(true, UserType.ATENDENTE.toString(), true)
       )
 
-    jest.spyOn(api, 'get').mockResolvedValue({ data: volunteerSlots })
+    jest
+      .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
+      .mockImplementation(jest.fn(() => Promise.resolve(availableSlots)))
 
     await act(async () => {
       render(<VolunteerDashboard />)
@@ -111,5 +120,10 @@ describe('Atendente page', () => {
     const button = screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ })
     userEvent.click(button)
     expect(router.push).toHaveBeenCalledWith('/atendente/meus-horarios')
+  })
+
+  it('should render all available slots in a carrosel', () => {
+    const cards = screen.getAllByText(/12\/08\/22/)
+    expect(cards.length).toBe(availableSlots.length)
   })
 })

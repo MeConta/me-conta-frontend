@@ -5,8 +5,12 @@ import { DateTimeCard } from '../../atoms/DateTimeCard'
 
 import * as S from './styles'
 
-export type DateTimeElement = {
+export class DateTimeElement {
   dateTime: Date
+
+  constructor(dateTime: Date) {
+    this.dateTime = dateTime
+  }
 }
 
 export type DateTimeCarouselProps = {
