@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import * as S from './styles'
 
-type BannerProps = {
+export type BannerProps = {
   children: React.ReactNode
   imageSrc?: string
 }
