@@ -7,6 +7,8 @@ import VolunteerDashboard from 'pages/dashboard-atendente'
 import userEvent from '@testing-library/user-event'
 import router from 'next/router'
 import DashboardAtendente from 'pages/dashboard-atendente'
+import Banner from 'components/atoms/Banner'
+import { api } from 'services/api/api'
 
 jest.mock('store/auth-context')
 
@@ -14,6 +16,22 @@ jest.mock('next/router', () => ({
   useRouter: () => ({ push: jest.fn() }),
   push: jest.fn()
 }))
+
+const volunteerSlots = [
+  {
+    voluntario: {
+      id: 107
+    },
+    slots: [
+      {
+        id: 1,
+        voluntarioId: 107,
+        inicio: '2022-06-17T04:00:00.000Z',
+        fim: '2022-06-17T05:00:00.000Z'
+      }
+    ]
+  }
+]
 
 async function applyTestSetup(shouldAwait: boolean = true) {
   jest.clearAllMocks()
@@ -52,6 +70,8 @@ describe('Atendente page', () => {
         createAuthContextObject(true, UserType.ATENDENTE.toString(), true)
       )
 
+    jest.spyOn(api, 'get').mockResolvedValue({ data: volunteerSlots })
+
     await act(async () => {
       render(<VolunteerDashboard />)
     })
@@ -63,6 +83,21 @@ describe('Atendente page', () => {
         level: 2,
         name: /Meus horários disponíveis na semana/
       })
+    ).toBeInTheDocument()
+  })
+
+  it.skip('should render a banner with no schedules content', () => {
+    jest.spyOn(api, 'get').mockResolvedValueOnce({ data: [] })
+    render(<Banner>{}</Banner>)
+
+    expect(screen.getByText('Meus horários disponíveis')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'Seus horários estão vazios. Adicione mais horários para continuar obtendo sessões.'
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /INCLUIR MAIS HORÁRIOS/ })
     ).toBeInTheDocument()
   })
 

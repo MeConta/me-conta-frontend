@@ -7,6 +7,7 @@ import * as Styled from '../../styles/pages/dashboards/dashboard-aluno/styles'
 import router from 'next/router'
 import { useEffect, useState } from 'react'
 import { DivContainer } from 'styles/pages/dashboards/dashboard-atendente/styles'
+import Banner from 'components/atoms/Banner'
 
 function VolunteerDashboard() {
   const [availableSlots, setAvailableSlots] = useState<string[]>([])
@@ -55,7 +56,16 @@ function VolunteerDashboard() {
         )}
 
         {availableSlots?.length === 0 && !areAvailablesSlotsLoading && (
-          <S.SecondLevelTitle>aqui vai o banner!</S.SecondLevelTitle>
+          <S.SecondLevelTitle>
+            <Banner>
+              <h1>Meus horários disponíveis</h1>
+              <p>
+                Seus horários estão vazios. Adicione mais horários para
+                continuar obtendo sessões.
+              </p>
+              <button>INCLUIR MAIS HORÁRIOS</button>
+            </Banner>
+          </S.SecondLevelTitle>
         )}
       </Styled.SectionContainer>
     </S.WrapperDashboard>
