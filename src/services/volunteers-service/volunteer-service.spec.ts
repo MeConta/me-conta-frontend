@@ -36,6 +36,69 @@ describe('volunteers service', () => {
     telefone: '99999999999'
   }
 
+  const volunteerSlots = [
+    {
+      id: 30,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T03:30:00.000Z',
+      fim: '2022-08-12T04:30:00.000Z'
+    },
+    {
+      id: 31,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T07:00:00.000Z',
+      fim: '2022-08-12T08:00:00.000Z'
+    },
+    {
+      id: 32,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T09:30:00.000Z',
+      fim: '2022-08-12T10:30:00.000Z'
+    },
+    {
+      id: 34,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T08:30:00.000Z',
+      fim: '2022-08-12T09:30:00.000Z'
+    },
+    {
+      id: 35,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T12:00:00.000Z',
+      fim: '2022-08-12T13:00:00.000Z'
+    },
+    {
+      id: 36,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T13:30:00.000Z',
+      fim: '2022-08-12T14:30:00.000Z'
+    },
+    {
+      id: 37,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T06:00:00.000Z',
+      fim: '2022-08-12T07:00:00.000Z'
+    },
+    {
+      id: 38,
+      voluntarioId: 3575,
+      inicio: '2022-08-12T15:00:00.000Z',
+      fim: '2022-08-12T16:00:00.000Z'
+    },
+    {
+      id: 39,
+      voluntarioId: 3575,
+      inicio: '2022-08-14T05:00:00.000Z',
+      fim: '2022-08-14T06:00:00.000Z'
+    },
+    {
+      id: 40,
+      voluntarioId: 3575,
+      inicio: '2022-08-14T07:30:00.000Z',
+      fim: '2022-08-14T08:30:00.000Z'
+    }
+  ]
+
   it('should list volunteers filtered by session type', async () => {
     const sut = makeSut()
     const sessionType = 0
@@ -129,5 +192,21 @@ describe('volunteers service', () => {
         aprovado: false
       }
     )
+  })
+
+  it('should get volunteer available slots by id', async () => {
+    const sut = makeSut()
+    const id = 1
+
+    jest.spyOn(fakeAxios, 'get').mockResolvedValue({
+      data: volunteerSlots
+    })
+
+    const res = await sut.findAvailableSlotsById(id)
+
+    expect(fakeAxios.get).toHaveBeenLastCalledWith(
+      `/voluntario/${id}/horarios-disponiveis`
+    )
+    expect(res).toEqual(volunteerSlots)
   })
 })

@@ -38,6 +38,13 @@ export interface VolunteerResponse {
   link: string
 }
 
+export interface VolunteerAvailableSlot {
+  id: number
+  voluntarioId: number
+  inicio: string
+  fim: string
+}
+
 export class VolunteerService implements IVolunteerService {
   constructor(private readonly service: AxiosInstance) {}
   async findBySessionType({
@@ -85,5 +92,10 @@ export class VolunteerService implements IVolunteerService {
     await this.service.patch(`/admin/voluntarios/aprovar/${id}`, {
       aprovado: false
     })
+  }
+
+  async findAvailableSlotsById(id: number): Promise<VolunteerAvailableSlot[]> {
+    const res = await this.service.get(`/voluntario/${id}/horarios-disponiveis`)
+    return res.data
   }
 }
