@@ -11,6 +11,7 @@ import { api } from 'services/api/api'
 import { NivelFormacao } from '../../../../domain/nivel-formacao'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
 import { useToast } from 'services/toast-service/toast-service'
+import { volunteer } from 'utils/tests/volunteer'
 
 const approveVolunteerMock = jest
   .spyOn(VolunteerService.prototype, 'approve')
@@ -30,32 +31,6 @@ jest.mock('next/router', () => ({
 
 const spyOnBeforeUnload = jest.fn()
 window.addEventListener = spyOnBeforeUnload
-
-const volunteer = {
-  anoFormacao: 2020,
-  aprovado: null,
-  areaAtuacao: 'professor',
-  bio: 'string',
-  crp: 'string',
-  especializacoes: 'string',
-  formado: true,
-  frentes: [1],
-  instituicao: 'string',
-  semestre: 0,
-  usuario: {
-    tipo: '1',
-    id: 0,
-    dataTermos: '2022-06-30T18:37:03.964Z',
-    email: 'teste@teste.com',
-    nome: 'string'
-  },
-  abordagem: 'string',
-  genero: '',
-  cidade: 'Guarujá',
-  UF: 'São Paulo',
-  telefone: '34999999999',
-  link: ''
-}
 
 const genderMap = [
   ['M', 'Masculino'],

@@ -28,7 +28,7 @@ function GetBannerContent(
 
 function ContentApprovedVolunteerBanner() {
   return (
-    <S.BannerContent>
+    <S.BannerContent data-testid="approved-banner">
       <S.BannerTitle>
         Bem-vindo(a) ao <strong>MeConta!</strong>
       </S.BannerTitle>

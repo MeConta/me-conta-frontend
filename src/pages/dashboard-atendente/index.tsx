@@ -13,28 +13,26 @@ import {
   DivContainer,
   DivContainerCarousel
 } from 'styles/pages/dashboards/dashboard-atendente/styles'
-import { VolunteerService } from 'services/volunteers-service/volunteer-service'
 import { AvailableSlot } from 'domain/availableSlot'
 import {
   DateTimeCarousel,
   DateTimeElement
 } from 'components/molecules/DateTimeCarousel'
+import { VolunteerService } from 'services/volunteers-service/volunteer-service'
+import { Volunteer } from 'domain/volunteer'
+import VolunteerStatusBanner from 'components/molecules/VolunteerStatusBanner'
 
 function VolunteerDashboard() {
   const [slots, setSlots] = useState<AvailableSlot[] | null>(null)
   const [areAvailablesSlotsLoading, setAreAvailablesSlotsLoading] =
     useState<boolean>(true)
-
   const volunteerService = new VolunteerService(api)
+  const [volunteer, setVolunteer] = useState<Volunteer | null>(null)
 
-  const fetchAvailableSlots = async () => {
+  const fetchAvailableSlots = async (id: number) => {
     try {
-      const userData = getTokenData()
-
-      if (userData && userData.id) {
-        const fetchedSlots = await volunteerService.findAvailableSlotsById(
-          userData.id
-        )
+      if (id) {
+        const fetchedSlots = await volunteerService.findAvailableSlotsById(id)
 
         const convertedSlots = fetchedSlots.map(
           (slot) => new AvailableSlot(slot)
@@ -48,8 +46,20 @@ function VolunteerDashboard() {
     }
   }
 
+  const fetchVolunteer = async (id: number) => {
+    if (id) {
+      const fetchedVolunteer = await volunteerService.findById(id)
+      setVolunteer(new Volunteer(fetchedVolunteer))
+    }
+  }
+
   useEffect(() => {
-    fetchAvailableSlots()
+    const userData = getTokenData()
+
+    if (userData) {
+      fetchVolunteer(userData.id)
+      fetchAvailableSlots(userData.id)
+    }
   }, [])
 
   const goToMeusHorarios = function () {
@@ -62,7 +72,11 @@ function VolunteerDashboard() {
 
   return (
     <S.WrapperDashboard>
-      <Styled.SectionContainer></Styled.SectionContainer>
+      <Styled.SectionContainer>
+        {slots?.length === 0 && (
+          <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
+        )}
+      </Styled.SectionContainer>
       <Styled.SectionContainer>
         {areAvailablesSlotsLoading && (
           <S.SectionContainer>

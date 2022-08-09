@@ -10,7 +10,11 @@ import router from 'next/router'
 import DashboardAtendente from 'pages/dashboard-atendente'
 import Banner from 'components/atoms/Banner'
 import { api } from 'services/api/api'
-import { VolunteerService } from 'services/volunteers-service/volunteer-service'
+import {
+  VolunteerResponse,
+  VolunteerService
+} from 'services/volunteers-service/volunteer-service'
+import { volunteer } from 'utils/tests/volunteer'
 
 jest.mock('store/auth-context')
 
@@ -39,6 +43,14 @@ const availableSlots: any = [
     fim: '2022-08-12T08:00:00.000Z'
   }
 ]
+
+const volunteerResponse = { ...volunteer, aprovado: true }
+
+const findVolunteerByIdMock = jest
+  .spyOn(VolunteerService.prototype, 'findById')
+  .mockImplementation(
+    jest.fn(() => Promise.resolve(volunteerResponse as VolunteerResponse))
+  )
 
 async function applyTestSetup(shouldAwait: boolean = true) {
   jest.clearAllMocks()
@@ -79,7 +91,7 @@ describe('Atendente page', () => {
 
     jest
       .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
-      .mockImplementation(jest.fn(() => Promise.resolve(availableSlots)))
+      .mockImplementationOnce(jest.fn(() => Promise.resolve(availableSlots)))
 
     await act(async () => {
       render(<VolunteerDashboard />)
@@ -125,5 +137,17 @@ describe('Atendente page', () => {
   it('should render all available slots in a carrosel', () => {
     const cards = screen.getAllByText(/12\/08\/22/)
     expect(cards.length).toBe(availableSlots.length)
+  })
+})
+
+describe('Volunteer welcome banner', () => {
+  it('should show approved volunteer welcome banner when the volunteers status is true', async () => {
+    jest
+      .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
+      .mockImplementationOnce(jest.fn(() => Promise.resolve([])))
+
+    await applyTestSetup()
+
+    expect(screen.getByTestId('approved-banner')).toBeInTheDocument()
   })
 })
