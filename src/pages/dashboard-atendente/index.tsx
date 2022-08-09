@@ -16,12 +16,10 @@ function VolunteerDashboard() {
     router.push('/atendente/meus-horarios')
   }
 
-  const fetchAvailableSlots = () => {
+  const fetchAvailableSlots = async () => {
     //pra test enquanto não tem a implementação do serviço
-    setTimeout(() => {
-      setAreAvailablesSlotsLoading(false)
-      setAvailableSlots(['teste', 'Precisa mudar'])
-    }, 2000)
+    setAvailableSlots(['teste', 'Precisa mudar'])
+    setAreAvailablesSlotsLoading(false)
   }
 
   useEffect(() => {
@@ -32,10 +30,6 @@ function VolunteerDashboard() {
     <S.WrapperDashboard>
       <Styled.SectionContainer></Styled.SectionContainer>
       <Styled.SectionContainer>
-        <S.SecondLevelTitle>
-          Meus horários disponíveis na semana
-        </S.SecondLevelTitle>
-
         {areAvailablesSlotsLoading && (
           <S.SectionContainer>
             <Loader />
@@ -43,18 +37,26 @@ function VolunteerDashboard() {
         )}
 
         {availableSlots?.length > 0 && !areAvailablesSlotsLoading && (
-          <S.SecondLevelTitle>Os Slots vão aqui</S.SecondLevelTitle>
+          <Styled.SectionContainer>
+            <S.SecondLevelTitle>
+              Meus horários disponíveis na semana
+            </S.SecondLevelTitle>
+            <DivContainer>
+              <Button
+                color="secondary"
+                radius="square"
+                size="mediumLarge"
+                onClick={() => goToMeusHorarios()}
+              >
+                GERENCIAR HORÁRIOS
+              </Button>
+            </DivContainer>
+          </Styled.SectionContainer>
         )}
-        <DivContainer>
-          <Button
-            color="secondary"
-            radius="square"
-            size="mediumLarge"
-            onClick={() => goToMeusHorarios()}
-          >
-            GERENCIAR HORÁRIOS
-          </Button>
-        </DivContainer>
+
+        {availableSlots?.length === 0 && !areAvailablesSlotsLoading && (
+          <S.SecondLevelTitle>aqui vai o banner!</S.SecondLevelTitle>
+        )}
       </Styled.SectionContainer>
     </S.WrapperDashboard>
   )
