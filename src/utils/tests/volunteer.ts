@@ -1,3 +1,5 @@
+import { UserType } from "enums/user-type.enum";
+
 export const volunteer = {
   anoFormacao: 2020,
   aprovado: null,
@@ -10,7 +12,7 @@ export const volunteer = {
   instituicao: 'string',
   semestre: 0,
   usuario: {
-    tipo: '1',
+    tipo: UserType.ATENDENTE,
     id: 0,
     dataTermos: '2022-06-30T18:37:03.964Z',
     email: 'teste@teste.com',

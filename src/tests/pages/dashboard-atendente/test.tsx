@@ -8,13 +8,12 @@ import VolunteerDashboard from 'pages/dashboard-atendente'
 import userEvent from '@testing-library/user-event'
 import router from 'next/router'
 import DashboardAtendente from 'pages/dashboard-atendente'
-import Banner from 'components/atoms/Banner'
-import { api } from 'services/api/api'
 import {
   VolunteerResponse,
   VolunteerService
 } from 'services/volunteers-service/volunteer-service'
 import { volunteer } from 'utils/tests/volunteer'
+import Banner from 'components/atoms/Banner'
 
 jest.mock('store/auth-context')
 
@@ -75,13 +74,13 @@ async function applyTestSetup(shouldAwait: boolean = true) {
 }
 
 describe('Page Loader', () => {
-  it.skip('should render loader while data is being fetched', async () => {
+  it('should render loader while data is being fetched', async () => {
     await applyTestSetup(false)
     expect(screen.getByTestId('loader')).toBeInTheDocument()
   })
 })
 
-describe('Atendente page', () => {
+describe('Atendente page with available slots', () => {
   beforeEach(async () => {
     jest
       .spyOn(AuthorizationContext, 'useAuthContext')
@@ -91,7 +90,7 @@ describe('Atendente page', () => {
 
     jest
       .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
-      .mockImplementationOnce(jest.fn(() => Promise.resolve(availableSlots)))
+      .mockImplementation(jest.fn(() => Promise.resolve(availableSlots)))
 
     await act(async () => {
       render(<VolunteerDashboard />)
@@ -104,21 +103,6 @@ describe('Atendente page', () => {
         level: 2,
         name: /Meus horários disponíveis na semana/
       })
-    ).toBeInTheDocument()
-  })
-
-  it.skip('should render a banner with no schedules content', () => {
-    jest.spyOn(api, 'get').mockResolvedValueOnce({ data: [] })
-    render(<Banner>{}</Banner>)
-
-    expect(screen.getByText('Meus horários disponíveis')).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        'Seus horários estão vazios. Adicione mais horários para continuar obtendo sessões.'
-      )
-    ).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: /INCLUIR MAIS HORÁRIOS/ })
     ).toBeInTheDocument()
   })
 
@@ -149,5 +133,32 @@ describe('Volunteer welcome banner', () => {
     await applyTestSetup()
 
     expect(screen.getByTestId('approved-banner')).toBeInTheDocument()
+  })
+})
+
+describe('Atendente page without available slots', () => {
+  beforeEach(async () => {
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, UserType.ATENDENTE.toString(), true)
+      )
+
+    jest
+      .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
+      .mockImplementation(jest.fn(() => Promise.resolve([])))
+
+    await act(async () => {
+      render(<VolunteerDashboard />)
+    })
+  })
+
+  it.skip('should render a banner with no schedules content', () => {
+    render(<Banner>{}</Banner>)
+
+    expect(screen.getByText('Meus horários disponíveis')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /INCLUIR HORÁRIOS/ })
+    ).toBeInTheDocument()
   })
 })

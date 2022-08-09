@@ -42,7 +42,7 @@ function VolunteerDashboard() {
         setAreAvailablesSlotsLoading(false)
       }
     } catch (error) {
-      console.log(error)
+      setAreAvailablesSlotsLoading(false)
     }
   }
 
@@ -108,16 +108,27 @@ function VolunteerDashboard() {
         )}
 
         {slots?.length === 0 && !areAvailablesSlotsLoading && (
-          <S.SecondLevelTitle>
+          <DivContainer>
             <Banner>
-              <h1>Meus horários disponíveis</h1>
-              <p>
-                Seus horários estão vazios. Adicione mais horários para
-                continuar obtendo sessões.
-              </p>
-              <button>INCLUIR MAIS HORÁRIOS</button>
+              <S.NewUserCard>
+                <S.NewUserCardContent>
+                  <S.NewUserCardTitle>
+                    Meus horários disponíveis
+                  </S.NewUserCardTitle>
+                  <S.NewUserCardText>
+                    <p>
+                      Seus horários estão <b>vazios</b>.
+                    </p>{' '}
+                    <br />
+                    Adicione mais horários para continuar obtendo sessões.
+                  </S.NewUserCardText>
+                  <Button color="secondary" radius="square" size="mediumLarge">
+                    <span>INCLUIR HORÁRIOS</span>
+                  </Button>
+                </S.NewUserCardContent>
+              </S.NewUserCard>
             </Banner>
-          </S.SecondLevelTitle>
+          </DivContainer>
         )}
       </Styled.SectionContainer>
     </S.WrapperDashboard>

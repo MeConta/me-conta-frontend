@@ -45,7 +45,7 @@ export const NewUserCard = styled.div`
 export const NewUserCardTitle = styled.h1`
   ${({ theme }) => css`
     font-style: normal;
-    font-weight: 500;
+    font-weight: 700;
     font-size: ${theme.font.sizes['desk-xxlarge']};
     line-height: 40px;
     letter-spacing: 0.2px;
@@ -56,6 +56,8 @@ export const NewUserCardTitle = styled.h1`
 
     @media (max-width: ${screenBreakingPoint}) {
       text-align: center;
+      font-size: 18px;
+      margin-bottom: 0.5rem;
     }
   `}
 `
@@ -106,6 +108,13 @@ export const NewUserCardText = styled.p`
   ${() => css`
     margin-top: 20px;
     margin-bottom: 30px;
+    font-weight: 300;
+
+    @media (max-width: ${screenBreakingPoint}) {
+      p {
+        margin: 0.5rem 0;
+      }
+    }
   `}
 `
 

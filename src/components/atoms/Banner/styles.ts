@@ -11,6 +11,9 @@ export const WrapperDashboard = styled.div`
   max-width: 1360px;
   padding: 0 18px;
   margin: 4rem;
+  @media (max-width: ${screenBreakingPoint}) {
+    margin: 0;
+  }
 `
 
 export const SectionTitle = styled.h1`
