@@ -18,7 +18,7 @@ export class VolunteerUsuario {
 }
 
 export class Volunteer {
-  aprovado: boolean
+  aprovado: boolean | null
   crp: string
   especializacoes: string
   areaAtuacao: string

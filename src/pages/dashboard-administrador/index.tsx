@@ -83,7 +83,7 @@ function DashboardAdministrador() {
     fetchVolunteers(StatusAprovacao.ABERTO)
   }, [])
 
-  const getTagAttributes = (status: boolean) => {
+  const getTagAttributes = (status: boolean | null) => {
     switch (status) {
       case null:
         return {
