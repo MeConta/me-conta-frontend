@@ -9,7 +9,6 @@ export const WrapperDashboard = styled.div`
   width: 100%;
   max-width: 1360px;
   padding: 0 18px;
-  margin: 4rem;
   @media (max-width: ${screenBreakingPoint}) {
     margin: 0;
   }
@@ -43,6 +42,7 @@ export const NewUserCardIllustration = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  padding-left: 64px;
   /* flex-shrink: 0; */
 
   @media (max-width: ${screenBreakingPoint}) {
@@ -53,7 +53,7 @@ export const NewUserCardIllustration = styled.div`
 export const IllustrationBackground = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    right: -15%;
+    right: -20%;
     background: ${theme.colors.ceriseRed};
     width: 120%;
     height: 150%;
