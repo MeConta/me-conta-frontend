@@ -25,11 +25,15 @@ import VolunteerStatusBanner from 'components/molecules/VolunteerStatusBanner'
 function VolunteerDashboard() {
   const [slots, setSlots] = useState<AvailableSlot[] | null>(null)
   const [areAvailablesSlotsLoading, setAreAvailablesSlotsLoading] =
+    useState<boolean>(false)
+  const [isVolunteerDataLoading, setVolunteerDataLoading] =
     useState<boolean>(true)
   const volunteerService = new VolunteerService(api)
   const [volunteer, setVolunteer] = useState<Volunteer | null>(null)
 
   const fetchAvailableSlots = async (id: number) => {
+    setAreAvailablesSlotsLoading(true)
+
     try {
       if (id) {
         const fetchedSlots = await volunteerService.findAvailableSlotsById(id)
@@ -47,9 +51,14 @@ function VolunteerDashboard() {
   }
 
   const fetchVolunteer = async (id: number) => {
-    if (id) {
-      const fetchedVolunteer = await volunteerService.findById(id)
-      setVolunteer(new Volunteer(fetchedVolunteer))
+    try {
+      if (id) {
+        const fetchedVolunteer = await volunteerService.findById(id)
+        setVolunteer(new Volunteer(fetchedVolunteer))
+      }
+      setVolunteerDataLoading(false)
+    } catch (error) {
+      setVolunteerDataLoading(false)
     }
   }
 
@@ -72,16 +81,16 @@ function VolunteerDashboard() {
 
   return (
     <S.WrapperDashboard>
+      <Styled.SectionContainer></Styled.SectionContainer>
       <Styled.SectionContainer>
-        {volunteer && !volunteer?.aprovado && (
-          <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
-        )}
-      </Styled.SectionContainer>
-      <Styled.SectionContainer>
-        {areAvailablesSlotsLoading && (
+        {(areAvailablesSlotsLoading || isVolunteerDataLoading) && (
           <S.SectionContainer>
             <Loader />
           </S.SectionContainer>
+        )}
+
+        {volunteer && !volunteer?.aprovado && (
+          <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
         )}
 
         {slots && slots?.length > 0 && !areAvailablesSlotsLoading && (
