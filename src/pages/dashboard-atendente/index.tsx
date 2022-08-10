@@ -73,7 +73,7 @@ function VolunteerDashboard() {
   return (
     <S.WrapperDashboard>
       <Styled.SectionContainer>
-        {!volunteer?.aprovado && (
+        {volunteer && !volunteer?.aprovado && (
           <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
         )}
       </Styled.SectionContainer>
