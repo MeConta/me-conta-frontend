@@ -73,7 +73,7 @@ function VolunteerDashboard() {
   return (
     <S.WrapperDashboard>
       <Styled.SectionContainer>
-        {slots?.length === 0 && (
+        {!volunteer?.aprovado && (
           <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
         )}
       </Styled.SectionContainer>
@@ -122,7 +122,12 @@ function VolunteerDashboard() {
                     <br />
                     Adicione mais horários para continuar obtendo sessões.
                   </S.NewUserCardText>
-                  <Button color="secondary" radius="square" size="mediumLarge">
+                  <Button
+                    color="secondary"
+                    radius="square"
+                    size="mediumLarge"
+                    onClick={() => goToMeusHorarios()}
+                  >
                     <span>INCLUIR HORÁRIOS</span>
                   </Button>
                 </S.NewUserCardContent>

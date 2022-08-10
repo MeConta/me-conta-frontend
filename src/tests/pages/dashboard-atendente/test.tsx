@@ -125,7 +125,7 @@ describe('Atendente page with available slots', () => {
 })
 
 describe('Volunteer welcome banner', () => {
-  it('should show approved volunteer welcome banner when the volunteers status is true', async () => {
+  it.skip('should show approved volunteer welcome banner when the volunteers status is true', async () => {
     jest
       .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
       .mockImplementationOnce(jest.fn(() => Promise.resolve([])))
@@ -153,12 +153,18 @@ describe('Atendente page without available slots', () => {
     })
   })
 
-  it.skip('should render a banner with no schedules content', () => {
+  it('should render a banner with no schedules content', () => {
     render(<Banner>{}</Banner>)
 
     expect(screen.getByText('Meus horários disponíveis')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: /INCLUIR HORÁRIOS/ })
     ).toBeInTheDocument()
+  })
+
+  it('should redirect to atendente/meus-horarios', () => {
+    const button = screen.getByRole('button', { name: /INCLUIR HORÁRIOS/ })
+    userEvent.click(button)
+    expect(router.push).toHaveBeenCalledWith('/atendente/meus-horarios')
   })
 })
