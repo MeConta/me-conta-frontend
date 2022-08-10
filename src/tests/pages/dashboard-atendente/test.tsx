@@ -125,14 +125,34 @@ describe('Atendente page with available slots', () => {
 })
 
 describe('Volunteer welcome banner', () => {
-  it.skip('should show approved volunteer welcome banner when the volunteers status is true', async () => {
+  it('should show reproved volunteer welcome banner when the volunteers status is false', async () => {
     jest
       .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
       .mockImplementationOnce(jest.fn(() => Promise.resolve([])))
 
+    const volunteerReproved = { ...volunteerResponse, aprovado: false }
+    findVolunteerByIdMock.mockImplementationOnce(
+      jest.fn(() => Promise.resolve(volunteerReproved as VolunteerResponse))
+    )
+
     await applyTestSetup()
 
-    expect(screen.getByTestId('approved-banner')).toBeInTheDocument()
+    expect(screen.getByTestId('reproved-banner')).toBeInTheDocument()
+  })
+
+  it('should show undefined volunteer welcome banner when the volunteers status is null', async () => {
+    jest
+      .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
+      .mockImplementationOnce(jest.fn(() => Promise.resolve([])))
+
+    const volunteerUndefined = { ...volunteerResponse, aprovado: null }
+    findVolunteerByIdMock.mockImplementationOnce(
+      jest.fn(() => Promise.resolve(volunteerUndefined as VolunteerResponse))
+    )
+
+    await applyTestSetup()
+
+    expect(screen.getByTestId('undefined-banner')).toBeInTheDocument()
   })
 })
 

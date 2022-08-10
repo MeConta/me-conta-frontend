@@ -1,4 +1,4 @@
-import { UserType } from "enums/user-type.enum";
+import { UserType } from 'enums/user-type.enum'
 
 export const volunteer = {
   anoFormacao: 2020,

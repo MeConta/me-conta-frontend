@@ -14,7 +14,7 @@ export interface IVolunteerService {
 }
 
 export interface VolunteerResponse {
-  aprovado: boolean
+  aprovado: boolean | null
   crp: string
   especializacoes: string
   areaAtuacao: string

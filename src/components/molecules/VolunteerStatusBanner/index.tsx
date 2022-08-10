@@ -44,7 +44,7 @@ function ContentApprovedVolunteerBanner() {
 
 function ContentReprovedVolunteerBanner() {
   return (
-    <S.BannerContent>
+    <S.BannerContent data-testid="reproved-banner">
       <S.BannerTitle>
         Status: <strong>Não aprovado</strong>
       </S.BannerTitle>
@@ -58,7 +58,7 @@ function ContentReprovedVolunteerBanner() {
 
 function ContentUndefinedVolunteerBanner() {
   return (
-    <S.BannerContent>
+    <S.BannerContent data-testid="undefined-banner">
       <S.BannerTitle>
         Bem-vindo(a) ao <strong>MeConta!</strong>
       </S.BannerTitle>
