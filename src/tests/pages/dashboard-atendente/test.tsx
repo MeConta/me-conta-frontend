@@ -89,6 +89,12 @@ describe('Atendente page with available slots', () => {
       )
 
     jest
+      .spyOn(VolunteerService.prototype, 'findById')
+      .mockImplementation(
+        jest.fn(() => Promise.resolve(volunteerResponse as VolunteerResponse))
+      )
+
+    jest
       .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
       .mockImplementation(jest.fn(() => Promise.resolve(availableSlots)))
 

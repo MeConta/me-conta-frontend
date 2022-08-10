@@ -67,9 +67,14 @@ function VolunteerDashboard() {
 
     if (userData) {
       fetchVolunteer(userData.id)
-      fetchAvailableSlots(userData.id)
     }
   }, [])
+
+  useEffect(() => {
+    if (volunteer?.aprovado) {
+      fetchAvailableSlots(volunteer.usuario.id)
+    }
+  }, [volunteer])
 
   const goToMeusHorarios = function () {
     router.push('/atendente/meus-horarios')
@@ -93,7 +98,7 @@ function VolunteerDashboard() {
           <VolunteerStatusBanner approvalStatus={volunteer?.aprovado} />
         )}
 
-        {slots && slots?.length > 0 && !areAvailablesSlotsLoading && (
+        {!areAvailablesSlotsLoading && slots && slots?.length > 0 && (
           <Styled.SectionContainer>
             <S.SecondLevelTitle>
               Meus horários disponíveis na semana
