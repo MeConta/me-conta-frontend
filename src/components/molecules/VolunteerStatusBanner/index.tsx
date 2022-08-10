@@ -18,11 +18,11 @@ function GetBannerContent(
 ): React.ReactElement {
   switch (approvalStatus) {
     case true:
-      return <ContentApprovedVolunteerBanner></ContentApprovedVolunteerBanner>
+      return <ContentApprovedVolunteerBanner />
     case false:
-      return <ContentReprovedVolunteerBanner></ContentReprovedVolunteerBanner>
+      return <ContentReprovedVolunteerBanner />
     default:
-      return <ContentUndefinedVolunteerBanner></ContentUndefinedVolunteerBanner>
+      return <ContentUndefinedVolunteerBanner />
   }
 }
 
