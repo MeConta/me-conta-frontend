@@ -1,13 +1,16 @@
 import { render, screen } from '../../utils/tests/helpers'
 import * as AuthorizationContext from '../../store/auth-context'
 import createAuthContextObject from '../../utils/tests/createAuthContextObject'
-import TestPage from '../../utils/tests/AuthenticatedTestPage'
+import TestPage, {
+  AtendenteAuthenticatedRoute
+} from '../../utils/tests/AuthenticatedTestPage'
 import { UserType } from 'enums/user-type.enum'
 
 jest.mock('store/auth-context')
 const mockRouter = jest.fn()
+const mockPathName = jest.fn()
 jest.mock('next/router', () => ({
-  useRouter: () => ({ push: mockRouter })
+  useRouter: () => ({ push: mockRouter, pathname: mockPathName })
 }))
 
 describe('authenticationRoute', () => {
@@ -60,5 +63,46 @@ describe('authenticationRoute', () => {
 
     expect(screen.queryByText('Página Padrão')).not.toBeInTheDocument()
     expect(mockRouter).toHaveBeenLastCalledWith('/dashboard-atendente')
+  })
+
+  it('should redirect to dashboard atendente page if the user has permissaoNavegar false and is atendente type', () => {
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, String(UserType.ATENDENTE), true, false)
+      )
+
+    render(<AtendenteAuthenticatedRoute />)
+
+    expect(screen.queryByText('Página Padrão')).not.toBeInTheDocument()
+    expect(mockRouter).toHaveBeenLastCalledWith('/dashboard-atendente')
+  })
+
+  it('should render dashboard atendente page when user has permissaoNavegar true and is atendente type', () => {
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, String(UserType.ATENDENTE), true, true)
+      )
+
+    render(<AtendenteAuthenticatedRoute />)
+
+    expect(screen.queryByText('Página Padrão')).toBeInTheDocument()
+  })
+
+  it.skip('should render dashboard atendente page when user has permissaoNavegar true and is atendente type', () => {
+    jest.clearAllMocks()
+    jest
+      .spyOn(AuthorizationContext, 'useAuthContext')
+      .mockReturnValue(
+        createAuthContextObject(true, String(UserType.ATENDENTE), true, false)
+      )
+    jest.mock('next/router', () => ({
+      useRouter: () => ({ push: mockRouter, pathname: '/dashboard-atendente' })
+    }))
+
+    render(<AtendenteAuthenticatedRoute />)
+
+    expect(mockRouter).toBeCalledTimes(0)
   })
 })

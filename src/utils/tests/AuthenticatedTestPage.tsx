@@ -8,3 +8,7 @@ function TestPage() {
 export default authenticatedRoute(TestPage, {
   allowedRoles: [UserType.ALUNO]
 })
+
+export const AtendenteAuthenticatedRoute = authenticatedRoute(TestPage, {
+  allowedRoles: [UserType.ATENDENTE]
+})

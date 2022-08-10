@@ -1,7 +1,8 @@
 const createAuthContextObject = (
   isLoggedIn: boolean = false,
   userType: string = '0',
-  completeProfile: boolean = false
+  completeProfile: boolean = false,
+  permissaoNavegar: boolean = true
 ) => {
   return {
     isLoggedIn,
@@ -11,7 +12,8 @@ const createAuthContextObject = (
       type: userType,
       completeProfile,
       token: '',
-      refreshToken: ''
+      refreshToken: '',
+      permissaoNavegar
     },
     setCompleteProfile: jest.fn(),
     handleLogin: jest.fn(),

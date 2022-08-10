@@ -27,18 +27,19 @@ export const authenticatedRoute = (
     }) => {
       return params.allowedRoles.includes(params.userRole)
     }
-
     const userStatus = {
       LOGGED_OFF: !authCtx.isLoggedIn,
       NOT_AUTHORIZED:
-        authCtx.session.type &&
-        !userRoleIsAuthorized({
-          userRole: +authCtx.session.type,
-          allowedRoles: options.allowedRoles
-        }),
+        (authCtx.session.type &&
+          !userRoleIsAuthorized({
+            userRole: +authCtx.session.type,
+            allowedRoles: options.allowedRoles
+          })) ||
+        !authCtx.session.permissaoNavegar,
       AUTHORIZED:
         authCtx.isLoggedIn &&
         authCtx.session.type &&
+        authCtx.session.permissaoNavegar &&
         userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
@@ -57,7 +58,11 @@ export const authenticatedRoute = (
         const route = userStatus.COMPLETE_PROFILE
           ? redirects[+authCtx.session.type]
           : '/criar-conta'
-        router.push(route)
+        if (router.pathname !== route) {
+          router.push(route)
+        } else {
+          setShouldRender(true)
+        }
       }
       if (userStatus.AUTHORIZED && userStatus.COMPLETE_PROFILE) {
         setShouldRender(true)

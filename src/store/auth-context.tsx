@@ -22,6 +22,7 @@ type SessionData = {
   token: string
   refreshToken: string
   completeProfile: boolean
+  permissaoNavegar: boolean
 }
 
 export type AuthServiceProps = {
@@ -68,6 +69,7 @@ export const AuthorizationProvider = (
     isTokenValid(decodedToken)
   )
   const [completeProfile, setCompletedProfile] = useState<boolean>(false)
+  const [allowedNavigate, setAllowedNavigate] = useState<boolean>(false)
 
   const [name, setName] = useState<string | null>(null)
   const [type, setType] = useState<string | null>(null)
@@ -98,6 +100,7 @@ export const AuthorizationProvider = (
       cookieOptions
     )
     setIsLoggedIn(true)
+    setAllowedNavigate(sessionData.permissaoNavegar)
   }
 
   const setCompleteProfile = (value: boolean) => {
@@ -135,7 +138,8 @@ export const AuthorizationProvider = (
     type: type || '',
     token: tokenCookie || '',
     refreshToken: refreshTokenCookie || '',
-    completeProfile: completeProfile || false
+    completeProfile: completeProfile || false,
+    permissaoNavegar: allowedNavigate || false
   }
 
   return (

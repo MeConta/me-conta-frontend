@@ -57,7 +57,8 @@ export const FormLogin = ({ handleError }: FormLoginProps) => {
         type: response.data.tipo,
         token: response.data.token,
         refreshToken: response.data.refreshToken,
-        completeProfile: response.data.perfilCompleto
+        completeProfile: response.data.perfilCompleto,
+        permissaoNavegar: response.data.permissaoNavegar
       })
 
       if (response.data.perfilCompleto)
