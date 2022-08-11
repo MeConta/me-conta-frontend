@@ -135,8 +135,7 @@ export function FormCadastro(props: {
         type: tipo.toString(),
         token,
         refreshToken,
-        completeProfile: false,
-        permissaoNavegar: false
+        completeProfile: false
       })
 
       props.handleSuccess({ nome: name, email, senha: password, tipo })

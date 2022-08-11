@@ -12,9 +12,9 @@ const createAuthContextObject = (
       type: userType,
       completeProfile,
       token: '',
-      refreshToken: '',
-      permissaoNavegar
+      refreshToken: ''
     },
+    allowedNavigate: permissaoNavegar,
     setCompleteProfile: jest.fn(),
     handleLogin: jest.fn(),
     handleLogout: jest.fn()

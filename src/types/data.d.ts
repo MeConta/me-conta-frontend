@@ -4,4 +4,5 @@ export type DecodedToken = {
   iat: number
   roles: number[]
   sub: number
+  permissaoNavegar: boolean
 }

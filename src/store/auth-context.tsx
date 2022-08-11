@@ -22,13 +22,13 @@ type SessionData = {
   token: string
   refreshToken: string
   completeProfile: boolean
-  permissaoNavegar: boolean
 }
 
 export type AuthServiceProps = {
   authService: IAuthService
   isLoggedIn: boolean
   session: SessionData
+  allowedNavigate: boolean
   setCompleteProfile: (value: boolean) => void
   handleLogin: (session: SessionData) => void
   handleLogout: (autoLogout?: boolean) => void
@@ -77,11 +77,12 @@ export const AuthorizationProvider = (
   const cookieOptions = { path: '/' }
 
   useEffect(() => {
-    if (isTokenValid(decodedToken)) {
+    if (decodedToken && isTokenValid(decodedToken)) {
       setIsLoggedIn(true)
       setName(nomeCookie)
       setCompletedProfile(stringToBoolean(completeProfileCookie))
       setType(decodedToken?.roles?.[0].toString() as string)
+      setAllowedNavigate(decodedToken.permissaoNavegar)
     } else {
       setIsLoggedIn(false)
     }
@@ -100,7 +101,6 @@ export const AuthorizationProvider = (
       cookieOptions
     )
     setIsLoggedIn(true)
-    setAllowedNavigate(sessionData.permissaoNavegar)
   }
 
   const setCompleteProfile = (value: boolean) => {
@@ -122,6 +122,7 @@ export const AuthorizationProvider = (
     setType(null)
     setIsLoggedIn(false)
     setCompletedProfile(false)
+    setAllowedNavigate(false)
 
     if (autoLogout) {
       emit({
@@ -138,8 +139,7 @@ export const AuthorizationProvider = (
     type: type || '',
     token: tokenCookie || '',
     refreshToken: refreshTokenCookie || '',
-    completeProfile: completeProfile || false,
-    permissaoNavegar: allowedNavigate || false
+    completeProfile: completeProfile || false
   }
 
   return (
@@ -150,7 +150,8 @@ export const AuthorizationProvider = (
         setCompleteProfile,
         session,
         handleLogin: loginHandler,
-        handleLogout: logoutHandler
+        handleLogout: logoutHandler,
+        allowedNavigate: allowedNavigate
       }}
     >
       {props.children}

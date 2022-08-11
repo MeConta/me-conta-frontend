@@ -27,19 +27,20 @@ export const authenticatedRoute = (
     }) => {
       return params.allowedRoles.includes(params.userRole)
     }
+    const allowedNavigate = authCtx.allowedNavigate
     const userStatus = {
       LOGGED_OFF: !authCtx.isLoggedIn,
       NOT_AUTHORIZED:
-        (authCtx.session.type &&
-          !userRoleIsAuthorized({
-            userRole: +authCtx.session.type,
-            allowedRoles: options.allowedRoles
-          })) ||
-        !authCtx.session.permissaoNavegar,
+        authCtx.session.type &&
+        (!userRoleIsAuthorized({
+          userRole: +authCtx.session.type,
+          allowedRoles: options.allowedRoles
+        }) ||
+          !allowedNavigate),
       AUTHORIZED:
         authCtx.isLoggedIn &&
         authCtx.session.type &&
-        authCtx.session.permissaoNavegar &&
+        allowedNavigate &&
         userRoleIsAuthorized({
           userRole: +authCtx.session.type,
           allowedRoles: options.allowedRoles
