@@ -1,7 +1,7 @@
 import { render, screen, act } from '../../../utils/tests/helpers'
 import { AddDates } from './index'
 import userEvent from '@testing-library/user-event'
-import { RenderResult } from '@testing-library/react'
+import { RenderResult, within } from '@testing-library/react'
 
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
@@ -19,7 +19,7 @@ describe('<AddDates />', () => {
     expect(screen.queryByText('Seleciona o horário')).toBeNull()
   })
 
-  it('should render AddDates with no dates selected already', () => {
+  it('should render AddDates with date selected and hours dropdown', () => {
     renderComponent = render(
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
@@ -34,5 +34,24 @@ describe('<AddDates />', () => {
     })
 
     expect(screen.getByText('Seleciona o horário')).toBeInTheDocument()
+  })
+
+  it('should render hours dropdown with start at 8am and end at 8pm', () => {
+    renderComponent = render(
+      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
+    )
+
+    const pickLastMonthDay = screen.queryByText('31')
+      ? screen.queryByText('31')
+      : screen.queryByText('30')
+
+    act(() => {
+      // @ts-ignore
+      userEvent.click(pickLastMonthDay)
+    })
+
+    // console.log(screen.getByRole('option'))
+    //expect(within(screen.getByRole('option')).queryByText('08:00:00')).toBeInTheDocument
+    expect(screen.queryByText('31/08/2022, 00:00:00')).toBeNull()
   })
 })

@@ -58,8 +58,8 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const addOneHourInDate = (date: Date) => new Date(date.getTime() + 3600000)
 
   const getSlots = (day: Date) => {
-    const startOfDay = new Date(day.getTime()).setHours(0, 0, 0, 0)
-    return new Array(48).fill(undefined).map((_time, i) => {
+    const startOfDay = new Date(day.getTime()).setHours(8, 0, 0, 0)
+    return new Array(25).fill(undefined).map((_time, i) => {
       return new Date(startOfDay + 1800000 * i)
     })
   }
