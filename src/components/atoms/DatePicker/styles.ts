@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     width: 100%;
+    justify-content: center;
 
     .DayPicker-NavBar {
       position: absolute;
@@ -50,8 +51,19 @@ export const Wrapper = styled.div`
       padding: 0;
       font-family: ${theme.font.family};
       font-size: 16px;
+      margin-bottom: ${theme.spacings.gsmall};
       > div {
         font-weight: ${theme.font.bold};
+      }
+    }
+
+    .DayPicker-wrapper {
+      margin-bottom: ${theme.spacings.gsmall};
+    }
+
+    @media (max-width: ${theme.screen.small}) {
+      .DayPicker-Caption {
+        justify-content: left;
       }
     }
   `}

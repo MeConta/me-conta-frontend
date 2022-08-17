@@ -2,25 +2,31 @@ import styled, { css } from 'styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
+    margin: 8px;
+    width: 60%;
+
     .card {
       display: flex;
       background-color: ${theme.colors.white};
       border-radius: ${theme.border['card-radius']};
       padding: ${theme.spacings.small};
+      justify-content: space-around;
     }
 
     .card-header {
       font-weight: ${theme.font.bold};
-      font-size: ${theme.font.sizes['desk-xlarge']};
-      margin-bottom: ${theme.spacings.xsmall};
+      font-size: ${theme.font.sizes['desk-xxlarge']};
+      margin-bottom: ${theme.spacings.gsmall};
     }
 
     .select-day-container {
-      margin-right: ${theme.spacings.large};
     }
 
     .select-time-container {
-      width: 100%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .slots {
@@ -96,7 +102,22 @@ export const Wrapper = styled.div`
       }
     }
 
-    @media (max-width: 690px) {
+    @media (max-width: ${theme.screen.small}) {
+      width: 100%;
+
+      .card-header {
+        font-size: ${theme.font.sizes['desk-xlarge']};
+      }
+
+      .select-time-container {
+        width: 100%;
+        align-items: baseline;
+      }
+
+      .card {
+        justify-content: left;
+      }
+
       .slot {
         width: 100%;
       }
