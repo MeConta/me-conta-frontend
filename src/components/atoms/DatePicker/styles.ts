@@ -28,7 +28,7 @@ export const Wrapper = styled.div`
 
     .DayPicker-Day {
       border-radius: 0;
-      border: 1px solid ${theme.colors.xlightGray};
+      border: 1px solid ${theme.colors.gray};
       box-sizing: border-box;
       padding: 0.8em;
       font-size: 14px;
@@ -41,6 +41,8 @@ export const Wrapper = styled.div`
     .DayPicker-Weekday {
       font-size: 14px;
       color: ${theme.colors.black};
+      font-weight: ${theme.font.bold};
+      text-transform: capitalize;
     }
 
     .DayPicker-Caption {
@@ -48,6 +50,9 @@ export const Wrapper = styled.div`
       padding: 0;
       font-family: ${theme.font.family};
       font-size: 16px;
+      > div {
+        font-weight: ${theme.font.bold};
+      }
     }
   `}
 `

@@ -10,6 +10,7 @@ import {
   ArrowIosBackOutline,
   ArrowIosForwardOutline
 } from 'styled-icons/evaicons-outline'
+import { BackgroundColor } from 'styled-icons/foundation'
 
 type NavbarProps = {
   onPreviousClick: () => void
@@ -36,8 +37,13 @@ export function DatePicker(props: DatePickerProps) {
   const modifiersStyles = {
     selected: {
       color: theme.colors.white,
+      fontWeight: theme.font.bold,
       backgroundColor: theme.colors.ceriseRed,
       boxShadow: 'inset 0px 4px 4px -2px rgba(0,0,0,0.3)'
+    },
+    outside: {
+      boxShadow: 'inset 0 0.3rem 0.5rem #cecece',
+      BackgroundColor: '#FCFCFC'
     }
   }
 
@@ -49,6 +55,7 @@ export function DatePicker(props: DatePickerProps) {
         firstDayOfWeek={1}
         modifiersStyles={modifiersStyles}
         navbarElement={Navbar}
+        showOutsideDays={true}
       />
     </S.Wrapper>
   )

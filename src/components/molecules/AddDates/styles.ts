@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
 
     .card-header {
       font-weight: ${theme.font.bold};
-      font-size: ${theme.font.sizes['desk-large']};
+      font-size: ${theme.font.sizes['desk-xlarge']};
       margin-bottom: ${theme.spacings.xsmall};
     }
 
