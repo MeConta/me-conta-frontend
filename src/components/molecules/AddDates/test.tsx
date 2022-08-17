@@ -57,4 +57,34 @@ describe('<AddDates />', () => {
     expect(options[firstHour].innerHTML).toBe('08:00')
     expect(options[lastHour].innerHTML).toBe('20:00')
   })
+
+  it('should remove hour from options when it was selected', () => {
+    renderComponent = render(
+      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
+    )
+
+    const pickLastMonthDay = screen.queryByText('31')
+      ? screen.queryByText('31')
+      : screen.queryByText('30')
+
+    act(() => {
+      // @ts-ignore
+      userEvent.click(pickLastMonthDay)
+    })
+    const optionsBeforeSelect = screen.getAllByRole('option')
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+
+    const optionsAfterSlect = screen.getAllByRole('option')
+    const firstHour = 1
+    const lastHour = 23
+
+    expect(optionsBeforeSelect.length).toBe(26)
+    expect(optionsAfterSlect.length).toBe(24)
+
+    expect(optionsAfterSlect[firstHour].innerHTML).toBe('09:00')
+    expect(optionsAfterSlect[lastHour].innerHTML).toBe('20:00')
+  })
 })
