@@ -33,10 +33,12 @@ describe('<AddDates />', () => {
       userEvent.click(pickLastMonthDay)
     })
 
-    expect(screen.getByText('Seleciona o horário')).toBeInTheDocument()
+    expect(screen.getByText('Selecione os horários')).toBeInTheDocument()
   })
 
   it('should render hours dropdown with start at 8am and end at 8pm', () => {
+    const firstHour = 1
+    const lastHour = 25
     renderComponent = render(
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
@@ -49,9 +51,10 @@ describe('<AddDates />', () => {
       // @ts-ignore
       userEvent.click(pickLastMonthDay)
     })
+    const options = screen.getAllByRole('option')
 
-    // console.log(screen.getByRole('option'))
-    //expect(within(screen.getByRole('option')).queryByText('08:00:00')).toBeInTheDocument
-    expect(screen.queryByText('31/08/2022, 00:00:00')).toBeNull()
+    expect(options.length).toBe(26)
+    expect(options[firstHour].innerHTML).toBe('08:00')
+    expect(options[lastHour].innerHTML).toBe('20:00')
   })
 })

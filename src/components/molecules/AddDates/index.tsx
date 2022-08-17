@@ -96,7 +96,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         </div>
         {selectedDay && (
           <div className="select-time-container">
-            <h4 className="card-header">Seleciona o horário</h4>
+            <h4 className="card-header">Selecione os horários</h4>
             <div className="slots">
               {selectedSlots.map((time, i) => (
                 <div className="slot" key={i}>
@@ -123,7 +123,11 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                   </option>
                   {availableSlots.map((time, i) => (
                     <option key={i} value={time.getTime()}>
-                      {time.toLocaleString()}
+                      {time.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })}
                     </option>
                   ))}
                 </select>
