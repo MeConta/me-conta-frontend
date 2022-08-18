@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     margin: 8px;
     width: 60%;
+    padding: ${theme.spacings.xgsmall};
 
     .card {
       display: flex;
@@ -17,9 +18,6 @@ export const Wrapper = styled.div`
       font-weight: ${theme.font.bold};
       font-size: ${theme.font.sizes['desk-xxlarge']};
       margin-bottom: ${theme.spacings.gsmall};
-    }
-
-    .select-day-container {
     }
 
     .select-time-container {
@@ -83,6 +81,8 @@ export const Wrapper = styled.div`
     }
 
     @media (max-width: 1024px) {
+      width: 80%;
+
       .slot {
         width: calc(33.3% - ${theme.spacings.xxsmall});
       }
@@ -104,6 +104,9 @@ export const Wrapper = styled.div`
 
     @media (max-width: ${theme.screen.small}) {
       width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
 
       .card-header {
         font-size: ${theme.font.sizes['desk-xlarge']};
@@ -115,7 +118,7 @@ export const Wrapper = styled.div`
       }
 
       .card {
-        justify-content: left;
+        display: inline-grid;
       }
 
       .slot {
@@ -124,12 +127,6 @@ export const Wrapper = styled.div`
 
       .select-field {
         width: 100%;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .card {
-        flex-direction: column;
       }
     }
   `}

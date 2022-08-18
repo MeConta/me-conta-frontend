@@ -10,7 +10,6 @@ import {
   ArrowIosBackOutline,
   ArrowIosForwardOutline
 } from 'styled-icons/evaicons-outline'
-import { BackgroundColor } from 'styled-icons/foundation'
 
 type NavbarProps = {
   onPreviousClick: () => void
@@ -42,8 +41,8 @@ export function DatePicker(props: DatePickerProps) {
       boxShadow: 'inset 0px 4px 4px -2px rgba(0,0,0,0.3)'
     },
     outside: {
-      boxShadow: 'inset 0 0.3rem 0.5rem #cecece',
-      BackgroundColor: '#FCFCFC'
+      boxShadow: 'inset 0px 8px 6px -6px #cecece',
+      backgroundColor: '#FCFCFC'
     }
   }
 

@@ -62,6 +62,8 @@ export const Wrapper = styled.div`
     }
 
     @media (max-width: ${theme.screen.small}) {
+      justify-content: left;
+
       .DayPicker-Caption {
         justify-content: left;
       }
