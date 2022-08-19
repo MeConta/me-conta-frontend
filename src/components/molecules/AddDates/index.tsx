@@ -5,6 +5,8 @@ import { Close } from 'styled-icons/evil'
 import * as S from './styles'
 import { DatePicker } from '../../atoms/DatePicker'
 import { Button } from '../../atoms/Button'
+import router from 'next/router'
+import { ArrowLeft } from 'styled-icons/bootstrap'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -81,6 +83,10 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     setSelectedSlots([])
   }
 
+  const goBack = async function () {
+    await router.push('/dashboard-atendente')
+  }
+
   return (
     <S.Wrapper>
       <div className="card">
@@ -96,57 +102,65 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         </div>
         {selectedDay && (
           <div className="select-time-container">
-            <h4 className="card-header">Selecione os horários</h4>
-            <div className="slots">
-              {selectedSlots.map((time, i) => (
-                <div className="slot" key={i}>
-                  <div className="slot-date">{time.toLocaleDateString()}</div>
-                  <div className="slot-time">
-                    {time.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </div>
-                  <button className="delete" onClick={() => handleDelete(time)}>
-                    <Close />
-                  </button>
-                </div>
-              ))}
-              {availableSlots.length > 0 ? (
-                <select
-                  className="select-field"
-                  value=""
-                  onChange={(e) => handleSelectChange(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Selecionar hora
-                  </option>
-                  {availableSlots.map((time, i) => (
-                    <option key={i} value={time.getTime()}>
+            <div>
+              <h4 className="card-header">Selecione os horários</h4>
+              <div className="slots">
+                {selectedSlots.map((time, i) => (
+                  <div className="slot" key={i}>
+                    <div className="slot-date">{time.toLocaleDateString()}</div>
+                    <div className="slot-time">
                       {time.toLocaleTimeString([], {
                         hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false
+                        minute: '2-digit'
                       })}
+                    </div>
+                    <button
+                      className="delete"
+                      onClick={() => handleDelete(time)}
+                    >
+                      <Close />
+                    </button>
+                  </div>
+                ))}
+                {availableSlots.length > 0 ? (
+                  <select
+                    className="select-field"
+                    value=""
+                    onChange={(e) => handleSelectChange(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Selecionar hora
                     </option>
-                  ))}
-                </select>
-              ) : (
-                <div>Não existem mais horarios disponíveis nesse dia.</div>
+                    {availableSlots.map((time, i) => (
+                      <option key={i} value={time.getTime()}>
+                        {time.toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: false
+                        })}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div>Não existem mais horarios disponíveis nesse dia.</div>
+                )}
+              </div>
+              {selectedSlots.length > 0 && (
+                <Button
+                  className="save"
+                  color="secondary"
+                  radius="square"
+                  size="medium"
+                  textTransform="uppercase"
+                  onClick={handleSaveSlots}
+                >
+                  Salvar
+                </Button>
               )}
             </div>
-            {selectedSlots.length > 0 && (
-              <Button
-                className="save"
-                color="secondary"
-                radius="square"
-                size="medium"
-                textTransform="uppercase"
-                onClick={handleSaveSlots}
-              >
-                Salvar
-              </Button>
-            )}
+            <Button onClick={goBack} btnStyle="link" prefixIcon={<ArrowLeft />}>
+              Voltar ao Dashboard
+            </Button>
           </div>
         )}
       </div>

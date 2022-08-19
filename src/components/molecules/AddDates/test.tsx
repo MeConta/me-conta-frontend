@@ -2,11 +2,23 @@ import { render, screen, act } from '../../../utils/tests/helpers'
 import { AddDates } from './index'
 import userEvent from '@testing-library/user-event'
 import { RenderResult, within } from '@testing-library/react'
+import router from 'next/router'
 
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
 
   let renderComponent: RenderResult
+
+  function pickDate() {
+    const pickLastMonthDay = screen.queryByText('31')
+      ? screen.queryByText('31')
+      : screen.queryByText('30')
+
+    act(() => {
+      // @ts-ignore
+      userEvent.click(pickLastMonthDay)
+    })
+  }
 
   it('should render AddDates with no dates selected already', () => {
     renderComponent = render(
@@ -23,15 +35,7 @@ describe('<AddDates />', () => {
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
 
-    const pickLastMonthDay = screen.queryByText('31')
-      ? screen.queryByText('31')
-      : screen.queryByText('30')
-
-    act(() => {
-      // @ts-ignore
-      userEvent.click(pickLastMonthDay)
-    })
-
+    pickDate()
     expect(screen.getByText('Selecione os horários')).toBeInTheDocument()
   })
 
@@ -42,14 +46,7 @@ describe('<AddDates />', () => {
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
 
-    const pickLastMonthDay = screen.queryByText('31')
-      ? screen.queryByText('31')
-      : screen.queryByText('30')
-
-    act(() => {
-      // @ts-ignore
-      userEvent.click(pickLastMonthDay)
-    })
+    pickDate()
     const options = screen.getAllByRole('option')
 
     expect(options.length).toBe(26)
@@ -62,14 +59,7 @@ describe('<AddDates />', () => {
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
 
-    const pickLastMonthDay = screen.queryByText('31')
-      ? screen.queryByText('31')
-      : screen.queryByText('30')
-
-    act(() => {
-      // @ts-ignore
-      userEvent.click(pickLastMonthDay)
-    })
+    pickDate()
     const optionsBeforeSelect = screen.getAllByRole('option')
     userEvent.selectOptions(
       screen.getByRole('combobox'),
@@ -98,14 +88,7 @@ describe('<AddDates />', () => {
   it('should render "salvar" button when time slot is selected', () => {
     render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
 
-    const pickLastMonthDay = screen.queryByText('31')
-      ? screen.queryByText('31')
-      : screen.queryByText('30')
-
-    act(() => {
-      // @ts-ignore
-      userEvent.click(pickLastMonthDay)
-    })
+    pickDate()
     const optionsBeforeSelect = screen.getAllByRole('option')
     userEvent.selectOptions(
       screen.getByRole('combobox'),
@@ -113,5 +96,23 @@ describe('<AddDates />', () => {
     )
 
     expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument()
+  })
+
+  it('should render button link to return to atendente Dashboard', async () => {
+    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
+    pickDate()
+    expect(
+      screen.getByRole('button', { name: /Voltar ao Dashboard/i })
+    ).toBeInTheDocument()
+  })
+
+  it('should go back to dashboard when button "Voltar ao Dashboard" is clicked', async () => {
+    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
+    pickDate()
+    userEvent.click(
+      screen.getByRole('button', { name: /Voltar ao Dashboard/i })
+    )
+
+    expect(router.push).toHaveBeenCalledWith('/dashboard-atendente')
   })
 })
