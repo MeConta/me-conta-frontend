@@ -135,18 +135,21 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                 <div>Não existem mais horarios disponíveis nesse dia.</div>
               )}
             </div>
+            {selectedSlots.length > 0 && (
+              <Button
+                className="save"
+                color="secondary"
+                radius="square"
+                size="medium"
+                textTransform="uppercase"
+                onClick={handleSaveSlots}
+              >
+                Salvar
+              </Button>
+            )}
           </div>
         )}
       </div>
-      <Button
-        className="save"
-        color="secondary"
-        radius="square"
-        size="medium"
-        onClick={handleSaveSlots}
-      >
-        Salvar
-      </Button>
     </S.Wrapper>
   )
 }

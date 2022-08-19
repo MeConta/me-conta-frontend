@@ -14,7 +14,6 @@ describe('<AddDates />', () => {
     )
 
     expect(screen.getByText('Selecione a data')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Salvar' }))
 
     expect(screen.queryByText('Seleciona o horário')).toBeNull()
   })
@@ -86,5 +85,33 @@ describe('<AddDates />', () => {
 
     expect(optionsAfterSlect[firstHour].innerHTML).toBe('09:00')
     expect(optionsAfterSlect[lastHour].innerHTML).toBe('20:00')
+  })
+
+  it('should not render "salvar" button when time slot is selected', () => {
+    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
+
+    expect(
+      screen.queryByRole('button', { name: /salvar/i })
+    ).not.toBeInTheDocument()
+  })
+
+  it('should render "salvar" button when time slot is selected', () => {
+    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
+
+    const pickLastMonthDay = screen.queryByText('31')
+      ? screen.queryByText('31')
+      : screen.queryByText('30')
+
+    act(() => {
+      // @ts-ignore
+      userEvent.click(pickLastMonthDay)
+    })
+    const optionsBeforeSelect = screen.getAllByRole('option')
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+
+    expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument()
   })
 })
