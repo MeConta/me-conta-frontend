@@ -87,6 +87,11 @@ export const Wrapper = styled.div`
       margin: ${theme.spacings.xsmall} 0 ${theme.spacings.xsmall} auto;
     }
 
+    #title-tooltip {
+      display: flex;
+      align-items: center;
+    }
+
     @media (max-width: 1024px) {
       width: 80%;
 

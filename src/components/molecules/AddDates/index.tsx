@@ -6,7 +6,7 @@ import * as S from './styles'
 import { DatePicker } from '../../atoms/DatePicker'
 import { Button } from '../../atoms/Button'
 import router from 'next/router'
-import { ArrowLeft } from 'styled-icons/bootstrap'
+import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -103,7 +103,19 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         {selectedDay && (
           <div className="select-time-container">
             <div>
-              <h4 className="card-header">Selecione os horários</h4>
+              <div id="title-tooltip">
+                <h4 className="card-header">Selecione os horários</h4>
+                <InfoCircle
+                  style={{ marginBottom: '2rem', marginLeft: '1rem' }}
+                  data-testid="tooltip"
+                  width={15}
+                  height={15}
+                  title={
+                    'Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.'
+                  }
+                ></InfoCircle>
+              </div>
+
               <div className="slots">
                 {selectedSlots.map((time, i) => (
                   <div className="slot" key={i}>

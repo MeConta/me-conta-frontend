@@ -9,6 +9,12 @@ describe('<AddDates />', () => {
 
   let renderComponent: RenderResult
 
+  beforeEach(() => {
+    renderComponent = render(
+      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
+    )
+  })
+
   function pickDate() {
     const pickLastMonthDay = screen.queryByText('31')
       ? screen.queryByText('31')
@@ -21,20 +27,12 @@ describe('<AddDates />', () => {
   }
 
   it('should render AddDates with no dates selected already', () => {
-    renderComponent = render(
-      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
-    )
-
     expect(screen.getByText('Selecione a data')).toBeInTheDocument()
 
     expect(screen.queryByText('Seleciona o horário')).toBeNull()
   })
 
   it('should render AddDates with date selected and hours dropdown', () => {
-    renderComponent = render(
-      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
-    )
-
     pickDate()
     expect(screen.getByText('Selecione os horários')).toBeInTheDocument()
   })
@@ -42,9 +40,6 @@ describe('<AddDates />', () => {
   it('should render hours dropdown with start at 8am and end at 8pm', () => {
     const firstHour = 1
     const lastHour = 25
-    renderComponent = render(
-      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
-    )
 
     pickDate()
     const options = screen.getAllByRole('option')
@@ -55,10 +50,6 @@ describe('<AddDates />', () => {
   })
 
   it('should remove hour from options when it was selected', () => {
-    renderComponent = render(
-      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
-    )
-
     pickDate()
     const optionsBeforeSelect = screen.getAllByRole('option')
     userEvent.selectOptions(
@@ -78,16 +69,12 @@ describe('<AddDates />', () => {
   })
 
   it('should not render "salvar" button when time slot is selected', () => {
-    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
-
     expect(
       screen.queryByRole('button', { name: /salvar/i })
     ).not.toBeInTheDocument()
   })
 
   it('should render "salvar" button when time slot is selected', () => {
-    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
-
     pickDate()
     const optionsBeforeSelect = screen.getAllByRole('option')
     userEvent.selectOptions(
@@ -99,7 +86,6 @@ describe('<AddDates />', () => {
   })
 
   it('should render button link to return to atendente Dashboard', async () => {
-    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
     pickDate()
     expect(
       screen.getByRole('button', { name: /Voltar ao Dashboard/i })
@@ -107,12 +93,21 @@ describe('<AddDates />', () => {
   })
 
   it('should go back to dashboard when button "Voltar ao Dashboard" is clicked', async () => {
-    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
     pickDate()
     userEvent.click(
       screen.getByRole('button', { name: /Voltar ao Dashboard/i })
     )
 
     expect(router.push).toHaveBeenCalledWith('/dashboard-atendente')
+  })
+
+  it('should render timezone tooltip', () => {
+    pickDate()
+    expect(screen.queryByTestId('tooltip')).toBeInTheDocument()
+    expect(
+      screen.queryByTitle(
+        'Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.'
+      )
+    ).toBeInTheDocument()
   })
 })
