@@ -103,11 +103,14 @@ describe('<AddDates />', () => {
 
   it('should render timezone tooltip', () => {
     pickDate()
-    expect(screen.queryByTestId('tooltip')).toBeInTheDocument()
-    expect(
-      screen.queryByTitle(
-        'Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.'
-      )
-    ).toBeInTheDocument()
+    const element = screen.getByTestId('tooltip')
+    expect(element).toBeInTheDocument()
+    userEvent.hover(element?.parentElement!)
+
+    const tooltip = screen.getByText(
+      'Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.'
+    )
+    expect(tooltip).toBeInTheDocument()
+    expect(tooltip).toHaveStyleRule(`visibility: visible`)
   })
 })

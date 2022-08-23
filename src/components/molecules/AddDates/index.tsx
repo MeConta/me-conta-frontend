@@ -8,6 +8,7 @@ import { Button } from '../../atoms/Button'
 import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
+import Tooltip from 'components/atoms/Tooltip'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -128,15 +129,14 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
             <div>
               <div id="title-tooltip">
                 <h4 className="card-header">Selecione os horários</h4>
-                <InfoCircle
-                  style={{ marginBottom: '2rem', marginLeft: '1rem' }}
-                  data-testid="tooltip"
-                  width={15}
-                  height={15}
-                  title={
-                    'Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.'
-                  }
-                ></InfoCircle>
+                <Tooltip text="Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.">
+                  <InfoCircle
+                    style={{ marginBottom: '2rem', marginLeft: '1rem' }}
+                    data-testid="tooltip"
+                    width={15}
+                    height={15}
+                  ></InfoCircle>
+                </Tooltip>
               </div>
               {availableSlots.length > 0 ? (
                 renderSelectTimeField()
