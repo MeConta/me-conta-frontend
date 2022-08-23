@@ -1,8 +1,9 @@
 import { render, screen, act } from '../../../utils/tests/helpers'
 import { AddDates } from './index'
 import userEvent from '@testing-library/user-event'
-import { RenderResult, within } from '@testing-library/react'
+import { RenderResult, waitFor, within } from '@testing-library/react'
 import router from 'next/router'
+import { useToast } from 'services/toast-service/toast-service'
 
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
@@ -83,6 +84,23 @@ describe('<AddDates />', () => {
     )
 
     expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument()
+  })
+
+  it.skip('should render toast with successful message when "salvar" button is clicked', async () => {
+    pickDate()
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+
+    userEvent.click(screen.getByRole('button', { name: /salvar/i }))
+
+    await waitFor(() => {
+      expect(useToast().emit).toHaveBeenCalledWith({
+        type: 'success',
+        message: 'Horários salvos com sucesso!'
+      })
+    })
   })
 
   it('should render button link to return to atendente Dashboard', async () => {

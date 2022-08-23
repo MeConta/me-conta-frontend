@@ -9,6 +9,7 @@ import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
 import Tooltip from 'components/atoms/Tooltip'
+import { ToastType, useToast } from 'services/toast-service/toast-service'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -22,6 +23,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const modifiers = {
     past: { before: new Date() }
   }
+  const { emit } = useToast()
 
   useEffect(() => {
     const filterSlots = (timeList: Date[], selectedAlready: Date[]): Date[] => {
@@ -79,9 +81,18 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     setSelectedSlots(newList)
   }
 
+  function showSuccessFeedback(messageInput: string) {
+    emit({
+      type: ToastType.SUCCESS,
+      message: messageInput
+    })
+  }
+
+  const successSaveMessage = 'Horários salvos com sucesso!'
+
   const handleSaveSlots = () => {
     handleSave(selectedSlots)
-
+    //showSuccessFeedback(successSaveMessage) // SUCESS-TOAST
     setSelectedSlots([])
   }
 
