@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
       display: flex;
       background-color: ${theme.colors.white};
       border-radius: ${theme.border['card-radius']};
-      padding: ${theme.spacings.small};
+      padding: ${theme.spacings.large} ${theme.spacings.small};
       justify-content: space-around;
     }
 
@@ -21,10 +21,13 @@ export const Wrapper = styled.div`
     }
 
     .select-time-container {
-      width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+
+      > div {
+        width: 100%;
+      }
 
       > div > button {
         width: 100%;
@@ -36,21 +39,26 @@ export const Wrapper = styled.div`
 
     .slots {
       width: 100%;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-row-gap: ${theme.spacings.xmsmall};
+      grid-column-gap: ${theme.spacings.xxsmall};
+      margin-top: ${theme.spacings.small};
     }
 
     .slot {
       display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      width: calc(25% - ${theme.spacings.xxsmall});
+      justify-content: center;
       margin: 0 ${theme.spacings.xxsmall} ${theme.spacings.xxsmall} 0;
       padding: 0 ${theme.spacings.xxsmall};
-      border-radius: 4px;
-      background: ${theme.colors.ceriseRed};
-      color: white;
-      height: 32px;
+      border-radius: 8px;
+      background: ${theme.colors.white};
+      color: black;
+      height: 40px;
+      font-size: ${theme.font.sizes['mob-large']};
+      border: solid ${theme.colors.lightGray} 1px;
+      position: relative;
     }
 
     .slot-time {
@@ -64,21 +72,25 @@ export const Wrapper = styled.div`
       width: 20px;
       height: 20px;
       padding: 2px;
-      background: ${theme.colors.maroonFlush};
+      background: ${theme.colors.ceriseRed};
       color: ${theme.colors.white};
       text-align: center;
+      position: absolute;
+      top: -8px;
+      right: -4px;
+    }
     }
 
     .select-field {
       display: inline-block;
+      width: 100%;
       height: 32px;
       color: ${theme.colors.black};
       background: transparent;
       outline: none;
-      width: calc(25% - ${theme.spacings.xxsmall});
       border: 1px solid ${theme.colors.xlightGray};
       border-radius: 4px;
-      margin: 0 ${theme.spacings.xxsmall} ${theme.spacings.xxsmall} 0;
+      margin-bottom: ${theme.spacings.small};
       padding: 0 3px;
     }
 
@@ -94,24 +106,6 @@ export const Wrapper = styled.div`
 
     @media (max-width: 1024px) {
       width: 80%;
-
-      .slot {
-        width: calc(33.3% - ${theme.spacings.xxsmall});
-      }
-
-      .select-field {
-        width: calc(33.3% - ${theme.spacings.xxsmall});
-      }
-    }
-
-    @media (max-width: 834px) {
-      .slot {
-        width: calc(50% - ${theme.spacings.xxsmall});
-      }
-
-      .select-field {
-        width: calc(50% - ${theme.spacings.xxsmall});
-      }
     }
 
     @media (max-width: ${theme.screen.small}) {
@@ -131,6 +125,12 @@ export const Wrapper = styled.div`
 
       .card {
         display: inline-grid;
+      }
+      
+      .slots {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: ${theme.spacings.xxsmall};
       }
 
       .slot {
