@@ -7,6 +7,7 @@ import { DatePicker } from '../../atoms/DatePicker'
 import { Button } from '../../atoms/Button'
 import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
+import { SelectField } from '../../atoms/SelectField/index'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -87,6 +88,28 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     await router.push('/dashboard-atendente')
   }
 
+  const renderSelectTimeField = () => {
+    return (
+      <SelectField
+        labelField=""
+        options={availableSlots.map((time, i) => {
+          return {
+            value: time.getTime(),
+            label: time.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            })
+          }
+        })}
+        name=""
+        onChange={(e) => handleSelectChange(e.target.value)}
+        defaultSelect="Selecionar hora"
+        value=""
+      />
+    )
+  }
+
   return (
     <S.Wrapper>
       <div className="card">
@@ -115,11 +138,14 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                   }
                 ></InfoCircle>
               </div>
-
+              {availableSlots.length > 0 ? (
+                renderSelectTimeField()
+              ) : (
+                <div>Não existem mais horarios disponíveis nesse dia.</div>
+              )}
               <div className="slots">
                 {selectedSlots.map((time, i) => (
                   <div className="slot" key={i}>
-                    <div className="slot-date">{time.toLocaleDateString()}</div>
                     <div className="slot-time">
                       {time.toLocaleTimeString([], {
                         hour: '2-digit',
@@ -134,28 +160,6 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                     </button>
                   </div>
                 ))}
-                {availableSlots.length > 0 ? (
-                  <select
-                    className="select-field"
-                    value=""
-                    onChange={(e) => handleSelectChange(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Selecionar hora
-                    </option>
-                    {availableSlots.map((time, i) => (
-                      <option key={i} value={time.getTime()}>
-                        {time.toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: false
-                        })}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <div>Não existem mais horarios disponíveis nesse dia.</div>
-                )}
               </div>
               {selectedSlots.length > 0 && (
                 <Button
