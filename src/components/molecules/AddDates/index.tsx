@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 import { DayModifiers } from 'react-day-picker'
-import { Close } from 'styled-icons/evil'
-
 import * as S from './styles'
 import { DatePicker } from '../../atoms/DatePicker'
 import { Button } from '../../atoms/Button'
@@ -10,6 +8,7 @@ import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
 import Tooltip from 'components/atoms/Tooltip'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
+import Chip from 'components/atoms/Chip'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -100,28 +99,6 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     await router.push('/dashboard-atendente')
   }
 
-  const renderSelectTimeField = () => {
-    return (
-      <SelectField
-        labelField=""
-        options={availableSlots.map((time, i) => {
-          return {
-            value: time.getTime(),
-            label: time.toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false
-            })
-          }
-        })}
-        name=""
-        onChange={(e) => handleSelectChange(e.target.value)}
-        defaultSelect="Selecionar hora"
-        value=""
-      />
-    )
-  }
-
   return (
     <S.Wrapper>
       <div className="card">
@@ -150,26 +127,37 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                 </Tooltip>
               </div>
               {availableSlots.length > 0 ? (
-                renderSelectTimeField()
+                <SelectField
+                  labelField=""
+                  options={availableSlots.map((time, i) => {
+                    return {
+                      value: time.getTime(),
+                      label: time.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })
+                    }
+                  })}
+                  name=""
+                  onChange={(e) => handleSelectChange(e.target.value)}
+                  defaultSelect="Selecionar hora"
+                  value=""
+                />
               ) : (
                 <div>Não existem mais horarios disponíveis nesse dia.</div>
               )}
               <div className="slots">
                 {selectedSlots.map((time, i) => (
-                  <div className="slot" key={i}>
-                    <div className="slot-time">
-                      {time.toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                    </div>
-                    <button
-                      className="delete"
-                      onClick={() => handleDelete(time)}
-                    >
-                      <Close />
-                    </button>
-                  </div>
+                  <Chip
+                    key={i}
+                    text={time.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                    isClosable
+                    onClose={() => handleDelete(time)}
+                  />
                 ))}
               </div>
               {selectedSlots.length > 0 && (
