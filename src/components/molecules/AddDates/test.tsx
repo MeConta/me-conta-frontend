@@ -1,7 +1,7 @@
 import { render, screen, act } from '../../../utils/tests/helpers'
 import { AddDates } from './index'
 import userEvent from '@testing-library/user-event'
-import { RenderResult, waitFor, within } from '@testing-library/react'
+import { RenderResult, waitFor } from '@testing-library/react'
 import router from 'next/router'
 import { useToast } from 'services/toast-service/toast-service'
 import theme from 'styles/theme'
