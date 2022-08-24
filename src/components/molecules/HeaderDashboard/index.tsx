@@ -29,7 +29,7 @@ export default function HeaderDashboard({
     router.push('/login')
   }
 
-  const links = !!authCtx.session.type
+  const links = !!authCtx?.session?.type
     ? headerDashboardLinks[parseInt(authCtx.session.type)]
     : []
 
