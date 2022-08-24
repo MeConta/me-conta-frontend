@@ -120,43 +120,31 @@ describe('Perfil Voluntário', () => {
     })
   })
 
-  describe.only('Volunteer status', () => {
-    it('should show tag "Aberto" with correct colors when volunteer aprovado status is null', async () => {
+  describe('Volunteer status', () => {
+    it('should show tag "Aberto" when volunteer aprovado status is null', async () => {
       await applyTestSetup()
 
-      const tagElement = screen.getByTestId('tag')
+      const tagElement = screen.getByTestId('volunteer-status-tag')
 
       expect(tagElement).toHaveTextContent('Aberto')
-      expect(tagElement).toHaveStyle(
-        `background-color: ${theme.colors.blondYellow};
-        color: ${theme.colors.harvestGold};`
-      )
     })
 
     it('should show tag "Reprovado" when volunteer aprovado status is false', async () => {
       const rejectVolunteer = { ...volunteer, aprovado: false }
       await applyTestSetup(rejectVolunteer)
 
-      const tagElement = screen.getByTestId('tag')
+      const tagElement = screen.getByTestId('volunteer-status-tag')
 
       expect(tagElement).toHaveTextContent('Reprovado')
-      expect(tagElement).toHaveStyle(
-        `background-color: ${theme.colors.mistyRose};
-        color: ${theme.colors.maroonFlush};`
-      )
     })
 
     it('should show tag "Aprovado" when volunteer aprovado status is true', async () => {
       const approvedVolunteer = { ...volunteer, aprovado: true }
       await applyTestSetup(approvedVolunteer)
 
-      const tagElement = screen.getByTestId('tag')
+      const tagElement = screen.getByTestId('volunteer-status-tag')
 
       expect(tagElement).toHaveTextContent('Aprovado')
-      expect(tagElement).toHaveStyle(
-        `background-color: ${theme.colors.honeydew};
-        color: ${theme.colors.emerald};`
-      )
     })
   })
 

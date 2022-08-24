@@ -21,7 +21,7 @@ import { ArrowLeft, CheckLg, XCircle } from 'styled-icons/bootstrap'
 import { api } from 'services/api/api'
 import { useEffect, useState } from 'react'
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
-import { Volunteer } from 'domain/volunteer'
+import { getApprovalStatus, Volunteer } from 'domain/volunteer'
 import { NivelFormacao } from 'domain/nivel-formacao'
 import { GenderTypes, Gender } from 'enums/gender.enum'
 import Frentes from 'components/atoms/Frentes'
@@ -36,8 +36,7 @@ import { formatErrorMessage } from '../../../utils/handlers/errorHandler'
 import Modal from 'components/molecules/Modal'
 import { useBeforeUnload } from 'hooks/beforeunload.hook'
 import { handleBeforeUnload } from 'utils/handlers/handleBeforeUnload'
-import Tag from 'components/atoms/Tag'
-import theme from 'styles/theme'
+import VolunteerStatusTag from 'components/molecules/VolunteerStatusTag'
 
 const ERRORS = {
   REQUIRED_FIELD: 'Campo obrigatório'
@@ -248,44 +247,6 @@ function PerfilVoluntario() {
     )
   }
 
-  const getTagAttributes = (status?: boolean | null) => {
-    switch (status) {
-      case null:
-        return {
-          title: 'Aberto',
-          titleColor: theme.colors.harvestGold,
-          backgroundColor: theme.colors.blondYellow
-        }
-      case true:
-        return {
-          title: 'Aprovado',
-          titleColor: theme.colors.emerald,
-          backgroundColor: theme.colors.honeydew
-        }
-      case false:
-        return {
-          title: 'Reprovado',
-          titleColor: theme.colors.maroonFlush,
-          backgroundColor: theme.colors.mistyRose
-        }
-      default:
-        return null
-    }
-  }
-
-  function getTag(status?: boolean | null) {
-    const tagAttributes = getTagAttributes(status)
-    return (
-      tagAttributes && (
-        <Tag
-          title={tagAttributes.title}
-          titleColor={tagAttributes.titleColor}
-          backgroundColor={tagAttributes.backgroundColor}
-        />
-      )
-    )
-  }
-
   return (
     <>
       <>
@@ -338,8 +299,9 @@ function PerfilVoluntario() {
             <Loader />
           ) : (
             <>
-              {getTag(volunteer?.aprovado)}
-
+              <VolunteerStatusTag
+                status={getApprovalStatus(volunteer?.aprovado)}
+              />
               <SectionLinkContainer>
                 <FieldLinkWrapper>
                   <TextField

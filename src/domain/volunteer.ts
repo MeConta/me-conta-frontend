@@ -63,3 +63,8 @@ export class Volunteer {
     return this.aprovado == null
   }
 }
+
+export function getApprovalStatus(status?: boolean | null) {
+  if (status === null || typeof status === undefined) return 'Aberto'
+  return status ? 'Aprovado' : 'Reprovado'
+}

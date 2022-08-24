@@ -10,8 +10,6 @@ import {
 import { api } from 'services/api/api'
 import { StatusAprovacao } from 'enums/volunteer-status.enum'
 import { useEffect, useState } from 'react'
-import Tag from 'components/atoms/Tag'
-import theme from '../../styles/theme'
 import router from 'next/router'
 import { Button } from 'components/atoms/Button'
 import Loader from 'components/atoms/Loader'
@@ -19,6 +17,8 @@ import Acolhimento from '../../../public/assets/volunteer/services/acolhimentoIc
 import CoachingEstudos from '../../../public/assets/volunteer/services/coachingEstudosIcon.png'
 import OrientacaoVocacional from '../../../public/assets/volunteer/services/orientacaoVocacionalIcon.png'
 import ImageIcon from 'components/atoms/ImageIcon'
+import VolunteerStatusTag from 'components/molecules/VolunteerStatusTag'
+import { getApprovalStatus } from 'domain/volunteer'
 
 enum VolunteerStatus {
   EM_ABERTO = 'Em aberto',
@@ -82,29 +82,6 @@ function DashboardAdministrador() {
   useEffect(() => {
     fetchVolunteers(StatusAprovacao.ABERTO)
   }, [])
-
-  const getTagAttributes = (status: boolean | null) => {
-    switch (status) {
-      case null:
-        return {
-          title: 'Aberto',
-          titleColor: theme.colors.harvestGold,
-          backgroundColor: theme.colors.blondYellow
-        }
-      case true:
-        return {
-          title: 'Aprovado',
-          titleColor: theme.colors.emerald,
-          backgroundColor: theme.colors.honeydew
-        }
-      case false:
-        return {
-          title: 'Reprovado',
-          titleColor: theme.colors.maroonFlush,
-          backgroundColor: theme.colors.mistyRose
-        }
-    }
-  }
 
   const getIconsAttributes = (service: number) => {
     switch (service) {
@@ -179,15 +156,9 @@ function DashboardAdministrador() {
               {volunteers.map((volunteer) => (
                 <tr key={volunteer.usuario.id}>
                   <td>
-                    <Tag
-                      title={getTagAttributes(volunteer.aprovado).title}
-                      titleColor={
-                        getTagAttributes(volunteer.aprovado).titleColor
-                      }
-                      backgroundColor={
-                        getTagAttributes(volunteer.aprovado).backgroundColor
-                      }
-                    ></Tag>
+                    <VolunteerStatusTag
+                      status={getApprovalStatus(volunteer.aprovado)}
+                    />
                   </td>
                   <td>{volunteer.usuario.nome}</td>
                   <td>
