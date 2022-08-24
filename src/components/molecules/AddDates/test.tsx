@@ -5,6 +5,16 @@ import { RenderResult, waitFor, within } from '@testing-library/react'
 import router from 'next/router'
 import { useToast } from 'services/toast-service/toast-service'
 
+export function pickDate() {
+  const pickLastMonthDay = screen.queryByText('31')
+    ? screen.getByText('31')
+    : screen.getByText('30')
+
+  act(() => {
+    userEvent.click(pickLastMonthDay)
+  })
+}
+
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
 
@@ -15,17 +25,6 @@ describe('<AddDates />', () => {
       <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
     )
   })
-
-  function pickDate() {
-    const pickLastMonthDay = screen.queryByText('31')
-      ? screen.queryByText('31')
-      : screen.queryByText('30')
-
-    act(() => {
-      // @ts-ignore
-      userEvent.click(pickLastMonthDay)
-    })
-  }
 
   it('should render AddDates with no dates selected already', () => {
     expect(screen.getByText('Selecione a data')).toBeInTheDocument()
@@ -77,13 +76,26 @@ describe('<AddDates />', () => {
 
   it('should render "salvar" button when time slot is selected', () => {
     pickDate()
-    const optionsBeforeSelect = screen.getAllByRole('option')
     userEvent.selectOptions(
       screen.getByRole('combobox'),
       screen.getByRole('option', { name: '08:00' })
     )
 
     expect(screen.getByRole('button', { name: /salvar/i })).toBeInTheDocument()
+  })
+
+  it('should call handleSave service when save button is clicked', () => {
+    pickDate()
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+
+    const saveButton = screen.getByRole('button', { name: /salvar/i })
+
+    userEvent.click(saveButton)
+
+    expect(mockHandleSave).toHaveBeenCalled()
   })
 
   it.skip('should render toast with successful message when "salvar" button is clicked', async () => {
