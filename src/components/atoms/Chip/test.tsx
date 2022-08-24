@@ -29,6 +29,12 @@ describe('<Chip />', () => {
     expect(screen.getByTestId('chip')).toHaveStyle('backgroundColor: red')
   })
 
+  it('should render text color according to textColor prop', () => {
+    render(<Chip text={textContent} textColor="red" />)
+
+    expect(screen.getByText(textContent)).toHaveStyle('color: red')
+  })
+
   it('should call onClose function when isClosable is true and close button is clicked', () => {
     const mockOnClose = jest.fn()
 

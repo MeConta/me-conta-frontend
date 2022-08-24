@@ -2,10 +2,11 @@ import styled, { css } from 'styled-components'
 
 type ChipProps = {
   backgroundColor: string
+  textColor: string
 }
 
 export const Chip = styled.span<ChipProps>`
-  ${({ theme, backgroundColor }) => css`
+  ${({ theme, backgroundColor, textColor }) => css`
     background-color: ${backgroundColor};
     display: inline-flex;
     align-items: center;
@@ -14,7 +15,7 @@ export const Chip = styled.span<ChipProps>`
     padding: 0 ${theme.spacings.xxsmall};
     border-radius: 8px;
     background: ${backgroundColor};
-    color: black;
+    color: ${textColor};
     height: 40px;
     font-size: ${theme.font.sizes['mob-large']};
     border: solid ${theme.colors.lightGray} 1px;

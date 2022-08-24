@@ -9,6 +9,7 @@ import { SelectField } from '../../atoms/SelectField/index'
 import Tooltip from 'components/atoms/Tooltip'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Chip from 'components/atoms/Chip'
+import theme from 'styles/theme'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -19,6 +20,8 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const [selectedDay, setSelectedDay] = useState<Date>()
   const [availableSlots, setAvailableSlots] = useState<Date[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Date[]>([])
+  const [savedSlots, setSavedSlots] = useState<Date[]>(alreadySelected)
+
   const modifiers = {
     past: { before: new Date() }
   }
@@ -91,8 +94,8 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   const handleSaveSlots = () => {
     handleSave(selectedSlots)
-    showSuccessFeedback(successSaveMessage)
-    setSelectedSlots([])
+    setSavedSlots(selectedSlots)
+    showSuccessFeedback(successSaveMessage) 
   }
 
   const goBack = async function () {
@@ -157,6 +160,12 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                     })}
                     isClosable
                     onClose={() => handleDelete(time)}
+                    backgroundColor={
+                      savedSlots.includes(time)
+                        ? theme.colors.darkPastelGreen
+                        : 'white'
+                    }
+                    textColor={savedSlots.includes(time) ? 'white' : 'black'}
                   />
                 ))}
               </div>

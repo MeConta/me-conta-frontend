@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { RenderResult, waitFor, within } from '@testing-library/react'
 import router from 'next/router'
 import { useToast } from 'services/toast-service/toast-service'
+import theme from 'styles/theme'
 
 export function pickDate() {
   const pickLastMonthDay = screen.queryByText('31')
@@ -142,5 +143,19 @@ describe('<AddDates />', () => {
     )
     expect(tooltip).toBeInTheDocument()
     expect(tooltip).toHaveStyleRule(`visibility: visible`)
+  })
+
+  it('should change time slot chips color to green when the save button is clicked', () => {
+    pickDate()
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+    userEvent.click(screen.getByRole('button', { name: /salvar/i }))
+
+    expect(screen.getByTestId('chip')).toHaveStyle(
+      `background-color: ${theme.colors.darkPastelGreen};
+        color: white;`
+    )
   })
 })
