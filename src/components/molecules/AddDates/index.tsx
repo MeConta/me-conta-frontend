@@ -91,7 +91,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   const handleSaveSlots = () => {
     handleSave(selectedSlots)
-    //showSuccessFeedback(successSaveMessage) // SUCESS-TOAST
+    showSuccessFeedback(successSaveMessage)
     setSelectedSlots([])
   }
 
