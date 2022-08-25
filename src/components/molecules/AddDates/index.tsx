@@ -128,6 +128,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     handleSave(selectedSlots)
     setSavedSlots(selectedSlots)
     showSuccessFeedback(successSaveMessage)
+    setSelectedSlots([])
   }
 
   const goBack = async function () {
