@@ -1,10 +1,18 @@
 import { render, screen, act } from '../../../utils/tests/helpers'
 import { AddDates } from './index'
 import userEvent from '@testing-library/user-event'
-import { RenderResult, waitFor } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
 import router from 'next/router'
-import { useToast } from 'services/toast-service/toast-service'
 import theme from 'styles/theme'
+import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
+import { useToast } from 'services/toast-service/toast-service'
+
+const userId = 10
+jest.mock('../../../utils/authentication/getTokenData', () => ({
+  getTokenData: () => ({
+    id: userId
+  })
+}))
 
 export function pickDate() {
   const pickLastMonthDay = screen.queryByText('31')
@@ -16,15 +24,15 @@ export function pickDate() {
   })
 }
 
+const findAvailableSlotsByIdMock = jest
+  .spyOn(VolunteerService.prototype, 'findAvailableSlotsById')
+  .mockImplementation(jest.fn(() => Promise.resolve([])))
+
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
 
-  let renderComponent: RenderResult
-
   beforeEach(() => {
-    renderComponent = render(
-      <AddDates alreadySelected={[]} handleSave={mockHandleSave} />
-    )
+    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
   })
 
   it('should render AddDates with no dates selected already', () => {
@@ -172,5 +180,22 @@ describe('<AddDates />', () => {
     userEvent.click(pickDifferentDate)
 
     expect(slotsSelect).not.toBeInTheDocument()
+  })
+
+  it.skip('should call list slot when a date is selected', () => {
+    jest.clearAllMocks()
+
+    act(() => userEvent.click(screen.getByText('30')))
+
+    const addMonth = 1
+    const currentDate = new Date()
+    const currentMonth = ('0' + (currentDate.getMonth() + addMonth)).slice(-2)
+    const currentYear = currentDate.getFullYear()
+    const expectedDate = new Date(
+      `${currentYear}-${currentMonth}-30T15:00:00.000Z`
+    )
+
+    //expect(findAvailableSlotsByIdMock).toBeCalledTimes(1)
+    expect(findAvailableSlotsByIdMock).toBeCalledWith(10, expectedDate)
   })
 })

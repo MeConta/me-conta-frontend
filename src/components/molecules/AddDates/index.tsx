@@ -6,26 +6,51 @@ import { Button } from '../../atoms/Button'
 import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
-import Tooltip from 'components/atoms/Tooltip'
+import Tooltip from '../../../components/atoms/Tooltip'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Chip from 'components/atoms/Chip'
 import theme from 'styles/theme'
+import { api } from 'services/api/api'
+import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
+import { getTokenData } from '../../../utils/authentication/getTokenData'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
   handleSave: Function
 }
 
+const agendaService = new VolunteerService(api)
+
+const userData = getTokenData()
+
 export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const [selectedDay, setSelectedDay] = useState<Date>()
   const [availableSlots, setAvailableSlots] = useState<Date[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Date[]>([])
   const [savedSlots, setSavedSlots] = useState<Date[]>(alreadySelected)
+  const [chipSlots, setChipSlots] = useState<Date[]>([])
 
   const modifiers = {
     past: { before: new Date() }
   }
   const { emit } = useToast()
+
+  const handleFindAvailableSlot = async (selectedDay: Date) => {
+    if (userData) {
+      const availableSlots = await agendaService.findAvailableSlotsById(
+        userData.id,
+        selectedDay
+      )
+      const availableDate = availableSlots.map((item) => new Date(item.inicio))
+      setChipSlots(availableDate)
+    }
+  }
+
+  useEffect(() => {
+    if (selectedDay) {
+      handleFindAvailableSlot(selectedDay)
+    }
+  }, [selectedDay])
 
   useEffect(() => {
     const filterSlots = (timeList: Date[], selectedAlready: Date[]): Date[] => {
@@ -44,12 +69,15 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     }
 
     const fillSelectOptions = (day: Date = new Date()) => {
-      const filteredOptions = filterSlots(getSlots(day), alreadySelected)
+      const filteredOptions = filterSlots(getSlots(day), [
+        ...alreadySelected,
+        ...chipSlots
+      ])
       setAvailableSlots(filteredOptions)
     }
 
     fillSelectOptions(selectedDay)
-  }, [selectedSlots, selectedDay, alreadySelected])
+  }, [selectedSlots, selectedDay, alreadySelected, chipSlots])
 
   const handleDayClick = (day: Date, { past }: DayModifiers) => {
     if (past) return
@@ -76,12 +104,15 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const handleSelectChange = (time: string) => {
     const date = new Date(parseInt(time))
 
+    setChipSlots([...chipSlots, date])
     setSelectedSlots([...selectedSlots, date])
   }
 
   const handleDelete = (time: Date) => {
     const newList = selectedSlots.filter((item) => item !== time)
+    const newChipList = chipSlots.filter((item) => item !== time)
     setSelectedSlots(newList)
+    setChipSlots(newChipList)
   }
 
   function showSuccessFeedback(messageInput: string) {
@@ -152,7 +183,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                 <div>Não existem mais horarios disponíveis nesse dia.</div>
               )}
               <div className="slots">
-                {selectedSlots.map((time, i) => (
+                {chipSlots.map((time, i) => (
                   <Chip
                     key={i}
                     text={time.toLocaleTimeString([], {

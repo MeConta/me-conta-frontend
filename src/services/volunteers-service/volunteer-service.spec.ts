@@ -205,7 +205,10 @@ describe('volunteers service', () => {
     const res = await sut.findAvailableSlotsById(id)
 
     expect(fakeAxios.get).toHaveBeenLastCalledWith(
-      `/voluntario/${id}/horarios-disponiveis`
+      `/voluntario/${id}/horarios-disponiveis`,
+      {
+        params: {}
+      }
     )
     expect(res).toEqual(volunteerSlots)
   })

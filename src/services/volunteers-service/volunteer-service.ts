@@ -94,8 +94,18 @@ export class VolunteerService implements IVolunteerService {
     })
   }
 
-  async findAvailableSlotsById(id: number): Promise<VolunteerAvailableSlot[]> {
-    const res = await this.service.get(`/voluntario/${id}/horarios-disponiveis`)
+  async findAvailableSlotsById(
+    id: number,
+    date?: Date
+  ): Promise<VolunteerAvailableSlot[]> {
+    let params = {}
+    if (date) {
+      params = { inicio: date.toISOString() }
+    }
+    const res = await this.service.get(
+      `/voluntario/${id}/horarios-disponiveis`,
+      { params }
+    )
     return res.data
   }
 }
