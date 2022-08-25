@@ -54,6 +54,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const handleDayClick = (day: Date, { past }: DayModifiers) => {
     if (past) return
     setSelectedDay(day)
+    setSelectedSlots([])
   }
 
   const verifySlotsOverlap = (

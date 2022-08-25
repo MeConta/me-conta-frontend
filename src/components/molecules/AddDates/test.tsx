@@ -158,4 +158,19 @@ describe('<AddDates />', () => {
         color: white;`
     )
   })
+
+  it('should clear selectedSlots when clicked on a different date on calendar', () => {
+    pickDate()
+    userEvent.selectOptions(
+      screen.getByRole('combobox'),
+      screen.getByRole('option', { name: '08:00' })
+    )
+
+    let slotsSelect = screen.queryByText('08:00')
+
+    const pickDifferentDate = screen.getByText('26')
+    userEvent.click(pickDifferentDate)
+
+    expect(slotsSelect).not.toBeInTheDocument()
+  })
 })
