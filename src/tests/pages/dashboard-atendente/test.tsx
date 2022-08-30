@@ -118,10 +118,12 @@ describe('Atendente page with available slots', () => {
     ).toBeInTheDocument()
   })
 
-  it('should redirect to atendente/meus-horarios', () => {
+  it('should redirect to /dashboard-atendente/meus-horarios', () => {
     const button = screen.getByRole('button', { name: /GERENCIAR HORÁRIOS/ })
     userEvent.click(button)
-    expect(router.push).toHaveBeenCalledWith('/atendente/meus-horarios')
+    expect(router.push).toHaveBeenCalledWith(
+      '/dashboard-atendente/meus-horarios'
+    )
   })
 
   it('should render all available slots in a carrosel', () => {
@@ -188,9 +190,11 @@ describe('Atendente page without available slots', () => {
     ).toBeInTheDocument()
   })
 
-  it('should redirect to atendente/meus-horarios', () => {
+  it('should redirect to /dashboard-atendente-horarios', () => {
     const button = screen.getByRole('button', { name: /INCLUIR HORÁRIOS/ })
     userEvent.click(button)
-    expect(router.push).toHaveBeenCalledWith('/atendente/meus-horarios')
+    expect(router.push).toHaveBeenCalledWith(
+      '/dashboard-atendente/meus-horarios'
+    )
   })
 })
