@@ -1,5 +1,5 @@
 import { act, render, screen } from 'utils/tests/helpers'
-import MeusHorarios from 'pages/atendente/meus-horarios'
+import MeusHorarios from 'pages/dashboard-atendente/meus-horarios'
 import createAuthContextObject from 'utils/tests/createAuthContextObject'
 import * as AuthorizationContext from '../../../../store/auth-context'
 import { UserType } from 'enums/user-type.enum'
