@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse, AxiosInstance } from 'axios'
 import { parseCookies, setCookie } from 'nookies'
-import { CookieKeys } from 'store/auth-context'
+import { CookieKeys } from '../../store/auth-context'
 import { AuthService } from '../auth-services/auth-service'
 
 const IGNORED_ENDPOINTS = ['/auth/login', '/auth/refresh']
