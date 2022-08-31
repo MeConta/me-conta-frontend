@@ -15,12 +15,12 @@ jest.mock('../../../utils/authentication/getTokenData', () => ({
 }))
 
 export function pickDate() {
-  const pickLastMonthDay = screen.queryByText('31')
-    ? screen.getByText('31')
-    : screen.getByText('30')
+  userEvent.click(screen.getByTestId('forward-button'))
+
+  const pickFirstMonthDay = screen.getByText('10')
 
   act(() => {
-    userEvent.click(pickLastMonthDay)
+    userEvent.click(pickFirstMonthDay)
   })
 }
 
@@ -52,6 +52,7 @@ describe('<AddDates />', () => {
 
     pickDate()
     const options = screen.getAllByRole('option')
+    console.log(options)
 
     expect(options.length).toBe(26)
     expect(options[firstHour].innerHTML).toBe('08:00')
