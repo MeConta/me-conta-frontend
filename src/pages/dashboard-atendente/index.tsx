@@ -77,7 +77,7 @@ function VolunteerDashboard() {
   }, [volunteer])
 
   const goToMeusHorarios = function () {
-    router.push('/dashboard-atendente/meus-horarios')
+    router.push('/atendente/meus-horarios')
   }
 
   function convertDateTime() {

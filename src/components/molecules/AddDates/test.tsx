@@ -179,9 +179,7 @@ describe('<AddDates />', () => {
     const pickDifferentDate = screen.getByText('26')
     userEvent.click(pickDifferentDate)
 
-    setTimeout(() => {
-      expect(slotsSelect).not.toBeInTheDocument()
-    }, 4000)
+    expect(slotsSelect).not.toBeInTheDocument()
   })
 
   it.skip('should call list slot when a date is selected', () => {
