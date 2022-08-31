@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event'
 
 import { render, screen } from 'utils/tests/helpers'
-import Tooltip from '.'
+import { Tooltip } from '.'
 
 describe('Tooltip', () => {
   it('should render a tooltip in hover', async () => {

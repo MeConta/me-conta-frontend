@@ -6,13 +6,13 @@ import { Button } from '../../atoms/Button'
 import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
-import Tooltip from '../../../components/atoms/Tooltip'
 import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Chip from 'components/atoms/Chip'
 import theme from 'styles/theme'
 import { api } from 'services/api/api'
 import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
 import { getTokenData } from '../../../utils/authentication/getTokenData'
+import { Tooltip } from '../../atoms/Tooltip'
 
 export type AddDatesProps = {
   alreadySelected: Date[]

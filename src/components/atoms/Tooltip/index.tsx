@@ -6,7 +6,7 @@ type TooltipProps = {
   children: ReactNode
 }
 
-export default function Tooltip({ text, children }: TooltipProps) {
+export function Tooltip({ text, children }: TooltipProps) {
   return (
     <Wrapper>
       {children}
