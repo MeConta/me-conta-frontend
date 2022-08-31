@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # # App storybook service
+  # storybook:
+  #   build:
+  #     dockerfile: ./Dockerfile.storybook
+  #     target: storybook
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     PORT: 8080
+  #   networks:
+  #     - frontend
+
+  # App frontend service
+  front:
+    build:
+      dockerfile: ./Dockerfile.web
+      args:
+        NODE_ENV: production
+        API_URL: http://localhost:3000
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      # API_URL: backend:3000
+    networks:
+      - frontend
+networks:
+  frontend:
