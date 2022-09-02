@@ -44,7 +44,10 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
         selectedDay
       )
       setSavedChip(availableSlots)
-      const availableDate = availableSlots.map((item) => new Date(item.inicio))
+      console.log(savedChip)
+      const availableDate = availableSlots.map(
+        (item: any) => new Date(item.inicio)
+      )
       setChipSlots(availableDate)
     }
   }
@@ -114,9 +117,9 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const successDeleteMessage = 'Horário excluído com sucesso!'
 
   const handleDelete = async (chip: any) => {
-    const newSavedChip = savedChip.filter((item) => item !== chip)
+    const newSavedChip = savedChip.filter((item: any) => item !== chip)
 
-    if (savedChip.filter((item) => item.id === chip.id)) {
+    if (savedChip.filter((item: any) => item.id === chip.id)) {
       console.log(chip.id)
       await agendaService.deleteSlot(chip.id)
       setSavedChip(newSavedChip)
@@ -199,7 +202,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                 <div>Não existem mais horarios disponíveis nesse dia.</div>
               )}
               <div className="slots">
-                {savedChip.map((chip, i) => (
+                {savedChip.map((chip: any, i: any) => (
                   <Chip
                     key={i}
                     text={new Date(chip.inicio).toLocaleTimeString([], {
