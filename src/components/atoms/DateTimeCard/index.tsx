@@ -61,7 +61,7 @@ export function DateTimeCard({ dateTime }: DateTimeCardProps) {
 
   return (
     <S.Wrapper>
-      <p>{formatedDate()}</p>
+      <p data-testid="time-card">{formatedDate()} </p>
       <DashedLine />
       <S.TimeWrapper>
         <HourIcon />

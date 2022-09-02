@@ -28,18 +28,26 @@ jest.mock('../../../utils/authentication/getTokenData', () => ({
   })
 }))
 
+const dateTime = new Date()
+
 const availableSlots: any = [
   {
     id: 30,
     voluntarioId: 3575,
-    inicio: '2022-08-12T03:30:00.000Z',
-    fim: '2022-08-12T04:30:00.000Z'
+    inicio: dateTime.setDate(dateTime.getDate() + 1),
+    fim: dateTime.setMinutes(dateTime.getMinutes() + 60)
   },
   {
     id: 31,
     voluntarioId: 3575,
-    inicio: '2022-08-12T07:00:00.000Z',
-    fim: '2022-08-12T08:00:00.000Z'
+    inicio: dateTime.setDate(dateTime.getDate() + 2),
+    fim: dateTime.setMinutes(dateTime.getMinutes() + 60)
+  },
+  {
+    id: 32,
+    voluntarioId: 3575,
+    inicio: dateTime.setDate(dateTime.getDate() + 8),
+    fim: dateTime.setMinutes(dateTime.getMinutes() + 60)
   }
 ]
 
@@ -126,9 +134,10 @@ describe('Atendente page with available slots', () => {
     )
   })
 
-  it('should render all available slots in a carrosel', () => {
-    const cards = screen.getAllByText(/12\/08\/22/)
-    expect(cards.length).toBe(availableSlots.length)
+  it('should render slots in a carrosel considering day+7 limit', () => {
+    const cardsElement = screen.queryAllByTestId('time-card')
+    expect(cardsElement.length).not.toBe(availableSlots.length)
+    expect(cardsElement.length).toBe(2)
   })
 })
 

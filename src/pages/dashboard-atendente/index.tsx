@@ -80,8 +80,18 @@ function VolunteerDashboard() {
     router.push('/dashboard-atendente/meus-horarios')
   }
 
+  function filtrarSlots(slots: any) {
+    const dateTime = new Date()
+    dateTime.setDate(dateTime.getDate() + 7)
+    return slots.inicio <= dateTime
+  }
+
   function convertDateTime() {
-    return slots ? slots.map((slot) => new DateTimeElement(slot.inicio)) : []
+    return slots
+      ? slots
+          .filter(filtrarSlots)
+          .map((slot) => new DateTimeElement(slot.inicio))
+      : []
   }
 
   return (
