@@ -13,13 +13,15 @@ import { api } from 'services/api/api'
 import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
 import { getTokenData } from '../../../utils/authentication/getTokenData'
 import { Tooltip } from '../../atoms/Tooltip'
+import { AgendaService } from '../../../services/agenda-services/agenda-service'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
   handleSave: Function
 }
 
-const agendaService = new VolunteerService(api)
+const volunteerService = new VolunteerService(api)
+const agendaService = new AgendaService(api)
 
 const userData = getTokenData()
 
@@ -27,20 +29,21 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
   const [selectedDay, setSelectedDay] = useState<Date>()
   const [availableSlots, setAvailableSlots] = useState<Date[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Date[]>([])
-  const [savedSlots, setSavedSlots] = useState<Date[]>(alreadySelected)
   const [chipSlots, setChipSlots] = useState<Date[]>([])
+  const [savedChip, setSavedChip] = useState<any>([])
 
   const modifiers = {
     past: { before: new Date() }
   }
   const { emit } = useToast()
 
-  const handleFindAvailableSlot = async (selectedDay: Date) => {
+  const handleFindAvailableSlotById = async (selectedDay: Date) => {
     if (userData) {
-      const availableSlots = await agendaService.findAvailableSlotsById(
+      const availableSlots = await volunteerService.findAvailableSlotsById(
         userData.id,
         selectedDay
       )
+      setSavedChip(availableSlots)
       const availableDate = availableSlots.map((item) => new Date(item.inicio))
       setChipSlots(availableDate)
     }
@@ -48,7 +51,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   useEffect(() => {
     if (selectedDay) {
-      handleFindAvailableSlot(selectedDay)
+      handleFindAvailableSlotById(selectedDay)
     }
   }, [selectedDay])
 
@@ -108,7 +111,20 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     setSelectedSlots([...selectedSlots, date])
   }
 
-  const handleDelete = (time: Date) => {
+  const successDeleteMessage = 'Horário excluído com sucesso!'
+
+  const handleDelete = async (chip: any) => {
+    const newSavedChip = savedChip.filter((item) => item !== chip)
+
+    if (savedChip.filter((item) => item.id === chip.id)) {
+      console.log(chip.id)
+      await agendaService.deleteSlot(chip.id)
+      setSavedChip(newSavedChip)
+    }
+    showSuccessFeedback(successDeleteMessage)
+  }
+
+  const handleClose = (time: Date) => {
     const newList = selectedSlots.filter((item) => item !== time)
     const newChipList = chipSlots.filter((item) => item !== time)
     setSelectedSlots(newList)
@@ -126,7 +142,6 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   const handleSaveSlots = () => {
     handleSave(selectedSlots)
-    setSavedSlots(selectedSlots)
     showSuccessFeedback(successSaveMessage)
     setSelectedSlots([])
   }
@@ -184,7 +199,22 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                 <div>Não existem mais horarios disponíveis nesse dia.</div>
               )}
               <div className="slots">
-                {chipSlots.map((time, i) => (
+                {savedChip.map((chip, i) => (
+                  <Chip
+                    key={i}
+                    text={new Date(chip.inicio).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                    isClosable
+                    onClose={() => handleDelete(chip)}
+                    backgroundColor={theme.colors.darkPastelGreen}
+                    textColor={'white'}
+                  />
+                ))}
+              </div>
+              <div className="slots">
+                {selectedSlots.map((time, i) => (
                   <Chip
                     key={i}
                     text={time.toLocaleTimeString([], {
@@ -192,13 +222,9 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
                       minute: '2-digit'
                     })}
                     isClosable
-                    onClose={() => handleDelete(time)}
-                    backgroundColor={
-                      savedSlots.includes(time)
-                        ? theme.colors.darkPastelGreen
-                        : 'white'
-                    }
-                    textColor={savedSlots.includes(time) ? 'white' : 'black'}
+                    onClose={() => handleClose(time)}
+                    backgroundColor={'white'}
+                    textColor={'black'}
                   />
                 ))}
               </div>
