@@ -134,6 +134,10 @@ export const SecondLevelTitle = styled.h2`
     font-weight: ${theme.font.bold};
     font-size: ${theme.font.sizes['desk-xlarge']};
     margin: 27px 0;
+
+    @media (max-width: 320px) {
+      text-align: center;
+    }
   `}
 `
 

@@ -73,8 +73,8 @@ export function DateTimeCarousel({ schedules = [] }: DateTimeCarouselProps) {
       {
         breakpoint: 320,
         settings: {
-          slidesToShow: defineSlidesToShow(2),
-          slidesToScroll: defineSlidesToShow(2)
+          slidesToShow: defineSlidesToShow(1),
+          slidesToScroll: defineSlidesToShow(1)
         }
       }
     ]

@@ -47,6 +47,17 @@ export const Wrapper = styled.div`
       line-height: 14px;
     }
   }
+
+  @media screen and (max-width: 320px) {
+    width: 120px;
+    height: 105px;
+    p {
+      font-size: 12.64px;
+    }
+    h3 {
+      font-size: 18px;
+    }
+  }
 `
 
 export const TimeWrapper = styled.div`
@@ -64,6 +75,11 @@ export const HourIcon = styled(Clock)`
   @media screen and (max-width: 768px) {
     width: 12px;
     height: 12px;
+  }
+
+  @media screen and (max-width: 320px) {
+    width: 15.43px;
+    height: 16.43px;
   }
 `
 export const DashedLine = styled.div`
