@@ -25,6 +25,7 @@ export default function Chip({
       {text}
       {isClosable && (
         <S.CloseButton
+          data-testid="closeChip"
           onClick={() => {
             if (!!onClose) onClose()
           }}

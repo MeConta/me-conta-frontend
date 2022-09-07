@@ -30,9 +30,16 @@ const findAvailableSlotsByIdMock = jest
 
 describe('<AddDates />', () => {
   const mockHandleSave = jest.fn()
+  const mockHandleDelete = jest.fn()
 
   beforeEach(() => {
-    render(<AddDates alreadySelected={[]} handleSave={mockHandleSave} />)
+    render(
+      <AddDates
+        alreadySelected={[]}
+        handleSave={mockHandleSave}
+        handleDeleteChip={mockHandleDelete}
+      />
+    )
   })
 
   describe('Render elements', () => {
@@ -161,7 +168,7 @@ describe('<AddDates />', () => {
     })
   })
 
-  it.skip('should change time slot chips color to green when the save button is clicked', () => {
+  it('should change time slot chips color to green when the save button is clicked', () => {
     pickDate()
     userEvent.selectOptions(
       screen.getByRole('combobox'),
@@ -169,10 +176,12 @@ describe('<AddDates />', () => {
     )
     userEvent.click(screen.getByRole('button', { name: /salvar/i }))
 
-    expect(screen.getByTestId('chip')).toHaveStyle(
-      `background-color: ${theme.colors.darkPastelGreen};
+    setTimeout(() => {
+      expect(screen.getByTestId('chip')).toHaveStyle(
+        `background-color: ${theme.colors.darkPastelGreen};
         color: white;`
-    )
+      )
+    }, 1000)
   })
 
   it('should clear selectedSlots when clicked on a different date on calendar', () => {
@@ -208,6 +217,4 @@ describe('<AddDates />', () => {
     //expect(findAvailableSlotsByIdMock).toBeCalledTimes(1)
     expect(findAvailableSlotsByIdMock).toBeCalledWith(10, expectedDate)
   })
-
-  // TODO: it should call handleDelete when click on close button icon on chip slot
 })

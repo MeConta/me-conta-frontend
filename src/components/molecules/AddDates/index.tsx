@@ -13,19 +13,22 @@ import { api } from 'services/api/api'
 import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
 import { getTokenData } from '../../../utils/authentication/getTokenData'
 import { Tooltip } from '../../atoms/Tooltip'
-import { AgendaService } from '../../../services/agenda-services/agenda-service'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
   handleSave: Function
+  handleDeleteChip: Function
 }
 
 const volunteerService = new VolunteerService(api)
-const agendaService = new AgendaService(api)
 
 const userData = getTokenData()
 
-export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
+export function AddDates({
+  alreadySelected = [],
+  handleSave,
+  handleDeleteChip
+}: AddDatesProps) {
   const [selectedDay, setSelectedDay] = useState<Date>()
   const [availableSlots, setAvailableSlots] = useState<Date[]>([])
   const [selectedSlots, setSelectedSlots] = useState<Date[]>([])
@@ -39,13 +42,13 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   const handleFindAvailableSlotById = async (selectedDay: Date) => {
     if (userData) {
-      const availableSlots = await volunteerService.findAvailableSlotsById(
+      const findAvailableSlots = await volunteerService.findAvailableSlotsById(
         userData.id,
         selectedDay
       )
-      setSavedChip(availableSlots)
-      console.log(savedChip)
-      const availableDate = availableSlots.map(
+      setSavedChip(findAvailableSlots)
+
+      const availableDate = findAvailableSlots.map(
         (item: any) => new Date(item.inicio)
       )
       setChipSlots(availableDate)
@@ -54,9 +57,11 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
 
   useEffect(() => {
     if (selectedDay) {
-      handleFindAvailableSlotById(selectedDay)
+      setTimeout(() => {
+        handleFindAvailableSlotById(selectedDay)
+      }, 500)
     }
-  }, [selectedDay])
+  }, [selectedDay, selectedSlots])
 
   useEffect(() => {
     const filterSlots = (timeList: Date[], selectedAlready: Date[]): Date[] => {
@@ -120,8 +125,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
     const newSavedChip = savedChip.filter((item: any) => item !== chip)
 
     if (savedChip.filter((item: any) => item.id === chip.id)) {
-      console.log(chip.id)
-      await agendaService.deleteSlot(chip.id)
+      handleDeleteChip(chip.id)
       setSavedChip(newSavedChip)
     }
     showSuccessFeedback(successDeleteMessage)
@@ -183,7 +187,7 @@ export function AddDates({ alreadySelected = [], handleSave }: AddDatesProps) {
               {availableSlots.length > 0 ? (
                 <SelectField
                   labelField=""
-                  options={availableSlots.map((time, i) => {
+                  options={availableSlots.map((time) => {
                     return {
                       value: time.getTime(),
                       label: time.toLocaleTimeString([], {

@@ -11,9 +11,17 @@ function MeusHorarios() {
     await agendaService.createSlots(slotsToSave)
   }
 
+  const handleDeleteChip = async (id: number) => {
+    await agendaService.deleteSlot(id)
+  }
+
   return (
     <>
-      <AddDates alreadySelected={[]} handleSave={handleSaveNewSlots} />
+      <AddDates
+        alreadySelected={[]}
+        handleSave={handleSaveNewSlots}
+        handleDeleteChip={handleDeleteChip}
+      />
     </>
   )
 }
