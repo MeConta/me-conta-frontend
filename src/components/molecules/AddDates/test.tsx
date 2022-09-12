@@ -181,7 +181,7 @@ describe('<AddDates />', () => {
         `background-color: ${theme.colors.darkPastelGreen};
         color: white;`
       )
-    }, 1000)
+    }, 4000)
   })
 
   it('should clear selectedSlots when clicked on a different date on calendar', () => {
