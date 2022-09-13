@@ -49,7 +49,7 @@ jobs:
       with:
         region: us-central1
         service: 'me-conta-storybook'
-        image: $IMAGE_TAG
+        image: 'us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest' 
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
