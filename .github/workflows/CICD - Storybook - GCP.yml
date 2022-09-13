@@ -1,0 +1,40 @@
+name: CICD - Storybook
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  deploy-dev:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    environment:
+      name: DEV
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v0'
+      with:
+        workload_identity_provider: 'projects/615687411435/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+        service_account: 'github-actions-service-account@me-conta-dev-38ef.iam.gserviceaccount.com'
+
+    - name: Build docker image
+      run: docker build . -f Dockerfile.storybook -t us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-backend:latest
+
+    - name: Push Docker image to registry
+      run: docker push us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest
+
+    - id: 'deploy'
+      uses: 'google-github-actions/deploy-cloudrun@v0'
+      with:
+        region: us-central1
+        service: 'me-conta-storybook'
+        image: 'us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest'
+
+    - name: 'Use output'
+      run: 'curl "${{ steps.deploy.outputs.url }}"'
