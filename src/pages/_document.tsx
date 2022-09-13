@@ -1,5 +1,6 @@
 import Document, {
   Html,
+  Head,
   Main,
   NextScript,
   DocumentContext
@@ -35,6 +36,7 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="pt-BR">
+        <Head></Head>
         <body>
           <Main />
           <NextScript />
