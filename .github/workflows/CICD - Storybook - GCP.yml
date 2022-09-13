@@ -26,20 +26,13 @@ jobs:
         workload_identity_provider: 'projects/615687411435/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
         service_account: 'github-actions-service-account@me-conta-dev-38ef.iam.gserviceaccount.com'
 
-    # - name: Build docker image
-    #   run: docker build . -f Dockerfile.storybook -t $IMAGE_TAG
-
-
     - name: Configure docker client
       run: |-
         gcloud auth configure-docker --quiet
         gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-    - name: Docker pull
-      run: docker pull hello-world:latest
-
-    - name: Build tag
-      run: docker tag hello-world:latest $IMAGE_TAG
+    - name: Build docker image
+      run: docker build . -f Dockerfile.storybook -t $IMAGE_TAG
 
     - name: Push Docker image to registry
       run: docker push $IMAGE_TAG
