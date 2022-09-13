@@ -1,4 +1,4 @@
-name: CICD - Storybook
+name: CICD - Storybook - GCP
 on:
   push:
     branches: [ main ]
@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: DEV
+      IMAGE_TAG: us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest
 
     steps:
     - name: Checkout repository
@@ -24,17 +25,17 @@ jobs:
         service_account: 'github-actions-service-account@me-conta-dev-38ef.iam.gserviceaccount.com'
 
     - name: Build docker image
-      run: docker build . -f Dockerfile.storybook -t us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-backend:latest
+      run: docker build . -f Dockerfile.storybook -t $IMAGE_TAG
 
     - name: Push Docker image to registry
-      run: docker push us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest
+      run: docker push $IMAGE_TAG
 
     - id: 'deploy'
       uses: 'google-github-actions/deploy-cloudrun@v0'
       with:
         region: us-central1
         service: 'me-conta-storybook'
-        image: 'us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-storybook:latest'
+        image: '$IMAGE_TAG'
 
     - name: 'Use output'
       run: 'curl "${{ steps.deploy.outputs.url }}"'
