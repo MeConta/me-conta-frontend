@@ -29,6 +29,10 @@ jobs:
     # - name: Build docker image
     #   run: docker build . -f Dockerfile.storybook -t $IMAGE_TAG
 
+
+    - name: Docker auth
+      run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
     - name: Docker pull
       run: docker pull hello-world:latest
 
