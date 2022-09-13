@@ -30,10 +30,10 @@ jobs:
     #   run: docker build . -f Dockerfile.storybook -t $IMAGE_TAG
 
     - name: Docker pull
-      run: docker pull hello-world
+      run: docker pull hello-world:latest
 
     - name: Build tag
-      run: docker tag docker pull hello-world $IMAGE_TAG
+      run: docker tag hello-world:latest $IMAGE_TAG
 
     - name: Push Docker image to registry
       run: docker push $IMAGE_TAG
