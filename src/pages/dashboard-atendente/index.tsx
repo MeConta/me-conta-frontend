@@ -21,6 +21,7 @@ import {
 import { VolunteerService } from 'services/volunteers-service/volunteer-service'
 import { Volunteer } from 'domain/volunteer'
 import VolunteerStatusBanner from 'components/molecules/VolunteerStatusBanner'
+import { CardScheduledSession } from 'components/molecules/CardScheduledSession'
 
 function VolunteerDashboard() {
   const [slots, setSlots] = useState<AvailableSlot[] | null>(null)
@@ -113,6 +114,11 @@ function VolunteerDashboard() {
             <S.SecondLevelTitle>
               Meus horários disponíveis na semana
             </S.SecondLevelTitle>
+            {/* <CardScheduledSession 
+              name = 'Teste' 
+              email='teste.com' 
+              frentes={[1,2,3]}
+              description= 'testando a description'/> */}
 
             <DivContainerCarousel>
               {slots && <DateTimeCarousel schedules={convertDateTime()} />}
