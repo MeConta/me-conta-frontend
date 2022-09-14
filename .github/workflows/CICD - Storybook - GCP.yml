@@ -38,3 +38,10 @@ jobs:
           region: us-central1
           service: 'me-conta-storybook'
           image: ${{ env.IMAGE_TAG }}
+      - name: google-chat-notification
+        uses: Co-qn/google-chat-notification@v1
+        if: failure()
+        with:
+          name: Deploy Storybook Failure
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
