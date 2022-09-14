@@ -1,7 +1,4 @@
 import * as S from './styles'
-
-import { CardVoluntario } from '../CardVoluntario'
-import { DateSelect } from '../DateSelect'
 import { UserInfo } from '../UserInfo'
 
 export type CardScheduledSessionProps = {
