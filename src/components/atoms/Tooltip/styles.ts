@@ -27,6 +27,14 @@ export const TooltipWrapper = styled.span`
       border-style: solid;
       border-color: transparent transparent #747474 transparent;
     }
+
+    @media (max-width: 380px) {
+      left: 300%;
+
+      &::after {
+        left: 68%;
+      }
+    }
   `}
 `
 

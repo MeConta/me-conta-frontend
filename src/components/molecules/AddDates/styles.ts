@@ -140,14 +140,7 @@ export const Wrapper = styled.div`
       .select-field {
         width: 100%;
       }
-    }
-
-    @media (max-width: 320px) {
-      
-      #titulo-horario {
-        font-size: 1.8rem;
-      }
-    }
+    }    
     
   `}
 `

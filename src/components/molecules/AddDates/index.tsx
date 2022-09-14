@@ -174,9 +174,7 @@ export function AddDates({
           <div className="select-time-container">
             <div>
               <div id="title-tooltip">
-                <h4 className="card-header" id="titulo-horario">
-                  Selecione os horários
-                </h4>
+                <h4 className="card-header">Selecione os horários</h4>
                 <Tooltip text="Fuso horário: Brasília (BRT). As sessões possuem 1h de duração.">
                   <InfoCircle
                     style={{ marginBottom: '2rem', marginLeft: '1rem' }}
