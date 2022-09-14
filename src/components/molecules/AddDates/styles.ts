@@ -141,5 +141,13 @@ export const Wrapper = styled.div`
         width: 100%;
       }
     }
+
+    @media (max-width: 320px) {
+      
+      #titulo-horario {
+        font-size: 1.8rem;
+      }
+    }
+    
   `}
 `
