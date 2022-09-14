@@ -1,4 +1,4 @@
-name: CICD - Storybook
+name: CICD - Storybook - Heroku
 on:
   push:
     branches: [ main ]
