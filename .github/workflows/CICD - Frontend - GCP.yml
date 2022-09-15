@@ -42,14 +42,14 @@ jobs:
       - build-and-test
     env:
       IMAGE_TAG: us-central1-docker.pkg.dev/me-conta-dev-38ef/me-conta/me-conta-frontend:latest
-      API_URL: https://me-conta-backend-32pwnm2mlq-uc.a.run.app
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build docker image
         env:
           NODE_ENV: production
-        run: docker build . -f Dockerfile.web -t $IMAGE_TAG --build-arg $NODE_ENV --build-arg $API_URL
+          NEXT_PUBLIC_API_URL: https://me-conta-backend-32pwnm2mlq-uc.a.run.app
+        run: docker build . -f Dockerfile.web -t $IMAGE_TAG --build-arg NODE_ENV=$NODE_ENV --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
       - id: 'auth'
         name: Authenticate on GCP
         uses: 'google-github-actions/auth@v0'
