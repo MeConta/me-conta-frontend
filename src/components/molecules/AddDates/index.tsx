@@ -6,11 +6,13 @@ import { Button } from '../../atoms/Button'
 import router from 'next/router'
 import { ArrowLeft, InfoCircle } from 'styled-icons/bootstrap'
 import { SelectField } from '../../atoms/SelectField/index'
-import { ToastType, useToast } from 'services/toast-service/toast-service'
 import Chip from 'components/atoms/Chip'
 import theme from 'styles/theme'
 import { api } from 'services/api/api'
-import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
+import {
+  VolunteerAvailableSlot,
+  VolunteerService
+} from '../../../services/volunteers-service/volunteer-service'
 import { getTokenData } from '../../../utils/authentication/getTokenData'
 import { Tooltip } from '../../atoms/Tooltip'
 
@@ -45,8 +47,8 @@ export function AddDates({
         userData.id,
         selectedDay
       )
-
-      setSavedChip(findAvailableSlots)
+      const sortedAvailableSlolts = sortSlotsByTime(findAvailableSlots)
+      setSavedChip(sortedAvailableSlolts)
 
       const availableDate = findAvailableSlots.map(
         (item: any) => new Date(item.inicio)
@@ -142,6 +144,22 @@ export function AddDates({
 
   const goBack = async function () {
     await router.push('/dashboard-atendente')
+  }
+
+  function convertSlotsIntoString(dateSlot: VolunteerAvailableSlot) {
+    return new Date(dateSlot.inicio).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    })
+  }
+
+  function sortSlotsByTime(dateSlot: VolunteerAvailableSlot[]) {
+    return dateSlot.sort((a, b) => {
+      const x = convertSlotsIntoString(a)
+      const y = convertSlotsIntoString(b)
+      return x == y ? 0 : x > y ? 1 : -1
+    })
   }
 
   return (
