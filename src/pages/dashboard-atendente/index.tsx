@@ -118,7 +118,8 @@ function VolunteerDashboard() {
               name = 'Teste' 
               email='teste.com' 
               frentes={[1,2,3]}
-              description= 'testando a description'/> */}
+              description= 'testando a description'
+              date='12-02-22'/> */}
 
             <DivContainerCarousel>
               {slots && <DateTimeCarousel schedules={convertDateTime()} />}
