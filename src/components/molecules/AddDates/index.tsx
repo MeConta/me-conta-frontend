@@ -38,7 +38,6 @@ export function AddDates({
   const modifiers = {
     past: { before: new Date() }
   }
-  const { emit } = useToast()
 
   const handleFindAvailableSlotById = async (selectedDay: Date) => {
     if (userData) {
@@ -46,6 +45,7 @@ export function AddDates({
         userData.id,
         selectedDay
       )
+
       setSavedChip(findAvailableSlots)
 
       const availableDate = findAvailableSlots.map(
@@ -119,8 +119,6 @@ export function AddDates({
     setSelectedSlots([...selectedSlots, date])
   }
 
-  const successDeleteMessage = 'Horário excluído com sucesso!'
-
   const handleDelete = async (chip: any) => {
     const newSavedChip = savedChip.filter((item: any) => item !== chip)
 
@@ -128,7 +126,6 @@ export function AddDates({
       handleDeleteChip(chip.id)
       setSavedChip(newSavedChip)
     }
-    showSuccessFeedback(successDeleteMessage)
   }
 
   const handleClose = (time: Date) => {
@@ -138,18 +135,8 @@ export function AddDates({
     setChipSlots(newChipList)
   }
 
-  function showSuccessFeedback(messageInput: string) {
-    emit({
-      type: ToastType.SUCCESS,
-      message: messageInput
-    })
-  }
-
-  const successSaveMessage = 'Horários salvos com sucesso!'
-
   const handleSaveSlots = () => {
     handleSave(selectedSlots)
-    showSuccessFeedback(successSaveMessage)
     setSelectedSlots([])
   }
 

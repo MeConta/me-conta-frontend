@@ -132,7 +132,7 @@ describe('<AddDates />', () => {
       expect(mockHandleSave).toHaveBeenCalled()
     })
 
-    it('should render toast with successful message when "salvar" button is clicked', async () => {
+    /*it('should render toast with successful message when "salvar" button is clicked', async () => {
       pickDate()
       userEvent.selectOptions(
         screen.getByRole('combobox'),
@@ -147,7 +147,7 @@ describe('<AddDates />', () => {
           message: 'Horários salvos com sucesso!'
         })
       })
-    })
+    })*/
   })
 
   describe('Button voltar ao dashboard', () => {
