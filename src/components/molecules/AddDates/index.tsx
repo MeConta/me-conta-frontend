@@ -9,12 +9,10 @@ import { SelectField } from '../../atoms/SelectField/index'
 import Chip from 'components/atoms/Chip'
 import theme from 'styles/theme'
 import { api } from 'services/api/api'
-import {
-  VolunteerAvailableSlot,
-  VolunteerService
-} from '../../../services/volunteers-service/volunteer-service'
+import { VolunteerService } from '../../../services/volunteers-service/volunteer-service'
 import { getTokenData } from '../../../utils/authentication/getTokenData'
 import { Tooltip } from '../../atoms/Tooltip'
+import { sortSlotsByTime } from '../../../utils/order/helpers'
 
 export type AddDatesProps = {
   alreadySelected: Date[]
@@ -144,22 +142,6 @@ export function AddDates({
 
   const goBack = async function () {
     await router.push('/dashboard-atendente')
-  }
-
-  function convertSlotsIntoString(dateSlot: VolunteerAvailableSlot) {
-    return new Date(dateSlot.inicio).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    })
-  }
-
-  function sortSlotsByTime(dateSlot: VolunteerAvailableSlot[]) {
-    return dateSlot.sort((a, b) => {
-      const x = convertSlotsIntoString(a)
-      const y = convertSlotsIntoString(b)
-      return x == y ? 0 : x > y ? 1 : -1
-    })
   }
 
   return (
