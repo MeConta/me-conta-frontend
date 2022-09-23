@@ -6,7 +6,7 @@ import Button from '@mui/material/Button'
 import { KeyboardArrowDown } from '@material-ui/icons'
 import moment from 'moment'
 import 'moment/locale/pt-br'
-import { capitalizeFirstLetter } from 'utils/format-string/helpers'
+import { capitalizeFirstLetter } from '../../../utils/format-string/helpers'
 import { AiOutlineClockCircle } from 'react-icons/ai'
 
 export type CardScheduledSessionProps = {
