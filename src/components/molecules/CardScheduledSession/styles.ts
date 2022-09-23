@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
     width: 359px;
     height: 37px;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: left;
     padding: 0px;
     isolation: isolate;
     border-radius: 5px;
@@ -41,6 +41,9 @@ export const Wrapper = styled.div`
   }
 
   .button {
+    font-family: 'Mulish';
+    font-style: normal;
+    font-size: 18px;
     background-color: #458ff6;
     border-radius: 4px;
     width: 328px;
@@ -52,6 +55,14 @@ export const Wrapper = styled.div`
     flex: none;
     order: 2;
     flex-grow: 0;
+  }
+
+  .observationButton {
+    font-size: 13px;
+    font-family: 'Mulish';
+    font-style: normal;
+    text-transform: none;
+    color: #000000;
   }
 
   .cancelButton {

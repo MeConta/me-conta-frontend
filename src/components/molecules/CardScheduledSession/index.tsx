@@ -2,6 +2,8 @@ import * as S from './styles'
 import { UserInfo } from '../UserInfo'
 import { useState } from 'react'
 import Collapse from '@kunukn/react-collapse'
+import Button from '@mui/material/Button'
+import { KeyboardArrowDown } from '@material-ui/icons'
 
 export type CardScheduledSessionProps = {
   name: string
@@ -24,13 +26,22 @@ export function CardScheduledSession({
       <div className="container">
         <span className="dateContainer">{date}</span>
         <UserInfo name={name} email={email} frentes={frentes} />
-        <button
-          className="observation"
+        <Button
+          variant="text"
+          className="observationButton"
+          sx={{
+            ml: 1,
+            '&.MuiButtonBase-root:hover': {
+              bgcolor: 'transparent'
+            }
+          }}
+          disableRipple
+          endIcon={<KeyboardArrowDown />}
           onClick={() => setIsOpen((state) => !state)}
         >
           {' '}
           Observações para a sessão{' '}
-        </button>
+        </Button>
         <Collapse isOpen={isOpen}>
           <div className="description">{description}</div>
         </Collapse>
