@@ -114,15 +114,16 @@ function VolunteerDashboard() {
             <S.SecondLevelTitle>
               Meus horários disponíveis na semana
             </S.SecondLevelTitle>
-            {/*
+            {/* {
               <CardScheduledSession
-                name="Teste"
+                name="Júlia Andrade da Silva Lima"
                 email="teste.com"
-                frentes={[1, 2, 3]}
+                frentes={[0, 1, 2]}
                 description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque cursus lacinia. Duis vehicula, felis eu aliquam fermentum, diam mauris maxi. consectetur adipiscing elit. Sed pellentesque cursus lacinia. 
                 "
                 date="2022-10-21 12:00:00"
-              />*/}
+              />
+            } */}
 
             <DivContainerCarousel>
               {slots && <DateTimeCarousel schedules={convertDateTime()} />}

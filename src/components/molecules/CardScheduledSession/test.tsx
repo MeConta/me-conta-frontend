@@ -11,6 +11,7 @@ describe('<CardScheduledSession />', () => {
         email="teste.com"
         frentes={[0, 1, 2]}
         description="Testado description do collapse"
+        date="2022-10-21 12:00:00"
       />
     )
   })
@@ -20,9 +21,9 @@ describe('<CardScheduledSession />', () => {
   })
 
   it('should render the frentes icon', () => {
-    expect(screen.getByAltText('Coaching de Estudos')).toBeInTheDocument()
-    expect(screen.getByAltText('Acolhimento')).toBeInTheDocument()
-    expect(screen.getByAltText('Orientação Vocacional')).toBeInTheDocument()
+    expect(screen.getByTestId('SchoolRoundedIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('AutoStoriesRoundedIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('VolunteerActivismIcon')).toBeInTheDocument()
   })
 
   it('should render "Observações para a sessão" collapse', () => {

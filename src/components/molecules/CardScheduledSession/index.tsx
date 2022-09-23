@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { UserInfo } from '../UserInfo'
+import { VolunteerInfo } from '../VolunteerInfo'
 import { useState } from 'react'
 import Collapse from '@kunukn/react-collapse'
 import Button from '@mui/material/Button'
@@ -42,7 +42,7 @@ export function CardScheduledSession({
           <AiOutlineClockCircle color="#84848c" />
           {MomentLocale(date)}
         </span>
-        <UserInfo name={name} email={email} frentes={frentes} />
+        <VolunteerInfo name={name} email={email} frentes={frentes} />
         <Button
           variant="text"
           className="observationButton"
