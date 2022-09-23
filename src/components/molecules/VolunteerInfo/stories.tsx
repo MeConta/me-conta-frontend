@@ -13,6 +13,5 @@ export const Default: Story<VolunteerInfoProps> = (args) => (
 Default.args = {
   name: 'Luvois Zaladar',
   email: 'jitewaboh@lagify.com',
-  profileLink: 'https://www.google.com/',
   frentes: [0]
 }
