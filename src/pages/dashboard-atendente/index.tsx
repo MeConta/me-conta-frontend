@@ -114,12 +114,14 @@ function VolunteerDashboard() {
             <S.SecondLevelTitle>
               Meus horários disponíveis na semana
             </S.SecondLevelTitle>
-            {/*<CardScheduledSession
+            {/*
+              <CardScheduledSession
                 name="Teste"
                 email="teste.com"
                 frentes={[1, 2, 3]}
-                description="testando a description"
-                date="12-02-22"
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque cursus lacinia. Duis vehicula, felis eu aliquam fermentum, diam mauris maxi. consectetur adipiscing elit. Sed pellentesque cursus lacinia. 
+                "
+                date="2022-10-21 12:00:00"
               />*/}
 
             <DivContainerCarousel>

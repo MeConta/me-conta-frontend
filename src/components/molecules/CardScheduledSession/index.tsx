@@ -4,6 +4,10 @@ import { useState } from 'react'
 import Collapse from '@kunukn/react-collapse'
 import Button from '@mui/material/Button'
 import { KeyboardArrowDown } from '@material-ui/icons'
+import moment from 'moment'
+import 'moment/locale/pt-br'
+import { capitalizeFirstLetter } from 'utils/format-string/helpers'
+import { AiOutlineClockCircle } from 'react-icons/ai'
 
 export type CardScheduledSessionProps = {
   name: string
@@ -11,6 +15,16 @@ export type CardScheduledSessionProps = {
   frentes: Array<number>
   description: string
   date: string
+}
+
+function MomentLocale(date: string) {
+  moment.locale('pt-br')
+  return (
+    capitalizeFirstLetter(moment(date).format('dddd').substring(0, 3)) +
+    ',' +
+    ' ' +
+    capitalizeFirstLetter(moment(date).format('DD [ de] MMM - HH:mm'))
+  )
 }
 
 export function CardScheduledSession({
@@ -24,7 +38,10 @@ export function CardScheduledSession({
   return (
     <S.Wrapper>
       <div className="container">
-        <span className="dateContainer">{date}</span>
+        <span className="dateContainer">
+          <AiOutlineClockCircle color="#84848c" />
+          {MomentLocale(date)}
+        </span>
         <UserInfo name={name} email={email} frentes={frentes} />
         <Button
           variant="text"
@@ -45,7 +62,6 @@ export function CardScheduledSession({
         <Collapse isOpen={isOpen}>
           <div className="description">{description}</div>
         </Collapse>
-
         <button className="button">
           <a className="buttonLink" target="_blank" rel="noreferrer">
             Entrar na sessão

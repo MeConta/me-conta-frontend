@@ -6,3 +6,5 @@ export const formatPhoneNumber = (value: string): any =>
     .replace(/(\d{4,5})(\d{4})$/, '$1-$2')
 
 export const removePhoneMask = (value: string) => value.replace(/\D/g, '')
+export const capitalizeFirstLetter = (value: string) =>
+  value[0].toUpperCase() + value.slice(1)

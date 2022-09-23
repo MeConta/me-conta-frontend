@@ -3,27 +3,35 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
   display: flex;
   width: 359px;
-  height: 261px;
 
   .container {
-    padding-top: 14px;
+    background-color: #ffffff;
+    padding-bottom: 26px;
+    height: 100%;
   }
 
   .dateContainer {
-    background-color: #fafafa;
+    color: #848a8c;
+    font-family: 'Mulish';
+    font-style: normal;
+    font-size: 14px;
+    background-color: #ffffff;
     display: flex;
-    justify-content: space-between;
-    width: 359px;
     height: 37px;
     flex-direction: row;
-    align-items: left;
+    align-items: center;
     padding: 0px;
     isolation: isolate;
     border-radius: 5px;
+    padding-bottom: 34px;
+    padding-top: 20px;
+    margin-left: 21px;
   }
 
   .description {
-    font-size: 14px;
+    font-family: 'Mulish';
+    font-style: normal;
+    font-size: 12px;
     color: #747474;
     font-weight: 400;
     line-height: 21px;
@@ -66,17 +74,15 @@ export const Wrapper = styled.div`
   }
 
   .cancelButton {
-    background-color: #458ff6;
-    border-radius: 4px;
-    width: 328px;
-    height: 29px;
-    margin-left: 16px;
+    background-color: #ffffff;
+    margin-left: 156px;
     margin-top: 10px;
-    color: #ffffff;
-    border: none;
+    color: #458ff6;
     flex: none;
+    border: none;
     order: 2;
     flex-grow: 0;
+    text-decoration-line: underline;
   }
 
   @media (max-width: 768px) {
